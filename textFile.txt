@@ -1,2 +1,4 @@
 - Windows edit 1
+- Mac edit A
 - Windows edit 2
+- Mac edit B
