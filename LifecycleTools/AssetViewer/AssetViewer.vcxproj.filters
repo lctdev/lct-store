@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="include">
+      <UniqueIdentifier>{7d2dce86-7edd-4b16-8470-080af9c7d389}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="source">
+      <UniqueIdentifier>{75743442-b611-44e5-816d-0deded63f812}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\assetViewerMessages.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\assetViewerMode.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\assetViewerOverlay.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\assetViewerProgram.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\spriteViewerMode.h">
+      <Filter>include</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="source\assetViewerMode.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="source\assetViewerOverlay.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="source\assetViewerProgram.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="source\spriteViewerMode.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

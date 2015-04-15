@@ -1,0 +1,605 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="include">
+      <UniqueIdentifier>{0aa44cd5-809c-437b-a15b-db24b11b8c75}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="shader">
+      <UniqueIdentifier>{a445b202-2a75-4c93-a4d4-deeb625b3c95}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="shader\fill">
+      <UniqueIdentifier>{4f452a56-5ad6-436a-b0ba-52a41fff9f53}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="shader\font">
+      <UniqueIdentifier>{20ca3709-84e0-43d7-a232-546cb8a277ca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="shader\spri">
+      <UniqueIdentifier>{483e34bd-5c79-461f-a98b-6276beb6f3c2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="shader\fill\ANDROID">
+      <UniqueIdentifier>{2e42d708-b12f-4eec-86fb-82eb9b2ea0af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="shader\fill\OSX">
+      <UniqueIdentifier>{e5838440-fa1f-4fa9-ba00-968ceb631f89}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="shader\fill\WIN32">
+      <UniqueIdentifier>{58eb38c8-e0bc-4382-8fb3-47c2011a9fb4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="shader\font\ANDROID">
+      <UniqueIdentifier>{4370f6bb-9a01-44b6-87bf-428b40aa6177}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="shader\font\OSX">
+      <UniqueIdentifier>{e130566b-47c0-4f02-9ff8-17fe526cc3e6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="shader\font\WIN32">
+      <UniqueIdentifier>{49b860ca-77f8-45f9-be36-8bb44dca3e15}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="shader\spri\ANDROID">
+      <UniqueIdentifier>{83babe61-9038-4fa5-922d-05f75a0e066c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="shader\spri\WIN32">
+      <UniqueIdentifier>{d926f479-4534-4045-a01f-c931780bf3bd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="shader\spri\OSX">
+      <UniqueIdentifier>{a13b951b-fc08-406d-9076-4dcd0700efb5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\file">
+      <UniqueIdentifier>{ea7cf2b8-e1e5-4aeb-ba58-238a587d1fa9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\fill">
+      <UniqueIdentifier>{49f12264-9eab-4d64-9917-e5693deb959e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\font">
+      <UniqueIdentifier>{2de03cd0-cbac-471f-b22f-a9eea2919171}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\foun">
+      <UniqueIdentifier>{4942975b-152c-4102-b29c-66e1f3fc27a4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\fram">
+      <UniqueIdentifier>{33acfa2e-3ee9-463e-b75c-a71995b1fa7f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\imag">
+      <UniqueIdentifier>{ae3c741c-72a6-4e28-ac48-091d0b340799}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\inpu">
+      <UniqueIdentifier>{81ad3ac2-3359-400a-839b-af38ac58ce8e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\pack">
+      <UniqueIdentifier>{0aee6613-96ae-4e28-a483-7345099f1142}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\shad">
+      <UniqueIdentifier>{f5a1b159-e90e-4582-8e91-743e4dc7e05d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\spri">
+      <UniqueIdentifier>{a36b609d-720b-4bc3-b4fa-ab02dfeb0148}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\test">
+      <UniqueIdentifier>{cf357010-1ce5-4707-9746-e46a15d30d72}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\util">
+      <UniqueIdentifier>{049fd1db-1212-4d97-b632-39696bda4e2e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="source">
+      <UniqueIdentifier>{af410979-447f-4d23-9fd3-0af696aed58a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="source\file">
+      <UniqueIdentifier>{b6af8807-1257-4099-b856-7df4f2a64d93}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="source\fill">
+      <UniqueIdentifier>{6d207668-b5de-4520-82cf-618319d4cf01}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="source\font">
+      <UniqueIdentifier>{bab7c418-ef1a-4141-aac4-c8a3aa7c598b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="source\foun">
+      <UniqueIdentifier>{7edc4bb2-2b61-4238-83ba-9034af176c4a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="source\fram">
+      <UniqueIdentifier>{a4a17240-2f7b-427d-a0ec-8d9caf63c37a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="source\imag">
+      <UniqueIdentifier>{d5a53129-6467-4b7e-bc53-a1f6b8e4d683}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="source\inpu">
+      <UniqueIdentifier>{06699810-30b7-4fb3-af55-c53827a34f84}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="source\pack">
+      <UniqueIdentifier>{c1888a4f-55b3-44fb-8fe7-b4248794c64a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="source\shad">
+      <UniqueIdentifier>{3045a8da-8a6d-438d-8986-ce2ca0c7a783}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="source\spri">
+      <UniqueIdentifier>{5426679c-7742-4701-a3a8-0de6320c4ae8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="source\test">
+      <UniqueIdentifier>{1769d51a-740a-481a-8737-2f6a47181e73}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="source\util">
+      <UniqueIdentifier>{5d1de440-b9b7-4d01-a717-8ecbade881f3}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="shader\fill\ANDROID\fill_fragmentShader.glsl">
+      <Filter>shader\fill\ANDROID</Filter>
+    </None>
+    <None Include="shader\fill\ANDROID\fill_vertexShader.glsl">
+      <Filter>shader\fill\ANDROID</Filter>
+    </None>
+    <None Include="shader\fill\WIN32\fill_fragmentShader.glsl">
+      <Filter>shader\fill\WIN32</Filter>
+    </None>
+    <None Include="shader\fill\WIN32\fill_vertexShader.glsl">
+      <Filter>shader\fill\WIN32</Filter>
+    </None>
+    <None Include="shader\fill\OSX\fill_fragmentShader.glsl">
+      <Filter>shader\fill\OSX</Filter>
+    </None>
+    <None Include="shader\fill\OSX\fill_vertexShader.glsl">
+      <Filter>shader\fill\OSX</Filter>
+    </None>
+    <None Include="shader\font\ANDROID\font_fragmentShader.glsl">
+      <Filter>shader\font\ANDROID</Filter>
+    </None>
+    <None Include="shader\font\ANDROID\font_vertexShader.glsl">
+      <Filter>shader\font\ANDROID</Filter>
+    </None>
+    <None Include="shader\font\WIN32\font_fragmentShader.glsl">
+      <Filter>shader\font\WIN32</Filter>
+    </None>
+    <None Include="shader\font\WIN32\font_vertexShader.glsl">
+      <Filter>shader\font\WIN32</Filter>
+    </None>
+    <None Include="shader\font\OSX\font_fragmentShader.glsl">
+      <Filter>shader\font\OSX</Filter>
+    </None>
+    <None Include="shader\font\OSX\font_vertexShader.glsl">
+      <Filter>shader\font\OSX</Filter>
+    </None>
+    <None Include="shader\spri\ANDROID\spri_fragmentShader.glsl">
+      <Filter>shader\spri\ANDROID</Filter>
+    </None>
+    <None Include="shader\spri\ANDROID\spri_vertexShader.glsl">
+      <Filter>shader\spri\ANDROID</Filter>
+    </None>
+    <None Include="shader\spri\OSX\spri_fragmentShader.glsl">
+      <Filter>shader\spri\OSX</Filter>
+    </None>
+    <None Include="shader\spri\OSX\spri_vertexShader.glsl">
+      <Filter>shader\spri\OSX</Filter>
+    </None>
+    <None Include="shader\spri\WIN32\spri_fragmentShader.glsl">
+      <Filter>shader\spri\WIN32</Filter>
+    </None>
+    <None Include="shader\spri\WIN32\spri_vertexShader.glsl">
+      <Filter>shader\spri\WIN32</Filter>
+    </None>
+    <None Include="source\fram\fram_program_OBJC.mm">
+      <Filter>source\fram</Filter>
+    </None>
+    <None Include="source\inpu\inpu_mouseReader_OBJC.mm">
+      <Filter>source\inpu</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\file\file_accessor.h">
+      <Filter>include\file</Filter>
+    </ClInclude>
+    <ClInclude Include="include\file\file_packedAccessor.h">
+      <Filter>include\file</Filter>
+    </ClInclude>
+    <ClInclude Include="include\file\file_systemAccessor.h">
+      <Filter>include\file</Filter>
+    </ClInclude>
+    <ClInclude Include="include\fill\fill_data.h">
+      <Filter>include\fill</Filter>
+    </ClInclude>
+    <ClInclude Include="include\fill\fill_drawContext.h">
+      <Filter>include\fill</Filter>
+    </ClInclude>
+    <ClInclude Include="include\fill\fill_resources.h">
+      <Filter>include\fill</Filter>
+    </ClInclude>
+    <ClInclude Include="include\font\font_assetContainer.h">
+      <Filter>include\font</Filter>
+    </ClInclude>
+    <ClInclude Include="include\font\font_assetProcessor.h">
+      <Filter>include\font</Filter>
+    </ClInclude>
+    <ClInclude Include="include\font\font_assets.h">
+      <Filter>include\font</Filter>
+    </ClInclude>
+    <ClInclude Include="include\font\font_constants.h">
+      <Filter>include\font</Filter>
+    </ClInclude>
+    <ClInclude Include="include\font\font_data.h">
+      <Filter>include\font</Filter>
+    </ClInclude>
+    <ClInclude Include="include\font\font_drawContext.h">
+      <Filter>include\font</Filter>
+    </ClInclude>
+    <ClInclude Include="include\font\font_resourceHandler.h">
+      <Filter>include\font</Filter>
+    </ClInclude>
+    <ClInclude Include="include\font\font_resources.h">
+      <Filter>include\font</Filter>
+    </ClInclude>
+    <ClInclude Include="include\font\font_symbolBuffer.h">
+      <Filter>include\font</Filter>
+    </ClInclude>
+    <ClInclude Include="include\font\font_symbolWriter.h">
+      <Filter>include\font</Filter>
+    </ClInclude>
+    <ClInclude Include="include\foun\foun_allocator.h">
+      <Filter>include\foun</Filter>
+    </ClInclude>
+    <ClInclude Include="include\foun\foun_callback.h">
+      <Filter>include\foun</Filter>
+    </ClInclude>
+    <ClInclude Include="include\foun\foun_color.h">
+      <Filter>include\foun</Filter>
+    </ClInclude>
+    <ClInclude Include="include\foun\foun_debug.h">
+      <Filter>include\foun</Filter>
+    </ClInclude>
+    <ClInclude Include="include\foun\foun_flags.h">
+      <Filter>include\foun</Filter>
+    </ClInclude>
+    <ClInclude Include="include\foun\foun_graphicsDebug.h">
+      <Filter>include\foun</Filter>
+    </ClInclude>
+    <ClInclude Include="include\foun\foun_intersection.h">
+      <Filter>include\foun</Filter>
+    </ClInclude>
+    <ClInclude Include="include\foun\foun_keys.h">
+      <Filter>include\foun</Filter>
+    </ClInclude>
+    <ClInclude Include="include\foun\foun_linearAllocator.h">
+      <Filter>include\foun</Filter>
+    </ClInclude>
+    <ClInclude Include="include\foun\foun_list.h">
+      <Filter>include\foun</Filter>
+    </ClInclude>
+    <ClInclude Include="include\foun\foun_math.h">
+      <Filter>include\foun</Filter>
+    </ClInclude>
+    <ClInclude Include="include\foun\foun_mathTables.h">
+      <Filter>include\foun</Filter>
+    </ClInclude>
+    <ClInclude Include="include\foun\foun_matrix.h">
+      <Filter>include\foun</Filter>
+    </ClInclude>
+    <ClInclude Include="include\foun\foun_platform.h">
+      <Filter>include\foun</Filter>
+    </ClInclude>
+    <ClInclude Include="include\foun\foun_primitives.h">
+      <Filter>include\foun</Filter>
+    </ClInclude>
+    <ClInclude Include="include\foun\foun_rect.h">
+      <Filter>include\foun</Filter>
+    </ClInclude>
+    <ClInclude Include="include\foun\foun_tree.h">
+      <Filter>include\foun</Filter>
+    </ClInclude>
+    <ClInclude Include="include\foun\foun_vector.h">
+      <Filter>include\foun</Filter>
+    </ClInclude>
+    <ClInclude Include="include\fram\fram_message.h">
+      <Filter>include\fram</Filter>
+    </ClInclude>
+    <ClInclude Include="include\fram\fram_messageQueue.h">
+      <Filter>include\fram</Filter>
+    </ClInclude>
+    <ClInclude Include="include\fram\fram_mode.h">
+      <Filter>include\fram</Filter>
+    </ClInclude>
+    <ClInclude Include="include\fram\fram_modeFactory.h">
+      <Filter>include\fram</Filter>
+    </ClInclude>
+    <ClInclude Include="include\fram\fram_overlay.h">
+      <Filter>include\fram</Filter>
+    </ClInclude>
+    <ClInclude Include="include\fram\fram_program.h">
+      <Filter>include\fram</Filter>
+    </ClInclude>
+    <ClInclude Include="include\fram\fram_program_OBJC.h">
+      <Filter>include\fram</Filter>
+    </ClInclude>
+    <ClInclude Include="include\fram\fram_screen.h">
+      <Filter>include\fram</Filter>
+    </ClInclude>
+    <ClInclude Include="include\imag\imag_assetContainer.h">
+      <Filter>include\imag</Filter>
+    </ClInclude>
+    <ClInclude Include="include\imag\imag_assetProcessor.h">
+      <Filter>include\imag</Filter>
+    </ClInclude>
+    <ClInclude Include="include\imag\imag_assets.h">
+      <Filter>include\imag</Filter>
+    </ClInclude>
+    <ClInclude Include="include\imag\imag_constants.h">
+      <Filter>include\imag</Filter>
+    </ClInclude>
+    <ClInclude Include="include\imag\imag_data.h">
+      <Filter>include\imag</Filter>
+    </ClInclude>
+    <ClInclude Include="include\imag\imag_resourceHandler.h">
+      <Filter>include\imag</Filter>
+    </ClInclude>
+    <ClInclude Include="include\imag\imag_resources.h">
+      <Filter>include\imag</Filter>
+    </ClInclude>
+    <ClInclude Include="include\inpu\inpu_constants.h">
+      <Filter>include\inpu</Filter>
+    </ClInclude>
+    <ClInclude Include="include\inpu\inpu_cursor.h">
+      <Filter>include\inpu</Filter>
+    </ClInclude>
+    <ClInclude Include="include\inpu\inpu_mouseCursor.h">
+      <Filter>include\inpu</Filter>
+    </ClInclude>
+    <ClInclude Include="include\inpu\inpu_mouseReader.h">
+      <Filter>include\inpu</Filter>
+    </ClInclude>
+    <ClInclude Include="include\inpu\inpu_mouseReader_OBJC.h">
+      <Filter>include\inpu</Filter>
+    </ClInclude>
+    <ClInclude Include="include\inpu\inpu_touchCursor.h">
+      <Filter>include\inpu</Filter>
+    </ClInclude>
+    <ClInclude Include="include\inpu\inpu_touchReader.h">
+      <Filter>include\inpu</Filter>
+    </ClInclude>
+    <ClInclude Include="include\pack\pack_assetHandler.h">
+      <Filter>include\pack</Filter>
+    </ClInclude>
+    <ClInclude Include="include\pack\pack_assetHeader.h">
+      <Filter>include\pack</Filter>
+    </ClInclude>
+    <ClInclude Include="include\pack\pack_packageWalker.h">
+      <Filter>include\pack</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shad\shad_constants.h">
+      <Filter>include\shad</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shad\shad_data.h">
+      <Filter>include\shad</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shad\shad_resourceHandler.h">
+      <Filter>include\shad</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shad\shad_resources.h">
+      <Filter>include\shad</Filter>
+    </ClInclude>
+    <ClInclude Include="include\spri\spri_animationInstance.h">
+      <Filter>include\spri</Filter>
+    </ClInclude>
+    <ClInclude Include="include\spri\spri_assetContainer.h">
+      <Filter>include\spri</Filter>
+    </ClInclude>
+    <ClInclude Include="include\spri\spri_assetProcessor.h">
+      <Filter>include\spri</Filter>
+    </ClInclude>
+    <ClInclude Include="include\spri\spri_assets.h">
+      <Filter>include\spri</Filter>
+    </ClInclude>
+    <ClInclude Include="include\spri\spri_bindingBuilder.h">
+      <Filter>include\spri</Filter>
+    </ClInclude>
+    <ClInclude Include="include\spri\spri_bindings.h">
+      <Filter>include\spri</Filter>
+    </ClInclude>
+    <ClInclude Include="include\spri\spri_constants.h">
+      <Filter>include\spri</Filter>
+    </ClInclude>
+    <ClInclude Include="include\spri\spri_data.h">
+      <Filter>include\spri</Filter>
+    </ClInclude>
+    <ClInclude Include="include\spri\spri_drawContext.h">
+      <Filter>include\spri</Filter>
+    </ClInclude>
+    <ClInclude Include="include\spri\spri_figureInstance.h">
+      <Filter>include\spri</Filter>
+    </ClInclude>
+    <ClInclude Include="include\spri\spri_instanceBuilder.h">
+      <Filter>include\spri</Filter>
+    </ClInclude>
+    <ClInclude Include="include\spri\spri_resources.h">
+      <Filter>include\spri</Filter>
+    </ClInclude>
+    <ClInclude Include="include\test\test_actionMenuItem.h">
+      <Filter>include\test</Filter>
+    </ClInclude>
+    <ClInclude Include="include\test\test_boolMenuItem.h">
+      <Filter>include\test</Filter>
+    </ClInclude>
+    <ClInclude Include="include\test\test_button.h">
+      <Filter>include\test</Filter>
+    </ClInclude>
+    <ClInclude Include="include\test\test_cycleMenuItem.h">
+      <Filter>include\test</Filter>
+    </ClInclude>
+    <ClInclude Include="include\test\test_floatRangeMenuItem.h">
+      <Filter>include\test</Filter>
+    </ClInclude>
+    <ClInclude Include="include\test\test_menu.h">
+      <Filter>include\test</Filter>
+    </ClInclude>
+    <ClInclude Include="include\test\test_menuItem.h">
+      <Filter>include\test</Filter>
+    </ClInclude>
+    <ClInclude Include="include\test\test_stringArrayMenuItem.h">
+      <Filter>include\test</Filter>
+    </ClInclude>
+    <ClInclude Include="include\util\util_binaryReader.h">
+      <Filter>include\util</Filter>
+    </ClInclude>
+    <ClInclude Include="include\util\util_indexMap.h">
+      <Filter>include\util</Filter>
+    </ClInclude>
+    <ClInclude Include="include\foun\foun_string.h">
+      <Filter>include\foun</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="source\file\file_accessor.cpp">
+      <Filter>source\file</Filter>
+    </ClCompile>
+    <ClCompile Include="source\file\file_packedAccessor.cpp">
+      <Filter>source\file</Filter>
+    </ClCompile>
+    <ClCompile Include="source\file\file_systemAccessor.cpp">
+      <Filter>source\file</Filter>
+    </ClCompile>
+    <ClCompile Include="source\fill\fill_drawContext.cpp">
+      <Filter>source\fill</Filter>
+    </ClCompile>
+    <ClCompile Include="source\font\font_assetContainer.cpp">
+      <Filter>source\font</Filter>
+    </ClCompile>
+    <ClCompile Include="source\font\font_assetProcessor.cpp">
+      <Filter>source\font</Filter>
+    </ClCompile>
+    <ClCompile Include="source\font\font_drawContext.cpp">
+      <Filter>source\font</Filter>
+    </ClCompile>
+    <ClCompile Include="source\font\font_resourceHandler.cpp">
+      <Filter>source\font</Filter>
+    </ClCompile>
+    <ClCompile Include="source\font\font_symbolBuffer.cpp">
+      <Filter>source\font</Filter>
+    </ClCompile>
+    <ClCompile Include="source\font\font_symbolWriter.cpp">
+      <Filter>source\font</Filter>
+    </ClCompile>
+    <ClCompile Include="source\foun\foun_allocator.cpp">
+      <Filter>source\foun</Filter>
+    </ClCompile>
+    <ClCompile Include="source\foun\foun_intersection.cpp">
+      <Filter>source\foun</Filter>
+    </ClCompile>
+    <ClCompile Include="source\foun\foun_keys.cpp">
+      <Filter>source\foun</Filter>
+    </ClCompile>
+    <ClCompile Include="source\foun\foun_linearAllocator.cpp">
+      <Filter>source\foun</Filter>
+    </ClCompile>
+    <ClCompile Include="source\foun\foun_math.cpp">
+      <Filter>source\foun</Filter>
+    </ClCompile>
+    <ClCompile Include="source\foun\foun_mathTables.cpp">
+      <Filter>source\foun</Filter>
+    </ClCompile>
+    <ClCompile Include="source\foun\foun_matrix.cpp">
+      <Filter>source\foun</Filter>
+    </ClCompile>
+    <ClCompile Include="source\foun\foun_rect.cpp">
+      <Filter>source\foun</Filter>
+    </ClCompile>
+    <ClCompile Include="source\fram\fram_message.cpp">
+      <Filter>source\fram</Filter>
+    </ClCompile>
+    <ClCompile Include="source\fram\fram_messageQueue.cpp">
+      <Filter>source\fram</Filter>
+    </ClCompile>
+    <ClCompile Include="source\fram\fram_mode.cpp">
+      <Filter>source\fram</Filter>
+    </ClCompile>
+    <ClCompile Include="source\fram\fram_modeFactory.cpp">
+      <Filter>source\fram</Filter>
+    </ClCompile>
+    <ClCompile Include="source\fram\fram_overlay.cpp">
+      <Filter>source\fram</Filter>
+    </ClCompile>
+    <ClCompile Include="source\fram\fram_program.cpp">
+      <Filter>source\fram</Filter>
+    </ClCompile>
+    <ClCompile Include="source\fram\fram_screen.cpp">
+      <Filter>source\fram</Filter>
+    </ClCompile>
+    <ClCompile Include="source\imag\imag_assetContainer.cpp">
+      <Filter>source\imag</Filter>
+    </ClCompile>
+    <ClCompile Include="source\imag\imag_assetProcessor.cpp">
+      <Filter>source\imag</Filter>
+    </ClCompile>
+    <ClCompile Include="source\imag\imag_resourceHandler.cpp">
+      <Filter>source\imag</Filter>
+    </ClCompile>
+    <ClCompile Include="source\inpu\inpu_cursor.cpp">
+      <Filter>source\inpu</Filter>
+    </ClCompile>
+    <ClCompile Include="source\inpu\inpu_mouseCursor.cpp">
+      <Filter>source\inpu</Filter>
+    </ClCompile>
+    <ClCompile Include="source\inpu\inpu_mouseReader.cpp">
+      <Filter>source\inpu</Filter>
+    </ClCompile>
+    <ClCompile Include="source\inpu\inpu_touchCursor.cpp">
+      <Filter>source\inpu</Filter>
+    </ClCompile>
+    <ClCompile Include="source\inpu\inpu_touchReader.cpp">
+      <Filter>source\inpu</Filter>
+    </ClCompile>
+    <ClCompile Include="source\pack\pack_assetHandler.cpp">
+      <Filter>source\pack</Filter>
+    </ClCompile>
+    <ClCompile Include="source\pack\pack_packageWalker.cpp">
+      <Filter>source\pack</Filter>
+    </ClCompile>
+    <ClCompile Include="source\shad\shad_resourceHandler.cpp">
+      <Filter>source\shad</Filter>
+    </ClCompile>
+    <ClCompile Include="source\spri\spri_animationInstance.cpp">
+      <Filter>source\spri</Filter>
+    </ClCompile>
+    <ClCompile Include="source\spri\spri_assetContainer.cpp">
+      <Filter>source\spri</Filter>
+    </ClCompile>
+    <ClCompile Include="source\spri\spri_assetProcessor.cpp">
+      <Filter>source\spri</Filter>
+    </ClCompile>
+    <ClCompile Include="source\spri\spri_bindingBuilder.cpp">
+      <Filter>source\spri</Filter>
+    </ClCompile>
+    <ClCompile Include="source\spri\spri_drawContext.cpp">
+      <Filter>source\spri</Filter>
+    </ClCompile>
+    <ClCompile Include="source\spri\spri_figureInstance.cpp">
+      <Filter>source\spri</Filter>
+    </ClCompile>
+    <ClCompile Include="source\spri\spri_instanceBuilder.cpp">
+      <Filter>source\spri</Filter>
+    </ClCompile>
+    <ClCompile Include="source\test\test_actionMenuItem.cpp">
+      <Filter>source\test</Filter>
+    </ClCompile>
+    <ClCompile Include="source\test\test_boolMenuItem.cpp">
+      <Filter>source\test</Filter>
+    </ClCompile>
+    <ClCompile Include="source\test\test_button.cpp">
+      <Filter>source\test</Filter>
+    </ClCompile>
+    <ClCompile Include="source\test\test_cycleMenuItem.cpp">
+      <Filter>source\test</Filter>
+    </ClCompile>
+    <ClCompile Include="source\test\test_floatRangeMenuItem.cpp">
+      <Filter>source\test</Filter>
+    </ClCompile>
+    <ClCompile Include="source\test\test_menu.cpp">
+      <Filter>source\test</Filter>
+    </ClCompile>
+    <ClCompile Include="source\test\test_menuItem.cpp">
+      <Filter>source\test</Filter>
+    </ClCompile>
+    <ClCompile Include="source\test\test_stringArrayMenuItem.cpp">
+      <Filter>source\test</Filter>
+    </ClCompile>
+    <ClCompile Include="source\util\util_binaryReader.cpp">
+      <Filter>source\util</Filter>
+    </ClCompile>
+    <ClCompile Include="source\util\util_indexMap.cpp">
+      <Filter>source\util</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
