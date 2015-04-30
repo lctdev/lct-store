@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workspace
+   version = "1.0">
+   <FileRef
+      location = "group:AssetViewer_OSX/AssetViewer_OSX.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:AssetViewer/AssetViewer.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:LifecycleRuntime/LifecycleRuntime.xcodeproj">
+   </FileRef>
+</Workspace>

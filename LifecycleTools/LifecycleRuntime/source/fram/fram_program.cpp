@@ -24,7 +24,7 @@ static const u32 DEFAULT_MODE_MEMORY_SIZE = 32 * 1024 * 1024;
 
 static const u32 DEFAULT_WINDOW_WIDTH = 960;
 static const u32 DEFAULT_WINDOW_HEIGHT = 540;
-static const wchar_t* DEFAULT_WINDOW_LABEL = L"Program";
+static const char16_t* DEFAULT_WINDOW_LABEL = u"Program";
 
 static const u32 MESSAGE_BUFFER_SIZE = 64;
 

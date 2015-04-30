@@ -94,7 +94,7 @@ protected:
 
 	u32 m_windowWidth;
 	u32 m_windowHeight;
-	const wchar_t* m_pWindowLabel;
+	const char16_t* m_pWindowLabel;
 	lct::fram::Screen m_screen;
 
 	bool m_running;

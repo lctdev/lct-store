@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <Cocoa/Cocoa.h>
 
-#import <inpu/mouseReader_OBJC.h>
+#import <inpu/inpu_mouseReader_OBJC.h>
 
 NSPoint GetEventLocTopLeftOrigin(NSEvent* event)
 {

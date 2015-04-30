@@ -45,6 +45,7 @@ void BoolMenuItem::UpdateValueString()
 {
 	if (m_value)
 	{
+		//snprintf(m_valueString, VALUE_STRING_SIZE, "true");
 		LCT_SPRINTF(m_valueString, VALUE_STRING_SIZE, "true");
 	}
 	else

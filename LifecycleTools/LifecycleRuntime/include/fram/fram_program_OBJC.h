@@ -13,7 +13,7 @@ struct NSAppInfo
 	void* pGLContext;
 };
 
-void CreateWindow(NSAppInfo* pAppInfo, int width, int height, const char* pTitle);
+void CreateWindow(NSAppInfo* pAppInfo, int width, int height, const char16_t* pTitle);
 void CreateGLContext(NSAppInfo* pAppInfo);
 void* GetNextEvent();
 void SendEvent(void* nsEvent);

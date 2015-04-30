@@ -14,3 +14,5 @@ LifecycleTools/ipch/assetviewer_win32-151b3d42/assetviewer_win32-6d171f10.ipch
 *.opensdf
 *.sdf
 *.suo
+*.xcuserstate
+xcuserdata/

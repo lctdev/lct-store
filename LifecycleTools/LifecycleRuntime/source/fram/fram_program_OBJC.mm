@@ -8,8 +8,9 @@
 
 #import <Foundation/Foundation.h>
 #import <Cocoa/Cocoa.h>
+#import <iostream>
 
-#import <fram/program_OBJC.h>
+#import <fram/fram_program_OBJC.h>
 
 @interface MyApplicationDelegate : NSObject <NSApplicationDelegate>
 @end
@@ -46,7 +47,7 @@ namespace lct
 namespace fram
 {
 
-void CreateWindow(NSAppInfo* pAppInfo, int width, int height, const char* pTitle)
+void CreateWindow(NSAppInfo* pAppInfo, int width, int height, const char16_t* pTitle)
 {
     NSApplication* application = [NSApplication sharedApplication];
     
@@ -69,7 +70,13 @@ void CreateWindow(NSAppInfo* pAppInfo, int width, int height, const char* pTitle
     [window setLevel:NSFloatingWindowLevel];
     
     MyWindowDelegate* windowDelegate = [[MyWindowDelegate alloc] init];
-	NSString* title = [NSString stringWithUTF8String:pTitle];
+	//const char* cString = (const char*)pTitle;
+	int titleLength = std::char_traits<char16_t>::length(pTitle);
+	int titleSize = titleLength * sizeof(char16_t);
+	NSString* title = [[NSString alloc]
+						initWithBytes:pTitle
+						length:titleSize
+						encoding:NSUTF16LittleEndianStringEncoding];
     
     [window setTitle:title];
     [window setDelegate:windowDelegate];
