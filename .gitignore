@@ -6,10 +6,9 @@
 *.pdb
 *.user
 *.bin
-LifecycleTools/Debug/AssetViewer.lib
+LifecycleTools/Debug/
+LifecycleTools/Release/
 *.ilk
-LifecycleTools/Debug/AssetViewer_WIN32.exe
-LifecycleTools/Debug/LifecycleRuntime.lib
 LifecycleTools/ipch/assetviewer_win32-151b3d42/assetviewer_win32-6d171f10.ipch
 *.opensdf
 *.sdf

@@ -5,6 +5,7 @@
 
 #include <foun/foun_debug.h>
 #include <foun/foun_graphicsDebug.h>
+#include <foun/foun_string.h>
 
 #include <stdlib.h>
 #if !defined(WIN32)
@@ -24,7 +25,7 @@ static const u32 DEFAULT_MODE_MEMORY_SIZE = 32 * 1024 * 1024;
 
 static const u32 DEFAULT_WINDOW_WIDTH = 960;
 static const u32 DEFAULT_WINDOW_HEIGHT = 540;
-static const char16_t* DEFAULT_WINDOW_LABEL = u"Program";
+static const c16* DEFAULT_WINDOW_LABEL = LCT_UNICODE("Program");
 
 static const u32 MESSAGE_BUFFER_SIZE = 64;
 

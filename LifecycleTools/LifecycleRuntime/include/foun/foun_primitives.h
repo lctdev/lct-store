@@ -12,6 +12,12 @@ typedef signed int s32;
 typedef float f32;
 typedef double f64;
 
+#if defined(WIN32)
+typedef wchar_t c16;
+#else
+typedef char16_t c16;
+#endif
+
 #ifndef NULL
 #define NULL 0
 #endif
