@@ -17,7 +17,7 @@
 #define LCT_SPRINTF(s, n, format, ...) snprintf(s, n, format, ##__VA_ARGS__)
 #define LCT_STRCPY(s, n, src) strncpy(s, src, n); s[n-1] = '\0'
 
-#defin LCT_UNICODE(s) u##s
+#define LCT_UNICODE(s) u##s
 #endif
 
 #endif//FOUN_MATH_H
