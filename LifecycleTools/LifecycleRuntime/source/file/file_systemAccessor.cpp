@@ -3,7 +3,7 @@
 #include <foun/foun_debug.h>
 
 #include <stdio.h>
-#if defined (WIN32)
+#if defined (LCT_WINDOWS)
 #include <Windows.h>
 #else
 #include <unistd.h>
@@ -28,7 +28,7 @@ SystemAccessor::~SystemAccessor()
 
 s32 SystemAccessor::GetFileSize(const char* pPath)
 {
-#if defined(WIN32)
+#if defined(LCT_WINDOWS)
 	FILE* pFile;
 	fopen_s(&pFile, pPath, "rb");
 #else
@@ -45,7 +45,7 @@ s32 SystemAccessor::GetFileSize(const char* pPath)
 
 void SystemAccessor::ReadFile(const char* pPath, void* pMemory, u32 size)
 {
-#if defined(WIN32)
+#if defined(LCT_WINDOWS)
 	FILE* pFile;
 	fopen_s(&pFile, pPath, "rb");
 #else
@@ -59,7 +59,7 @@ void SystemAccessor::ReadFile(const char* pPath, void* pMemory, u32 size)
 
 void* SystemAccessor::LoadFile(const char* pPath, u32* pSize)
 {
-#if defined(WIN32)
+#if defined(LCT_WINDOWS)
 	FILE* pFile;
 	fopen_s(&pFile, pPath, "rb");
 #else
@@ -90,7 +90,7 @@ void* SystemAccessor::LoadFile(const char* pPath, u32* pSize)
 
 char* SystemAccessor::LoadFileString(const char* pPath, u32* pSize)
 {
-#if defined(WIN32)
+#if defined(LCT_WINDOWS)
 	FILE* pFile;
 	fopen_s(&pFile, pPath, "rb");
 #else
@@ -119,7 +119,7 @@ char* SystemAccessor::LoadFileString(const char* pPath, u32* pSize)
 
 void SystemAccessor::GetCurrentDirectoryPath(char* pPath, u32 maxSize)
 {
-#if defined (WIN32)
+#if defined (LCT_WINDOWS)
 	static const u32 PATH_BUFFER_SIZE = 256;
 	wchar_t pathBuffer[256];
 	GetCurrentDirectory(PATH_BUFFER_SIZE, pathBuffer);

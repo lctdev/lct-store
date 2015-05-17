@@ -1,6 +1,6 @@
 #include <file/file_packedAccessor.h>
 
-#if defined(__ANDROID__)
+#if defined(LCT_ANDROID)
 #include <android/asset_manager.h>
 #endif
 
@@ -14,7 +14,7 @@ namespace file
  */
 PackedAccessor::PackedAccessor()
 : Accessor()
-#if defined(__ANDROID__)
+#if defined(LCT_ANDROID)
 , m_pAssetManager(NULL)
 #endif
 {
@@ -24,7 +24,7 @@ PackedAccessor::~PackedAccessor()
 {
 }
 
-#if defined(__ANDROID__)
+#if defined(LCT_ANDROID)
 void PackedAccessor::SetAssetManager(AAssetManager* pAssetManager)
 {
 	m_pAssetManager = pAssetManager;
@@ -33,7 +33,7 @@ void PackedAccessor::SetAssetManager(AAssetManager* pAssetManager)
 
 s32 PackedAccessor::GetFileSize(const char* pPath)
 {
-#if defined(__ANDROID__)
+#if defined(LCT_ANDROID)
 	AAsset* pAsset = AAssetManager_open(m_pAssetManager, pPath, AASSET_MODE_UNKNOWN);
 
 	s32 fileSize = AAsset_getLength(pAsset);
@@ -48,7 +48,7 @@ s32 PackedAccessor::GetFileSize(const char* pPath)
 
 void PackedAccessor::ReadFile(const char* pPath, void* pMemory, u32 size)
 {
-#if defined(__ANDROID__)
+#if defined(LCT_ANDROID)
 	AAsset* pAsset = AAssetManager_open(m_pAssetManager, pPath, AASSET_MODE_BUFFER);
 
 	AAsset_read(pAsset, pMemory, size);
@@ -59,7 +59,7 @@ void PackedAccessor::ReadFile(const char* pPath, void* pMemory, u32 size)
 
 void* PackedAccessor::LoadFile(const char* pPath, u32* pSize)
 {
-#if defined(__ANDROID__)
+#if defined(LCT_ANDROID)
 	AAsset* pAsset = AAssetManager_open(m_pAssetManager, pPath, AASSET_MODE_BUFFER);
 
 	s32 fileSize = AAsset_getLength(pAsset);
@@ -82,7 +82,7 @@ void* PackedAccessor::LoadFile(const char* pPath, u32* pSize)
 
 char* PackedAccessor::LoadFileString(const char* pPath, u32* pSize)
 {
-#if defined(__ANDROID__)
+#if defined(LCT_ANDROID)
 	AAsset* pAsset = AAssetManager_open(m_pAssetManager, pPath, AASSET_MODE_BUFFER);
 
 	s32 fileSize = AAsset_getLength(pAsset);

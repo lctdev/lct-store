@@ -8,7 +8,7 @@
 #include <foun/foun_string.h>
 
 #include <stdlib.h>
-#if !defined(WIN32)
+#if !defined(LCT_WINDOWS)
 #include <unistd.h>
 #endif
 
@@ -32,7 +32,7 @@ static const u32 MESSAGE_BUFFER_SIZE = 64;
 /*
  * Private Static
  */
-#if defined(WIN32)
+#if defined(LCT_WINDOWS)
 LRESULT CALLBACK Program::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	Program* pProgram = NULL;
@@ -68,7 +68,7 @@ LRESULT CALLBACK Program::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM
 		return DefWindowProc(hWnd, message, wParam, lParam);
 	}
 }
-#elif defined(__ANDROID__)
+#elif defined(LCT_ANDROID)
 void Program::OnAppCmd(struct android_app* app, int32_t cmd)
 {
     Program* pProgram = static_cast<Program*>(app->userData);
@@ -118,17 +118,17 @@ Program::Program()
 , m_pNextModeName(NULL)
 , m_pCurrOverlay(NULL)
 , m_messageQueue()
-#if defined(WIN32)
+#if defined(LCT_WINDOWS)
 , m_hInstance(NULL)
 , m_nCmdShow(0)
 , m_hWnd(NULL)
 , m_hDC(NULL)
-#elif defined(__ANDROID__)
+#elif defined(LCT_ANDROID)
 , m_pAndroidApp(NULL)
 , m_display(NULL)
 , m_surface(NULL)
 , m_context(NULL)
-#elif defined(__APPLE__)
+#elif defined(LCT_OSX)
 , m_nsAppInfo()
 #endif
 {
@@ -138,7 +138,7 @@ Program::~Program()
 {
 }
 
-#if defined(WIN32)
+#if defined(LCT_WINDOWS)
 void Program::SetHInstance(HINSTANCE hInstance)
 {
 	m_hInstance = hInstance;
@@ -148,7 +148,7 @@ void Program::SetNCmdShow(int nCmdShow)
 {
 	m_nCmdShow = nCmdShow;
 }
-#elif defined(__ANDROID__)
+#elif defined(LCT_ANDROID)
 void Program::SetAndroidApp(android_app* pAndroidApp)
 {
 	m_pAndroidApp = pAndroidApp;
@@ -210,7 +210,7 @@ void Program::Run()
 		}
 		else
 		{
-#if defined(WIN32)
+#if defined(LCT_WINDOWS)
 			Sleep(100);
 #else
 			usleep(100);
@@ -259,14 +259,14 @@ void Program::InitInput()
 
 void Program::InitWindow()
 {
-#if defined(WIN32)
+#if defined(LCT_WINDOWS)
 	// Register class
 	WNDCLASSEX wcex;
 	wcex.cbSize = sizeof(WNDCLASSEX);
 	wcex.style = CS_HREDRAW | CS_VREDRAW;
 	wcex.lpfnWndProc = WndProc;
 	wcex.cbClsExtra = 0;
-	wcex.cbWndExtra = 0;
+	wcex.cbWndExtra = 0; 
 	wcex.hInstance = m_hInstance;
 	wcex.hIcon = NULL;
 	wcex.hCursor = LoadCursor( NULL, IDC_ARROW );
@@ -287,11 +287,11 @@ void Program::InitWindow()
 	ShowWindow(m_hWnd, m_nCmdShow);
 
 	AcquireGraphics();
-#elif defined(__ANDROID__)
+#elif defined(LCT_ANDROID)
 	m_pAndroidApp->userData = this;
 	m_pAndroidApp->onAppCmd = OnAppCmd;
 	m_pAndroidApp->onInputEvent = OnInputEvent;
-#elif defined(__APPLE__)
+#elif defined(LCT_OSX)
     CreateWindow(&m_nsAppInfo, (int)m_windowWidth, (int)m_windowHeight, m_pWindowLabel);
     
     AcquireGraphics();
@@ -324,7 +324,7 @@ void Program::AcquireGraphics()
 {
 	LCT_TRACE("Program::AcquireGraphics\n");
 
-#if defined(WIN32)
+#if defined(LCT_WINDOWS)
 	// get the device handle
 	m_hDC = GetDC(m_hWnd);
 
@@ -352,7 +352,7 @@ void Program::AcquireGraphics()
 		LCT_TRACE("Glew Init error");
 		return;
 	}
-#elif defined(__ANDROID__)
+#elif defined(LCT_ANDROID)
 	const EGLint configAttribs[] =
 	{
 		EGL_SURFACE_TYPE, EGL_WINDOW_BIT,
@@ -408,7 +408,7 @@ void Program::AcquireGraphics()
 	m_windowWidth = w;
 	m_windowHeight = h;
 	//engine->state.angle = 0;
-#elif defined(__APPLE__)
+#elif defined(LCT_OSX)
     CreateGLContext(&m_nsAppInfo);
 	
 	GLenum error = glewInit();
@@ -438,9 +438,9 @@ void Program::ReleaseGraphics()
 		m_pCurrMode->ReleaseGraphics();
 	}
 
-#if defined(WIN32)
+#if defined(LCT_WINDOWS)
 
-#elif defined(__ANDROID__)
+#elif defined(LCT_ANDROID)
 	if (m_display != EGL_NO_DISPLAY) {
 		eglMakeCurrent(m_display, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT);
 		if (m_context != EGL_NO_CONTEXT) {
@@ -486,7 +486,7 @@ void Program::EndMode()
 
 void Program::ReadSystemMessages()
 {
-#if defined(WIN32)
+#if defined(LCT_WINDOWS)
 	MSG msg;
 	while (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
 	{
@@ -500,7 +500,7 @@ void Program::ReadSystemMessages()
 			DispatchMessage(&msg);
 		}
 	}
-#elif defined(__ANDROID__)
+#elif defined(LCT_ANDROID)
 	int ident;
 	int events;
 	struct android_poll_source* source;
@@ -512,7 +512,7 @@ void Program::ReadSystemMessages()
 			source->process(m_pAndroidApp, source);
 		}
 	}
-#elif defined(__APPLE__)
+#elif defined(LCT_OSX)
 	void* nsEvent;
 	while ((nsEvent = GetNextEvent()) != NULL)
 	{
@@ -566,7 +566,7 @@ void Program::Update()
 
 void Program::Draw()
 {
-#if defined(WIN32) || defined(__ANDROID__) || defined(__APPLE__)
+#if defined(LCT_WINDOWS) || defined(LCT_ANDROID) || defined(LCT_OSX)
 	// clear the back buffer
 	const lct::foun::FloatColor& clearColor = m_pCurrMode->GetClearColor();
 	glClearColor(clearColor.r, clearColor.g, clearColor.b, clearColor.a);
@@ -580,12 +580,12 @@ void Program::Draw()
 		m_pCurrOverlay->Draw();
 	}
 
-#if defined(WIN32)
+#if defined(LCT_WINDOWS)
 	// swap the back buffer
 	SwapBuffers(m_hDC);
-#elif defined(__ANDROID__)
+#elif defined(LCT_ANDROID)
 	eglSwapBuffers(m_display, m_surface);
-#elif defined(__APPLE__)
+#elif defined(LCT_OSX)
 	SwapBuffers(&m_nsAppInfo);
 #endif
 }
@@ -600,7 +600,7 @@ void Program::ConfigureMode()
 
 bool Program::HandlePlatformMessage(const foun::PlatformMessage& platformMessage)
 {
-#if defined(WIN32)
+#if defined(LCT_WINDOWS)
 	switch(platformMessage.message)
 	{
 	case WM_CREATE:
@@ -637,7 +637,7 @@ bool Program::HandlePlatformMessage(const foun::PlatformMessage& platformMessage
 	default:
 		return false;
 	}
-#elif defined(__ANDROID__)
+#elif defined(LCT_ANDROID)
 	if (platformMessage.cmd != -1)
 	{
 		switch (platformMessage.cmd)

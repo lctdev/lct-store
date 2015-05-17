@@ -3,7 +3,7 @@
 
 #include <file/file_accessor.h>
 
-#if defined(__ANDROID__)
+#if defined(LCT_ANDROID)
 struct AAssetManager;
 #endif
 
@@ -18,7 +18,7 @@ public:
 	PackedAccessor();
 	virtual ~PackedAccessor();
 
-#if defined (__ANDROID__)
+#if defined (LCT_ANDROID)
 	void SetAssetManager(AAssetManager* pAssetManager);
 #endif
 
@@ -28,7 +28,7 @@ public:
 	virtual char* LoadFileString(const char* pPath, u32* pSize);
 
 private:
-#if defined (__ANDROID__)
+#if defined (LCT_ANDROID)
 	AAssetManager* m_pAssetManager;
 #endif
 };

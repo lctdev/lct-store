@@ -11,14 +11,14 @@
 #include <fram/fram_modeFactory.h>
 #include <fram/fram_messageQueue.h>
 
-#if defined(WIN32)
+#if defined(LCT_WINDOWS)
 #include <windows.h>
 #include <GL/glew.h>
-#elif defined(__ANDROID__)
+#elif defined(LCT_ANDROID)
 #include <android_native_app_glue.h>
 #include <EGL/egl.h>
 #include <GLES2/gl2.h>
-#elif defined(__APPLE__)
+#elif defined(LCT_OSX)
 #include <fram/fram_program_OBJC.h>
 #include <GL/glew.h>
 #endif
@@ -34,9 +34,9 @@ class Overlay;
 class Program
 {
 private:
-#if defined(WIN32)
+#if defined(LCT_WINDOWS)
 	static LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
-#elif defined(__ANDROID__)
+#elif defined(LCT_ANDROID)
 	static void OnAppCmd(struct android_app* app, int32_t cmd);
 	static int32_t OnInputEvent(struct android_app* app, AInputEvent* event);
 #endif
@@ -48,10 +48,10 @@ public:
 	void Init();
 	void Run();
 
-#if defined(WIN32)
+#if defined(LCT_WINDOWS)
 	void SetHInstance(HINSTANCE hInstance);
 	void SetNCmdShow(int nCmdShow);
-#elif defined (__ANDROID__)
+#elif defined (LCT_ANDROID)
 	void SetAndroidApp(android_app* pAndroidApp);
 #endif
 
@@ -108,17 +108,17 @@ protected:
 
 	MessageQueue m_messageQueue;
 
-#if defined(WIN32)
+#if defined(LCT_WINDOWS)
 	HINSTANCE m_hInstance;
 	int m_nCmdShow;
 	HWND m_hWnd;
 	HDC m_hDC;
-#elif defined(__ANDROID__)
+#elif defined(LCT_ANDROID)
 	android_app* m_pAndroidApp;
 	EGLDisplay m_display;
 	EGLSurface m_surface;
 	EGLContext m_context;
-#elif defined(__APPLE__)
+#elif defined(LCT_OSX)
     NSAppInfo m_nsAppInfo;
 #endif
 };

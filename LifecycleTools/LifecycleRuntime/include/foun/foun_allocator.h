@@ -35,7 +35,7 @@ public:
 		}
 	}
 
-#if defined(__MINGW32__) || defined(__ANDROID__) || defined(__APPLE__) || defined(WIN32)
+#if defined(__MINGW32__) || defined(LCT_ANDROID) || defined(LCT_OSX) || defined(LCT_WINDOWS)
 	static const u32 NEW_ARRAY_PAD = 0;
 #endif
 

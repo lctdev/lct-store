@@ -1,14 +1,14 @@
 #ifndef FOUN_STRING_H
 #define FOUN_STRING_H
 
-#if defined (WIN32)
+#if defined (LCT_WINDOWS)
 #include <stdio.h>
 #else
 #include <stdio.h>
 #include <string.h>
 #endif
 
-#if defined(WIN32)
+#if defined(LCT_WINDOWS)
 #define LCT_SPRINTF(s, n, format, ...)  _snprintf_s(s, n, n, format, __VA_ARGS__)
 #define LCT_STRCPY(s, n, src) strcpy_s(s, n, src)
 

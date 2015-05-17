@@ -2,47 +2,36 @@
 #define ASSET_VIEWER_PROGRAM_H
 
 #include <fram/fram_program.h>
+#include <fram/fram_message.h>
 
+#include <file/file_packedAccessor.h>
 #include <file/file_systemAccessor.h>
 
-namespace lct
-{
-namespace shad
-{
-	class ResourceHandler;
-}
-namespace imag
-{
-	class AssetProcessor;
-	class AssetContainer;
-	class ResourceHandler;
-}
-namespace fill
-{
-	class DrawContext;
-}
-namespace font
-{
-	class AssetProcessor;
-	class AssetContainer;
-	class DrawContext;
-	class ResourceHandler;
-}
-namespace spri
-{
-	class DrawContext;
-}
-namespace inpu
-{
-	class MouseReader;
-	class TouchReader;
-	class Cursor;
-}
-namespace fram
-{
-	class Message;
-}
-}
+#include <shad/shad_resourceHandler.h>
+
+#include <util/util_indexMap.h>
+
+#include <fill/fill_drawContext.h>
+
+#include <font/font_assetProcessor.h>
+#include <font/font_assetContainer.h>
+#include <font/font_drawContext.h>
+#include <font/font_resourceHandler.h>
+
+#include <spri/spri_drawContext.h>
+
+#include <imag/imag_assetProcessor.h>
+#include <imag/imag_assetContainer.h>
+#include <imag/imag_resourceHandler.h>
+
+#include <pack/pack_packageWalker.h>
+
+#include <util/util_binaryReader.h>
+
+#include <inpu/inpu_mouseReader.h>
+#include <inpu/inpu_mouseCursor.h>
+#include <inpu/inpu_touchReader.h>
+#include <inpu/inpu_touchCursor.h>
 
 class SpriteViewerOverlay;
 
@@ -81,32 +70,33 @@ private:
 	void OpenOverlay();
 	void CloseOverlay();
 
+	// owned
 	lct::file::Accessor* m_pAccessor;
 	lct::file::Accessor* m_pModeAccessor;
 
-	lct::shad::ResourceHandler* m_pShaderResourceHandler;
+	lct::shad::ResourceHandler m_shaderResourceHandler;
 
-	lct::imag::AssetContainer* m_pImageAssetContainer;
-	lct::imag::AssetProcessor* m_pImageAssetProcessor;
-	lct::imag::ResourceHandler* m_pImageResourceHandler;
-	lct::imag::ResourceHandler* m_pModeImageResourceHandler;
+	lct::imag::AssetContainer m_imageAssetContainer;
+	lct::imag::AssetProcessor m_imageAssetProcessor;
+	lct::imag::ResourceHandler m_imageResourceHandler;
+	lct::imag::ResourceHandler m_modeImageResourceHandler;
 
-	lct::fill::DrawContext* m_pFillDrawContext;
+	lct::fill::DrawContext m_fillDrawContext;
 
-	lct::font::AssetContainer* m_pFontAssetContainer;
-	lct::font::AssetProcessor* m_pFontAssetProcessor;
-	lct::font::ResourceHandler* m_pFontResourceHandler;
-	lct::font::ResourceHandler* m_pModeFontResourceHandler;
+	lct::font::AssetContainer m_fontAssetContainer;
+	lct::font::AssetProcessor m_fontAssetProcessor;
+	lct::font::ResourceHandler m_fontResourceHandler;
+	lct::font::ResourceHandler m_modeFontResourceHandler;
 
 	void* m_pFontAssetBinary;
-	lct::font::DrawContext* m_pFontDrawContext;
+	lct::font::DrawContext m_fontDrawContext;
 
-	lct::spri::DrawContext* m_pSpriteDrawContext;
+	lct::spri::DrawContext m_spriteDrawContext;
 
-#if defined(WIN32) || defined(__APPLE__)
+#if defined(LCT_WINDOWS) || defined(LCT_OSX)
 	lct::inpu::MouseReader* m_pMouseReader;
-#elif defined(__ANDROID__)
-	lct::inpu::TouchReader* m_pTouchReader;
+#elif defined(LCT_ANDROID)
+	lct::inpu::TouchReader* m_touchReader;
 #endif
 	lct::inpu::Cursor* m_pCursor;
 

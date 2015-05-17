@@ -4,36 +4,6 @@
 #include "spriteViewerMode.h"
 #include "assetViewerMessages.h"
 
-#include <fram/fram_message.h>
-
-#include <file/file_packedAccessor.h>
-
-#include <shad/shad_resourceHandler.h>
-
-#include <util/util_indexMap.h>
-
-#include <fill/fill_drawContext.h>
-
-#include <font/font_assetProcessor.h>
-#include <font/font_assetContainer.h>
-#include <font/font_drawContext.h>
-#include <font/font_resourceHandler.h>
-
-#include <spri/spri_drawContext.h>
-
-#include <imag/imag_assetProcessor.h>
-#include <imag/imag_assetContainer.h>
-#include <imag/imag_resourceHandler.h>
-
-#include <pack/pack_packageWalker.h>
-
-#include <util/util_binaryReader.h>
-
-#include <inpu/inpu_mouseReader.h>
-#include <inpu/inpu_mouseCursor.h>
-#include <inpu/inpu_touchReader.h>
-#include <inpu/inpu_touchCursor.h>
-
 #include <foun/foun_debug.h>
 
 /*
@@ -48,22 +18,22 @@ AssetViewerProgram::AssetViewerProgram()
 : Program()
 , m_pAccessor(NULL)
 , m_pModeAccessor(NULL)
-, m_pShaderResourceHandler(NULL)
-, m_pImageAssetContainer(NULL)
-, m_pImageAssetProcessor(NULL)
-, m_pImageResourceHandler(NULL)
-, m_pModeImageResourceHandler(NULL)
-, m_pFillDrawContext(NULL)
-, m_pFontAssetContainer(NULL)
-, m_pFontAssetProcessor(NULL)
-, m_pFontResourceHandler(NULL)
-, m_pModeFontResourceHandler(NULL)
+, m_shaderResourceHandler()
+, m_imageAssetContainer()
+, m_imageAssetProcessor()
+, m_imageResourceHandler()
+, m_modeImageResourceHandler()
+, m_fillDrawContext()
+, m_fontAssetContainer()
+, m_fontAssetProcessor()
+, m_fontResourceHandler()
+, m_modeFontResourceHandler()
 , m_pFontAssetBinary(NULL)
-, m_pFontDrawContext(NULL)
-, m_pSpriteDrawContext(NULL)
-#if defined (WIN32) || defined(__APPLE__)
+, m_fontDrawContext()
+, m_spriteDrawContext()
+#if defined (LCT_WINDOWS) || defined(LCT_OSX)
 , m_pMouseReader(NULL)
-#elif defined (__ANDROID__)
+#elif defined (LCT_ANDROID)
 , m_pTouchReader(NULL)
 #endif
 , m_pCursor(NULL)
@@ -84,20 +54,14 @@ void AssetViewerProgram::InitConsole()
 
 void AssetViewerProgram::InitFiles()
 {
-#if defined(WIN32)
+#if defined(LCT_WINDOWS)
 	m_pAccessor = m_allocator.AllocType<lct::file::SystemAccessor>();
 	m_pModeAccessor = m_allocator.AllocType<lct::file::SystemAccessor>();
-
-#if defined(LCT_DEBUG)
-	int x = 0;
-	x++;
-	printf("Hello");
-#endif
 
 	char currentDirectoryPath[1024];
 	m_pModeAccessor->GetCurrentDirectoryPath(currentDirectoryPath, sizeof(currentDirectoryPath));
 	LCT_TRACE("Current directory is: %s\n", currentDirectoryPath);
-#elif defined(__ANDROID__)
+#elif defined(LCT_ANDROID)
 	lct::file::PackedAccessor* pAccessor = m_allocator.AllocType<lct::file::PackedAccessor>();
 	lct::file::PackedAccessor* pModeAccessor = m_allocator.AllocType<lct::file::PackedAccessor>();
 
@@ -106,7 +70,7 @@ void AssetViewerProgram::InitFiles()
 
 	m_pAccessor = pAccessor;
 	m_pModeAccessor = pModeAccessor;
-#elif defined (__APPLE__)
+#elif defined (LCT_OSX)
     m_pAccessor = m_allocator.AllocType<lct::file::SystemAccessor>();
     m_pModeAccessor = m_allocator.AllocType<lct::file::SystemAccessor>();
     
@@ -127,52 +91,38 @@ void AssetViewerProgram::InitWindow()
 void AssetViewerProgram::InitAssets()
 {
 	// shader
-	m_pShaderResourceHandler = m_allocator.AllocType<lct::shad::ResourceHandler>();
-	m_pShaderResourceHandler->SetAllocator(&m_allocator);
+	m_shaderResourceHandler.SetAllocator(&m_allocator);
 
 	// image
-	m_pImageAssetContainer = m_allocator.AllocType<lct::imag::AssetContainer>();
-	m_pImageAssetContainer->SetAllocator(&m_allocator);
+	m_imageAssetContainer.SetAllocator(&m_allocator);
 
-	m_pImageResourceHandler = m_allocator.AllocType<lct::imag::ResourceHandler>();
-	m_pModeImageResourceHandler = m_allocator.AllocType<lct::imag::ResourceHandler>();
-
-	m_pImageAssetProcessor = m_allocator.AllocType<lct::imag::AssetProcessor>();
-	m_pImageAssetProcessor->SetAllocator(&m_allocator);
-	m_pImageAssetProcessor->SetResourceHandler(m_pImageResourceHandler);
-	m_pImageAssetProcessor->SetAssetContainer(m_pImageAssetContainer);
+	m_imageAssetProcessor.SetAllocator(&m_allocator);
+	m_imageAssetProcessor.SetResourceHandler(&m_imageResourceHandler);
+	m_imageAssetProcessor.SetAssetContainer(&m_imageAssetContainer);
 
 	// fill
-	m_pFillDrawContext = m_allocator.AllocType<lct::fill::DrawContext>();
-	m_pFillDrawContext->SetAllocator(&m_allocator);
-	m_pFillDrawContext->SetShaderResourceHandler(m_pShaderResourceHandler);
-	m_pFillDrawContext->CreateResources();
+	m_fillDrawContext.SetAllocator(&m_allocator);
+	m_fillDrawContext.SetShaderResourceHandler(&m_shaderResourceHandler);
+	m_fillDrawContext.CreateResources();
 
 	LoadFillAssets();
 
 	// font
-	m_pFontAssetContainer = m_allocator.AllocType<lct::font::AssetContainer>();
-	m_pFontAssetContainer->SetAllocator(&m_allocator);
+	m_fontAssetContainer.SetAllocator(&m_allocator);
 
-	m_pFontAssetProcessor = m_allocator.AllocType<lct::font::AssetProcessor>();
-	m_pFontAssetProcessor->SetAllocator(&m_allocator);
-	m_pFontAssetProcessor->SetAssetContainer(m_pFontAssetContainer);
+	m_fontAssetProcessor.SetAllocator(&m_allocator);
+	m_fontAssetProcessor.SetAssetContainer(&m_fontAssetContainer);
 
-	m_pFontResourceHandler = m_allocator.AllocType<lct::font::ResourceHandler>();
-	m_pModeFontResourceHandler = m_allocator.AllocType<lct::font::ResourceHandler>();
-
-	m_pFontDrawContext = m_allocator.AllocType<lct::font::DrawContext>();
-	m_pFontDrawContext->SetAllocator(&m_allocator);
-	m_pFontDrawContext->SetShaderResourceHandler(m_pShaderResourceHandler);
-	m_pFontDrawContext->CreateResources();
+	m_fontDrawContext.SetAllocator(&m_allocator);
+	m_fontDrawContext.SetShaderResourceHandler(&m_shaderResourceHandler);
+	m_fontDrawContext.CreateResources();
 
 	LoadFontAssets();
 
 	// sprite
-	m_pSpriteDrawContext = m_allocator.AllocType<lct::spri::DrawContext>();
-	m_pSpriteDrawContext->SetAllocator(&m_allocator);
-	m_pSpriteDrawContext->SetShaderResourceHandler(m_pShaderResourceHandler);
-	m_pSpriteDrawContext->CreateResources();
+	m_spriteDrawContext.SetAllocator(&m_allocator);
+	m_spriteDrawContext.SetShaderResourceHandler(&m_shaderResourceHandler);
+	m_spriteDrawContext.CreateResources();
 
 	LoadSpriteAssets();
 
@@ -181,14 +131,14 @@ void AssetViewerProgram::InitAssets()
 
 void AssetViewerProgram::InitInput()
 {
-#if defined(WIN32) || defined(__APPLE__)
+#if defined(LCT_WINDOWS) || defined(LCT_OSX)
 	m_pMouseReader = m_allocator.AllocType<lct::inpu::MouseReader>();
 
 	lct::inpu::MouseCursor* pCursor = m_allocator.AllocType<lct::inpu::MouseCursor>();
 	pCursor->SetReader(m_pMouseReader);
 
 	m_pCursor = pCursor;
-#elif defined(__ANDROID__)
+#elif defined(LCT_ANDROID)
 	m_pTouchReader = m_allocator.AllocType<lct::inpu::TouchReader>();
 
 	lct::inpu::TouchCursor* pCursor = m_allocator.AllocType<lct::inpu::TouchCursor>();
@@ -214,10 +164,10 @@ void AssetViewerProgram::InitOverlays()
 	m_pOverlay->SetScreen(&m_screen);
 	m_pOverlay->SetProgramMessageQueue(&m_messageQueue);
 	m_pOverlay->SetInputCursor(m_pCursor);
-	m_pOverlay->SetFillDrawContext(m_pFillDrawContext);
-	m_pOverlay->SetFontAssetContainer(m_pFontAssetContainer);
-	m_pOverlay->SetFontResourceHandler(m_pFontResourceHandler);
-	m_pOverlay->SetFontDrawContext(m_pFontDrawContext);
+	m_pOverlay->SetFillDrawContext(&m_fillDrawContext);
+	m_pOverlay->SetFontAssetContainer(&m_fontAssetContainer);
+	m_pOverlay->SetFontResourceHandler(&m_fontResourceHandler);
+	m_pOverlay->SetFontDrawContext(&m_fontDrawContext);
 	m_pOverlay->Init();
 
 	if (m_graphicsAcquired)
@@ -237,49 +187,49 @@ void AssetViewerProgram::AcquireGraphics()
 {
 	Program::AcquireGraphics();
 
-	m_pImageAssetProcessor->AcquireAllAssetResources();
+	m_imageAssetProcessor.AcquireAllAssetResources();
 
-	m_pFillDrawContext->AcquireResources();
+	m_fillDrawContext.AcquireResources();
 
-	m_pFontDrawContext->AcquireResources();
+	m_fontDrawContext.AcquireResources();
 
-	m_pSpriteDrawContext->AcquireResources();
+	m_spriteDrawContext.AcquireResources();
 
 	if (m_pOverlay != NULL) // should go in base...?
 	{
 		m_pOverlay->AcquireGraphics();
 	}
 
-	LCT_TRACE("AssetViewerProgram::AcquireGraphics Image Texture Resource Count: %u\n", m_pImageResourceHandler->GetTextureResourceCount());
-	LCT_TRACE("AssetViewerProgram::AcquireGraphics Font Quad Resource Count: %u\n", m_pFontResourceHandler->GetQuadResourceCount());
+	LCT_TRACE("AssetViewerProgram::AcquireGraphics Image Texture Resource Count: %u\n", m_imageResourceHandler.GetTextureResourceCount());
+	LCT_TRACE("AssetViewerProgram::AcquireGraphics Font Quad Resource Count: %u\n", m_fontResourceHandler.GetQuadResourceCount());
 }
 
 void AssetViewerProgram::ReleaseGraphics()
 {
-	m_pImageAssetProcessor->ReleaseAllAssetResources();
+	m_imageAssetProcessor.ReleaseAllAssetResources();
 
-	m_pFillDrawContext->ReleaseResources();
+	m_fillDrawContext.ReleaseResources();
 
-	m_pFontDrawContext->ReleaseResources();
+	m_fontDrawContext.ReleaseResources();
 
-	m_pSpriteDrawContext->ReleaseResources();
+	m_spriteDrawContext.ReleaseResources();
 
 	if (m_pOverlay != NULL) // should go in base...?
 	{
 		m_pOverlay->ReleaseGraphics();
 	}
 
-	LCT_TRACE("AssetViewerProgram::ReleaseGraphics Image Texture Resource Count: %u\n", m_pImageResourceHandler->GetTextureResourceCount());
-	LCT_TRACE("AssetViewerProgram::ReleaseGraphics Font Quad Resource Count: %u\n", m_pFontResourceHandler->GetQuadResourceCount());
+	LCT_TRACE("AssetViewerProgram::ReleaseGraphics Image Texture Resource Count: %u\n", m_imageResourceHandler.GetTextureResourceCount());
+	LCT_TRACE("AssetViewerProgram::ReleaseGraphics Font Quad Resource Count: %u\n", m_fontResourceHandler.GetQuadResourceCount());
 
 	Program::ReleaseGraphics();
 }
 
 void AssetViewerProgram::ReadSystemMessages()
 {
-#if defined(WIN32) || defined(__APPLE__)
+#if defined(LCT_WINDOWS) || defined(LCT_OSX)
 	m_pMouseReader->PrepareValues();
-#elif defined(__ANDROID__)
+#elif defined(LCT_ANDROID)
 	m_pTouchReader->PrepareValues();
 #endif
 
@@ -298,25 +248,25 @@ void AssetViewerProgram::ConfigureMode()
 	AssetViewerMode* pAssetViewerMode = static_cast<AssetViewerMode*>(m_pCurrMode);
 
 	pAssetViewerMode->SetAccessor(m_pModeAccessor);
-	pAssetViewerMode->SetSpriteDrawContext(m_pSpriteDrawContext);
+	pAssetViewerMode->SetSpriteDrawContext(&m_spriteDrawContext);
 	pAssetViewerMode->SetCursor(m_pCursor);
-	pAssetViewerMode->SetImageResourceHandler(m_pModeImageResourceHandler);
-	pAssetViewerMode->SetFillDrawContext(m_pFillDrawContext);
-	pAssetViewerMode->SetFontAssetContainer(m_pFontAssetContainer);
-	pAssetViewerMode->SetFontResourceHandler(m_pModeFontResourceHandler);
-	pAssetViewerMode->SetFontDrawContext(m_pFontDrawContext);
+	pAssetViewerMode->SetImageResourceHandler(&m_modeImageResourceHandler);
+	pAssetViewerMode->SetFillDrawContext(&m_fillDrawContext);
+	pAssetViewerMode->SetFontAssetContainer(&m_fontAssetContainer);
+	pAssetViewerMode->SetFontResourceHandler(&m_modeFontResourceHandler);
+	pAssetViewerMode->SetFontDrawContext(&m_fontDrawContext);
 
 	Program::ConfigureMode();
 }
 
 bool AssetViewerProgram::HandlePlatformMessage(const lct::foun::PlatformMessage& platformMessage)
 {
-#if defined(WIN32) || defined(__APPLE__)
+#if defined(LCT_WINDOWS) || defined(LCT_OSX)
 	if (m_pMouseReader->HandlePlatformMessage(platformMessage))
 	{
 		return true;
 	}
-#elif defined(__ANDROID__)
+#elif defined(LCT_ANDROID)
 	if (m_pTouchReader->HandlePlatformMessage(platformMessage))
 	{
 		return true;
@@ -371,7 +321,7 @@ void AssetViewerProgram::LoadFillAssets()
 		 pFragmentShaderBinary = m_pAccessor->LoadFileString(FILE_PATH, &stringSize);
 	 }
 
-	 m_pFillDrawContext->SetShaderBinaries(pVertexShaderBinary, pFragmentShaderBinary);
+	 m_fillDrawContext.SetShaderBinaries(pVertexShaderBinary, pFragmentShaderBinary);
 }
 
  void AssetViewerProgram::LoadFontAssets()
@@ -382,12 +332,12 @@ void AssetViewerProgram::LoadFillAssets()
 	 lct::util::BinaryReader binaryReader;
 	 binaryReader.SetMemory(m_pFontAssetBinary, fileSize);
 	 lct::pack::PackageWalker packageWalker;
-	 packageWalker.AddAssetHandler(m_pFontAssetProcessor);
-	 packageWalker.AddAssetHandler(m_pImageAssetProcessor);
+	 packageWalker.AddAssetHandler(&m_fontAssetProcessor);
+	 packageWalker.AddAssetHandler(&m_imageAssetProcessor);
 
 	 packageWalker.LoadAllAssets(binaryReader);
 
-	 m_pFontAssetProcessor->FixupAllAssets(*m_pImageAssetContainer);
+	 m_fontAssetProcessor.FixupAllAssets(m_imageAssetContainer);
 
 	 void* pVertexShaderBinary = NULL;
 	 {
@@ -403,7 +353,7 @@ void AssetViewerProgram::LoadFillAssets()
 		 pFragmentShaderBinary = m_pAccessor->LoadFileString(FILE_PATH, &stringSize);
 	 }
 
-	 m_pFontDrawContext->SetShaderBinaries(pVertexShaderBinary, pFragmentShaderBinary);
+	 m_fontDrawContext.SetShaderBinaries(pVertexShaderBinary, pFragmentShaderBinary);
  }
 
  void AssetViewerProgram::LoadSpriteAssets()
@@ -422,7 +372,7 @@ void AssetViewerProgram::LoadFillAssets()
 		 pFragmentShaderBinary = m_pAccessor->LoadFileString(FILE_PATH, &stringSize);
 	 }
 
-	 m_pSpriteDrawContext->SetShaderBinaries(pVertexShaderBinary, pFragmentShaderBinary);
+	 m_spriteDrawContext.SetShaderBinaries(pVertexShaderBinary, pFragmentShaderBinary);
  }
 
  void AssetViewerProgram::CheckOverlayInput()

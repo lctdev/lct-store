@@ -5,6 +5,10 @@
 #include <foun/foun_allocator.h>
 #include <foun/foun_color.h>
 
+#include <fram/fram_screen.h>
+#include <fram/fram_messageQueue.h>
+#include <fram/fram_message.h>
+
 namespace lct
 {
 namespace fram
@@ -37,12 +41,14 @@ public:
 	bool IsFinished() { return m_finished; }
 
 protected:
+	// shared
 	lct::foun::Allocator* m_pAllocator;
-	lct::fram::MessageQueue* m_pProgramMessageQueue;
-
-	bool m_finished;
-
+	MessageQueue* m_pProgramMessageQueue;
 	Screen* m_pScreen;
+
+	// owned
+	bool m_finished;
+	
 	lct::foun::FloatColor m_clearColor;
 };
 

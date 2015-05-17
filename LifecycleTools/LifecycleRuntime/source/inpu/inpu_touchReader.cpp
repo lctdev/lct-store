@@ -29,7 +29,7 @@ void TouchReader::PrepareValues()
 
 bool TouchReader::HandlePlatformMessage(const foun::PlatformMessage& platformMessage)
 {
-#if defined(__ANDROID__)
+#if defined(LCT_ANDROID)
 	AInputEvent* event = platformMessage.inputEvent;
 	if (event != NULL)
 	{

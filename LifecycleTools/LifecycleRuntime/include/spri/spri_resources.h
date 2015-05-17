@@ -3,9 +3,9 @@
 
 #include <foun/foun_primitives.h>
 
-#if defined(WIN32) || defined(__APPLE__)
+#if defined(LCT_WINDOWS) || defined(LCT_OSX)
 #include <GL/glew.h>
-#elif defined(__ANDROID__)
+#elif defined(LCT_ANDROID)
 #include <GLES2/gl2.h>
 #endif
 
@@ -14,7 +14,7 @@ namespace lct
 namespace spri
 {
 
-#if defined(WIN32) || defined(__ANDROID__) || defined(__APPLE__)
+#if defined(LCT_WINDOWS) || defined(LCT_ANDROID) || defined(LCT_OSX)
 struct QuadResource
 {
 	GLuint hVertexBuffer;

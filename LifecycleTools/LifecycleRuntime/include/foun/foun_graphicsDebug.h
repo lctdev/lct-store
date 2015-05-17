@@ -3,15 +3,15 @@
 
 #include <foun/foun_debug.h>
 
-#if defined(WIN32) || defined(__APPLE__)
+#if defined(LCT_WINDOWS) || defined(LCT_OSX)
 #include <GL/glew.h>
-#elif defined(__ANDROID__)
+#elif defined(LCT_ANDROID)
 #include <GLES2/gl2.h>
 #endif
 
 #if defined(LCT_DEBUG)
 
-#if defined(WIN32) || defined(__ANDROID__) || defined(__APPLE__)
+#if defined(LCT_WINDOWS) || defined(LCT_ANDROID) || defined(LCT_OSX)
 #define FOUN_TRACE_GL_ERROR() { GLenum glError = glGetError();  if (glError != GL_NO_ERROR) { LCT_TRACE("GL error: %d, file: %s, line: %d\n", glError, __FILE__, __LINE__); } }
 #endif
 

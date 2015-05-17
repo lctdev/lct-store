@@ -1,50 +1,8 @@
 #include "spriteViewerMode.h"
 #include "assetViewerMessages.h"
 
-#include <spri/spri_assetProcessor.h>
-#include <spri/spri_assetContainer.h>
-#include <spri/spri_assets.h>
-#include <spri/spri_data.h>
-#include <spri/spri_bindingBuilder.h>
-#include <spri/spri_bindings.h>
-#include <spri/spri_instanceBuilder.h>
-#include <spri/spri_figureInstance.h>
-#include <spri/spri_animationInstance.h>
-#include <spri/spri_drawContext.h>
-
-#include <imag/imag_assetProcessor.h>
-#include <imag/imag_assetContainer.h>
-#include <imag/imag_resourceHandler.h>
-
-#include <pack/pack_packageWalker.h>
-
-#include <util/util_binaryReader.h>
-
 #include <foun/foun_math.h>
 #include <foun/foun_debug.h>
-
-#include <file/file_accessor.h>
-
-#include <fram/fram_screen.h>
-#include <fram/fram_messageQueue.h>
-#include <fram/fram_message.h>
-
-#include <fill/fill_drawContext.h>
-
-#include <font/font_assets.h>
-#include <font/font_assetContainer.h>
-#include <font/font_data.h>
-#include <font/font_symbolBuffer.h>
-#include <font/font_symbolWriter.h>
-#include <font/font_drawContext.h>
-
-#include <inpu/inpu_cursor.h>
-
-#include <test/test_menu.h>
-#include <test/test_actionMenuItem.h>
-#include <test/test_stringArrayMenuItem.h>
-#include <test/test_floatRangeMenuItem.h>
-#include <test/test_boolMenuItem.h>
 
 #include <string.h>
 
@@ -92,22 +50,22 @@ SpriteViewerMode::SpriteViewerMode()
 
 , m_animationAllocator()
 
-, m_pSpriteAssetContainer(NULL)
-, m_pSpriteAssetProcessor(NULL)
-, m_pImageAssetContainer(NULL)
-, m_pImageAssetProcessor(NULL)
+, m_spriteAssetContainer()
+, m_spriteAssetProcessor()
+, m_imageAssetContainer()
+, m_imageAssetProcessor()
 , m_pAssetBinary(NULL)
 , m_pFigureAsset(NULL)
-, m_pAnimationAsset(NULL)
-, m_pBindingBuilder(NULL)
-, m_pAnimationFigureBinding(NULL)
-, m_pInstanceBuilder(NULL)
-, m_pFigureInstance(NULL)
-, m_pAnimationInstance(NULL)
+, m_pAnimationAsset()
+, m_bindingBuilder()
+, m_pAnimationFigureBinding()
+, m_instanceBuilder()
+, m_pFigureInstance()
+, m_pAnimationInstance()
 
-, m_pSymbolBufferArray(NULL)
+, m_symbolBufferArray()
 , m_currSymbolBufferIndex(0)
-, m_pSymbolWriter(NULL)
+, m_symbolWriter()
 
 , m_animationCycleCallback()
 , m_stepCycleCallback()
@@ -116,13 +74,13 @@ SpriteViewerMode::SpriteViewerMode()
 
 , m_pAnimationNameArray(NULL)
 
-, m_pMenu(NULL)
-, m_pAnimationMenuItem(NULL)
-, m_pPlayMenuItem(NULL)
-, m_pStepMenuItem(NULL)
-, m_pFrameMenuItem(NULL)
-, m_pDrawJointsMenuItem(NULL)
-, m_pReloadMenuItem(NULL)
+, m_menu()
+, m_animationMenuItem()
+, m_playMenuItem()
+, m_stepMenuItem()
+, m_frameMenuItem()
+, m_drawJointsMenuItem()
+, m_reloadMenuItem()
 
 , m_projectionTransform()
 , m_contentWorldTransform()
@@ -142,26 +100,20 @@ void SpriteViewerMode::Init()
 		m_animationAllocator.SetMemory(pMemory, ANIMATION_MEMORY_SIZE);
 	}
 
-	m_pSpriteAssetContainer = m_pAllocator->AllocType<lct::spri::AssetContainer>();
-	m_pSpriteAssetContainer->SetAllocator(m_pAllocator);
+	m_spriteAssetContainer.SetAllocator(m_pAllocator);
 
-	m_pSpriteAssetProcessor = m_pAllocator->AllocType<lct::spri::AssetProcessor>();
-	m_pSpriteAssetProcessor->SetAllocator(m_pAllocator);
-	m_pSpriteAssetProcessor->SetAssetContainer(m_pSpriteAssetContainer);
+	m_spriteAssetProcessor.SetAllocator(m_pAllocator);
+	m_spriteAssetProcessor.SetAssetContainer(&m_spriteAssetContainer);
 
-	m_pImageAssetContainer = m_pAllocator->AllocType<lct::imag::AssetContainer>();
-	m_pImageAssetContainer->SetAllocator(m_pAllocator);
+	m_imageAssetContainer.SetAllocator(m_pAllocator);
 
-	m_pImageAssetProcessor = m_pAllocator->AllocType<lct::imag::AssetProcessor>();
-	m_pImageAssetProcessor->SetAllocator(m_pAllocator);
-	m_pImageAssetProcessor->SetResourceHandler(m_pImageResourceHandler);
-	m_pImageAssetProcessor->SetAssetContainer(m_pImageAssetContainer);
+	m_imageAssetProcessor.SetAllocator(m_pAllocator);
+	m_imageAssetProcessor.SetResourceHandler(m_pImageResourceHandler);
+	m_imageAssetProcessor.SetAssetContainer(&m_imageAssetContainer);
 
-	m_pBindingBuilder = m_pAllocator->AllocType<lct::spri::BindingBuilder>();
-	m_pBindingBuilder->SetAllocator(m_pAllocator);
+	m_bindingBuilder.SetAllocator(m_pAllocator);
 
-	m_pInstanceBuilder = m_pAllocator->AllocType<lct::spri::InstanceBuilder>();
-	m_pInstanceBuilder->SetAllocator(m_pAllocator);
+	m_instanceBuilder.SetAllocator(m_pAllocator);
 
 	LoadAssets();
 	BuildMenu();
@@ -179,11 +131,11 @@ void SpriteViewerMode::Init()
 
 void SpriteViewerMode::AcquireGraphics()
 {
-	m_pImageAssetProcessor->AcquireAllAssetResources();
+	m_imageAssetProcessor.AcquireAllAssetResources();
 
 	for (u32 bufferIndex = 0; bufferIndex < SYMBOL_BUFFER_COUNT; ++bufferIndex)
 	{
-		m_pSymbolBufferArray[bufferIndex].AcquireResources();
+		m_symbolBufferArray[bufferIndex].AcquireResources();
 	}
 
 	AssetViewerMode::AcquireGraphics();
@@ -191,11 +143,11 @@ void SpriteViewerMode::AcquireGraphics()
 
 void SpriteViewerMode::ReleaseGraphics()
 {
-	m_pImageAssetProcessor->ReleaseAllAssetResources();
+	m_imageAssetProcessor.ReleaseAllAssetResources();
 
 	for (u32 bufferIndex = 0; bufferIndex < SYMBOL_BUFFER_COUNT; ++bufferIndex)
 	{
-		m_pSymbolBufferArray[bufferIndex].ReleaseResources();
+		m_symbolBufferArray[bufferIndex].ReleaseResources();
 	}
 
 	AssetViewerMode::ReleaseGraphics();
@@ -208,11 +160,11 @@ void SpriteViewerMode::ReadInput()
 	localCursorPosition.y = -static_cast<f32>(m_pCursor->GetY()) - MENU_OFFSET_Y;
 	if (m_pCursor->IsPress())
 	{
-		m_pMenu->HandlePress(localCursorPosition);
+		m_menu.HandlePress(localCursorPosition);
 	}
 	if (m_pCursor->IsRelease())
 	{
-		m_pMenu->HandleRelease(localCursorPosition);
+		m_menu.HandleRelease(localCursorPosition);
 	}
 }
 
@@ -223,25 +175,25 @@ void SpriteViewerMode::Update()
 
 	lct::foun::Matrix32Translate(m_contentWorldTransform, CONTENT_OFFSET_X, 0.0f);
 
-	lct::font::SymbolBuffer& symbolBuffer = m_pSymbolBufferArray[m_currSymbolBufferIndex];
+	lct::font::SymbolBuffer& symbolBuffer = m_symbolBufferArray[m_currSymbolBufferIndex];
 	symbolBuffer.ResetResources();
-	m_pSymbolWriter->SetBuffer(&symbolBuffer);
+	m_symbolWriter.SetBuffer(&symbolBuffer);
 
-	m_pMenu->WriteFont(m_pSymbolWriter);
+	m_menu.WriteFont(&m_symbolWriter);
 	symbolBuffer.UpdateResources();
 
-	PlayType playType = static_cast<PlayType>(m_pPlayMenuItem->GetIndex());
+	PlayType playType = static_cast<PlayType>(m_playMenuItem.GetIndex());
 	if (playType == PLAY_TYPE_AUTOMATIC)
 	{
 		if (m_pAnimationInstance != NULL)
 		{
-			m_pAnimationInstance->UpdateTracks(m_pStepMenuItem->GetValue());
+			m_pAnimationInstance->UpdateTracks(m_stepMenuItem.GetValue());
 		}
 
 		// update dependent menu items
-		f32 frameValue = m_pFrameMenuItem->GetValue();
-		frameValue += m_pStepMenuItem->GetValue();
-		f32 frameMax = m_pFrameMenuItem->GetMax();
+		f32 frameValue = m_frameMenuItem.GetValue();
+		frameValue += m_stepMenuItem.GetValue();
+		f32 frameMax = m_frameMenuItem.GetMax();
 		if (frameMax == 0.0f)
 		{
 			frameValue = 0.0f;
@@ -253,7 +205,7 @@ void SpriteViewerMode::Update()
 				frameValue -= frameMax;
 			}
 		}
-		m_pFrameMenuItem->SetValue(frameValue);
+		m_frameMenuItem.SetValue(frameValue);
 	}
 }
 
@@ -289,7 +241,7 @@ void SpriteViewerMode::Draw()
 	m_pFillDrawContext->ActivateQuad();
 	m_pFillDrawContext->ActivateProjectionTransform(m_projectionTransform);
 
-	if (m_pDrawJointsMenuItem->GetValue())
+	if (m_drawJointsMenuItem.GetValue())
 	{
 		// joints
 		for (u32 jointIndex = 0; jointIndex < m_pFigureInstance->GetJointCount(); ++jointIndex)
@@ -308,14 +260,14 @@ void SpriteViewerMode::Draw()
 	lct::foun::Matrix32 menuWorldTransform;
 	lct::foun::Matrix32Translate(menuWorldTransform, screenEdges.left + MENU_OFFSET_X, screenEdges.top + MENU_OFFSET_Y);
 	m_pFillDrawContext->ActivateWorldTransform(menuWorldTransform);
-	m_pMenu->DrawFill(m_pFillDrawContext);
+	m_menu.DrawFill(m_pFillDrawContext);
 
 	m_pFontDrawContext->ActivateRenderState();
 	m_pFontDrawContext->ActivateShader();
 	m_pFontDrawContext->ActivateProjectionTransform(m_projectionTransform);
 	m_pFontDrawContext->ActivateWorldTransform(menuWorldTransform);
 
-	lct::font::SymbolBuffer& symbolBuffer = m_pSymbolBufferArray[m_currSymbolBufferIndex];
+	lct::font::SymbolBuffer& symbolBuffer = m_symbolBufferArray[m_currSymbolBufferIndex];
 	if (symbolBuffer.GetQuadCount() > 0)
 	{
 		m_pFontDrawContext->ActivateSymbolBuffer(symbolBuffer);
@@ -331,10 +283,9 @@ void SpriteViewerMode::BuildMenu()
 {
 	lct::font::SheetAsset* pSheetAsset = m_pFontAssetContainer->FindSheetAsset("example_sheet");
 
-	m_pSymbolBufferArray = m_pAllocator->AllocTypeArray<lct::font::SymbolBuffer>(SYMBOL_BUFFER_COUNT);
 	for (u32 bufferIndex = 0; bufferIndex < SYMBOL_BUFFER_COUNT; ++bufferIndex)
 	{
-		lct::font::SymbolBuffer& symbolBuffer = m_pSymbolBufferArray[bufferIndex];
+		lct::font::SymbolBuffer& symbolBuffer = m_symbolBufferArray[bufferIndex];
 		symbolBuffer.SetAllocator(m_pAllocator);
 		symbolBuffer.SetResourceHandler(m_pFontResourceHandler);
 		symbolBuffer.SetSheetAsset(pSheetAsset);
@@ -342,87 +293,78 @@ void SpriteViewerMode::BuildMenu()
 	}
 	m_currSymbolBufferIndex = 0;
 
-	m_pSymbolWriter = m_pAllocator->AllocType<lct::font::SymbolWriter>();
-
 	m_animationCycleCallback.Bind(this, &SpriteViewerMode::OnAnimationCycle);
 	m_stepCycleCallback.Bind(this, &SpriteViewerMode::OnStepCycle);
 	m_frameCycleCallback.Bind(this, &SpriteViewerMode::OnFrameCycle);
 	m_reloadTriggerCallback.Bind(this, &SpriteViewerMode::OnReloadTrigger);
 
-	u32 animationNameCount = m_pSpriteAssetContainer->GetAnimationCount() + 1;
+	u32 animationNameCount = m_spriteAssetContainer.GetAnimationCount() + 1;
 	m_pAnimationNameArray = m_pAllocator->AllocTypeArray<const char*>(animationNameCount);
 	m_pAnimationNameArray[0] = "<NONE>";
-	lct::spri::AssetContainer::AnimationIterator animationIterator = m_pSpriteAssetContainer->GetAnimationIterator();
+	lct::spri::AssetContainer::AnimationIterator animationIterator = m_spriteAssetContainer.GetAnimationIterator();
 	for (u32 animationNameIndex = 1; animationNameIndex < animationNameCount; ++animationNameIndex)
 	{
 		m_pAnimationNameArray[animationNameIndex] = animationIterator.GetKey().GetString();
 		animationIterator.Next();
 	}
 
-	m_pMenu = m_pAllocator->AllocType<lct::test::Menu>();
-	m_pMenu->SetSpacing(pSheetAsset->pSheetData->lineHeight * 2.0f);
+	m_menu.SetSpacing(pSheetAsset->pSheetData->lineHeight * 2.0f);
 	{
 		lct::test::ActionMenuItem* pItem = m_pAllocator->AllocType<lct::test::ActionMenuItem>();
 		pItem->SetLabel("Figure");
-		m_pMenu->AddItem(pItem);
+		m_menu.AddItem(pItem);
 	}
 	{
-		m_pAnimationMenuItem = m_pAllocator->AllocType<lct::test::StringArrayMenuItem>();
-		m_pAnimationMenuItem->SetLabel("Animation");
-		m_pAnimationMenuItem->SetOffsets(MENU_ITEM_MIDDLE_OFFSET_X, MENU_ITEM_LEFT_OFFSET_X, MENU_ITEM_RIGHT_OFFSET_X);
-		m_pAnimationMenuItem->SetStringArray(m_pAnimationNameArray);
-		m_pAnimationMenuItem->SetCount(animationNameCount);
-		m_pAnimationMenuItem->SetIndex(0);
-		m_pAnimationMenuItem->SetCallback(&m_animationCycleCallback);
-		m_pMenu->AddItem(m_pAnimationMenuItem);
+		m_animationMenuItem.SetLabel("Animation");
+		m_animationMenuItem.SetOffsets(MENU_ITEM_MIDDLE_OFFSET_X, MENU_ITEM_LEFT_OFFSET_X, MENU_ITEM_RIGHT_OFFSET_X);
+		m_animationMenuItem.SetStringArray(m_pAnimationNameArray);
+		m_animationMenuItem.SetCount(animationNameCount);
+		m_animationMenuItem.SetIndex(0);
+		m_animationMenuItem.SetCallback(&m_animationCycleCallback);
+		m_menu.AddItem(&m_animationMenuItem);
 	}
 	{
-		m_pPlayMenuItem = m_pAllocator->AllocType<lct::test::StringArrayMenuItem>();
-		m_pPlayMenuItem->SetLabel("Play");
-		m_pPlayMenuItem->SetOffsets(MENU_ITEM_MIDDLE_OFFSET_X, MENU_ITEM_LEFT_OFFSET_X, MENU_ITEM_RIGHT_OFFSET_X);
-		m_pPlayMenuItem->SetStringArray(PLAY_TYPE_STRING_ARRAY);
-		m_pPlayMenuItem->SetCount(PLAY_TYPE_COUNT);
-		m_pPlayMenuItem->SetIndex(0);
-		m_pMenu->AddItem(m_pPlayMenuItem);
+		m_playMenuItem.SetLabel("Play");
+		m_playMenuItem.SetOffsets(MENU_ITEM_MIDDLE_OFFSET_X, MENU_ITEM_LEFT_OFFSET_X, MENU_ITEM_RIGHT_OFFSET_X);
+		m_playMenuItem.SetStringArray(PLAY_TYPE_STRING_ARRAY);
+		m_playMenuItem.SetCount(PLAY_TYPE_COUNT);
+		m_playMenuItem.SetIndex(0);
+		m_menu.AddItem(&m_playMenuItem);
 	}
 	{
-		m_pStepMenuItem = m_pAllocator->AllocType<lct::test::FloatRangeMenuItem>();
-		m_pStepMenuItem->SetLabel("Step");
-		m_pStepMenuItem->SetOffsets(MENU_ITEM_MIDDLE_OFFSET_X, MENU_ITEM_LEFT_OFFSET_X, MENU_ITEM_RIGHT_OFFSET_X);
-		m_pStepMenuItem->SetMin(0.0f);
-		m_pStepMenuItem->SetMax(8.0f);
-		m_pStepMenuItem->SetStep(0.25f);
-		m_pStepMenuItem->SetValue(1.0f);
-		m_pStepMenuItem->SetCallback(&m_stepCycleCallback);
-		m_pMenu->AddItem(m_pStepMenuItem);
+		m_stepMenuItem.SetLabel("Step");
+		m_stepMenuItem.SetOffsets(MENU_ITEM_MIDDLE_OFFSET_X, MENU_ITEM_LEFT_OFFSET_X, MENU_ITEM_RIGHT_OFFSET_X);
+		m_stepMenuItem.SetMin(0.0f);
+		m_stepMenuItem.SetMax(8.0f);
+		m_stepMenuItem.SetStep(0.25f);
+		m_stepMenuItem.SetValue(1.0f);
+		m_stepMenuItem.SetCallback(&m_stepCycleCallback);
+		m_menu.AddItem(&m_stepMenuItem);
 	}
 	{
-		m_pFrameMenuItem = m_pAllocator->AllocType<lct::test::FloatRangeMenuItem>();
-		m_pFrameMenuItem->SetLabel("Frame");
-		m_pFrameMenuItem->SetOffsets(MENU_ITEM_MIDDLE_OFFSET_X, MENU_ITEM_LEFT_OFFSET_X, MENU_ITEM_RIGHT_OFFSET_X);
-		m_pFrameMenuItem->SetWrap(true);
-		m_pFrameMenuItem->SetMin(0.0f);
-		m_pFrameMenuItem->SetMax(0.0f);
-		m_pFrameMenuItem->SetStep(1.0f);
-		m_pFrameMenuItem->SetValue(0.0f);
-		m_pFrameMenuItem->SetCallback(&m_frameCycleCallback);
-		m_pMenu->AddItem(m_pFrameMenuItem);
+		m_frameMenuItem.SetLabel("Frame");
+		m_frameMenuItem.SetOffsets(MENU_ITEM_MIDDLE_OFFSET_X, MENU_ITEM_LEFT_OFFSET_X, MENU_ITEM_RIGHT_OFFSET_X);
+		m_frameMenuItem.SetWrap(true);
+		m_frameMenuItem.SetMin(0.0f);
+		m_frameMenuItem.SetMax(0.0f);
+		m_frameMenuItem.SetStep(1.0f);
+		m_frameMenuItem.SetValue(0.0f);
+		m_frameMenuItem.SetCallback(&m_frameCycleCallback);
+		m_menu.AddItem(&m_frameMenuItem);
 	}
 	{
-		m_pDrawJointsMenuItem = m_pAllocator->AllocType<lct::test::BoolMenuItem>();
-		m_pDrawJointsMenuItem->SetLabel("Draw Joints");
-		m_pDrawJointsMenuItem->SetOffsets(MENU_ITEM_MIDDLE_OFFSET_X, MENU_ITEM_LEFT_OFFSET_X, MENU_ITEM_RIGHT_OFFSET_X);
-		m_pDrawJointsMenuItem->SetValue(false);
-		m_pMenu->AddItem(m_pDrawJointsMenuItem);
+		m_drawJointsMenuItem.SetLabel("Draw Joints");
+		m_drawJointsMenuItem.SetOffsets(MENU_ITEM_MIDDLE_OFFSET_X, MENU_ITEM_LEFT_OFFSET_X, MENU_ITEM_RIGHT_OFFSET_X);
+		m_drawJointsMenuItem.SetValue(false);
+		m_menu.AddItem(&m_drawJointsMenuItem);
 	}
 	{
-		m_pReloadMenuItem = m_pAllocator->AllocType<lct::test::ActionMenuItem>();
-		m_pReloadMenuItem->SetLabel("Reload");
-		m_pReloadMenuItem->SetOffsets(MENU_ITEM_MIDDLE_OFFSET_X);
-		m_pReloadMenuItem->SetCallback(&m_reloadTriggerCallback);
-		m_pMenu->AddItem(m_pReloadMenuItem);
+		m_reloadMenuItem.SetLabel("Reload");
+		m_reloadMenuItem.SetOffsets(MENU_ITEM_MIDDLE_OFFSET_X);
+		m_reloadMenuItem.SetCallback(&m_reloadTriggerCallback);
+		m_menu.AddItem(&m_reloadMenuItem);
 	}
-	m_pMenu->Arrange();
+	m_menu.Arrange();
 }
 
 void SpriteViewerMode::LoadAssets()
@@ -433,14 +375,14 @@ void SpriteViewerMode::LoadAssets()
 	lct::util::BinaryReader binaryReader;
 	binaryReader.SetMemory(m_pAssetBinary, fileSize);
 	lct::pack::PackageWalker packageWalker;
-	packageWalker.AddAssetHandler(m_pSpriteAssetProcessor);
-	packageWalker.AddAssetHandler(m_pImageAssetProcessor);
+	packageWalker.AddAssetHandler(&m_spriteAssetProcessor);
+	packageWalker.AddAssetHandler(&m_imageAssetProcessor);
 
 	packageWalker.LoadAllAssets(binaryReader);
 
-	m_pSpriteAssetProcessor->FixupAllAssets(*m_pImageAssetContainer);
+	m_spriteAssetProcessor.FixupAllAssets(m_imageAssetContainer);
 
-	m_pFigureAsset = m_pSpriteAssetContainer->GetFigureIterator().GetValue();
+	m_pFigureAsset = m_spriteAssetContainer.GetFigureIterator().GetValue();
 }
 
 void SpriteViewerMode::BuildBindings()
@@ -450,7 +392,7 @@ void SpriteViewerMode::BuildBindings()
 
 void SpriteViewerMode::BuildInstances()
 {
-	m_pFigureInstance = m_pInstanceBuilder->CreateFigureInstance(*m_pFigureAsset);
+	m_pFigureInstance = m_instanceBuilder.CreateFigureInstance(*m_pFigureAsset);
 
 	/*m_pAnimationInstance = m_pInstanceBuilder->CreateAnimationInstance(m_pAnimationAsset->pAnimationData->trackCount);
 	m_pAnimationInstance->BindFigureInstance(*m_pFigureInstance);
@@ -470,18 +412,18 @@ void SpriteViewerMode::BuildAnimation(const char* pName)
 	m_animationAllocator.Clear();
 
 	// find the specified asset
-	m_pAnimationAsset = m_pSpriteAssetContainer->FindAnimationAsset(pName);
+	m_pAnimationAsset = m_spriteAssetContainer.FindAnimationAsset(pName);
 
 	f32 frameMax = 0.0f;
 	if (m_pAnimationAsset != NULL)
 	{
 		// create the binding
-		m_pBindingBuilder->SetAllocator(&m_animationAllocator);
-		m_pAnimationFigureBinding = m_pBindingBuilder->CreateAnimationFigureBinding(*m_pAnimationAsset, *m_pFigureAsset);
+		m_bindingBuilder.SetAllocator(&m_animationAllocator);
+		m_pAnimationFigureBinding = m_bindingBuilder.CreateAnimationFigureBinding(*m_pAnimationAsset, *m_pFigureAsset);
 
 		// create the instance and bind to the figure
-		m_pInstanceBuilder->SetAllocator(&m_animationAllocator);
-		m_pAnimationInstance = m_pInstanceBuilder->CreateAnimationInstance(m_pAnimationAsset->pAnimationData->trackCount);
+		m_instanceBuilder.SetAllocator(&m_animationAllocator);
+		m_pAnimationInstance = m_instanceBuilder.CreateAnimationInstance(m_pAnimationAsset->pAnimationData->trackCount);
 		m_pAnimationInstance->BindFigureInstance(*m_pFigureInstance);
 		m_pAnimationInstance->BindAnimationAsset(*m_pAnimationAsset, *m_pAnimationFigureBinding);
 
@@ -489,8 +431,8 @@ void SpriteViewerMode::BuildAnimation(const char* pName)
 	}
 
 	// update dependent menu items
-	m_pFrameMenuItem->SetMax(frameMax);
-	m_pFrameMenuItem->SetValue(0.0f);
+	m_frameMenuItem.SetMax(frameMax);
+	m_frameMenuItem.SetValue(0.0f);
 }
 
 int SpriteViewerMode::OnAnimationCycle(int parameter)
@@ -504,18 +446,18 @@ int SpriteViewerMode::OnAnimationCycle(int parameter)
 int SpriteViewerMode::OnStepCycle(float parameter)
 {
 	// update dependent menu items
-	f32 stepValue = m_pStepMenuItem->GetValue();
-	m_pFrameMenuItem->SetStep(stepValue);
+	f32 stepValue = m_stepMenuItem.GetValue();
+	m_frameMenuItem.SetStep(stepValue);
 
 	return 0;
 }
 
 int SpriteViewerMode::OnFrameCycle(float parameter)
 {
-	PlayType playType = static_cast<PlayType>(m_pPlayMenuItem->GetIndex());
+	PlayType playType = static_cast<PlayType>(m_playMenuItem.GetIndex());
 	if (playType == PLAY_TYPE_MANUAL)
 	{
-		f32 frameValue = m_pFrameMenuItem->GetValue();
+		f32 frameValue = m_frameMenuItem.GetValue();
 		m_pAnimationInstance->ForceFrameOnTracks(frameValue);
 	}
 

@@ -18,8 +18,9 @@ static const lct::foun::FloatColor DEFAULT_CLEAR_COLOR = { 0.0f, 0.0f, 0.0f, 1.0
 Mode::Mode()
 : m_pAllocator(NULL)
 , m_pProgramMessageQueue(NULL)
-, m_finished(false)
 , m_pScreen(NULL)
+
+, m_finished(false)
 , m_clearColor(DEFAULT_CLEAR_COLOR)
 {
 }

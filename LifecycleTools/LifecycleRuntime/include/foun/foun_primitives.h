@@ -12,7 +12,7 @@ typedef signed int s32;
 typedef float f32;
 typedef double f64;
 
-#if defined(WIN32)
+#if defined(LCT_WINDOWS)
 typedef wchar_t c16;
 #else
 typedef char16_t c16;

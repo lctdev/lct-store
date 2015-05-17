@@ -1,41 +1,24 @@
 #ifndef ASSET_VIEWER_MODE_H
 #define ASSET_VIEWER_MODE_H
 
+#include <foun/foun_debug.h>
+
+#include <file/file_accessor.h>
+
+#include <inpu/inpu_cursor.h>
+
+#include <imag/imag_resourceHandler.h>
+
+#include <fill/fill_drawContext.h>
+
+#include <font/font_resourceHandler.h>
+#include <font/font_assetContainer.h>
+#include <font/font_drawContext.h>
+
+#include <spri/spri_drawContext.h>
+
 #include <fram/fram_mode.h>
 
-namespace lct
-{
-namespace file
-{
-	class Accessor;
-}
-namespace inpu
-{
-	class Cursor;
-}
-namespace imag
-{
-	class ResourceHandler;
-}
-namespace fill
-{
-	class DrawContext;
-}
-namespace font
-{
-	class AssetContainer;
-	class ResourceHandler;
-	class DrawContext;
-}
-namespace spri
-{
-	class DrawContext;
-}
-namespace test
-{
-	class Menu;
-}
-}
 
 class AssetViewerMode : public lct::fram::Mode
 {
@@ -58,6 +41,7 @@ public:
 	virtual void ReleaseGraphics();
 
 protected:
+	// shared
 	lct::file::Accessor* m_pAccessor;
 
 	lct::inpu::Cursor* m_pCursor;

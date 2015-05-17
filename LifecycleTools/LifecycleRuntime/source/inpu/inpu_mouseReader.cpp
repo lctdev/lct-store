@@ -3,7 +3,7 @@
 
 #include <foun/foun_platform.h>
 
-#if defined(WIN32)
+#if defined(LCT_WINDOWS)
 #include <windowsx.h>
 #endif
 
@@ -34,7 +34,7 @@ void MouseReader::PrepareValues()
 
 bool MouseReader::HandlePlatformMessage(const foun::PlatformMessage& platformMessage)
 {
-#if defined(WIN32)
+#if defined(LCT_WINDOWS)
 	switch (platformMessage.message)
 	{
 	case WM_MOUSEMOVE:
@@ -67,7 +67,7 @@ bool MouseReader::HandlePlatformMessage(const foun::PlatformMessage& platformMes
 		return false;
 	}
 	}
-#elif defined(__APPLE__)
+#elif defined(LCT_OSX)
     if (IsMouseDownEvent(platformMessage.nsEvent))
 	{
 		m_x = GetXParam(platformMessage.nsEvent);
