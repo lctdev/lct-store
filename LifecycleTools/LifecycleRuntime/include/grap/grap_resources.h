@@ -1,5 +1,5 @@
-#ifndef SHAD_RESOURCES_H
-#define SHAD_RESOURCES_H
+#ifndef GRAP_RESOURCES_H
+#define GRAP_RESOURCES_H
 
 #include <foun/foun_primitives.h>
 
@@ -11,18 +11,14 @@
 
 namespace lct
 {
-namespace shad
+namespace grap
 {
 
-#if defined(LCT_WINDOWS) || defined(LCT_ANDROID) || defined(LCT_OSX)
+struct AttributeData;
+
 struct UniformResource
 {
 	GLint uniformLocation;
-};
-
-struct AttributeResource
-{
-	GLuint offset;
 };
 
 struct ShaderResource
@@ -31,11 +27,23 @@ struct ShaderResource
 	GLuint hFragmentShader;
 	GLuint hShaderProgram;
 };
-#endif
 
-//namespace shad
+struct VertexResource
+{
+	GLuint hVertexBuffer;
+	u32 vertexStride;
+	AttributeData* pAttributeDataArray;
+	u32 attributeCount;
+};
+
+struct IndexResource
+{
+	GLuint hIndexBuffer;
+};
+
+//namespace grap
 }
 //namespace lct
 }
 
-#endif//SHAD_RESOURCES_H
+#endif//GRAP_RESOURCES_H

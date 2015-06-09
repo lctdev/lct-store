@@ -5,21 +5,25 @@
 #include <foun/foun_allocator.h>
 #include <foun/foun_matrix.h>
 
+#include <grap/grap_parameters.h>
+
 namespace lct
 {
-namespace shad
+namespace grap
 {
-class ResourceHandler;
+class Device;
 struct ShaderResource;
-struct AttributeResource;
 struct UniformResource;
+struct VertexResource;
+struct IndexResource;
+struct ShaderResourceParameters;
+struct VertexResourceParameters;
 }
 
 namespace font
 {
 
 struct VertexData;
-struct QuadResource;
 class SymbolBuffer;
 
 class DrawContext
@@ -28,7 +32,7 @@ public:
 	DrawContext();
 
 	void SetAllocator(foun::Allocator* pAllocator);
-	void SetShaderResourceHandler(shad::ResourceHandler* pShaderResourceHandler);
+	void SetGraphicsDevice(grap::Device* pGraphicsDevice);
 	void SetShaderBinaries(void* pVertexShaderBinary, void* pFragmentShaderBinary);
 
 	void CreateResources();
@@ -44,19 +48,20 @@ public:
 	void DrawSymbolBuffer(SymbolBuffer& symbolBuffer);
 
 protected:
+	void FillShaderResourceParameters(grap::ShaderResourceParameters& shaderResourceParameters);
+	void FillVertexResourceParameters(grap::VertexResourceParameters& vertexResourceParameters);
+
 	foun::Allocator* m_pAllocator;
 
-	void AcquireUniformResource(shad::UniformResource* pUniformResource, const char* pName);
+	grap::Device* m_pGraphicsDevice;
 
-	shad::ResourceHandler* m_pShaderResourceHandler;
 	void* m_pVertexShaderBinary;
 	void* m_pFragmentShaderBinary;
-	shad::ShaderResource* m_pShaderResource;
-	shad::AttributeResource* m_pAttributeResourceArray;
-	shad::UniformResource* m_pProjectionTransformUniformResource;
-	shad::UniformResource* m_pWorldTransformUniformResource;
-	shad::UniformResource* m_pModulateColorUniformResource;
-	shad::UniformResource* m_pTextureUniformResource;
+	grap::ShaderResource* m_pShaderResource;
+	grap::UniformResource* m_pUniformResourceArray;
+
+	grap::VertexResource* m_pQuadVertexResource;
+	grap::IndexResource* m_pQuadIndexResource;
 };
 
 //namespace spri

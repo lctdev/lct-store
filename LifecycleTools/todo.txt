@@ -1,3 +1,7 @@
-- GLEW, and any other external libraries, should be put into a new folder called “Prebuilt”, under LifecycleTools.
+﻿- GLEW, and any other external libraries, should be put into a new folder called “Prebuilt”, under LifecycleTools. : [DONE]
 
 - replace all “WIN32/__APPLE_/…” define checks with “LCT_…” equivalents
+
+- Move all "debug menu" related resources ( font buffers, graphics device, etc. ) into the Menu class for easier re-use
+
+- Start using the "Services" struct convention for passing shared pointers around at the application level ( ie: not LCT )

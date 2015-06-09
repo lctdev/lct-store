@@ -29,6 +29,15 @@ enum VerticalAlign
 	VERTICAL_ALIGN_MIDDLE
 };
 
+enum Uniform
+{
+	UNIFORM_WORLD_TRANSFORM = 0,
+	UNIFORM_PROJECTION_TRANSFORM,
+	UNIFORM_MODULATE_COLOR,
+	UNIFORM_TEXTURE,
+	UNIFORM_COUNT
+};
+
 //namespace font
 }
 //namespace lct

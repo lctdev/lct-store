@@ -1,12 +1,13 @@
 #include <spri/spri_drawContext.h>
 #include <spri/spri_data.h>
-#include <spri/spri_resources.h>
 #include <spri/spri_figureInstance.h>
 #include <spri/spri_constants.h>
+#include <spri/spri_arrays.h>
 
-#include <shad/shad_resourceHandler.h>
-#include <shad/shad_data.h>
-#include <shad/shad_resources.h>
+#include <grap/grap_device.h>
+#include <grap/grap_data.h>
+#include <grap/grap_resources.h>
+#include <grap/grap_parameters.h>
 
 #include <imag/imag_resources.h>
 
@@ -24,51 +25,19 @@ namespace spri
 /*
  * Internal Constants
  */
-static const u32 ATTRIBUTE_COUNT = 2;
-static shad::AttributeData ATTRIBUTE_DATA_ARRAY[ATTRIBUTE_COUNT] =
-{
-	{ "attr_position", 3 },
-	{ "attr_texCoord", 2 }
-};
-
-static const u32 QUAD_VERTEX_COUNT = 4;
-static VertexData QUAD_VERTEX_DATA_ARRAY[QUAD_VERTEX_COUNT] =
-{
-	{ -0.5f, -0.5f, 0.0f, 0.0f, 0.0f },
-	{ 0.5f, -0.5f, 0.0f, 1.0f, 0.0f },
-	{ 0.5f, 0.5f, 0.0f, 1.0f, 1.0f },
-	{ -0.5f, 0.5f, 0.0f, 0.0f, 1.0f }
-};
-
-static const u32 QUAD_INDEX_COUNT = 6;
-static IndexData QUAD_INDEX_DATA_ARRAY[QUAD_INDEX_COUNT] =
-{
-	0,
-	1,
-	2,
-	2,
-	3,
-	0
-};
 
 /*
  * Public Instance
  */
 DrawContext::DrawContext()
 : m_pAllocator(NULL)
-, m_pShaderResourceHandler(NULL)
+, m_pGraphicsDevice(NULL)
+, m_pShaderResource(NULL)
+, m_pUniformResourceArray(NULL)
 , m_pVertexShaderBinary(NULL)
 , m_pFragmentShaderBinary(NULL)
-, m_pShaderResource(NULL)
-, m_pAttributeResourceArray(NULL)
-, m_pPlacementUniformResource(NULL)
-, m_pJointTransformUniformResource(NULL)
-, m_pWorldTransformUniformResource(NULL)
-, m_pProjectionTransformUniformResource(NULL)
-, m_pModulateColorUniformResource(NULL)
-, m_pInterpolateColorUniformResource(NULL)
-, m_pTextureUniformResource(NULL)
-, m_pQuadResource(NULL)
+, m_pQuadVertexResource(NULL)
+, m_pQuadIndexResource(NULL)
 {
 }
 
@@ -77,91 +46,52 @@ void DrawContext::SetAllocator(lct::foun::Allocator* pAllocator)
 	m_pAllocator = pAllocator;
 }
 
-void DrawContext::SetShaderResourceHandler(shad::ResourceHandler* pShaderResourceHandler)
+void DrawContext::SetGraphicsDevice(grap::Device* pGraphicsDevice)
 {
-	m_pShaderResourceHandler = pShaderResourceHandler;
+	m_pGraphicsDevice = pGraphicsDevice;
 }
 
 void DrawContext::SetShaderBinaries(void* pVertexShaderBinary, void* pFragmentShaderBinary)
-{
-	m_pVertexShaderBinary =  pVertexShaderBinary;
+{ 
+	m_pVertexShaderBinary = pVertexShaderBinary;
 	m_pFragmentShaderBinary = pFragmentShaderBinary;
 }
 
 void DrawContext::CreateResources()
 {
-	m_pShaderResource = m_pAllocator->AllocType<shad::ShaderResource>();
+	m_pShaderResource = m_pAllocator->AllocType<grap::ShaderResource>();
+	m_pUniformResourceArray = m_pAllocator->AllocTypeArray<grap::UniformResource>(UNIFORM_COUNT);
 
-	m_pAttributeResourceArray = m_pAllocator->AllocTypeArray<shad::AttributeResource>(ATTRIBUTE_COUNT);
-
-	m_pPlacementUniformResource = m_pAllocator->AllocType<shad::UniformResource>();
-	m_pJointTransformUniformResource = m_pAllocator->AllocType<shad::UniformResource>();
-	m_pWorldTransformUniformResource = m_pAllocator->AllocType<shad::UniformResource>();
-	m_pProjectionTransformUniformResource = m_pAllocator->AllocType<shad::UniformResource>();
-	m_pModulateColorUniformResource = m_pAllocator->AllocType<shad::UniformResource>();
-	m_pInterpolateColorUniformResource = m_pAllocator->AllocType<shad::UniformResource>();
-	m_pTextureUniformResource = m_pAllocator->AllocType<shad::UniformResource>();
-
-	m_pQuadResource = m_pAllocator->AllocType<QuadResource>();
+	m_pQuadVertexResource = m_pAllocator->AllocType<grap::VertexResource>();
+	m_pQuadIndexResource = m_pAllocator->AllocType<grap::IndexResource>();
 }
 
 void DrawContext::AcquireResources()
 {
 	LCT_TRACE("spri::DrawContext::Acquireresources\n");
 
-	shad::ShaderData shaderData;
-	shaderData.vertexShaderSize = 0; // TEMP?
-	shaderData.fragmentShaderSize = 0;
-	shaderData.attributeCount = ATTRIBUTE_COUNT;
-	m_pShaderResourceHandler->AcquireShaderResources(m_pShaderResource, &shaderData, m_pVertexShaderBinary, m_pFragmentShaderBinary,
-			m_pAttributeResourceArray, ATTRIBUTE_DATA_ARRAY);
+	grap::ShaderResourceParameters shaderResourceParameters;
+	FillShaderResourceParameters(shaderResourceParameters);
+	m_pGraphicsDevice->AcquireShaderResources(shaderResourceParameters);
 
-	AcquireUniformResource(m_pPlacementUniformResource, "unif_placement");
-	AcquireUniformResource(m_pJointTransformUniformResource, "unif_jointTransform");
-	AcquireUniformResource(m_pWorldTransformUniformResource, "unif_worldTransform");
-	AcquireUniformResource(m_pProjectionTransformUniformResource, "unif_projectionTransform");
-	AcquireUniformResource(m_pModulateColorUniformResource, "unif_modulateColor");
-	AcquireUniformResource(m_pInterpolateColorUniformResource, "unif_interpolateColor");
-	AcquireUniformResource(m_pTextureUniformResource, "unif_texture");
-
-	glGenBuffers(1, &m_pQuadResource->hVertexBuffer);
-	glBindBuffer(GL_ARRAY_BUFFER, m_pQuadResource->hVertexBuffer);
-	u32 vertexDataSize = sizeof(QUAD_VERTEX_DATA_ARRAY);
-	glBufferData(GL_ARRAY_BUFFER, vertexDataSize, QUAD_VERTEX_DATA_ARRAY, GL_STATIC_DRAW);
-
-	glGenBuffers(1, &m_pQuadResource->hIndexBuffer);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_pQuadResource->hIndexBuffer);
-	u32 indexDataSize = sizeof(QUAD_INDEX_DATA_ARRAY);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexDataSize, QUAD_INDEX_DATA_ARRAY, GL_STATIC_DRAW);
-
-	FOUN_TRACE_GL_ERROR();
+	grap::VertexResourceParameters vertexResourceParameters;
+	grap::IndexResourceParameters indexResourceParameters;
+	FillQuadResourceParameters(vertexResourceParameters, indexResourceParameters);
+	m_pGraphicsDevice->AcquireVertexResource(vertexResourceParameters);
+	m_pGraphicsDevice->AcquireIndexResource(indexResourceParameters);
 }
 
 void DrawContext::ReleaseResources()
 {
-	shad::ShaderData shaderData;
-	shaderData.vertexShaderSize = 0; // TEMP?
-	shaderData.fragmentShaderSize = 0;
-	shaderData.attributeCount = ATTRIBUTE_COUNT;
-	m_pShaderResourceHandler->ReleaseShaderResources(m_pShaderResource, &shaderData, m_pAttributeResourceArray);
+	grap::ShaderResourceParameters shaderResourceParameters;
+	FillShaderResourceParameters(shaderResourceParameters);
+	m_pGraphicsDevice->ReleaseShaderResources(shaderResourceParameters);
 
-	m_pShaderResourceHandler->ReleaseUniformResource(m_pPlacementUniformResource);
-	m_pShaderResourceHandler->ReleaseUniformResource(m_pJointTransformUniformResource);
-	m_pShaderResourceHandler->ReleaseUniformResource(m_pWorldTransformUniformResource);
-	m_pShaderResourceHandler->ReleaseUniformResource(m_pProjectionTransformUniformResource);
-	m_pShaderResourceHandler->ReleaseUniformResource(m_pModulateColorUniformResource);
-	m_pShaderResourceHandler->ReleaseUniformResource(m_pInterpolateColorUniformResource);
-	m_pShaderResourceHandler->ReleaseUniformResource(m_pTextureUniformResource);
-
-	glDeleteBuffers(1, &m_pQuadResource->hVertexBuffer);
-
-	m_pQuadResource->hVertexBuffer = 0;
-
-	glDeleteBuffers(1, &m_pQuadResource->hIndexBuffer);
-
-	m_pQuadResource->hIndexBuffer = 0;
-
-	FOUN_TRACE_GL_ERROR();
+	grap::VertexResourceParameters vertexResourceParameters;
+	grap::IndexResourceParameters indexResourceParameters;
+	FillQuadResourceParameters(vertexResourceParameters, indexResourceParameters);
+	m_pGraphicsDevice->ReleaseVertexResource(vertexResourceParameters);
+	m_pGraphicsDevice->ReleaseIndexResource(indexResourceParameters);
 }
 
 void DrawContext::ActivateRenderState()
@@ -174,42 +104,30 @@ void DrawContext::ActivateRenderState()
 
 void DrawContext::ActivateShader()
 {
-	glUseProgram(m_pShaderResource->hShaderProgram);
-
-	FOUN_TRACE_GL_ERROR();
+	m_pGraphicsDevice->ActivateShader(m_pShaderResource);
 }
 
 void DrawContext::ActivateQuad()
 {
-	glBindBuffer(GL_ARRAY_BUFFER, m_pQuadResource->hVertexBuffer);
+	m_pGraphicsDevice->ActivateVertex(m_pQuadVertexResource);
 
-	for (u32 attributeIndex = 0; attributeIndex < ATTRIBUTE_COUNT; ++attributeIndex)
-	{
-		const shad::AttributeData* pAttributeData = ATTRIBUTE_DATA_ARRAY + attributeIndex;
-		shad::AttributeResource* pAttributeResource = m_pAttributeResourceArray + attributeIndex;
-		glVertexAttribPointer(attributeIndex, pAttributeData->componentCount, GL_FLOAT, GL_FALSE, sizeof(VertexData), (GLvoid*)pAttributeResource->offset);
-		glEnableVertexAttribArray(attributeIndex);
-	}
-
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_pQuadResource->hIndexBuffer);
-
-	FOUN_TRACE_GL_ERROR();
+	m_pGraphicsDevice->ActivateIndex(m_pQuadIndexResource);
 }
 
 void DrawContext::ActivateProjectionTransform(const foun::Matrix44& projectionTransform)
 {
-	glUniformMatrix4fv(m_pProjectionTransformUniformResource->uniformLocation, 1, false, (GLfloat*)&projectionTransform);
+	const grap::UniformResource* pProjectionTransformUniformResource = m_pUniformResourceArray + UNIFORM_PROJECTION_TRANSFORM;
 
-	FOUN_TRACE_GL_ERROR();
+	m_pGraphicsDevice->ActivateUniform(pProjectionTransformUniformResource, projectionTransform);
 }
 
 void DrawContext::ActivateWorldTransform(const foun::Matrix32& worldTransform)
 {
 	foun::Matrix33 tempWorldMatrix;
 	foun::Matrix33FromMatrix32(tempWorldMatrix, worldTransform);
-	glUniformMatrix3fv(m_pWorldTransformUniformResource->uniformLocation, 1, false, (GLfloat*)&tempWorldMatrix);
+	const grap::UniformResource* pWorldTransformUniformResource = m_pUniformResourceArray + UNIFORM_WORLD_TRANSFORM;
 
-	FOUN_TRACE_GL_ERROR();
+	m_pGraphicsDevice->ActivateUniform(pWorldTransformUniformResource, tempWorldMatrix);	
 }
 
 void DrawContext::DrawFigure(FigureInstance& figureInstance)
@@ -218,6 +136,12 @@ void DrawContext::DrawFigure(FigureInstance& figureInstance)
 	FigureInstance::Part* pPartArray = figureInstance.m_pPartArray;
 	FigureInstance::Joint* pJointArray = figureInstance.m_pJointArray;
 	FigureInstance::Pattern* pPatternArray = figureInstance.m_pPatternArray;
+	const grap::UniformResource* pJointTransformUniformResource = m_pUniformResourceArray + UNIFORM_JOINT_TRANSFORM;
+	const grap::UniformResource* pPlacementUniformResource = m_pUniformResourceArray + UNIFORM_PLACEMENT;
+	const grap::UniformResource* pModulateColorUniformResource = m_pUniformResourceArray + UNIFORM_MODULATE_COLOR;
+	const grap::UniformResource* pInterpolateColorUniformResource = m_pUniformResourceArray + UNIFORM_INTERPOLATE_COLOR;
+	const grap::UniformResource* pTextureUniformResource = m_pUniformResourceArray + UNIFORM_TEXTURE;
+
 	for (u32 partIndex = 0; partIndex < figureInstance.m_partCount; ++partIndex)
 	{
 		FigureInstance::Part& part = pPartArray[partIndex];
@@ -225,19 +149,18 @@ void DrawContext::DrawFigure(FigureInstance& figureInstance)
 		FigureInstance::Pattern& pattern = pPatternArray[part.pPartData->patternIndex];
 
 		foun::Matrix33FromMatrix32(tempJointMatrix, joint.transform);
-		f32* pModulateColor = part.propertyArray + PART_PROPERTY_TYPE_MODULATE_COLOR_R;
-		f32* pInterpolateColor = part.propertyArray + PART_PROPERTY_TYPE_INTERPOLATE_COLOR_R;
+		foun::FloatColor& modulateColor = (foun::FloatColor&)part.propertyArray[PART_PROPERTY_TYPE_MODULATE_COLOR_R];
+		foun::FloatColor& interpolateColor = (foun::FloatColor&)part.propertyArray[PART_PROPERTY_TYPE_INTERPOLATE_COLOR_R];		
 
-		glUniformMatrix3fv(m_pJointTransformUniformResource->uniformLocation, 1, false, (GLfloat*)&tempJointMatrix);
-		glUniform4fv(m_pPlacementUniformResource->uniformLocation, 1, (GLfloat*)&part.placement);
-		glUniform4fv(m_pModulateColorUniformResource->uniformLocation, 1, (GLfloat*)pModulateColor);
-		glUniform4fv(m_pInterpolateColorUniformResource->uniformLocation, 1, (GLfloat*)pInterpolateColor);
-
-		FOUN_TRACE_GL_ERROR();
+		m_pGraphicsDevice->ActivateUniform(pJointTransformUniformResource, tempJointMatrix);
+		m_pGraphicsDevice->ActivateUniform(pPlacementUniformResource, part.placement);
+		m_pGraphicsDevice->ActivateUniform(pModulateColorUniformResource, modulateColor);
+		m_pGraphicsDevice->ActivateUniform(pInterpolateColorUniformResource, interpolateColor);
 
 		glActiveTexture(GL_TEXTURE0 + TEXTURE_UNIT_INDEX);
 		glBindTexture(GL_TEXTURE_2D, pattern.pTextureResource->hTexture);
-		glUniform1i(m_pTextureUniformResource->uniformLocation, TEXTURE_UNIT_INDEX);
+		//glUniform1i(m_pTextureUniformResource->uniformLocation, TEXTURE_UNIT_INDEX);
+		glUniform1i(pTextureUniformResource->uniformLocation, TEXTURE_UNIT_INDEX); // FINISH REFACTOR!
 
 		FOUN_TRACE_GL_ERROR();
 
@@ -250,11 +173,31 @@ void DrawContext::DrawFigure(FigureInstance& figureInstance)
 /*
  * Protected Instance
  */
-void DrawContext::AcquireUniformResource(shad::UniformResource* pUniformResource, const char* pName)
+void DrawContext::FillShaderResourceParameters(grap::ShaderResourceParameters& shaderResourceParameters)
 {
-	shad::UniformData uniformData;
-	LCT_STRCPY(uniformData.name, sizeof(uniformData.name), pName);
-	m_pShaderResourceHandler->AcquireUniformResource(m_pShaderResource, pUniformResource, &uniformData);
+	shaderResourceParameters.pShaderResource = m_pShaderResource;
+	shaderResourceParameters.pVertexShaderBinary = m_pVertexShaderBinary;
+	shaderResourceParameters.pFragmentShaderBinary = m_pFragmentShaderBinary;
+	shaderResourceParameters.pAttributeDataArray = ATTRIBUTE_DATA_ARRAY;
+	shaderResourceParameters.attributeCount = ATTRIBUTE_COUNT;
+	shaderResourceParameters.pUniformResourceArray = m_pUniformResourceArray;
+	shaderResourceParameters.pUniformDataArray = UNIFORM_DATA_ARRAY;
+	shaderResourceParameters.uniformCount = UNIFORM_COUNT;
+}
+
+void DrawContext::FillQuadResourceParameters(grap::VertexResourceParameters& vertexResourceParameters, grap::IndexResourceParameters& indexResourceParameters)
+{
+	vertexResourceParameters.pVertexResource = m_pQuadVertexResource;
+	vertexResourceParameters.pVertexBinary = QUAD_VERTEX_DATA_ARRAY;
+	vertexResourceParameters.vertexBinarySize = sizeof(QUAD_VERTEX_DATA_ARRAY);
+	vertexResourceParameters.pAttributeDataArray = ATTRIBUTE_DATA_ARRAY;
+	vertexResourceParameters.attributeCount = ATTRIBUTE_COUNT;
+	vertexResourceParameters.dynamic = false;
+
+	indexResourceParameters.pIndexResource = m_pQuadIndexResource;
+	indexResourceParameters.pIndexBinary = QUAD_INDEX_DATA_ARRAY;
+	indexResourceParameters.indexBinarySize = sizeof(QUAD_INDEX_DATA_ARRAY);
+	indexResourceParameters.dynamic = false;
 }
 
 //namespace spri

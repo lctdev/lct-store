@@ -7,8 +7,6 @@
 #include <file/file_packedAccessor.h>
 #include <file/file_systemAccessor.h>
 
-#include <shad/shad_resourceHandler.h>
-
 #include <util/util_indexMap.h>
 
 #include <fill/fill_drawContext.h>
@@ -16,7 +14,6 @@
 #include <font/font_assetProcessor.h>
 #include <font/font_assetContainer.h>
 #include <font/font_drawContext.h>
-#include <font/font_resourceHandler.h>
 
 #include <spri/spri_drawContext.h>
 
@@ -74,8 +71,6 @@ private:
 	lct::file::Accessor* m_pAccessor;
 	lct::file::Accessor* m_pModeAccessor;
 
-	lct::shad::ResourceHandler m_shaderResourceHandler;
-
 	lct::imag::AssetContainer m_imageAssetContainer;
 	lct::imag::AssetProcessor m_imageAssetProcessor;
 	lct::imag::ResourceHandler m_imageResourceHandler;
@@ -85,8 +80,6 @@ private:
 
 	lct::font::AssetContainer m_fontAssetContainer;
 	lct::font::AssetProcessor m_fontAssetProcessor;
-	lct::font::ResourceHandler m_fontResourceHandler;
-	lct::font::ResourceHandler m_modeFontResourceHandler;
 
 	void* m_pFontAssetBinary;
 	lct::font::DrawContext m_fontDrawContext;

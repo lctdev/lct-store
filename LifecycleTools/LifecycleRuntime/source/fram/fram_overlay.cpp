@@ -14,7 +14,9 @@ namespace fram
  */
 Overlay::Overlay()
 : m_pAllocator(NULL)
+, m_pProgramMessageQueue(NULL)
 , m_pScreen(NULL)
+, m_pGraphicsDevice(NULL)
 {
 }
 
@@ -27,9 +29,19 @@ void Overlay::SetAllocator(lct::foun::Allocator* pAllocator)
 	m_pAllocator = pAllocator;
 }
 
+void Overlay::SetProgramMessageQueue(lct::fram::MessageQueue* pMessageQueue)
+{
+	m_pProgramMessageQueue = pMessageQueue;
+}
+
 void Overlay::SetScreen(Screen* pScreen)
 {
 	m_pScreen = pScreen;
+}
+
+void Overlay::SetGraphicsDevice(grap::Device* pGraphicsDevice)
+{
+	m_pGraphicsDevice = pGraphicsDevice;
 }
 
 void Overlay::Init()

@@ -1,18 +1,18 @@
-#ifndef SHAD_CONSTANTS_H
-#define SHAD_CONSTANTS_H
+#ifndef GRAP_CONSTANTS_H
+#define GRAP_CONSTANTS_H
 
 #include <foun/foun_primitives.h>
 
 namespace lct
 {
-namespace shad
+namespace grap
 {
 
 const u32 MAX_NAME_SIZE = 32;
 
-//namespace shad
+//namespace grap
 }
 //namespace lct
 }
 
-#endif//SHAD_CONSTANTS_H
+#endif//GRAP_CONSTANTS_H

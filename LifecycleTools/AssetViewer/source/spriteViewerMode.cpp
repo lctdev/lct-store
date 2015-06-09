@@ -135,7 +135,7 @@ void SpriteViewerMode::AcquireGraphics()
 
 	for (u32 bufferIndex = 0; bufferIndex < SYMBOL_BUFFER_COUNT; ++bufferIndex)
 	{
-		m_symbolBufferArray[bufferIndex].AcquireResources();
+		m_symbolBufferArray[bufferIndex].AcquireResources(m_pGraphicsDevice);
 	}
 
 	AssetViewerMode::AcquireGraphics();
@@ -147,7 +147,7 @@ void SpriteViewerMode::ReleaseGraphics()
 
 	for (u32 bufferIndex = 0; bufferIndex < SYMBOL_BUFFER_COUNT; ++bufferIndex)
 	{
-		m_symbolBufferArray[bufferIndex].ReleaseResources();
+		m_symbolBufferArray[bufferIndex].ReleaseResources(m_pGraphicsDevice);
 	}
 
 	AssetViewerMode::ReleaseGraphics();
@@ -176,11 +176,11 @@ void SpriteViewerMode::Update()
 	lct::foun::Matrix32Translate(m_contentWorldTransform, CONTENT_OFFSET_X, 0.0f);
 
 	lct::font::SymbolBuffer& symbolBuffer = m_symbolBufferArray[m_currSymbolBufferIndex];
-	symbolBuffer.ResetResources();
+	symbolBuffer.ResetQuads();
 	m_symbolWriter.SetBuffer(&symbolBuffer);
 
 	m_menu.WriteFont(&m_symbolWriter);
-	symbolBuffer.UpdateResources();
+	symbolBuffer.RefreshResources(m_pGraphicsDevice);
 
 	PlayType playType = static_cast<PlayType>(m_playMenuItem.GetIndex());
 	if (playType == PLAY_TYPE_AUTOMATIC)
@@ -286,10 +286,8 @@ void SpriteViewerMode::BuildMenu()
 	for (u32 bufferIndex = 0; bufferIndex < SYMBOL_BUFFER_COUNT; ++bufferIndex)
 	{
 		lct::font::SymbolBuffer& symbolBuffer = m_symbolBufferArray[bufferIndex];
-		symbolBuffer.SetAllocator(m_pAllocator);
-		symbolBuffer.SetResourceHandler(m_pFontResourceHandler);
 		symbolBuffer.SetSheetAsset(pSheetAsset);
-		symbolBuffer.CreateResources(SYMBOL_BUFFER_QUAD_COUNT);
+		symbolBuffer.CreateStructure(SYMBOL_BUFFER_QUAD_COUNT, m_pAllocator);
 	}
 	m_currSymbolBufferIndex = 0;
 

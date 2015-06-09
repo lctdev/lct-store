@@ -20,8 +20,6 @@
 #include <test/test_actionMenuItem.h>
 
 #include <fram/fram_overlay.h>
-#include <fram/fram_screen.h>
-#include <fram/fram_messageQueue.h>
 #include <fram/fram_message.h>
 
 class SpriteViewerOverlay : public lct::fram::Overlay
@@ -29,11 +27,9 @@ class SpriteViewerOverlay : public lct::fram::Overlay
 public:
 	SpriteViewerOverlay();
 	virtual ~SpriteViewerOverlay();
-
-	void SetProgramMessageQueue(lct::fram::MessageQueue* pMessageQueue);
+	
 	void SetInputCursor(lct::inpu::Cursor* pCursor);
 	void SetFillDrawContext(lct::fill::DrawContext* pDrawContext);
-	void SetFontResourceHandler(lct::font::ResourceHandler* pResourceHandler);
 	void SetFontAssetContainer(lct::font::AssetContainer* pAssetContainer);
 	void SetFontDrawContext(lct::font::DrawContext* pDrawContext);
 
@@ -48,14 +44,11 @@ public:
 
 protected:
 	// shared
-	lct::fram::MessageQueue* m_pProgramMessageQueue;
-
 	lct::inpu::Cursor* m_pInputCursor;
 
 	lct::fill::DrawContext* m_pFillDrawContext;
 
 	lct::font::AssetContainer* m_pFontAssetContainer;
-	lct::font::ResourceHandler* m_pFontResourceHandler;
 	lct::font::DrawContext* m_pFontDrawContext;
 
 	// owned

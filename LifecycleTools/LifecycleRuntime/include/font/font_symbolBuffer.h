@@ -6,10 +6,20 @@
 
 namespace lct
 {
+namespace grap
+{
+class Device;
+struct VertexResource;
+struct IndexResource;
+struct VertexResourceParameters;
+struct IndexResourceParameters;
+}
+
 namespace util
 {
 	class IntegerIndexMap;
 }
+
 namespace imag
 {
 	struct TextureAsset;
@@ -21,36 +31,34 @@ namespace font
 struct SheetAsset;
 struct VertexData;
 typedef u16 IndexData;
-struct QuadResource;
-class ResourceHandler;
 
 class SymbolBuffer
 {
 public:
 	SymbolBuffer();
 
-	void SetAllocator(foun::Allocator* pAllocator);
-	void SetResourceHandler(ResourceHandler* pResourceHandler);
 	void SetSheetAsset(SheetAsset* pSheetAsset);
 
-	void CreateResources(u32 quadCapacity);
-	void ResetResources();
-	void AcquireResources();
-	void UpdateResources();
-	void ReleaseResources();
+	void CreateStructure(u32 quadCapacity, foun::Allocator* pAllocator);
+	void ResetQuads();
+
+	void AcquireResources(grap::Device* pGraphicsDevice);
+	void RefreshResources(grap::Device* pGraphicsDevice);
+	void ReleaseResources(grap::Device* pGraphicsDevice);
 
 	u32 GetQuadCount() { return m_quadCount; }
 
-protected:
-	foun::Allocator* m_pAllocator;
-	ResourceHandler* m_pResourceHandler;
+protected:	
+	void FillQuadResourceParameters(grap::VertexResourceParameters& vertexResourceParameters, grap::IndexResourceParameters& indexResourceParameters);
+
 	SheetAsset* m_pSheetAsset;
 
 	u32 m_quadCapacity;
 	u32 m_quadCount;
 	VertexData* m_pVertexDataArray;
 	IndexData* m_pIndexDataArray;
-	QuadResource* m_pQuadResource;
+	grap::VertexResource* m_pQuadVertexResource;
+	grap::IndexResource* m_pQuadIndexResource;
 
 	friend class SymbolWriter;
 	friend class DrawContext;

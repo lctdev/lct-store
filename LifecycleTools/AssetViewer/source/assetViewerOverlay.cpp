@@ -13,11 +13,9 @@ static const lct::foun::FloatColor BACKER_COLOR = { 0.0f, 0.0f, 0.0f, 0.5f };
  */
 SpriteViewerOverlay::SpriteViewerOverlay()
 : Overlay()
-, m_pProgramMessageQueue(NULL)
 , m_pInputCursor(NULL)
 , m_pFillDrawContext(NULL)
 , m_pFontAssetContainer(NULL)
-, m_pFontResourceHandler(NULL)
 , m_pFontDrawContext(NULL)
 
 , m_symbolBufferArray()
@@ -31,11 +29,6 @@ SpriteViewerOverlay::SpriteViewerOverlay()
 
 SpriteViewerOverlay::~SpriteViewerOverlay()
 {
-}
-
-void SpriteViewerOverlay::SetProgramMessageQueue(lct::fram::MessageQueue* pMessageQueue)
-{
-	m_pProgramMessageQueue = pMessageQueue;
 }
 
 void SpriteViewerOverlay::SetInputCursor(lct::inpu::Cursor* pCursor)
@@ -53,11 +46,6 @@ void SpriteViewerOverlay::SetFontAssetContainer(lct::font::AssetContainer* pAsse
 	m_pFontAssetContainer = pAssetContainer;
 }
 
-void SpriteViewerOverlay::SetFontResourceHandler(lct::font::ResourceHandler* pResourceHandler)
-{
-	m_pFontResourceHandler = pResourceHandler;
-}
-
 void SpriteViewerOverlay::SetFontDrawContext(lct::font::DrawContext* pDrawContext)
 {
 	m_pFontDrawContext = pDrawContext;
@@ -72,10 +60,8 @@ void SpriteViewerOverlay::Init()
 	for (u32 bufferIndex = 0; bufferIndex < SYMBOL_BUFFER_COUNT; ++bufferIndex)
 	{
 		lct::font::SymbolBuffer& symbolBuffer = m_symbolBufferArray[bufferIndex];
-		symbolBuffer.SetAllocator(m_pAllocator);
-		symbolBuffer.SetResourceHandler(m_pFontResourceHandler);
 		symbolBuffer.SetSheetAsset(pSheetAsset);
-		symbolBuffer.CreateResources(SYMBOL_BUFFER_QUAD_COUNT);
+		symbolBuffer.CreateStructure(SYMBOL_BUFFER_QUAD_COUNT, m_pAllocator);
 	}
 	m_currSymbolBufferIndex = 0;
 
@@ -105,7 +91,7 @@ void SpriteViewerOverlay::AcquireGraphics()
 {
 	for (u32 bufferIndex = 0; bufferIndex < SYMBOL_BUFFER_COUNT; ++bufferIndex)
 	{
-		m_symbolBufferArray[bufferIndex].AcquireResources();
+		m_symbolBufferArray[bufferIndex].AcquireResources(m_pGraphicsDevice);
 	}
 }
 
@@ -113,7 +99,7 @@ void SpriteViewerOverlay::ReleaseGraphics()
 {
 	for (u32 bufferIndex = 0; bufferIndex < SYMBOL_BUFFER_COUNT; ++bufferIndex)
 	{
-		m_symbolBufferArray[bufferIndex].ReleaseResources();
+		m_symbolBufferArray[bufferIndex].ReleaseResources(m_pGraphicsDevice);
 	}
 }
 
@@ -135,11 +121,11 @@ void SpriteViewerOverlay::ReadInput()
 void SpriteViewerOverlay::Update()
 {
 	lct::font::SymbolBuffer& symbolBuffer = m_symbolBufferArray[m_currSymbolBufferIndex];
-	symbolBuffer.ResetResources();
+	symbolBuffer.ResetQuads();
 	m_symbolWriter.SetBuffer(&symbolBuffer);
 
 	m_menu.WriteFont(&m_symbolWriter);
-	symbolBuffer.UpdateResources();
+	symbolBuffer.RefreshResources(m_pGraphicsDevice);
 
 	const lct::foun::RectEdges& screenEdges = m_pScreen->GetRectEdges();
 

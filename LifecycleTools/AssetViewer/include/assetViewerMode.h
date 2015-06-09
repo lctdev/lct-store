@@ -11,7 +11,6 @@
 
 #include <fill/fill_drawContext.h>
 
-#include <font/font_resourceHandler.h>
 #include <font/font_assetContainer.h>
 #include <font/font_drawContext.h>
 
@@ -31,7 +30,6 @@ public:
 	void SetImageResourceHandler(lct::imag::ResourceHandler* pResourceHandler);
 	void SetFillDrawContext(lct::fill::DrawContext* pDrawContext);
 	void SetFontAssetContainer(lct::font::AssetContainer* pAssetContainer);
-	void SetFontResourceHandler(lct::font::ResourceHandler* pResourceHandler);
 	void SetFontDrawContext(lct::font::DrawContext* pDrawContext);
 	void SetSpriteDrawContext(lct::spri::DrawContext* pDrawContext);
 
@@ -51,7 +49,6 @@ protected:
 	lct::fill::DrawContext* m_pFillDrawContext;
 
 	lct::font::AssetContainer* m_pFontAssetContainer;
-	lct::font::ResourceHandler* m_pFontResourceHandler;
 	lct::font::DrawContext* m_pFontDrawContext;
 
 	lct::spri::DrawContext* m_pSpriteDrawContext;

@@ -9,6 +9,8 @@
 #include <fram/fram_messageQueue.h>
 #include <fram/fram_message.h>
 
+#include <grap/grap_device.h>
+
 namespace lct
 {
 namespace fram
@@ -23,9 +25,10 @@ public:
 	Mode();
 	virtual ~Mode();
 
-	void SetAllocator(lct::foun::Allocator* pAllocator);
+	void SetAllocator(foun::Allocator* pAllocator);
 	void SetProgramMessageQueue(lct::fram::MessageQueue* pMessageQueue);
 	void SetScreen(Screen* pScreen);
+	void SetGraphicsDevice(grap::Device* pGraphicsDevice);
 
 	const lct::foun::FloatColor& GetClearColor() { return m_clearColor; }
 
@@ -42,9 +45,10 @@ public:
 
 protected:
 	// shared
-	lct::foun::Allocator* m_pAllocator;
+	foun::Allocator* m_pAllocator;
 	MessageQueue* m_pProgramMessageQueue;
 	Screen* m_pScreen;
+	grap::Device* m_pGraphicsDevice;
 
 	// owned
 	bool m_finished;

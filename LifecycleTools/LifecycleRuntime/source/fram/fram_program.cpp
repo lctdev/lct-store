@@ -107,6 +107,7 @@ Program::Program()
 , m_allocator()
 , m_modeMemorySize(DEFAULT_MODE_MEMORY_SIZE)
 , m_modeAllocator()
+, m_graphicsDevice()
 , m_windowWidth(DEFAULT_WINDOW_WIDTH)
 , m_windowHeight(DEFAULT_WINDOW_HEIGHT)
 , m_pWindowLabel(DEFAULT_WINDOW_LABEL)
@@ -595,6 +596,7 @@ void Program::ConfigureMode()
 	m_pCurrMode->SetAllocator(&m_modeAllocator);
 	m_pCurrMode->SetProgramMessageQueue(&m_messageQueue);
 	m_pCurrMode->SetScreen(&m_screen);
+	m_pCurrMode->SetGraphicsDevice(&m_graphicsDevice);
 }
 
 

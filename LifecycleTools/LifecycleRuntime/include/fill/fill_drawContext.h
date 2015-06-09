@@ -9,16 +9,16 @@
 
 namespace lct
 {
-namespace shad
+namespace grap
 {
-class ResourceHandler;
+class Device;
 struct ShaderResource;
-struct AttributeResource;
 struct UniformResource;
-}
-namespace imag
-{
-struct TextureResource;
+struct VertexResource;
+struct IndexResource;
+struct ShaderResourceParameters;
+struct VertexResourceParameters;
+struct IndexResourceParameters;
 }
 
 namespace fill
@@ -34,7 +34,7 @@ public:
 	DrawContext();
 
 	void SetAllocator(foun::Allocator* pAllocator);
-	void SetShaderResourceHandler(shad::ResourceHandler* pShaderResourceHandler);
+	void SetGraphicsDevice(grap::Device* pGraphicsDevice);
 	void SetShaderBinaries(void* pVertexShaderBinary, void* pFragmentShaderBinary);
 
 	void CreateResources();
@@ -50,21 +50,20 @@ public:
 	void DrawRect(const foun::RectCentered& rect, const foun::FloatColor& color);
 
 protected:
+	void FillShaderResourceParameters(grap::ShaderResourceParameters& shaderResourceParameters);
+	void FillQuadResourceParameters(grap::VertexResourceParameters& vertexResourceParameters, grap::IndexResourceParameters& indexResourceParameters);
+
 	foun::Allocator* m_pAllocator;
 
-	void AcquireUniformResource(shad::UniformResource* pUniformResource, const char* pName);
+	grap::Device* m_pGraphicsDevice;
 
-	shad::ResourceHandler* m_pShaderResourceHandler;
 	void* m_pVertexShaderBinary;
 	void* m_pFragmentShaderBinary;
-	shad::ShaderResource* m_pShaderResource;
-	shad::AttributeResource* m_pAttributeResourceArray;
-	shad::UniformResource* m_pPlacementUniformResource;
-	shad::UniformResource* m_pProjectionTransformUniformResource;
-	shad::UniformResource* m_pWorldTransformUniformResource;
-	shad::UniformResource* m_pModulateColorUniformResource;
+	grap::ShaderResource* m_pShaderResource;
+	grap::UniformResource* m_pUniformResourceArray;
 
-	QuadResource* m_pQuadResource;
+	grap::VertexResource* m_pQuadVertexResource;
+	grap::IndexResource* m_pQuadIndexResource;
 };
 
 //namespace fill

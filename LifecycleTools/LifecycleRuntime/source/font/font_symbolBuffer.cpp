@@ -1,8 +1,12 @@
 #include <font/font_symbolBuffer.h>
 #include <font/font_data.h>
-#include <font/font_resources.h>
-#include <font/font_resourceHandler.h>
 #include <font/font_constants.h>
+#include <font/font_arrays.h>
+
+#include <grap/grap_device.h>
+#include <grap/grap_data.h>
+#include <grap/grap_resources.h>
+#include <grap/grap_parameters.h>
 
 #include <imag/imag_resources.h>
 
@@ -26,25 +30,14 @@ namespace font
  * Public Instance
  */
 SymbolBuffer::SymbolBuffer()
-: m_pAllocator(NULL)
-, m_pResourceHandler(NULL)
-, m_pSheetAsset(NULL)
+: m_pSheetAsset(NULL)
 , m_quadCapacity(0)
 , m_quadCount(0)
 , m_pVertexDataArray(NULL)
 , m_pIndexDataArray(NULL)
-, m_pQuadResource(NULL)
+, m_pQuadVertexResource(NULL)
+, m_pQuadIndexResource(NULL)
 {
-}
-
-void SymbolBuffer::SetAllocator(lct::foun::Allocator* pAllocator)
-{
-	m_pAllocator = pAllocator;
-}
-
-void SymbolBuffer::SetResourceHandler(ResourceHandler* pResourceHandler)
-{
-	m_pResourceHandler = pResourceHandler;
 }
 
 void SymbolBuffer::SetSheetAsset(SheetAsset* pSheetAsset)
@@ -52,47 +45,74 @@ void SymbolBuffer::SetSheetAsset(SheetAsset* pSheetAsset)
 	m_pSheetAsset = pSheetAsset;
 }
 
-void SymbolBuffer::CreateResources(u32 quadCapacity)
+void SymbolBuffer::CreateStructure(u32 quadCapacity, foun::Allocator* pAllocator)
 {
 	m_quadCapacity = quadCapacity;
 	m_quadCount = 0;
 
 	u32 vertexCount = m_quadCapacity * QUAD_VERTEX_COUNT;
-	m_pVertexDataArray = m_pAllocator->AllocTypeArray<VertexData>(vertexCount);
+	m_pVertexDataArray = pAllocator->AllocTypeArray<VertexData>(vertexCount);
 
 	u32 indexCount = m_quadCapacity * QUAD_INDEX_COUNT;
-	m_pIndexDataArray = m_pAllocator->AllocTypeArray<IndexData>(indexCount);
+	m_pIndexDataArray = pAllocator->AllocTypeArray<IndexData>(indexCount);
 
-	m_pQuadResource = m_pAllocator->AllocType<QuadResource>();
+	m_pQuadVertexResource = pAllocator->AllocType<grap::VertexResource>();
+	m_pQuadIndexResource = pAllocator->AllocType<grap::IndexResource>();
 }
 
-void SymbolBuffer::ResetResources()
+void SymbolBuffer::ResetQuads()
 {
 	m_quadCount = 0;
 }
 
-void SymbolBuffer::AcquireResources()
+void SymbolBuffer::AcquireResources(grap::Device* pGraphicsDevice)
 {
-	u32 vertexDataSize = sizeof(VertexData) * m_quadCapacity * QUAD_VERTEX_COUNT;
-	u32 indexDataSize = sizeof(IndexData) * m_quadCapacity * QUAD_INDEX_COUNT;
-	m_pResourceHandler->AcquireQuadResource(m_pQuadResource, vertexDataSize, m_pVertexDataArray, indexDataSize, m_pIndexDataArray);
+	grap::VertexResourceParameters vertexResourceParameters;
+	grap::IndexResourceParameters indexResourceParameters;
+	FillQuadResourceParameters(vertexResourceParameters, indexResourceParameters);
+	pGraphicsDevice->AcquireVertexResource(vertexResourceParameters);
+	pGraphicsDevice->AcquireIndexResource(indexResourceParameters);
 }
 
-void SymbolBuffer::UpdateResources()
+void SymbolBuffer::RefreshResources(grap::Device* pGraphicsDevice)
 {
-	u32 vertexDataSize = sizeof(VertexData) * m_quadCapacity * QUAD_VERTEX_COUNT;
-	u32 indexDataSize = sizeof(IndexData) * m_quadCapacity * QUAD_INDEX_COUNT;
-	m_pResourceHandler->UpdateQuadResource(m_pQuadResource, vertexDataSize, m_pVertexDataArray, indexDataSize, m_pIndexDataArray);
+	grap::VertexResourceParameters vertexResourceParameters;
+	grap::IndexResourceParameters indexResourceParameters;
+	FillQuadResourceParameters(vertexResourceParameters, indexResourceParameters);
+	pGraphicsDevice->RefreshVertexResource(vertexResourceParameters);
+	pGraphicsDevice->RefreshIndexResource(indexResourceParameters);
 }
 
-void SymbolBuffer::ReleaseResources()
+void SymbolBuffer::ReleaseResources(grap::Device* pGraphicsDevice)
 {
-	m_pResourceHandler->ReleaseQuadResource(m_pQuadResource);
+	grap::VertexResourceParameters vertexResourceParameters;
+	grap::IndexResourceParameters indexResourceParameters;
+	FillQuadResourceParameters(vertexResourceParameters, indexResourceParameters);
+	pGraphicsDevice->ReleaseVertexResource(vertexResourceParameters);
+	pGraphicsDevice->ReleaseIndexResource(indexResourceParameters);
 }
 
 /*
  * Protected Instance
  */
+void SymbolBuffer::FillQuadResourceParameters(grap::VertexResourceParameters& vertexResourceParameters, grap::IndexResourceParameters& indexResourceParameters)
+{
+	u32 vertexDataSize = sizeof(VertexData) * m_quadCapacity * QUAD_VERTEX_COUNT;
+
+	vertexResourceParameters.pVertexResource = m_pQuadVertexResource;
+	vertexResourceParameters.pVertexBinary = m_pVertexDataArray;
+	vertexResourceParameters.vertexBinarySize = vertexDataSize;
+	vertexResourceParameters.pAttributeDataArray = ATTRIBUTE_DATA_ARRAY;
+	vertexResourceParameters.attributeCount = ATTRIBUTE_COUNT;
+	vertexResourceParameters.dynamic = true;
+
+	u32 indexDataSize = sizeof(IndexData) * m_quadCapacity * QUAD_INDEX_COUNT;
+
+	indexResourceParameters.pIndexResource = m_pQuadIndexResource;
+	indexResourceParameters.pIndexBinary = m_pIndexDataArray;
+	indexResourceParameters.indexBinarySize = indexDataSize;
+	indexResourceParameters.dynamic = true;
+}
 
 //namespace spri
 }

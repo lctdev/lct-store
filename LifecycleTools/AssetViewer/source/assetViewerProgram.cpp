@@ -18,7 +18,6 @@ AssetViewerProgram::AssetViewerProgram()
 : Program()
 , m_pAccessor(NULL)
 , m_pModeAccessor(NULL)
-, m_shaderResourceHandler()
 , m_imageAssetContainer()
 , m_imageAssetProcessor()
 , m_imageResourceHandler()
@@ -26,8 +25,6 @@ AssetViewerProgram::AssetViewerProgram()
 , m_fillDrawContext()
 , m_fontAssetContainer()
 , m_fontAssetProcessor()
-, m_fontResourceHandler()
-, m_modeFontResourceHandler()
 , m_pFontAssetBinary(NULL)
 , m_fontDrawContext()
 , m_spriteDrawContext()
@@ -90,9 +87,6 @@ void AssetViewerProgram::InitWindow()
 
 void AssetViewerProgram::InitAssets()
 {
-	// shader
-	m_shaderResourceHandler.SetAllocator(&m_allocator);
-
 	// image
 	m_imageAssetContainer.SetAllocator(&m_allocator);
 
@@ -102,7 +96,7 @@ void AssetViewerProgram::InitAssets()
 
 	// fill
 	m_fillDrawContext.SetAllocator(&m_allocator);
-	m_fillDrawContext.SetShaderResourceHandler(&m_shaderResourceHandler);
+	m_fillDrawContext.SetGraphicsDevice(&m_graphicsDevice);
 	m_fillDrawContext.CreateResources();
 
 	LoadFillAssets();
@@ -114,14 +108,14 @@ void AssetViewerProgram::InitAssets()
 	m_fontAssetProcessor.SetAssetContainer(&m_fontAssetContainer);
 
 	m_fontDrawContext.SetAllocator(&m_allocator);
-	m_fontDrawContext.SetShaderResourceHandler(&m_shaderResourceHandler);
+	m_fontDrawContext.SetGraphicsDevice(&m_graphicsDevice);
 	m_fontDrawContext.CreateResources();
 
 	LoadFontAssets();
 
 	// sprite
 	m_spriteDrawContext.SetAllocator(&m_allocator);
-	m_spriteDrawContext.SetShaderResourceHandler(&m_shaderResourceHandler);
+	m_spriteDrawContext.SetGraphicsDevice(&m_graphicsDevice);
 	m_spriteDrawContext.CreateResources();
 
 	LoadSpriteAssets();
@@ -161,12 +155,12 @@ void AssetViewerProgram::InitOverlays()
 {
 	m_pOverlay = m_allocator.AllocType<SpriteViewerOverlay>();
 	m_pOverlay->SetAllocator(&m_allocator);
+	m_pOverlay->SetGraphicsDevice(&m_graphicsDevice);
 	m_pOverlay->SetScreen(&m_screen);
 	m_pOverlay->SetProgramMessageQueue(&m_messageQueue);
 	m_pOverlay->SetInputCursor(m_pCursor);
 	m_pOverlay->SetFillDrawContext(&m_fillDrawContext);
 	m_pOverlay->SetFontAssetContainer(&m_fontAssetContainer);
-	m_pOverlay->SetFontResourceHandler(&m_fontResourceHandler);
 	m_pOverlay->SetFontDrawContext(&m_fontDrawContext);
 	m_pOverlay->Init();
 
@@ -201,7 +195,8 @@ void AssetViewerProgram::AcquireGraphics()
 	}
 
 	LCT_TRACE("AssetViewerProgram::AcquireGraphics Image Texture Resource Count: %u\n", m_imageResourceHandler.GetTextureResourceCount());
-	LCT_TRACE("AssetViewerProgram::AcquireGraphics Font Quad Resource Count: %u\n", m_fontResourceHandler.GetQuadResourceCount());
+	LCT_TRACE("AssetViewerProgram::AcquireGraphics Vertex Resource Count: %u\n", m_graphicsDevice.GetUsedVertexResourceCount());
+	LCT_TRACE("AssetViewerProgram::AcquireGraphics Index Resource Count: %u\n", m_graphicsDevice.GetUsedIndexResourceCount());
 }
 
 void AssetViewerProgram::ReleaseGraphics()
@@ -220,7 +215,8 @@ void AssetViewerProgram::ReleaseGraphics()
 	}
 
 	LCT_TRACE("AssetViewerProgram::ReleaseGraphics Image Texture Resource Count: %u\n", m_imageResourceHandler.GetTextureResourceCount());
-	LCT_TRACE("AssetViewerProgram::ReleaseGraphics Font Quad Resource Count: %u\n", m_fontResourceHandler.GetQuadResourceCount());
+	LCT_TRACE("AssetViewerProgram::ReleaseGraphics Vertex Resource Count: %u\n", m_graphicsDevice.GetUsedVertexResourceCount());
+	LCT_TRACE("AssetViewerProgram::ReleaseGraphics Index Resource Count: %u\n", m_graphicsDevice.GetUsedIndexResourceCount());
 
 	Program::ReleaseGraphics();
 }
@@ -253,7 +249,6 @@ void AssetViewerProgram::ConfigureMode()
 	pAssetViewerMode->SetImageResourceHandler(&m_modeImageResourceHandler);
 	pAssetViewerMode->SetFillDrawContext(&m_fillDrawContext);
 	pAssetViewerMode->SetFontAssetContainer(&m_fontAssetContainer);
-	pAssetViewerMode->SetFontResourceHandler(&m_modeFontResourceHandler);
 	pAssetViewerMode->SetFontDrawContext(&m_fontDrawContext);
 
 	Program::ConfigureMode();

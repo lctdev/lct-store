@@ -7,6 +7,8 @@
 #include <foun/foun_keys.h>
 #include <foun/foun_platform.h>
 
+#include <grap/grap_device.h>
+
 #include <fram/fram_screen.h>
 #include <fram/fram_modeFactory.h>
 #include <fram/fram_messageQueue.h>
@@ -88,14 +90,16 @@ protected:
 	bool m_graphicsAcquired;
 
 	u32 m_memorySize;
-	lct::foun::LinearAllocator m_allocator;
+	foun::LinearAllocator m_allocator;
 	u32 m_modeMemorySize;
-	lct::foun::LinearAllocator m_modeAllocator;
+	foun::LinearAllocator m_modeAllocator;
+
+	grap::Device m_graphicsDevice;
 
 	u32 m_windowWidth;
 	u32 m_windowHeight;
 	const c16* m_pWindowLabel;
-	lct::fram::Screen m_screen;
+	fram::Screen m_screen;
 
 	bool m_running;
 	u32 m_frameCount;

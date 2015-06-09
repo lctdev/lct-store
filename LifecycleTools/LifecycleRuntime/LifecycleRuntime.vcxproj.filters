@@ -67,9 +67,6 @@
     <Filter Include="include\pack">
       <UniqueIdentifier>{0aee6613-96ae-4e28-a483-7345099f1142}</UniqueIdentifier>
     </Filter>
-    <Filter Include="include\shad">
-      <UniqueIdentifier>{f5a1b159-e90e-4582-8e91-743e4dc7e05d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="include\spri">
       <UniqueIdentifier>{a36b609d-720b-4bc3-b4fa-ab02dfeb0148}</UniqueIdentifier>
     </Filter>
@@ -106,9 +103,6 @@
     <Filter Include="source\pack">
       <UniqueIdentifier>{c1888a4f-55b3-44fb-8fe7-b4248794c64a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="source\shad">
-      <UniqueIdentifier>{3045a8da-8a6d-438d-8986-ce2ca0c7a783}</UniqueIdentifier>
-    </Filter>
     <Filter Include="source\spri">
       <UniqueIdentifier>{5426679c-7742-4701-a3a8-0de6320c4ae8}</UniqueIdentifier>
     </Filter>
@@ -117,6 +111,12 @@
     </Filter>
     <Filter Include="source\util">
       <UniqueIdentifier>{5d1de440-b9b7-4d01-a717-8ecbade881f3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\grap">
+      <UniqueIdentifier>{c6f28503-dd5c-491f-b1d4-d898630e4e53}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="source\grap">
+      <UniqueIdentifier>{31064d26-c651-4411-aa7f-113b5c2692b0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -197,9 +197,6 @@
     <ClInclude Include="include\fill\fill_drawContext.h">
       <Filter>include\fill</Filter>
     </ClInclude>
-    <ClInclude Include="include\fill\fill_resources.h">
-      <Filter>include\fill</Filter>
-    </ClInclude>
     <ClInclude Include="include\font\font_assetContainer.h">
       <Filter>include\font</Filter>
     </ClInclude>
@@ -216,12 +213,6 @@
       <Filter>include\font</Filter>
     </ClInclude>
     <ClInclude Include="include\font\font_drawContext.h">
-      <Filter>include\font</Filter>
-    </ClInclude>
-    <ClInclude Include="include\font\font_resourceHandler.h">
-      <Filter>include\font</Filter>
-    </ClInclude>
-    <ClInclude Include="include\font\font_resources.h">
       <Filter>include\font</Filter>
     </ClInclude>
     <ClInclude Include="include\font\font_symbolBuffer.h">
@@ -359,18 +350,6 @@
     <ClInclude Include="include\pack\pack_packageWalker.h">
       <Filter>include\pack</Filter>
     </ClInclude>
-    <ClInclude Include="include\shad\shad_constants.h">
-      <Filter>include\shad</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shad\shad_data.h">
-      <Filter>include\shad</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shad\shad_resourceHandler.h">
-      <Filter>include\shad</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shad\shad_resources.h">
-      <Filter>include\shad</Filter>
-    </ClInclude>
     <ClInclude Include="include\spri\spri_animationInstance.h">
       <Filter>include\spri</Filter>
     </ClInclude>
@@ -402,9 +381,6 @@
       <Filter>include\spri</Filter>
     </ClInclude>
     <ClInclude Include="include\spri\spri_instanceBuilder.h">
-      <Filter>include\spri</Filter>
-    </ClInclude>
-    <ClInclude Include="include\spri\spri_resources.h">
       <Filter>include\spri</Filter>
     </ClInclude>
     <ClInclude Include="include\test\test_actionMenuItem.h">
@@ -440,6 +416,36 @@
     <ClInclude Include="include\foun\foun_string.h">
       <Filter>include\foun</Filter>
     </ClInclude>
+    <ClInclude Include="include\grap\grap_device.h">
+      <Filter>include\grap</Filter>
+    </ClInclude>
+    <ClInclude Include="include\grap\grap_resources.h">
+      <Filter>include\grap</Filter>
+    </ClInclude>
+    <ClInclude Include="include\grap\grap_data.h">
+      <Filter>include\grap</Filter>
+    </ClInclude>
+    <ClInclude Include="include\grap\grap_constants.h">
+      <Filter>include\grap</Filter>
+    </ClInclude>
+    <ClInclude Include="include\grap\grap_debug.h">
+      <Filter>include\grap</Filter>
+    </ClInclude>
+    <ClInclude Include="include\grap\grap_parameters.h">
+      <Filter>include\grap</Filter>
+    </ClInclude>
+    <ClInclude Include="include\spri\spri_arrays.h">
+      <Filter>include\spri</Filter>
+    </ClInclude>
+    <ClInclude Include="include\font\font_arrays.h">
+      <Filter>include\font</Filter>
+    </ClInclude>
+    <ClInclude Include="include\fill\fill_arrays.h">
+      <Filter>include\fill</Filter>
+    </ClInclude>
+    <ClInclude Include="include\fill\fill_constants.h">
+      <Filter>include\fill</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\file\file_accessor.cpp">
@@ -461,9 +467,6 @@
       <Filter>source\font</Filter>
     </ClCompile>
     <ClCompile Include="source\font\font_drawContext.cpp">
-      <Filter>source\font</Filter>
-    </ClCompile>
-    <ClCompile Include="source\font\font_resourceHandler.cpp">
       <Filter>source\font</Filter>
     </ClCompile>
     <ClCompile Include="source\font\font_symbolBuffer.cpp">
@@ -547,9 +550,6 @@
     <ClCompile Include="source\pack\pack_packageWalker.cpp">
       <Filter>source\pack</Filter>
     </ClCompile>
-    <ClCompile Include="source\shad\shad_resourceHandler.cpp">
-      <Filter>source\shad</Filter>
-    </ClCompile>
     <ClCompile Include="source\spri\spri_animationInstance.cpp">
       <Filter>source\spri</Filter>
     </ClCompile>
@@ -600,6 +600,18 @@
     </ClCompile>
     <ClCompile Include="source\util\util_indexMap.cpp">
       <Filter>source\util</Filter>
+    </ClCompile>
+    <ClCompile Include="source\grap\grap_device.cpp">
+      <Filter>source\grap</Filter>
+    </ClCompile>
+    <ClCompile Include="source\spri\spri_arrays.cpp">
+      <Filter>source\spri</Filter>
+    </ClCompile>
+    <ClCompile Include="source\font\font_arrays.cpp">
+      <Filter>source\font</Filter>
+    </ClCompile>
+    <ClCompile Include="source\fill\fill_arrays.cpp">
+      <Filter>source\fill</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

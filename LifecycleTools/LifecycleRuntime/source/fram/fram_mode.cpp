@@ -19,6 +19,7 @@ Mode::Mode()
 : m_pAllocator(NULL)
 , m_pProgramMessageQueue(NULL)
 , m_pScreen(NULL)
+, m_pGraphicsDevice(NULL)
 
 , m_finished(false)
 , m_clearColor(DEFAULT_CLEAR_COLOR)
@@ -29,7 +30,7 @@ Mode::~Mode()
 {
 }
 
-void Mode::SetAllocator(lct::foun::Allocator* pAllocator)
+void Mode::SetAllocator(foun::Allocator* pAllocator)
 {
 	m_pAllocator = pAllocator;
 }
@@ -42,6 +43,11 @@ void Mode::SetProgramMessageQueue(lct::fram::MessageQueue* pMessageQueue)
 void Mode::SetScreen(Screen* pScreen)
 {
 	m_pScreen = pScreen;
+}
+
+void Mode::SetGraphicsDevice(grap::Device* pGraphicsDevice)
+{
+	m_pGraphicsDevice = pGraphicsDevice;
 }
 
 void Mode::Init()
