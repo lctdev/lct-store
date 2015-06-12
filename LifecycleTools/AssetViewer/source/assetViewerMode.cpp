@@ -11,7 +11,6 @@ AssetViewerMode::AssetViewerMode()
 : Mode()
 , m_pAccessor(NULL)
 , m_pCursor(NULL)
-, m_pImageResourceHandler(NULL)
 , m_pFillDrawContext(NULL)
 , m_pFontAssetContainer(NULL)
 , m_pFontDrawContext(NULL)
@@ -31,11 +30,6 @@ void AssetViewerMode::SetAccessor(lct::file::Accessor* pAccessor)
 void AssetViewerMode::SetCursor(lct::inpu::Cursor* pCursor)
 {
 	m_pCursor = pCursor;
-}
-
-void AssetViewerMode::SetImageResourceHandler(lct::imag::ResourceHandler* pResourceHandler)
-{
-	m_pImageResourceHandler = pResourceHandler;
 }
 
 void AssetViewerMode::SetFillDrawContext(lct::fill::DrawContext* pDrawContext)

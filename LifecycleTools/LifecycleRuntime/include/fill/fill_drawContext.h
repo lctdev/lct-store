@@ -16,9 +16,9 @@ struct ShaderResource;
 struct UniformResource;
 struct VertexResource;
 struct IndexResource;
-struct ShaderResourceParameters;
-struct VertexResourceParameters;
-struct IndexResourceParameters;
+struct ShaderSetupParameters;
+struct VertexSetupParameters;
+struct IndexSetupParameters;
 }
 
 namespace fill
@@ -44,14 +44,15 @@ public:
 	void ActivateRenderState();
 	void ActivateShader();
 	void ActivateQuad();
+	void DeactivateQuad();
 	void ActivateProjectionTransform(const foun::Matrix44& projectionTransform);
 	void ActivateWorldTransform(const foun::Matrix32& worldTransform);
 
 	void DrawRect(const foun::RectCentered& rect, const foun::FloatColor& color);
 
 protected:
-	void FillShaderResourceParameters(grap::ShaderResourceParameters& shaderResourceParameters);
-	void FillQuadResourceParameters(grap::VertexResourceParameters& vertexResourceParameters, grap::IndexResourceParameters& indexResourceParameters);
+	void FillShaderSetupParameters(grap::ShaderSetupParameters& shaderSetupParameters);
+	void FillQuadSetupParameters(grap::VertexSetupParameters& vertexSetupParameters, grap::IndexSetupParameters& indexSetupParameters);
 
 	foun::Allocator* m_pAllocator;
 

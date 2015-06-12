@@ -7,8 +7,6 @@
 
 #include <inpu/inpu_cursor.h>
 
-#include <imag/imag_resourceHandler.h>
-
 #include <fill/fill_drawContext.h>
 
 #include <font/font_assetContainer.h>
@@ -27,7 +25,6 @@ public:
 
 	void SetAccessor(lct::file::Accessor* pAccessor);
 	void SetCursor(lct::inpu::Cursor* pCursor);
-	void SetImageResourceHandler(lct::imag::ResourceHandler* pResourceHandler);
 	void SetFillDrawContext(lct::fill::DrawContext* pDrawContext);
 	void SetFontAssetContainer(lct::font::AssetContainer* pAssetContainer);
 	void SetFontDrawContext(lct::font::DrawContext* pDrawContext);
@@ -43,8 +40,6 @@ protected:
 	lct::file::Accessor* m_pAccessor;
 
 	lct::inpu::Cursor* m_pCursor;
-
-	lct::imag::ResourceHandler* m_pImageResourceHandler;
 
 	lct::fill::DrawContext* m_pFillDrawContext;
 

@@ -8,6 +8,10 @@
 
 namespace lct
 {
+namespace grap
+{
+class Device;
+}
 namespace pack
 {
 struct AssetHeader;
@@ -24,8 +28,6 @@ class AssetContainer;
 struct TextureAsset;
 struct TextureTableAsset;
 struct TextureData;
-struct TextureResource;
-class ResourceHandler;
 
 class AssetProcessor : public pack::IAssetHandler
 {
@@ -33,8 +35,8 @@ public:
 	AssetProcessor();
 	virtual ~AssetProcessor();
 
-	void SetAllocator(lct::foun::Allocator* pAllocator);
-	void SetResourceHandler(ResourceHandler* pResourceHandler);
+	void SetAllocator(foun::Allocator* pAllocator);
+	void SetGraphicsDevice(grap::Device* pGraphicsDevice);
 	void SetAssetContainer(AssetContainer* pAssetContainer);
 
 	virtual bool LoadAsset(pack::AssetHeader& assetHeader, util::BinaryReader& binaryReader);
@@ -47,7 +49,7 @@ public:
 
 private:
 	foun::Allocator* m_pAllocator;
-	ResourceHandler* m_pResourceHandler;
+	grap::Device* m_pGraphicsDevice;
 	AssetContainer* m_pAssetContainer;
 };
 

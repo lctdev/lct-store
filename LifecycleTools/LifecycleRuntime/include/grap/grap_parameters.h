@@ -15,8 +15,9 @@ struct UniformResource;
 struct UniformData;
 struct VertexResource;
 struct IndexResource;
+struct TextureResource;
 
-struct ShaderResourceParameters
+struct ShaderSetupParameters
 {
 	ShaderResource* pShaderResource;
 	void* pVertexShaderBinary;
@@ -28,7 +29,7 @@ struct ShaderResourceParameters
 	u32 uniformCount;
 };
 
-struct VertexResourceParameters
+struct VertexSetupParameters
 {
 	VertexResource* pVertexResource;
 	void* pVertexBinary;
@@ -38,12 +39,32 @@ struct VertexResourceParameters
 	bool dynamic;
 };
 
-struct IndexResourceParameters
+struct IndexSetupParameters
 {
 	IndexResource* pIndexResource;
 	void* pIndexBinary;
 	u32 indexBinarySize;
 	bool dynamic;
+};
+
+struct TextureSetupParameters
+{
+	TextureResource* pTextureResource;
+	void* pTextureBinary;
+	u32 width;
+	u32 height;
+};
+
+struct TextureBindParameters
+{
+	const TextureResource* pTextureResource;
+	const UniformResource* pUniformResource;
+	u32 textureUnitIndex;
+};
+
+struct RenderStateParameters
+{
+	bool enableBlend;
 };
 
 //namespace grap

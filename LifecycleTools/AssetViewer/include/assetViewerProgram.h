@@ -19,7 +19,6 @@
 
 #include <imag/imag_assetProcessor.h>
 #include <imag/imag_assetContainer.h>
-#include <imag/imag_resourceHandler.h>
 
 #include <pack/pack_packageWalker.h>
 
@@ -73,8 +72,6 @@ private:
 
 	lct::imag::AssetContainer m_imageAssetContainer;
 	lct::imag::AssetProcessor m_imageAssetProcessor;
-	lct::imag::ResourceHandler m_imageResourceHandler;
-	lct::imag::ResourceHandler m_modeImageResourceHandler;
 
 	lct::fill::DrawContext m_fillDrawContext;
 

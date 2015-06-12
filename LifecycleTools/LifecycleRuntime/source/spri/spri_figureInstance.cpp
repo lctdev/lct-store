@@ -3,8 +3,9 @@
 #include <spri/spri_data.h>
 #include <spri/spri_bindings.h>
 
+#include <grap/grap_resources.h>
+
 #include <imag/imag_data.h>
-#include <imag/imag_resources.h>
 #include <imag/imag_assets.h>
 
 #include <string.h>

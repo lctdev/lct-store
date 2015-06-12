@@ -12,10 +12,14 @@
 
 namespace lct
 {
+namespace grap
+{
+struct TextureResource;
+}
+
 namespace imag
 {
 struct TextureTableData;
-struct TextureResource;
 }
 
 namespace spri
@@ -76,9 +80,9 @@ protected:
 		const imag::TextureTableData* pTextureTableData;
 
 		f32 propertyArray[PATTERN_PROPERTY_TYPE_COUNT];
-		imag::TextureResource* pTextureResourceArray;
+		grap::TextureResource* pTextureResourceArray;
 
-		imag::TextureResource* pTextureResource;
+		grap::TextureResource* pTextureResource;
 	};
 	Pattern* m_pPatternArray;
 	u32 m_patternCount;

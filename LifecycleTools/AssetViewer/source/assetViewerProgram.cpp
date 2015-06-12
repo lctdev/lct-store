@@ -20,8 +20,6 @@ AssetViewerProgram::AssetViewerProgram()
 , m_pModeAccessor(NULL)
 , m_imageAssetContainer()
 , m_imageAssetProcessor()
-, m_imageResourceHandler()
-, m_modeImageResourceHandler()
 , m_fillDrawContext()
 , m_fontAssetContainer()
 , m_fontAssetProcessor()
@@ -91,7 +89,7 @@ void AssetViewerProgram::InitAssets()
 	m_imageAssetContainer.SetAllocator(&m_allocator);
 
 	m_imageAssetProcessor.SetAllocator(&m_allocator);
-	m_imageAssetProcessor.SetResourceHandler(&m_imageResourceHandler);
+	m_imageAssetProcessor.SetGraphicsDevice(&m_graphicsDevice);
 	m_imageAssetProcessor.SetAssetContainer(&m_imageAssetContainer);
 
 	// fill
@@ -194,7 +192,7 @@ void AssetViewerProgram::AcquireGraphics()
 		m_pOverlay->AcquireGraphics();
 	}
 
-	LCT_TRACE("AssetViewerProgram::AcquireGraphics Image Texture Resource Count: %u\n", m_imageResourceHandler.GetTextureResourceCount());
+	LCT_TRACE("AssetViewerProgram::AcquireGraphics Texture Resource Count: %u\n", m_graphicsDevice.GetUsedTextureResourceCount());
 	LCT_TRACE("AssetViewerProgram::AcquireGraphics Vertex Resource Count: %u\n", m_graphicsDevice.GetUsedVertexResourceCount());
 	LCT_TRACE("AssetViewerProgram::AcquireGraphics Index Resource Count: %u\n", m_graphicsDevice.GetUsedIndexResourceCount());
 }
@@ -214,7 +212,7 @@ void AssetViewerProgram::ReleaseGraphics()
 		m_pOverlay->ReleaseGraphics();
 	}
 
-	LCT_TRACE("AssetViewerProgram::ReleaseGraphics Image Texture Resource Count: %u\n", m_imageResourceHandler.GetTextureResourceCount());
+	LCT_TRACE("AssetViewerProgram::ReleaseGraphics Texture Resource Count: %u\n", m_graphicsDevice.GetUsedTextureResourceCount());
 	LCT_TRACE("AssetViewerProgram::ReleaseGraphics Vertex Resource Count: %u\n", m_graphicsDevice.GetUsedVertexResourceCount());
 	LCT_TRACE("AssetViewerProgram::ReleaseGraphics Index Resource Count: %u\n", m_graphicsDevice.GetUsedIndexResourceCount());
 
@@ -246,7 +244,6 @@ void AssetViewerProgram::ConfigureMode()
 	pAssetViewerMode->SetAccessor(m_pModeAccessor);
 	pAssetViewerMode->SetSpriteDrawContext(&m_spriteDrawContext);
 	pAssetViewerMode->SetCursor(m_pCursor);
-	pAssetViewerMode->SetImageResourceHandler(&m_modeImageResourceHandler);
 	pAssetViewerMode->SetFillDrawContext(&m_fillDrawContext);
 	pAssetViewerMode->SetFontAssetContainer(&m_fontAssetContainer);
 	pAssetViewerMode->SetFontDrawContext(&m_fontDrawContext);

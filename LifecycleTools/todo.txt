@@ -5,3 +5,7 @@
 - Move all "debug menu" related resources ( font buffers, graphics device, etc. ) into the Menu class for easier re-use
 
 - Start using the "Services" struct convention for passing shared pointers around at the application level ( ie: not LCT )
+
+- Move all graphics API code ( OpenGL ) into a single Graphics Device class : [DONE]
+
+- Conslidate the asset pipeline into a single Java program, with a plugin interface for the different asset types

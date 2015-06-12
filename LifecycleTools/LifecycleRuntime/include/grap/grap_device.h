@@ -28,19 +28,25 @@ class Device
 public:
 	Device();
 
-	void AcquireShaderResources(const ShaderResourceParameters& shaderResourceParameters);
-	void ReleaseShaderResources(const ShaderResourceParameters& shaderResourceParameters);
-	u32 GetUsedShaderResourceCount() { return m_usedShaderResourceCount;  }
+	void AcquireShaderResources(const ShaderSetupParameters& shaderSetupParameters);
+	void ReleaseShaderResources(const ShaderSetupParameters& shaderSetupParameters);
+	u32 GetUsedShaderResourceCount() { return m_usedShaderResourceCount; }
 
-	void AcquireVertexResource(const VertexResourceParameters& vertexResourceParameters);
-	void RefreshVertexResource(const VertexResourceParameters& vertexResourceParameters);
-	void ReleaseVertexResource(const VertexResourceParameters& vertexResourceParameters);
+	void AcquireVertexResource(const VertexSetupParameters& vertexSetupParameters);
+	void RefreshVertexResource(const VertexSetupParameters& vertexSetupParameters);
+	void ReleaseVertexResource(const VertexSetupParameters& vertexSetupParameters);
 	u32 GetUsedVertexResourceCount() { return m_usedVertexResourceCount; }
 
-	void AcquireIndexResource(const IndexResourceParameters& indexResourceParameters);
-	void RefreshIndexResource(const IndexResourceParameters& indexResourceParameters);
-	void ReleaseIndexResource(const IndexResourceParameters& indexResourceParameters);
+	void AcquireIndexResource(const IndexSetupParameters& indexSetupParameters);
+	void RefreshIndexResource(const IndexSetupParameters& indexSetupParameters);
+	void ReleaseIndexResource(const IndexSetupParameters& indexSetupParameters);
 	u32 GetUsedIndexResourceCount() { return m_usedIndexResourceCount; }
+
+	void AcquireTextureResource(const TextureSetupParameters& textureSetupParameters);
+	void ReleaseTextureResource(const TextureSetupParameters& textureSetupParameters);
+	u32 GetUsedTextureResourceCount() { return m_usedTextureResourceCount; }
+
+	void ActivateRenderState(RenderStateParameters& renderStateParameters);
 
 	void ActivateShader(const ShaderResource* pShaderResource);
 
@@ -50,13 +56,19 @@ public:
 	void ActivateUniform(const UniformResource* pUniformResource, const foun::Matrix44& matrix);
 
 	void ActivateVertex(const VertexResource* pVertexResource);
+	void DeactivateVertex(const VertexResource* pVertexResource);
 
 	void ActivateIndex(const IndexResource* pIndexResource);
+
+	void ActivateTexture(TextureBindParameters& textureBindParameters);
+
+	void Draw(u32 indexCount, u32 indexOffset, IndexType indexType);
 
 protected:
 	u32 m_usedShaderResourceCount;
 	u32 m_usedVertexResourceCount;
 	u32 m_usedIndexResourceCount;
+	u32 m_usedTextureResourceCount;
 };
 
 //namespace grap

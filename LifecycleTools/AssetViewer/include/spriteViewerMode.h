@@ -19,7 +19,6 @@
 
 #include <imag/imag_assetProcessor.h>
 #include <imag/imag_assetContainer.h>
-#include <imag/imag_resourceHandler.h>
 
 #include <pack/pack_packageWalker.h>
 

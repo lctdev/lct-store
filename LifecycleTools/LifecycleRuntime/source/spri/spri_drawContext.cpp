@@ -9,12 +9,9 @@
 #include <grap/grap_resources.h>
 #include <grap/grap_parameters.h>
 
-#include <imag/imag_resources.h>
-
 #include <util/util_indexMap.h>
 
 #include <foun/foun_debug.h>
-#include <foun/foun_graphicsDebug.h>
 #include <foun/foun_string.h>
 
 namespace lct
@@ -70,36 +67,35 @@ void DrawContext::AcquireResources()
 {
 	LCT_TRACE("spri::DrawContext::Acquireresources\n");
 
-	grap::ShaderResourceParameters shaderResourceParameters;
-	FillShaderResourceParameters(shaderResourceParameters);
-	m_pGraphicsDevice->AcquireShaderResources(shaderResourceParameters);
+	grap::ShaderSetupParameters shaderSetupParameters;
+	FillShaderSetupParameters(shaderSetupParameters);
+	m_pGraphicsDevice->AcquireShaderResources(shaderSetupParameters);
 
-	grap::VertexResourceParameters vertexResourceParameters;
-	grap::IndexResourceParameters indexResourceParameters;
-	FillQuadResourceParameters(vertexResourceParameters, indexResourceParameters);
-	m_pGraphicsDevice->AcquireVertexResource(vertexResourceParameters);
-	m_pGraphicsDevice->AcquireIndexResource(indexResourceParameters);
+	grap::VertexSetupParameters vertexSetupParameters;
+	grap::IndexSetupParameters indexSetupParameters;
+	FillQuadSetupParameters(vertexSetupParameters, indexSetupParameters);
+	m_pGraphicsDevice->AcquireVertexResource(vertexSetupParameters);
+	m_pGraphicsDevice->AcquireIndexResource(indexSetupParameters);
 }
 
 void DrawContext::ReleaseResources()
 {
-	grap::ShaderResourceParameters shaderResourceParameters;
-	FillShaderResourceParameters(shaderResourceParameters);
-	m_pGraphicsDevice->ReleaseShaderResources(shaderResourceParameters);
+	grap::ShaderSetupParameters shaderSetupParameters;
+	FillShaderSetupParameters(shaderSetupParameters);
+	m_pGraphicsDevice->ReleaseShaderResources(shaderSetupParameters);
 
-	grap::VertexResourceParameters vertexResourceParameters;
-	grap::IndexResourceParameters indexResourceParameters;
-	FillQuadResourceParameters(vertexResourceParameters, indexResourceParameters);
-	m_pGraphicsDevice->ReleaseVertexResource(vertexResourceParameters);
-	m_pGraphicsDevice->ReleaseIndexResource(indexResourceParameters);
+	grap::VertexSetupParameters vertexSetupParameters;
+	grap::IndexSetupParameters indexSetupParameters;
+	FillQuadSetupParameters(vertexSetupParameters, indexSetupParameters);
+	m_pGraphicsDevice->ReleaseVertexResource(vertexSetupParameters);
+	m_pGraphicsDevice->ReleaseIndexResource(indexSetupParameters);
 }
 
 void DrawContext::ActivateRenderState()
 {
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-	FOUN_TRACE_GL_ERROR();
+	grap::RenderStateParameters renderStateParameters;
+	renderStateParameters.enableBlend = true;
+	m_pGraphicsDevice->ActivateRenderState(renderStateParameters);
 }
 
 void DrawContext::ActivateShader()
@@ -112,6 +108,11 @@ void DrawContext::ActivateQuad()
 	m_pGraphicsDevice->ActivateVertex(m_pQuadVertexResource);
 
 	m_pGraphicsDevice->ActivateIndex(m_pQuadIndexResource);
+}
+
+void DrawContext::DeactivateQuad()
+{
+	m_pGraphicsDevice->DeactivateVertex(m_pQuadVertexResource);
 }
 
 void DrawContext::ActivateProjectionTransform(const foun::Matrix44& projectionTransform)
@@ -157,47 +158,44 @@ void DrawContext::DrawFigure(FigureInstance& figureInstance)
 		m_pGraphicsDevice->ActivateUniform(pModulateColorUniformResource, modulateColor);
 		m_pGraphicsDevice->ActivateUniform(pInterpolateColorUniformResource, interpolateColor);
 
-		glActiveTexture(GL_TEXTURE0 + TEXTURE_UNIT_INDEX);
-		glBindTexture(GL_TEXTURE_2D, pattern.pTextureResource->hTexture);
-		//glUniform1i(m_pTextureUniformResource->uniformLocation, TEXTURE_UNIT_INDEX);
-		glUniform1i(pTextureUniformResource->uniformLocation, TEXTURE_UNIT_INDEX); // FINISH REFACTOR!
+		grap::TextureBindParameters textureBindParameters;
+		textureBindParameters.pTextureResource = pattern.pTextureResource;
+		textureBindParameters.pUniformResource = pTextureUniformResource;
+		textureBindParameters.textureUnitIndex = TEXTURE_UNIT_INDEX;
+		m_pGraphicsDevice->ActivateTexture(textureBindParameters);
 
-		FOUN_TRACE_GL_ERROR();
-
-		glDrawElements(GL_TRIANGLES, QUAD_INDEX_COUNT, GL_UNSIGNED_BYTE, NULL);
-
-		FOUN_TRACE_GL_ERROR();
+		m_pGraphicsDevice->Draw(QUAD_INDEX_COUNT, 0, grap::INDEX_TYPE_U8);
 	}
 }
 
 /*
  * Protected Instance
  */
-void DrawContext::FillShaderResourceParameters(grap::ShaderResourceParameters& shaderResourceParameters)
+void DrawContext::FillShaderSetupParameters(grap::ShaderSetupParameters& shaderSetupParameters)
 {
-	shaderResourceParameters.pShaderResource = m_pShaderResource;
-	shaderResourceParameters.pVertexShaderBinary = m_pVertexShaderBinary;
-	shaderResourceParameters.pFragmentShaderBinary = m_pFragmentShaderBinary;
-	shaderResourceParameters.pAttributeDataArray = ATTRIBUTE_DATA_ARRAY;
-	shaderResourceParameters.attributeCount = ATTRIBUTE_COUNT;
-	shaderResourceParameters.pUniformResourceArray = m_pUniformResourceArray;
-	shaderResourceParameters.pUniformDataArray = UNIFORM_DATA_ARRAY;
-	shaderResourceParameters.uniformCount = UNIFORM_COUNT;
+	shaderSetupParameters.pShaderResource = m_pShaderResource;
+	shaderSetupParameters.pVertexShaderBinary = m_pVertexShaderBinary;
+	shaderSetupParameters.pFragmentShaderBinary = m_pFragmentShaderBinary;
+	shaderSetupParameters.pAttributeDataArray = ATTRIBUTE_DATA_ARRAY;
+	shaderSetupParameters.attributeCount = ATTRIBUTE_COUNT;
+	shaderSetupParameters.pUniformResourceArray = m_pUniformResourceArray;
+	shaderSetupParameters.pUniformDataArray = UNIFORM_DATA_ARRAY;
+	shaderSetupParameters.uniformCount = UNIFORM_COUNT;
 }
 
-void DrawContext::FillQuadResourceParameters(grap::VertexResourceParameters& vertexResourceParameters, grap::IndexResourceParameters& indexResourceParameters)
+void DrawContext::FillQuadSetupParameters(grap::VertexSetupParameters& vertexSetupParameters, grap::IndexSetupParameters& indexSetupParameters)
 {
-	vertexResourceParameters.pVertexResource = m_pQuadVertexResource;
-	vertexResourceParameters.pVertexBinary = QUAD_VERTEX_DATA_ARRAY;
-	vertexResourceParameters.vertexBinarySize = sizeof(QUAD_VERTEX_DATA_ARRAY);
-	vertexResourceParameters.pAttributeDataArray = ATTRIBUTE_DATA_ARRAY;
-	vertexResourceParameters.attributeCount = ATTRIBUTE_COUNT;
-	vertexResourceParameters.dynamic = false;
+	vertexSetupParameters.pVertexResource = m_pQuadVertexResource;
+	vertexSetupParameters.pVertexBinary = QUAD_VERTEX_DATA_ARRAY;
+	vertexSetupParameters.vertexBinarySize = sizeof(QUAD_VERTEX_DATA_ARRAY);
+	vertexSetupParameters.pAttributeDataArray = ATTRIBUTE_DATA_ARRAY;
+	vertexSetupParameters.attributeCount = ATTRIBUTE_COUNT;
+	vertexSetupParameters.dynamic = false;
 
-	indexResourceParameters.pIndexResource = m_pQuadIndexResource;
-	indexResourceParameters.pIndexBinary = QUAD_INDEX_DATA_ARRAY;
-	indexResourceParameters.indexBinarySize = sizeof(QUAD_INDEX_DATA_ARRAY);
-	indexResourceParameters.dynamic = false;
+	indexSetupParameters.pIndexResource = m_pQuadIndexResource;
+	indexSetupParameters.pIndexBinary = QUAD_INDEX_DATA_ARRAY;
+	indexSetupParameters.indexBinarySize = sizeof(QUAD_INDEX_DATA_ARRAY);
+	indexSetupParameters.dynamic = false;
 }
 
 //namespace spri

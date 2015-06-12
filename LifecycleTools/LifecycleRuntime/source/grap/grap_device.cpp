@@ -18,12 +18,12 @@ Device::Device()
 {
 }
 
-void Device::AcquireShaderResources(const ShaderResourceParameters& shaderResourceParameters)
+void Device::AcquireShaderResources(const ShaderSetupParameters& shaderSetupParameters)
 {
 	char log[1024];
 	s32 logLength = 0;
 
-	ShaderResource* pShaderResource = shaderResourceParameters.pShaderResource;
+	ShaderResource* pShaderResource = shaderSetupParameters.pShaderResource;
 	if (pShaderResource->hShaderProgram != 0)
 	{
 		LCT_TRACE("Shader Resource already acquired!\n");
@@ -32,7 +32,7 @@ void Device::AcquireShaderResources(const ShaderResourceParameters& shaderResour
 
 	// create and compile the vertex shader
 	pShaderResource->hVertexShader = glCreateShader(GL_VERTEX_SHADER);
-	glShaderSource(pShaderResource->hVertexShader, 1, (const GLchar**)&shaderResourceParameters.pVertexShaderBinary, 0);
+	glShaderSource(pShaderResource->hVertexShader, 1, (const GLchar**)&shaderSetupParameters.pVertexShaderBinary, 0);
 	glCompileShader(pShaderResource->hVertexShader);
 	LCT_TRACE_GL_ERROR();
 	glGetShaderInfoLog(pShaderResource->hVertexShader, sizeof(log), &logLength, log);
@@ -44,7 +44,7 @@ void Device::AcquireShaderResources(const ShaderResourceParameters& shaderResour
 
 	// create and compile the fragment shader
 	pShaderResource->hFragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-	glShaderSource(pShaderResource->hFragmentShader, 1, (const GLchar**)&shaderResourceParameters.pFragmentShaderBinary, 0);
+	glShaderSource(pShaderResource->hFragmentShader, 1, (const GLchar**)&shaderSetupParameters.pFragmentShaderBinary, 0);
 	glCompileShader(pShaderResource->hFragmentShader);
 	LCT_TRACE_GL_ERROR();
 	glGetShaderInfoLog(pShaderResource->hFragmentShader, sizeof(log), &logLength, log);
@@ -60,9 +60,9 @@ void Device::AcquireShaderResources(const ShaderResourceParameters& shaderResour
 	glAttachShader(pShaderResource->hShaderProgram, pShaderResource->hFragmentShader);
 
 	// bind attributes	
-	for (u32 attributeIndex = 0; attributeIndex < shaderResourceParameters.attributeCount; ++attributeIndex)
+	for (u32 attributeIndex = 0; attributeIndex < shaderSetupParameters.attributeCount; ++attributeIndex)
 	{
-		const AttributeData* pAttributeData = shaderResourceParameters.pAttributeDataArray + attributeIndex;
+		const AttributeData* pAttributeData = shaderSetupParameters.pAttributeDataArray + attributeIndex;
 
 		glBindAttribLocation(pShaderResource->hShaderProgram, attributeIndex, pAttributeData->name);
 		LCT_TRACE_GL_ERROR();
@@ -73,10 +73,10 @@ void Device::AcquireShaderResources(const ShaderResourceParameters& shaderResour
 	LCT_TRACE_GL_ERROR();
 
 	// find uniforms
-	for (u32 uniformIndex = 0; uniformIndex < shaderResourceParameters.uniformCount; ++uniformIndex)
+	for (u32 uniformIndex = 0; uniformIndex < shaderSetupParameters.uniformCount; ++uniformIndex)
 	{
-		const UniformData* pUniformData = shaderResourceParameters.pUniformDataArray + uniformIndex;
-		UniformResource* pUniformResource = shaderResourceParameters.pUniformResourceArray + uniformIndex;
+		const UniformData* pUniformData = shaderSetupParameters.pUniformDataArray + uniformIndex;
+		UniformResource* pUniformResource = shaderSetupParameters.pUniformResourceArray + uniformIndex;
 
 		pUniformResource->uniformLocation = glGetUniformLocation(pShaderResource->hShaderProgram, pUniformData->name);
 		LCT_TRACE_GL_ERROR();
@@ -85,9 +85,9 @@ void Device::AcquireShaderResources(const ShaderResourceParameters& shaderResour
 	++m_usedShaderResourceCount;
 }
 
-void Device::ReleaseShaderResources(const ShaderResourceParameters& shaderResourceParameters)
+void Device::ReleaseShaderResources(const ShaderSetupParameters& shaderSetupParameters)
 {
-	ShaderResource* pShaderResource = shaderResourceParameters.pShaderResource;
+	ShaderResource* pShaderResource = shaderSetupParameters.pShaderResource;
 	if (pShaderResource->hShaderProgram == 0)
 	{
 		LCT_TRACE("Shader Resource not yet acquired!\n");
@@ -108,32 +108,32 @@ void Device::ReleaseShaderResources(const ShaderResourceParameters& shaderResour
 	memset(pShaderResource, 0, sizeof(ShaderResource));
 
 	// clear uniforms
-	memset(shaderResourceParameters.pUniformResourceArray, 0, (sizeof(UniformResource) * shaderResourceParameters.uniformCount));
+	memset(shaderSetupParameters.pUniformResourceArray, 0, (sizeof(UniformResource) * shaderSetupParameters.uniformCount));
 
 	LCT_TRACE_GL_ERROR();
 
 	--m_usedShaderResourceCount;
 }
 
-void Device::AcquireVertexResource(const VertexResourceParameters& vertexResourceParameters)
+void Device::AcquireVertexResource(const VertexSetupParameters& vertexSetupParameters)
 {
-	VertexResource* pVertexResource = vertexResourceParameters.pVertexResource;
+	VertexResource* pVertexResource = vertexSetupParameters.pVertexResource;
 	if (pVertexResource->hVertexBuffer != 0)
 	{
 		LCT_TRACE("Vertex Resource already acquired!\n");
 		return;
 	}
-	GLenum usage = vertexResourceParameters.dynamic ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW;
+	GLenum usage = vertexSetupParameters.dynamic ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW;
 
 	glGenBuffers(1, &pVertexResource->hVertexBuffer);
 	glBindBuffer(GL_ARRAY_BUFFER, pVertexResource->hVertexBuffer);
-	glBufferData(GL_ARRAY_BUFFER, vertexResourceParameters.vertexBinarySize, vertexResourceParameters.pVertexBinary, usage);
+	glBufferData(GL_ARRAY_BUFFER, vertexSetupParameters.vertexBinarySize, vertexSetupParameters.pVertexBinary, usage);
 
 	// calculate the stride for a single vertex
 	u32 vertexStride = 0;
-	for (u32 attributeIndex = 0; attributeIndex < vertexResourceParameters.attributeCount; ++attributeIndex)
+	for (u32 attributeIndex = 0; attributeIndex < vertexSetupParameters.attributeCount; ++attributeIndex)
 	{
-		const grap::AttributeData* pAttributeData = vertexResourceParameters.pAttributeDataArray + attributeIndex;
+		const grap::AttributeData* pAttributeData = vertexSetupParameters.pAttributeDataArray + attributeIndex;
 
 		u32 attributeSize = pAttributeData->componentCount * sizeof(f32);
 		vertexStride += attributeSize;
@@ -141,17 +141,17 @@ void Device::AcquireVertexResource(const VertexResourceParameters& vertexResourc
 	pVertexResource->vertexStride = vertexStride;
 
 	// store references to attribute information
-	pVertexResource->pAttributeDataArray = vertexResourceParameters.pAttributeDataArray;
-	pVertexResource->attributeCount = vertexResourceParameters.attributeCount;
+	pVertexResource->pAttributeDataArray = vertexSetupParameters.pAttributeDataArray;
+	pVertexResource->attributeCount = vertexSetupParameters.attributeCount;
 
 	LCT_TRACE_GL_ERROR();
 
 	++m_usedVertexResourceCount;
 }
 
-void Device::RefreshVertexResource(const VertexResourceParameters& vertexResourceParameters)
+void Device::RefreshVertexResource(const VertexSetupParameters& vertexSetupParameters)
 {
-	VertexResource* pVertexResource = vertexResourceParameters.pVertexResource;
+	VertexResource* pVertexResource = vertexSetupParameters.pVertexResource;
 	if (pVertexResource->hVertexBuffer == 0)
 	{
 		LCT_TRACE("Vertex Resource not yet acquired!\n");
@@ -159,14 +159,14 @@ void Device::RefreshVertexResource(const VertexResourceParameters& vertexResourc
 	}
 
 	glBindBuffer(GL_ARRAY_BUFFER, pVertexResource->hVertexBuffer);
-	glBufferSubData(GL_ARRAY_BUFFER, 0, vertexResourceParameters.vertexBinarySize, vertexResourceParameters.pVertexBinary);
+	glBufferSubData(GL_ARRAY_BUFFER, 0, vertexSetupParameters.vertexBinarySize, vertexSetupParameters.pVertexBinary);
 
 	LCT_TRACE_GL_ERROR();
 }
 
-void Device::ReleaseVertexResource(const VertexResourceParameters& vertexResourceParameters)
+void Device::ReleaseVertexResource(const VertexSetupParameters& vertexSetupParameters)
 {
-	VertexResource* pVertexResource = vertexResourceParameters.pVertexResource;
+	VertexResource* pVertexResource = vertexSetupParameters.pVertexResource;
 	if (pVertexResource->hVertexBuffer == 0)
 	{
 		LCT_TRACE("Vertex Resource not yet acquired!\n");
@@ -186,28 +186,28 @@ void Device::ReleaseVertexResource(const VertexResourceParameters& vertexResourc
 	--m_usedVertexResourceCount;
 }
 
-void Device::AcquireIndexResource(const IndexResourceParameters& indexResourceParameters)
+void Device::AcquireIndexResource(const IndexSetupParameters& indexSetupParameters)
 {
-	IndexResource* pIndexResource = indexResourceParameters.pIndexResource;
+	IndexResource* pIndexResource = indexSetupParameters.pIndexResource;
 	if (pIndexResource->hIndexBuffer != 0)
 	{
 		LCT_TRACE("Index Resource already acquired!\n");
 		return;
 	}
-	GLenum usage = indexResourceParameters.dynamic ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW;
+	GLenum usage = indexSetupParameters.dynamic ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW;
 
 	glGenBuffers(1, &pIndexResource->hIndexBuffer);
 	glBindBuffer(GL_ARRAY_BUFFER, pIndexResource->hIndexBuffer);
-	glBufferData(GL_ARRAY_BUFFER, indexResourceParameters.indexBinarySize, indexResourceParameters.pIndexBinary, usage);
+	glBufferData(GL_ARRAY_BUFFER, indexSetupParameters.indexBinarySize, indexSetupParameters.pIndexBinary, usage);
 
 	LCT_TRACE_GL_ERROR();
 
 	++m_usedIndexResourceCount;
 }
 
-void Device::RefreshIndexResource(const IndexResourceParameters& indexResourceParameters)
+void Device::RefreshIndexResource(const IndexSetupParameters& indexSetupParameters)
 {
-	IndexResource* pIndexResource = indexResourceParameters.pIndexResource;
+	IndexResource* pIndexResource = indexSetupParameters.pIndexResource;
 	if (pIndexResource->hIndexBuffer == 0)
 	{
 		LCT_TRACE("Index Resource not yet acquired!\n");
@@ -215,14 +215,14 @@ void Device::RefreshIndexResource(const IndexResourceParameters& indexResourcePa
 	}
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, pIndexResource->hIndexBuffer);
-	glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, indexResourceParameters.indexBinarySize, indexResourceParameters.pIndexBinary);
+	glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, indexSetupParameters.indexBinarySize, indexSetupParameters.pIndexBinary);
 
 	LCT_TRACE_GL_ERROR();
 }
 
-void Device::ReleaseIndexResource(const IndexResourceParameters& indexResourceParameters)
+void Device::ReleaseIndexResource(const IndexSetupParameters& indexSetupParameters)
 {
-	IndexResource* pIndexResource = indexResourceParameters.pIndexResource;
+	IndexResource* pIndexResource = indexSetupParameters.pIndexResource;
 	if (pIndexResource->hIndexBuffer == 0)
 	{
 		LCT_TRACE("Index Resource not yet acquired!\n");
@@ -236,6 +236,64 @@ void Device::ReleaseIndexResource(const IndexResourceParameters& indexResourcePa
 	LCT_TRACE_GL_ERROR();
 
 	--m_usedIndexResourceCount;
+}
+
+void Device::AcquireTextureResource(const TextureSetupParameters& textureSetupParameters)
+{
+	TextureResource* pTextureResource = textureSetupParameters.pTextureResource;
+	if (pTextureResource->hTexture != 0)
+	{
+		LCT_TRACE("Texture Resource already acquired!\n");
+		return;
+	}
+
+	// TEMP?
+	const GLint INTERNAL_FORMAT = GL_RGBA;
+	const GLint FORMAT = GL_RGBA;
+	const GLint TYPE = GL_UNSIGNED_BYTE;
+
+	glGenTextures(1, &pTextureResource->hTexture);
+	glBindTexture(GL_TEXTURE_2D, pTextureResource->hTexture);
+	glTexImage2D(GL_TEXTURE_2D, 0, INTERNAL_FORMAT, textureSetupParameters.width, textureSetupParameters.height, 0, FORMAT, TYPE, textureSetupParameters.pTextureBinary);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+	LCT_TRACE_GL_ERROR();
+
+	++m_usedTextureResourceCount;
+}
+
+void Device::ReleaseTextureResource(const TextureSetupParameters& textureSetupParameters)
+{
+	TextureResource* pTextureResource = textureSetupParameters.pTextureResource;
+	if (pTextureResource->hTexture == 0)
+	{
+		LCT_TRACE("Texture Resource not yet acquired!\n");
+		return;
+	}
+
+	glDeleteTextures(1, &pTextureResource->hTexture);
+
+	pTextureResource->hTexture = 0;
+
+	LCT_TRACE_GL_ERROR();
+
+	--m_usedTextureResourceCount;
+}
+
+void Device::ActivateRenderState(RenderStateParameters& renderStateParameters)
+{
+	if (renderStateParameters.enableBlend)
+	{
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	}
+	else
+	{
+		glDisable(GL_BLEND);
+	}
+
+	LCT_TRACE_GL_ERROR();
 }
 
 void Device::ActivateShader(const ShaderResource* pShaderResource)
@@ -291,9 +349,44 @@ void Device::ActivateVertex(const VertexResource* pVertexResource)
 	LCT_TRACE_GL_ERROR();
 }
 
+void Device::DeactivateVertex(const VertexResource* pVertexResource)
+{
+	for (u32 attributeIndex = 0; attributeIndex < pVertexResource->attributeCount; ++attributeIndex)
+	{
+		glDisableVertexAttribArray(attributeIndex);
+	}
+
+	LCT_TRACE_GL_ERROR();
+}
+
 void Device::ActivateIndex(const IndexResource* pIndexResource)
 {
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, pIndexResource->hIndexBuffer);
+
+	LCT_TRACE_GL_ERROR();
+}
+
+void Device::ActivateTexture(TextureBindParameters& textureBindParameters)
+{
+	const TextureResource* pTextureResource = textureBindParameters.pTextureResource;
+	const UniformResource* pUniformResource = textureBindParameters.pUniformResource;
+
+	glActiveTexture(GL_TEXTURE0 + textureBindParameters.textureUnitIndex);
+	glBindTexture(GL_TEXTURE_2D, pTextureResource->hTexture);
+	glUniform1i(pUniformResource->uniformLocation, textureBindParameters.textureUnitIndex);
+
+	LCT_TRACE_GL_ERROR();
+}
+
+void Device::Draw(u32 indexCount, u32 indexOffset, IndexType indexType)
+{
+	static const GLenum TYPE_TABLE[INDEX_TYPE_COUNT] =
+	{
+		GL_UNSIGNED_BYTE,
+		GL_UNSIGNED_SHORT
+	};
+
+	glDrawElements(GL_TRIANGLES, indexCount, TYPE_TABLE[indexType], (GLvoid*)indexOffset);
 
 	LCT_TRACE_GL_ERROR();
 }

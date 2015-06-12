@@ -236,9 +236,6 @@
     <ClInclude Include="include\foun\foun_flags.h">
       <Filter>include\foun</Filter>
     </ClInclude>
-    <ClInclude Include="include\foun\foun_graphicsDebug.h">
-      <Filter>include\foun</Filter>
-    </ClInclude>
     <ClInclude Include="include\foun\foun_intersection.h">
       <Filter>include\foun</Filter>
     </ClInclude>
@@ -312,12 +309,6 @@
       <Filter>include\imag</Filter>
     </ClInclude>
     <ClInclude Include="include\imag\imag_data.h">
-      <Filter>include\imag</Filter>
-    </ClInclude>
-    <ClInclude Include="include\imag\imag_resourceHandler.h">
-      <Filter>include\imag</Filter>
-    </ClInclude>
-    <ClInclude Include="include\imag\imag_resources.h">
       <Filter>include\imag</Filter>
     </ClInclude>
     <ClInclude Include="include\inpu\inpu_constants.h">
@@ -524,9 +515,6 @@
       <Filter>source\imag</Filter>
     </ClCompile>
     <ClCompile Include="source\imag\imag_assetProcessor.cpp">
-      <Filter>source\imag</Filter>
-    </ClCompile>
-    <ClCompile Include="source\imag\imag_resourceHandler.cpp">
       <Filter>source\imag</Filter>
     </ClCompile>
     <ClCompile Include="source\inpu\inpu_cursor.cpp">

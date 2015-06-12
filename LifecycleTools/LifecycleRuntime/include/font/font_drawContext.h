@@ -16,8 +16,8 @@ struct ShaderResource;
 struct UniformResource;
 struct VertexResource;
 struct IndexResource;
-struct ShaderResourceParameters;
-struct VertexResourceParameters;
+struct ShaderSetupParameters;
+struct VertexSetupParameters;
 }
 
 namespace font
@@ -42,14 +42,15 @@ public:
 	void ActivateRenderState();
 	void ActivateShader();
 	void ActivateSymbolBuffer(SymbolBuffer& symbolBuffer);
+	void DeactivateSymbolBuffer(SymbolBuffer& symbolBuffer);
 	void ActivateProjectionTransform(const foun::Matrix44& projectionTransform);
 	void ActivateWorldTransform(const foun::Matrix32& worldTransform);
 
 	void DrawSymbolBuffer(SymbolBuffer& symbolBuffer);
 
 protected:
-	void FillShaderResourceParameters(grap::ShaderResourceParameters& shaderResourceParameters);
-	void FillVertexResourceParameters(grap::VertexResourceParameters& vertexResourceParameters);
+	void FillShaderSetupParameters(grap::ShaderSetupParameters& shaderSetupParameters);
+	void FillVertexSetupParameters(grap::VertexSetupParameters& vertexSetupParameters);
 
 	foun::Allocator* m_pAllocator;
 

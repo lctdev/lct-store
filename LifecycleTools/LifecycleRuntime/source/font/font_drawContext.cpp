@@ -10,12 +10,10 @@
 #include <grap/grap_resources.h>
 
 #include <imag/imag_assets.h>
-#include <imag/imag_resources.h>
 
 #include <util/util_indexMap.h>
 
 #include <foun/foun_debug.h>
-#include <foun/foun_graphicsDebug.h>
 #include <foun/foun_string.h>
 
 namespace lct
@@ -66,26 +64,23 @@ void DrawContext::AcquireResources()
 {
 	LCT_TRACE("font::DrawContext::Acquireresources\n");
 
-	grap::ShaderResourceParameters shaderResourceParameters;
-	FillShaderResourceParameters(shaderResourceParameters);
-	m_pGraphicsDevice->AcquireShaderResources(shaderResourceParameters);
+	grap::ShaderSetupParameters shaderSetupParameters;
+	FillShaderSetupParameters(shaderSetupParameters);
+	m_pGraphicsDevice->AcquireShaderResources(shaderSetupParameters);
 }
 
 void DrawContext::ReleaseResources()
 {
-	grap::ShaderResourceParameters shaderResourceParameters;
-	FillShaderResourceParameters(shaderResourceParameters);
-	m_pGraphicsDevice->ReleaseShaderResources(shaderResourceParameters);
-
-	FOUN_TRACE_GL_ERROR();
+	grap::ShaderSetupParameters shaderSetupParameters;
+	FillShaderSetupParameters(shaderSetupParameters);
+	m_pGraphicsDevice->ReleaseShaderResources(shaderSetupParameters);
 }
 
 void DrawContext::ActivateRenderState()
 {
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-	FOUN_TRACE_GL_ERROR();
+	grap::RenderStateParameters renderStateParameters;
+	renderStateParameters.enableBlend = true;
+	m_pGraphicsDevice->ActivateRenderState(renderStateParameters);
 }
 
 void DrawContext::ActivateShader()
@@ -98,6 +93,11 @@ void DrawContext::ActivateSymbolBuffer(SymbolBuffer& symbolBuffer)
 	m_pGraphicsDevice->ActivateVertex(symbolBuffer.m_pQuadVertexResource);
 
 	m_pGraphicsDevice->ActivateIndex(symbolBuffer.m_pQuadIndexResource);
+}
+
+void DrawContext::DeactivateSymbolBuffer(SymbolBuffer& symbolBuffer)
+{
+	m_pGraphicsDevice->DeactivateVertex(symbolBuffer.m_pQuadVertexResource);
 }
 
 void DrawContext::ActivateProjectionTransform(const foun::Matrix44& projectionTransform)
@@ -125,34 +125,31 @@ void DrawContext::DrawSymbolBuffer(SymbolBuffer& symbolBuffer)
 
 	m_pGraphicsDevice->ActivateUniform(pModulateColorUniformResource, modulateColor);
 
-	const imag::TextureResource* pTextureResource = symbolBuffer.m_pSheetAsset->pTextureAsset->pTextureResource;
+	const grap::TextureResource* pTextureResource = symbolBuffer.m_pSheetAsset->pTextureAsset->pTextureResource;
 
-	glActiveTexture(GL_TEXTURE0 + TEXTURE_UNIT_INDEX);
-	glBindTexture(GL_TEXTURE_2D, pTextureResource->hTexture);
-	//glUniform1i(m_pTextureUniformResource->uniformLocation, TEXTURE_UNIT_INDEX);
-	glUniform1i(pTextureUniformResource->uniformLocation, TEXTURE_UNIT_INDEX); // FINISH REFACTOR!
-
-	FOUN_TRACE_GL_ERROR();
+	grap::TextureBindParameters textureBindParameters;
+	textureBindParameters.pTextureResource = pTextureResource;
+	textureBindParameters.pUniformResource = pTextureUniformResource;
+	textureBindParameters.textureUnitIndex = TEXTURE_UNIT_INDEX;
+	m_pGraphicsDevice->ActivateTexture(textureBindParameters);
 
 	u32 indexCount = symbolBuffer.m_quadCount * QUAD_INDEX_COUNT;
-	glDrawElements(GL_TRIANGLES, indexCount, GL_UNSIGNED_SHORT, NULL);
-
-	FOUN_TRACE_GL_ERROR();
+	m_pGraphicsDevice->Draw(indexCount, 0, grap::INDEX_TYPE_U16);
 }
 
 /*
  * Protected Instance
  */
-void DrawContext::FillShaderResourceParameters(grap::ShaderResourceParameters& shaderResourceParameters)
+void DrawContext::FillShaderSetupParameters(grap::ShaderSetupParameters& shaderSetupParameters)
 {
-	shaderResourceParameters.pShaderResource = m_pShaderResource;
-	shaderResourceParameters.pVertexShaderBinary = m_pVertexShaderBinary;
-	shaderResourceParameters.pFragmentShaderBinary = m_pFragmentShaderBinary;
-	shaderResourceParameters.pAttributeDataArray = ATTRIBUTE_DATA_ARRAY;
-	shaderResourceParameters.attributeCount = ATTRIBUTE_COUNT;
-	shaderResourceParameters.pUniformResourceArray = m_pUniformResourceArray;
-	shaderResourceParameters.pUniformDataArray = UNIFORM_DATA_ARRAY;
-	shaderResourceParameters.uniformCount = UNIFORM_COUNT;
+	shaderSetupParameters.pShaderResource = m_pShaderResource;
+	shaderSetupParameters.pVertexShaderBinary = m_pVertexShaderBinary;
+	shaderSetupParameters.pFragmentShaderBinary = m_pFragmentShaderBinary;
+	shaderSetupParameters.pAttributeDataArray = ATTRIBUTE_DATA_ARRAY;
+	shaderSetupParameters.attributeCount = ATTRIBUTE_COUNT;
+	shaderSetupParameters.pUniformResourceArray = m_pUniformResourceArray;
+	shaderSetupParameters.pUniformDataArray = UNIFORM_DATA_ARRAY;
+	shaderSetupParameters.uniformCount = UNIFORM_COUNT;
 }
 
 //namespace font

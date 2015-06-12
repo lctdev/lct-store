@@ -41,6 +41,11 @@ struct IndexResource
 	GLuint hIndexBuffer;
 };
 
+struct TextureResource
+{
+	GLuint hTexture;
+};
+
 //namespace grap
 }
 //namespace lct

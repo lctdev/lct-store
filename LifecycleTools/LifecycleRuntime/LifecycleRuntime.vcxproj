@@ -54,7 +54,6 @@
     <ClInclude Include="include\foun\foun_color.h" />
     <ClInclude Include="include\foun\foun_debug.h" />
     <ClInclude Include="include\foun\foun_flags.h" />
-    <ClInclude Include="include\foun\foun_graphicsDebug.h" />
     <ClInclude Include="include\foun\foun_intersection.h" />
     <ClInclude Include="include\foun\foun_keys.h" />
     <ClInclude Include="include\foun\foun_linearAllocator.h" />
@@ -87,8 +86,6 @@
     <ClInclude Include="include\imag\imag_assets.h" />
     <ClInclude Include="include\imag\imag_constants.h" />
     <ClInclude Include="include\imag\imag_data.h" />
-    <ClInclude Include="include\imag\imag_resourceHandler.h" />
-    <ClInclude Include="include\imag\imag_resources.h" />
     <ClInclude Include="include\inpu\inpu_constants.h" />
     <ClInclude Include="include\inpu\inpu_cursor.h" />
     <ClInclude Include="include\inpu\inpu_mouseCursor.h" />
@@ -152,7 +149,6 @@
     <ClCompile Include="source\grap\grap_device.cpp" />
     <ClCompile Include="source\imag\imag_assetContainer.cpp" />
     <ClCompile Include="source\imag\imag_assetProcessor.cpp" />
-    <ClCompile Include="source\imag\imag_resourceHandler.cpp" />
     <ClCompile Include="source\inpu\inpu_cursor.cpp" />
     <ClCompile Include="source\inpu\inpu_mouseCursor.cpp" />
     <ClCompile Include="source\inpu\inpu_mouseReader.cpp" />

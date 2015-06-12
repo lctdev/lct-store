@@ -1,16 +1,15 @@
 #include <imag/imag_assetProcessor.h>
 #include <imag/imag_assetContainer.h>
 #include <imag/imag_assets.h>
-#include <imag/imag_resourceHandler.h>
-#include <imag/imag_resources.h>
 #include <imag/imag_data.h>
+
+#include <grap/grap_device.h>
+#include <grap/grap_resources.h>
 
 #include <pack/pack_assetHeader.h>
 
 #include <util/util_binaryReader.h>
 #include <util/util_indexMap.h>
-
-#include <foun/foun_graphicsDebug.h>
 
 #include <string.h>
 
@@ -34,7 +33,7 @@ static const u16 VERSION = 0;
  */
 AssetProcessor::AssetProcessor()
 : m_pAllocator(NULL)
-, m_pResourceHandler(NULL)
+, m_pGraphicsDevice(NULL)
 , m_pAssetContainer(NULL)
 {
 }
@@ -48,9 +47,9 @@ void AssetProcessor::SetAllocator(lct::foun::Allocator* pAllocator)
 	m_pAllocator = pAllocator;
 }
 
-void AssetProcessor::SetResourceHandler(ResourceHandler* pResourceHandler)
+void AssetProcessor::SetGraphicsDevice(grap::Device* pGraphicsDevice)
 {
-	m_pResourceHandler = pResourceHandler;
+	m_pGraphicsDevice = pGraphicsDevice;
 }
 
 void AssetProcessor::SetAssetContainer(AssetContainer* pAssetContainer)
@@ -85,8 +84,8 @@ TextureAsset* AssetProcessor::LoadTextureAsset(util::BinaryReader& binaryReader)
 
 	void* pTextureBinary = binaryReader.Read(pTextureData->size);
 
-	lct::imag::TextureResource* pTextureResource = m_pAllocator->AllocType<lct::imag::TextureResource>();
-	memset(pTextureResource, 0, sizeof(lct::imag::TextureResource));
+	grap::TextureResource* pTextureResource = m_pAllocator->AllocType<grap::TextureResource>();
+	memset(pTextureResource, 0, sizeof(grap::TextureResource));
 
 	TextureAsset* pTextureAsset = m_pAllocator->AllocType<TextureAsset>();
 	pTextureAsset->pTextureData = pTextureData;
@@ -102,8 +101,8 @@ TextureTableAsset* AssetProcessor::LoadTextureTableAsset(util::BinaryReader& bin
 
 	void* pTextureTableBinary = binaryReader.Read(pTextureTableData->size);
 
-	lct::imag::TextureResource* pTextureResourceArray = m_pAllocator->AllocTypeArray<lct::imag::TextureResource>(pTextureTableData->count);
-	memset(pTextureResourceArray, 0, (sizeof(lct::imag::TextureResource) * pTextureTableData->count));
+	grap::TextureResource* pTextureResourceArray = m_pAllocator->AllocTypeArray<grap::TextureResource>(pTextureTableData->count);
+	memset(pTextureResourceArray, 0, (sizeof(grap::TextureResource) * pTextureTableData->count));
 
 	TextureTableAsset* pTextureTableAsset = m_pAllocator->AllocType<TextureTableAsset>();
 	pTextureTableAsset->pTextureTableData = pTextureTableData;
@@ -121,26 +120,40 @@ void AssetProcessor::AcquireAllAssetResources()
 
 		TextureData* pTextureData = pTextureAsset->pTextureData;
 		void* pTextureBinary = pTextureAsset->pTextureBinary;
-		TextureResource* pTextureResource = pTextureAsset->pTextureResource;
-		m_pResourceHandler->AcquireTextureResource(pTextureResource, pTextureData->width, pTextureData->height, pTextureBinary);
+		grap::TextureResource* pTextureResource = pTextureAsset->pTextureResource;
+
+		grap::TextureSetupParameters textureSetupParameters;
+		textureSetupParameters.pTextureResource = pTextureResource;
+		textureSetupParameters.pTextureBinary = pTextureBinary;
+		textureSetupParameters.width = pTextureData->width;
+		textureSetupParameters.height = pTextureData->height;
+		m_pGraphicsDevice->AcquireTextureResource(textureSetupParameters);
 	}
 
 	for (AssetContainer::TextureTableIterator textureTableIterator = m_pAssetContainer->GetTextureTableIterator(); !textureTableIterator.IsEnd(); textureTableIterator.Next())
 	{
 		TextureTableAsset* pTextureTableAsset = textureTableIterator.GetValue();
 
-		TextureTableData* pTextureTableData = pTextureTableAsset->pTextureTableData;
-		TextureData textureData;
-		textureData.width = pTextureTableData->width;
-		textureData.height = pTextureTableData->height;
-		textureData.size = textureData.width * textureData.height * sizeof(TexelRGBAData);
-
+		// get the effective values for one texture in the table
+		TextureTableData* pTextureTableData = pTextureTableAsset->pTextureTableData;		
+		u32 textureWidth = pTextureTableData->width;
+		u32 textureHeight = pTextureTableData->height;
+		u32 textureSize = textureWidth * textureHeight * sizeof(TexelRGBAData);
 		void* pTextureBinary = pTextureTableAsset->pTextureTableBinary;
+
 		for (u32 textureIndex = 0; textureIndex < pTextureTableData->count; ++textureIndex)
 		{
-			TextureResource* pTextureResource = pTextureTableAsset->pTextureResourceArray + textureIndex;
-			m_pResourceHandler->AcquireTextureResource(pTextureResource, textureData.width, textureData.height, pTextureBinary);
-			pTextureBinary = reinterpret_cast<void*>(reinterpret_cast<u32>(pTextureBinary) + textureData.size);
+			grap::TextureResource* pTextureResource = pTextureTableAsset->pTextureResourceArray + textureIndex;
+
+			grap::TextureSetupParameters textureSetupParameters;
+			textureSetupParameters.pTextureResource = pTextureResource;
+			textureSetupParameters.pTextureBinary = pTextureBinary;
+			textureSetupParameters.width = textureWidth;
+			textureSetupParameters.height = textureHeight;
+			m_pGraphicsDevice->AcquireTextureResource(textureSetupParameters);
+
+			// advance to the next texture binary in the table
+			pTextureBinary = reinterpret_cast<void*>(reinterpret_cast<u32>(pTextureBinary)+textureSize);
 		}
 	}
 }
@@ -151,8 +164,11 @@ void AssetProcessor::ReleaseAllAssetResources()
 	{
 		TextureAsset* pTextureAsset = textureIterator.GetValue();
 
-		TextureResource* pTextureResource = pTextureAsset->pTextureResource;
-		m_pResourceHandler->ReleaseTextureResource(pTextureResource);
+		grap::TextureResource* pTextureResource = pTextureAsset->pTextureResource;
+
+		grap::TextureSetupParameters textureSetupParameters;
+		textureSetupParameters.pTextureResource = pTextureResource;
+		m_pGraphicsDevice->ReleaseTextureResource(textureSetupParameters);
 	}
 
 	for (AssetContainer::TextureTableIterator textureTableIterator = m_pAssetContainer->GetTextureTableIterator(); !textureTableIterator.IsEnd(); textureTableIterator.Next())
@@ -163,8 +179,11 @@ void AssetProcessor::ReleaseAllAssetResources()
 
 		for (u32 textureIndex = 0; textureIndex < pTextureTableData->count; ++textureIndex)
 		{
-			TextureResource* pTextureResource = pTextureTableAsset->pTextureResourceArray + textureIndex;
-			m_pResourceHandler->ReleaseTextureResource(pTextureResource);
+			grap::TextureResource* pTextureResource = pTextureTableAsset->pTextureResourceArray + textureIndex;
+
+			grap::TextureSetupParameters textureSetupParameters;
+			textureSetupParameters.pTextureResource = pTextureResource;
+			m_pGraphicsDevice->ReleaseTextureResource(textureSetupParameters);
 		}
 	}
 }

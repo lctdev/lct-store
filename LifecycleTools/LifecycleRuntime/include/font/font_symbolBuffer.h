@@ -11,8 +11,8 @@ namespace grap
 class Device;
 struct VertexResource;
 struct IndexResource;
-struct VertexResourceParameters;
-struct IndexResourceParameters;
+struct VertexSetupParameters;
+struct IndexSetupParameters;
 }
 
 namespace util
@@ -49,7 +49,7 @@ public:
 	u32 GetQuadCount() { return m_quadCount; }
 
 protected:	
-	void FillQuadResourceParameters(grap::VertexResourceParameters& vertexResourceParameters, grap::IndexResourceParameters& indexResourceParameters);
+	void FillQuadSetupParameters(grap::VertexSetupParameters& vertexSetupParameters, grap::IndexSetupParameters& indexSetupParameters);
 
 	SheetAsset* m_pSheetAsset;
 

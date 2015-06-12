@@ -151,6 +151,8 @@ void SpriteViewerOverlay::Draw()
 	m_pFillDrawContext->ActivateWorldTransform(menuWorldTransform);
 	m_menu.DrawFill(m_pFillDrawContext);
 
+	m_pFillDrawContext->DeactivateQuad();
+
 	/*lct::foun::RectCentered testRect;
 	testRect.x = 0.0f;
 	testRect.y = 0.0f;
@@ -183,7 +185,10 @@ void SpriteViewerOverlay::Draw()
 	if (symbolBuffer.GetQuadCount() > 0)
 	{
 		m_pFontDrawContext->ActivateSymbolBuffer(symbolBuffer);
+
 		m_pFontDrawContext->DrawSymbolBuffer(symbolBuffer);
+
+		m_pFontDrawContext->DeactivateSymbolBuffer(symbolBuffer);
 	}
 	m_currSymbolBufferIndex = 1 - m_currSymbolBufferIndex;
 }

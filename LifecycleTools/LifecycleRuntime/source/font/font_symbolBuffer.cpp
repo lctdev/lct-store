@@ -8,12 +8,9 @@
 #include <grap/grap_resources.h>
 #include <grap/grap_parameters.h>
 
-#include <imag/imag_resources.h>
-
 #include <util/util_indexMap.h>
 
 #include <foun/foun_debug.h>
-#include <foun/foun_graphicsDebug.h>
 
 #include <string.h>
 
@@ -67,51 +64,51 @@ void SymbolBuffer::ResetQuads()
 
 void SymbolBuffer::AcquireResources(grap::Device* pGraphicsDevice)
 {
-	grap::VertexResourceParameters vertexResourceParameters;
-	grap::IndexResourceParameters indexResourceParameters;
-	FillQuadResourceParameters(vertexResourceParameters, indexResourceParameters);
-	pGraphicsDevice->AcquireVertexResource(vertexResourceParameters);
-	pGraphicsDevice->AcquireIndexResource(indexResourceParameters);
+	grap::VertexSetupParameters vertexSetupParameters;
+	grap::IndexSetupParameters indexSetupParameters;
+	FillQuadSetupParameters(vertexSetupParameters, indexSetupParameters);
+	pGraphicsDevice->AcquireVertexResource(vertexSetupParameters);
+	pGraphicsDevice->AcquireIndexResource(indexSetupParameters);
 }
 
 void SymbolBuffer::RefreshResources(grap::Device* pGraphicsDevice)
 {
-	grap::VertexResourceParameters vertexResourceParameters;
-	grap::IndexResourceParameters indexResourceParameters;
-	FillQuadResourceParameters(vertexResourceParameters, indexResourceParameters);
-	pGraphicsDevice->RefreshVertexResource(vertexResourceParameters);
-	pGraphicsDevice->RefreshIndexResource(indexResourceParameters);
+	grap::VertexSetupParameters vertexSetupParameters;
+	grap::IndexSetupParameters indexSetupParameters;
+	FillQuadSetupParameters(vertexSetupParameters, indexSetupParameters);
+	pGraphicsDevice->RefreshVertexResource(vertexSetupParameters);
+	pGraphicsDevice->RefreshIndexResource(indexSetupParameters);
 }
 
 void SymbolBuffer::ReleaseResources(grap::Device* pGraphicsDevice)
 {
-	grap::VertexResourceParameters vertexResourceParameters;
-	grap::IndexResourceParameters indexResourceParameters;
-	FillQuadResourceParameters(vertexResourceParameters, indexResourceParameters);
-	pGraphicsDevice->ReleaseVertexResource(vertexResourceParameters);
-	pGraphicsDevice->ReleaseIndexResource(indexResourceParameters);
+	grap::VertexSetupParameters vertexSetupParameters;
+	grap::IndexSetupParameters indexSetupParameters;
+	FillQuadSetupParameters(vertexSetupParameters, indexSetupParameters);
+	pGraphicsDevice->ReleaseVertexResource(vertexSetupParameters);
+	pGraphicsDevice->ReleaseIndexResource(indexSetupParameters);
 }
 
 /*
  * Protected Instance
  */
-void SymbolBuffer::FillQuadResourceParameters(grap::VertexResourceParameters& vertexResourceParameters, grap::IndexResourceParameters& indexResourceParameters)
+void SymbolBuffer::FillQuadSetupParameters(grap::VertexSetupParameters& vertexSetupParameters, grap::IndexSetupParameters& indexSetupParameters)
 {
 	u32 vertexDataSize = sizeof(VertexData) * m_quadCapacity * QUAD_VERTEX_COUNT;
 
-	vertexResourceParameters.pVertexResource = m_pQuadVertexResource;
-	vertexResourceParameters.pVertexBinary = m_pVertexDataArray;
-	vertexResourceParameters.vertexBinarySize = vertexDataSize;
-	vertexResourceParameters.pAttributeDataArray = ATTRIBUTE_DATA_ARRAY;
-	vertexResourceParameters.attributeCount = ATTRIBUTE_COUNT;
-	vertexResourceParameters.dynamic = true;
+	vertexSetupParameters.pVertexResource = m_pQuadVertexResource;
+	vertexSetupParameters.pVertexBinary = m_pVertexDataArray;
+	vertexSetupParameters.vertexBinarySize = vertexDataSize;
+	vertexSetupParameters.pAttributeDataArray = ATTRIBUTE_DATA_ARRAY;
+	vertexSetupParameters.attributeCount = ATTRIBUTE_COUNT;
+	vertexSetupParameters.dynamic = true;
 
 	u32 indexDataSize = sizeof(IndexData) * m_quadCapacity * QUAD_INDEX_COUNT;
 
-	indexResourceParameters.pIndexResource = m_pQuadIndexResource;
-	indexResourceParameters.pIndexBinary = m_pIndexDataArray;
-	indexResourceParameters.indexBinarySize = indexDataSize;
-	indexResourceParameters.dynamic = true;
+	indexSetupParameters.pIndexResource = m_pQuadIndexResource;
+	indexSetupParameters.pIndexBinary = m_pIndexDataArray;
+	indexSetupParameters.indexBinarySize = indexDataSize;
+	indexSetupParameters.dynamic = true;
 }
 
 //namespace spri

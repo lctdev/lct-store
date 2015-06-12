@@ -4,7 +4,6 @@
 #include <fram/fram_message.h>
 
 #include <foun/foun_debug.h>
-#include <foun/foun_graphicsDebug.h>
 #include <foun/foun_string.h>
 
 #include <stdlib.h>

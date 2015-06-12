@@ -5,20 +5,23 @@
 
 namespace lct
 {
+namespace grap
+{
+struct TextureResource;
+}
 
 namespace imag
 {
 
 struct TextureData;
 struct TextureTableData;
-struct TextureResource;
 
 struct TextureAsset
 {
 	TextureData* pTextureData;
 	void* pTextureBinary;
 
-	TextureResource* pTextureResource;
+	grap::TextureResource* pTextureResource;
 };
 
 struct TextureTableAsset
@@ -26,7 +29,7 @@ struct TextureTableAsset
 	TextureTableData* pTextureTableData;
 	void* pTextureTableBinary;
 
-	TextureResource* pTextureResourceArray;
+	grap::TextureResource* pTextureResourceArray;
 };
 
 //namespace spri

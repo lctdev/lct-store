@@ -108,7 +108,7 @@ void SpriteViewerMode::Init()
 	m_imageAssetContainer.SetAllocator(m_pAllocator);
 
 	m_imageAssetProcessor.SetAllocator(m_pAllocator);
-	m_imageAssetProcessor.SetResourceHandler(m_pImageResourceHandler);
+	m_imageAssetProcessor.SetGraphicsDevice(m_pGraphicsDevice);
 	m_imageAssetProcessor.SetAssetContainer(&m_imageAssetContainer);
 
 	m_bindingBuilder.SetAllocator(m_pAllocator);
@@ -223,6 +223,8 @@ void SpriteViewerMode::Draw()
 	m_pFillDrawContext->DrawRect(xAxisRect, AXIS_LINE_COLOR);
 	m_pFillDrawContext->DrawRect(yAxisRect, AXIS_LINE_COLOR);
 
+	m_pFillDrawContext->DeactivateQuad();
+
 	// sprite
 	m_pFigureInstance->CalculateTextures();
 	m_pFigureInstance->CalculateTransforms();
@@ -234,6 +236,8 @@ void SpriteViewerMode::Draw()
 
 	m_pSpriteDrawContext->ActivateWorldTransform(m_contentWorldTransform);
 	m_pSpriteDrawContext->DrawFigure(*m_pFigureInstance);
+
+	m_pSpriteDrawContext->DeactivateQuad();
 
 	// sprite "indicators"
 	m_pFillDrawContext->ActivateRenderState();
@@ -250,9 +254,10 @@ void SpriteViewerMode::Draw()
 			lct::foun::Matrix32 fillWorldTransform = jointTransform;
 			fillWorldTransform.m[2][0] += CONTENT_OFFSET_X;
 			m_pFillDrawContext->ActivateWorldTransform(fillWorldTransform);
+
 			m_pFillDrawContext->DrawRect(JOINT_RECT, JOINT_COLOR);
 		}
-	}
+	}	
 
 	// menu
 	// ( fill already active )
@@ -261,6 +266,8 @@ void SpriteViewerMode::Draw()
 	lct::foun::Matrix32Translate(menuWorldTransform, screenEdges.left + MENU_OFFSET_X, screenEdges.top + MENU_OFFSET_Y);
 	m_pFillDrawContext->ActivateWorldTransform(menuWorldTransform);
 	m_menu.DrawFill(m_pFillDrawContext);
+
+	m_pFillDrawContext->DeactivateQuad();
 
 	m_pFontDrawContext->ActivateRenderState();
 	m_pFontDrawContext->ActivateShader();
@@ -271,7 +278,10 @@ void SpriteViewerMode::Draw()
 	if (symbolBuffer.GetQuadCount() > 0)
 	{
 		m_pFontDrawContext->ActivateSymbolBuffer(symbolBuffer);
+
 		m_pFontDrawContext->DrawSymbolBuffer(symbolBuffer);
+
+		m_pFontDrawContext->DeactivateSymbolBuffer(symbolBuffer);
 	}
 	m_currSymbolBufferIndex = 1 - m_currSymbolBufferIndex;
 }
