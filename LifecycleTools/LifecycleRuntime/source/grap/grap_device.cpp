@@ -3,6 +3,8 @@
 
 #include <foun/foun_debug.h>
 
+#include <string.h>
+
 namespace lct
 {
 namespace grap
