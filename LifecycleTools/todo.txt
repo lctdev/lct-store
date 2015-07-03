@@ -1,11 +1,15 @@
 ﻿- GLEW, and any other external libraries, should be put into a new folder called “Prebuilt”, under LifecycleTools. : [DONE]
 
-- replace all “WIN32/__APPLE_/…” define checks with “LCT_…” equivalents
+- replace all “WIN32/__APPLE_/…” define checks with “LCT_…” equivalents : [DONE]
 
 - Move all "debug menu" related resources ( font buffers, graphics device, etc. ) into the Menu class for easier re-use
 
 - Start using the "Services" struct convention for passing shared pointers around at the application level ( ie: not LCT )
 
+- Refactor callbacks to cast function/instance pointers to known types from a templated "Bind()", instead of using virtual functions
+
 - Move all graphics API code ( OpenGL ) into a single Graphics Device class : [DONE]
 
 - Conslidate the asset pipeline into a single Java program, with a plugin interface for the different asset types
+
+- change to using 64 bit code ( iOS requires it now )

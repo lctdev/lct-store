@@ -3,6 +3,9 @@
 
 #include <foun/foun_primitives.h>
 
+#include <pack/pack_assets.h>
+#include <pack/pack_assetHeader.h>
+
 namespace lct
 {
 namespace util
@@ -27,8 +30,11 @@ struct AnimationData;
 struct TrackData;
 struct KeyData;
 
-struct FigureAsset
+struct FigureAsset : public pack::Asset
 {
+	static const pack::AssetCode GROUP_CODE;
+	static const pack::AssetCode TYPE_CODE;
+
 	FigureData* pFigureData;
 
 	struct Part
@@ -54,8 +60,11 @@ struct FigureAsset
 	util::StringIndexMap* pPatternIndexMap;
 };
 
-struct SkinAsset
+struct SkinAsset : public pack::Asset
 {
+	static const pack::AssetCode GROUP_CODE;
+	static const pack::AssetCode TYPE_CODE;
+
 	SkinData* pSkinData;
 
 	struct Strip
@@ -67,8 +76,11 @@ struct SkinAsset
 	Strip* pStripArray;
 };
 
-struct AnimationAsset
+struct AnimationAsset : public pack::Asset
 {
+	static const pack::AssetCode GROUP_CODE;
+	static const pack::AssetCode TYPE_CODE;
+
 	AnimationData* pAnimationData;
 
 	struct Track

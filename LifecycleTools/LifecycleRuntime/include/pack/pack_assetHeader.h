@@ -8,19 +8,19 @@ namespace lct
 namespace pack
 {
 
+struct AssetCode
+{
+	union
+	{
+		char alpha[4];
+		u32 numeric;
+	};
+};
+
 struct AssetHeader
 {
-	struct Code
-	{
-		union
-		{
-			char alpha[4];
-			u32 numeric;
-		};
-	};
-
-	Code groupCode;
-	Code typeCode;
+	AssetCode groupCode;
+	AssetCode typeCode;
 	bool bigEndian;
 	u8 padding;
 	u16 version;

@@ -15,6 +15,7 @@ public:
 
 public:
 	IntegerKey();
+	IntegerKey(s32 integer);
 
 	void SetInteger(s32 integer);
 
@@ -29,6 +30,7 @@ public:
 
 public:
 	StringKey();
+	StringKey(const char* pString);
 
 	void SetString(const char* pString);
 	const char* GetString() { return m_pString; }

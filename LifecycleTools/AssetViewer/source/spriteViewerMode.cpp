@@ -50,10 +50,9 @@ SpriteViewerMode::SpriteViewerMode()
 
 , m_animationAllocator()
 
-, m_spriteAssetContainer()
-, m_spriteAssetProcessor()
-, m_imageAssetContainer()
-, m_imageAssetProcessor()
+, m_assetContainer()
+, m_spriteAssetHandler()
+, m_imageAssetHandler()
 , m_pAssetBinary(NULL)
 , m_pFigureAsset(NULL)
 , m_pAnimationAsset()
@@ -100,16 +99,14 @@ void SpriteViewerMode::Init()
 		m_animationAllocator.SetMemory(pMemory, ANIMATION_MEMORY_SIZE);
 	}
 
-	m_spriteAssetContainer.SetAllocator(m_pAllocator);
+	m_assetContainer.SetAllocator(m_pAllocator);
 
-	m_spriteAssetProcessor.SetAllocator(m_pAllocator);
-	m_spriteAssetProcessor.SetAssetContainer(&m_spriteAssetContainer);
+	m_spriteAssetHandler.SetAllocator(m_pAllocator);
+	m_spriteAssetHandler.SetAssetContainer(&m_assetContainer);
 
-	m_imageAssetContainer.SetAllocator(m_pAllocator);
-
-	m_imageAssetProcessor.SetAllocator(m_pAllocator);
-	m_imageAssetProcessor.SetGraphicsDevice(m_pGraphicsDevice);
-	m_imageAssetProcessor.SetAssetContainer(&m_imageAssetContainer);
+	m_imageAssetHandler.SetAllocator(m_pAllocator);
+	m_imageAssetHandler.SetGraphicsDevice(m_pGraphicsDevice);
+	m_imageAssetHandler.SetAssetContainer(&m_assetContainer);
 
 	m_bindingBuilder.SetAllocator(m_pAllocator);
 
@@ -131,7 +128,7 @@ void SpriteViewerMode::Init()
 
 void SpriteViewerMode::AcquireGraphics()
 {
-	m_imageAssetProcessor.AcquireAllAssetResources();
+	m_imageAssetHandler.AcquireAllAssetResources();
 
 	for (u32 bufferIndex = 0; bufferIndex < SYMBOL_BUFFER_COUNT; ++bufferIndex)
 	{
@@ -143,7 +140,7 @@ void SpriteViewerMode::AcquireGraphics()
 
 void SpriteViewerMode::ReleaseGraphics()
 {
-	m_imageAssetProcessor.ReleaseAllAssetResources();
+	m_imageAssetHandler.ReleaseAllAssetResources();
 
 	for (u32 bufferIndex = 0; bufferIndex < SYMBOL_BUFFER_COUNT; ++bufferIndex)
 	{
@@ -291,7 +288,7 @@ void SpriteViewerMode::Draw()
  */
 void SpriteViewerMode::BuildMenu()
 {
-	lct::font::SheetAsset* pSheetAsset = m_pFontAssetContainer->FindSheetAsset("example_sheet");
+	lct::font::SheetAsset* pSheetAsset = m_pSharedAssetContainer->FindAsset<lct::font::SheetAsset>("example_sheet");
 
 	for (u32 bufferIndex = 0; bufferIndex < SYMBOL_BUFFER_COUNT; ++bufferIndex)
 	{
@@ -306,13 +303,13 @@ void SpriteViewerMode::BuildMenu()
 	m_frameCycleCallback.Bind(this, &SpriteViewerMode::OnFrameCycle);
 	m_reloadTriggerCallback.Bind(this, &SpriteViewerMode::OnReloadTrigger);
 
-	u32 animationNameCount = m_spriteAssetContainer.GetAnimationCount() + 1;
+	u32 animationNameCount = m_assetContainer.GetAssetCount<lct::spri::AnimationAsset>() + 1;
 	m_pAnimationNameArray = m_pAllocator->AllocTypeArray<const char*>(animationNameCount);
 	m_pAnimationNameArray[0] = "<NONE>";
-	lct::spri::AssetContainer::AnimationIterator animationIterator = m_spriteAssetContainer.GetAnimationIterator();
+	lct::pack::AssetIterator<lct::spri::AnimationAsset> animationIterator = m_assetContainer.GetIterator<lct::spri::AnimationAsset>();
 	for (u32 animationNameIndex = 1; animationNameIndex < animationNameCount; ++animationNameIndex)
 	{
-		m_pAnimationNameArray[animationNameIndex] = animationIterator.GetKey().GetString();
+		m_pAnimationNameArray[animationNameIndex] = animationIterator.GetAsset()->pAnimationData->name;
 		animationIterator.Next();
 	}
 
@@ -383,14 +380,14 @@ void SpriteViewerMode::LoadAssets()
 	lct::util::BinaryReader binaryReader;
 	binaryReader.SetMemory(m_pAssetBinary, fileSize);
 	lct::pack::PackageWalker packageWalker;
-	packageWalker.AddAssetHandler(&m_spriteAssetProcessor);
-	packageWalker.AddAssetHandler(&m_imageAssetProcessor);
+	packageWalker.AddAssetHandler(&m_spriteAssetHandler);
+	packageWalker.AddAssetHandler(&m_imageAssetHandler);
 
 	packageWalker.LoadAllAssets(binaryReader);
 
-	m_spriteAssetProcessor.FixupAllAssets(m_imageAssetContainer);
+	m_spriteAssetHandler.FixupAllAssets();
 
-	m_pFigureAsset = m_spriteAssetContainer.GetFigureIterator().GetValue();
+	m_pFigureAsset = m_assetContainer.GetIterator<lct::spri::FigureAsset>().GetAsset();
 }
 
 void SpriteViewerMode::BuildBindings()
@@ -420,7 +417,7 @@ void SpriteViewerMode::BuildAnimation(const char* pName)
 	m_animationAllocator.Clear();
 
 	// find the specified asset
-	m_pAnimationAsset = m_spriteAssetContainer.FindAnimationAsset(pName);
+	m_pAnimationAsset = m_assetContainer.FindAsset<lct::spri::AnimationAsset>(pName);
 
 	f32 frameMax = 0.0f;
 	if (m_pAnimationAsset != NULL)

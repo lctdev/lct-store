@@ -14,8 +14,8 @@ static const lct::foun::FloatColor BACKER_COLOR = { 0.0f, 0.0f, 0.0f, 0.5f };
 SpriteViewerOverlay::SpriteViewerOverlay()
 : Overlay()
 , m_pInputCursor(NULL)
+, m_pSharedAssetContainer(NULL)
 , m_pFillDrawContext(NULL)
-, m_pFontAssetContainer(NULL)
 , m_pFontDrawContext(NULL)
 
 , m_symbolBufferArray()
@@ -36,14 +36,14 @@ void SpriteViewerOverlay::SetInputCursor(lct::inpu::Cursor* pCursor)
 	m_pInputCursor = pCursor;
 }
 
+void SpriteViewerOverlay::SetSharedAssetContainer(lct::pack::AssetContainer* pAssetContainer)
+{
+	m_pSharedAssetContainer = pAssetContainer;
+}
+
 void SpriteViewerOverlay::SetFillDrawContext(lct::fill::DrawContext* pDrawContext)
 {
 	m_pFillDrawContext = pDrawContext;
-}
-
-void SpriteViewerOverlay::SetFontAssetContainer(lct::font::AssetContainer* pAssetContainer)
-{
-	m_pFontAssetContainer = pAssetContainer;
 }
 
 void SpriteViewerOverlay::SetFontDrawContext(lct::font::DrawContext* pDrawContext)
@@ -55,7 +55,7 @@ void SpriteViewerOverlay::Init()
 {
 	Overlay::Init();
 
-	lct::font::SheetAsset* pSheetAsset = m_pFontAssetContainer->FindSheetAsset("example_sheet");
+	lct::font::SheetAsset* pSheetAsset = m_pSharedAssetContainer->FindAsset<lct::font::SheetAsset>("example_sheet");
 
 	for (u32 bufferIndex = 0; bufferIndex < SYMBOL_BUFFER_COUNT; ++bufferIndex)
 	{

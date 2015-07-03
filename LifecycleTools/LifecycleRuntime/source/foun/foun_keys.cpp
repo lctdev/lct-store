@@ -36,6 +36,11 @@ IntegerKey::IntegerKey()
 {
 }
 
+IntegerKey::IntegerKey(s32 integer)
+: m_integer(integer)
+{
+}
+
 void IntegerKey::SetInteger(s32 integer)
 {
 	m_integer = integer;
@@ -56,6 +61,11 @@ s32 StringKey::Compare(const StringKey& keyA, const StringKey& keyB)
  */
 StringKey::StringKey()
 : m_pString(NULL)
+{
+}
+
+StringKey::StringKey(const char* pString)
+: m_pString(pString)
 {
 }
 

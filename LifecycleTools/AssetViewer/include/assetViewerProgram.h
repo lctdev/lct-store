@@ -9,16 +9,18 @@
 
 #include <util/util_indexMap.h>
 
+#include <pack/pack_assetContainer.h>
+
+#include <pass/pass_assetHandler.h>
+
 #include <fill/fill_drawContext.h>
 
-#include <font/font_assetProcessor.h>
-#include <font/font_assetContainer.h>
+#include <font/font_assetHandler.h>
 #include <font/font_drawContext.h>
 
 #include <spri/spri_drawContext.h>
 
-#include <imag/imag_assetProcessor.h>
-#include <imag/imag_assetContainer.h>
+#include <imag/imag_assetHandler.h>
 
 #include <pack/pack_packageWalker.h>
 
@@ -58,9 +60,7 @@ protected:
 	virtual bool HandleMessage(const lct::fram::Message& message);
 
 private:
-	void LoadFillAssets();
-	void LoadFontAssets();
-	void LoadSpriteAssets();
+	void LoadAssets();
 
 	void CheckOverlayInput();
 	void OpenOverlay();
@@ -70,15 +70,16 @@ private:
 	lct::file::Accessor* m_pAccessor;
 	lct::file::Accessor* m_pModeAccessor;
 
-	lct::imag::AssetContainer m_imageAssetContainer;
-	lct::imag::AssetProcessor m_imageAssetProcessor;
+	void* m_pAssetBinary;
+	lct::pack::AssetContainer m_assetContainer;
+
+	lct::pass::AssetHandler m_passthroughAssetHandler;
+
+	lct::imag::AssetHandler m_imageAssetHandler;
 
 	lct::fill::DrawContext m_fillDrawContext;
 
-	lct::font::AssetContainer m_fontAssetContainer;
-	lct::font::AssetProcessor m_fontAssetProcessor;
-
-	void* m_pFontAssetBinary;
+	lct::font::AssetHandler m_fontAssetHandler;
 	lct::font::DrawContext m_fontDrawContext;
 
 	lct::spri::DrawContext m_spriteDrawContext;

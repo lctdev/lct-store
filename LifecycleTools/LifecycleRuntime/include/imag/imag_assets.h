@@ -3,6 +3,9 @@
 
 #include <foun/foun_primitives.h>
 
+#include <pack/pack_assets.h>
+#include <pack/pack_assetHeader.h>
+
 namespace lct
 {
 namespace grap
@@ -16,16 +19,22 @@ namespace imag
 struct TextureData;
 struct TextureTableData;
 
-struct TextureAsset
+struct TextureAsset : public pack::Asset
 {
+	static const pack::AssetCode GROUP_CODE;
+	static const pack::AssetCode TYPE_CODE;
+
 	TextureData* pTextureData;
 	void* pTextureBinary;
 
 	grap::TextureResource* pTextureResource;
 };
 
-struct TextureTableAsset
+struct TextureTableAsset : public pack::Asset
 {
+	static const pack::AssetCode GROUP_CODE;
+	static const pack::AssetCode TYPE_CODE;
+
 	TextureTableData* pTextureTableData;
 	void* pTextureTableBinary;
 

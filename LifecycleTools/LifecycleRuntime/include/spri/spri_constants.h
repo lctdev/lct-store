@@ -3,10 +3,19 @@
 
 #include <foun/foun_primitives.h>
 
+#include <pack/pack_assetHeader.h>
+
 namespace lct
 {
 namespace spri
 {
+const pack::AssetCode GROUP_CODE = { 'S', 'P', 'R', 'I' };
+
+const pack::AssetCode FIGURE_TYPE_CODE = { 'F', 'I', 'G', 'U' };
+const pack::AssetCode SKIN_TYPE_CODE = { 'S', 'K', 'I', 'N' };
+const pack::AssetCode ANIMATION_TYPE_CODE = { 'A', 'N', 'I', 'M' };
+
+const u16 VERSION = 0;
 
 const u32 MAX_NAME_SIZE = 32;
 

@@ -7,8 +7,7 @@
 #include <foun/foun_matrix.h>
 #include <foun/foun_callback.h>
 
-#include <spri/spri_assetProcessor.h>
-#include <spri/spri_assetContainer.h>
+#include <spri/spri_assetHandler.h>
 #include <spri/spri_assets.h>
 #include <spri/spri_data.h>
 #include <spri/spri_bindingBuilder.h>
@@ -17,17 +16,16 @@
 #include <spri/spri_figureInstance.h>
 #include <spri/spri_animationInstance.h>
 
-#include <imag/imag_assetProcessor.h>
-#include <imag/imag_assetContainer.h>
+#include <imag/imag_assetHandler.h>
 
 #include <pack/pack_packageWalker.h>
+#include <pack/pack_assetContainer.h>
 
 #include <util/util_binaryReader.h>
 
 #include <file/file_accessor.h>
 
 #include <font/font_assets.h>
-#include <font/font_assetContainer.h>
 #include <font/font_data.h>
 #include <font/font_symbolBuffer.h>
 #include <font/font_symbolWriter.h>
@@ -68,10 +66,9 @@ private:
 	// owned
 	lct::foun::LinearAllocator m_animationAllocator;
 
-	lct::spri::AssetContainer m_spriteAssetContainer;
-	lct::spri::AssetProcessor m_spriteAssetProcessor;
-	lct::imag::AssetContainer m_imageAssetContainer;
-	lct::imag::AssetProcessor m_imageAssetProcessor;
+	lct::pack::AssetContainer m_assetContainer;
+	lct::spri::AssetHandler m_spriteAssetHandler;
+	lct::imag::AssetHandler m_imageAssetHandler;
 	void* m_pAssetBinary;
 	lct::spri::FigureAsset* m_pFigureAsset;
 	lct::spri::AnimationAsset* m_pAnimationAsset;

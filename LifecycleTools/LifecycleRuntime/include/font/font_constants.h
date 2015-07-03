@@ -3,10 +3,17 @@
 
 #include <foun/foun_primitives.h>
 
+#include <pack/pack_assetHeader.h>
+
 namespace lct
 {
 namespace font
 {
+const pack::AssetCode GROUP_CODE = { 'F', 'O', 'N', 'T' };
+
+const pack::AssetCode SHEET_TYPE_CODE = { 'S', 'H', 'E', 'E' };
+
+const u16 VERSION = 0;
 
 const u32 MAX_NAME_SIZE = 32;
 

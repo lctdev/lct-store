@@ -43,12 +43,16 @@ class TreeIterator
 	friend class Tree<K, V>;
 
 public:
+	static const TreeIterator<K, V> EMPTY;
+
+public:
 	void Next();
 	bool IsEnd() { return m_pCurrNode == NULL; }
 	K& GetKey() { return m_pCurrNode->m_key; }
 	V& GetValue() { return m_pCurrNode->m_value; }
 
 private:
+	TreeIterator();
 	TreeIterator(TreeNode<K, V>* pNode);
 
 	TreeNode<K, V>* m_pCurrNode;
@@ -64,6 +68,7 @@ public:
 	void RemoveNode(TreeNode<K, V>* pNode);
 	TreeNode<K, V>* FindNode(const K& key);
 	TreeIterator<K, V> Begin();
+	TreeIterator<K, V> End();
 	u32 GetNodeCount() { return m_nodeCount; }
 
 private:
@@ -88,6 +93,12 @@ TreeNode<K, V>::TreeNode()
 , m_pTree(NULL)
 {
 }
+
+/*
+* Public Static Template
+*/
+template <class K, class V>
+const TreeIterator<K, V> TreeIterator<K, V>::EMPTY;
 
 /*
  * Public Template
@@ -129,6 +140,12 @@ void TreeIterator<K, V>::Next()
 /*
  * Private Template
  */
+template <class K, class V>
+TreeIterator<K, V>::TreeIterator()
+: m_pCurrNode(NULL)
+{
+}
+
 template <class K, class V>
 TreeIterator<K, V>::TreeIterator(TreeNode<K, V>* pNode)
 : m_pCurrNode(pNode)

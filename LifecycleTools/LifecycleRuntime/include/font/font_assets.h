@@ -3,6 +3,9 @@
 
 #include <foun/foun_primitives.h>
 
+#include <pack/pack_assets.h>
+#include <pack/pack_assetHeader.h>
+
 namespace lct
 {
 namespace util
@@ -20,8 +23,11 @@ namespace font
 struct GlyphData;
 struct SheetData;
 
-struct SheetAsset
+struct SheetAsset : public pack::Asset
 {
+	static const pack::AssetCode GROUP_CODE;
+	static const pack::AssetCode TYPE_CODE;
+
 	SheetData* pSheetData;
 
 	struct Glyph

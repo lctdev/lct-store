@@ -3,10 +3,18 @@
 
 #include <foun/foun_primitives.h>
 
+#include <pack/pack_assetHeader.h>
+
 namespace lct
 {
 namespace imag
 {
+const pack::AssetCode GROUP_CODE = { 'I', 'M', 'A', 'G' };
+
+const pack::AssetCode TEXTURE_TYPE_CODE = { 'T', 'E', 'X', 'T' };
+const pack::AssetCode TEXTURE_TABLE_TYPE_CODE = { 'T', 'E', 'T', 'A' };
+
+const u16 VERSION = 0;
 
 const u32 MAX_NAME_SIZE = 32;
 

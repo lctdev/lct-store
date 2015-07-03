@@ -7,9 +7,10 @@
 
 #include <inpu/inpu_cursor.h>
 
+#include <pack/pack_assetContainer.h>
+
 #include <fill/fill_drawContext.h>
 
-#include <font/font_assetContainer.h>
 #include <font/font_drawContext.h>
 
 #include <spri/spri_drawContext.h>
@@ -25,8 +26,8 @@ public:
 
 	void SetAccessor(lct::file::Accessor* pAccessor);
 	void SetCursor(lct::inpu::Cursor* pCursor);
-	void SetFillDrawContext(lct::fill::DrawContext* pDrawContext);
-	void SetFontAssetContainer(lct::font::AssetContainer* pAssetContainer);
+	void SetSharedAssetContainer(lct::pack::AssetContainer* pAssetContainer);
+	void SetFillDrawContext(lct::fill::DrawContext* pDrawContext);	
 	void SetFontDrawContext(lct::font::DrawContext* pDrawContext);
 	void SetSpriteDrawContext(lct::spri::DrawContext* pDrawContext);
 
@@ -41,9 +42,10 @@ protected:
 
 	lct::inpu::Cursor* m_pCursor;
 
-	lct::fill::DrawContext* m_pFillDrawContext;
+	lct::pack::AssetContainer* m_pSharedAssetContainer;
 
-	lct::font::AssetContainer* m_pFontAssetContainer;
+	lct::fill::DrawContext* m_pFillDrawContext;
+	
 	lct::font::DrawContext* m_pFontDrawContext;
 
 	lct::spri::DrawContext* m_pSpriteDrawContext;

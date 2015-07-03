@@ -6,6 +6,8 @@
 
 #include <foun/foun_debug.h>
 
+#include <pass/pass_assets.h>
+
 /*
  * Internal Constants
  */
@@ -18,12 +20,12 @@ AssetViewerProgram::AssetViewerProgram()
 : Program()
 , m_pAccessor(NULL)
 , m_pModeAccessor(NULL)
-, m_imageAssetContainer()
-, m_imageAssetProcessor()
+, m_pAssetBinary(NULL)
+, m_assetContainer()
+, m_passthroughAssetHandler()
+, m_imageAssetHandler()
 , m_fillDrawContext()
-, m_fontAssetContainer()
-, m_fontAssetProcessor()
-, m_pFontAssetBinary(NULL)
+, m_fontAssetHandler()
 , m_fontDrawContext()
 , m_spriteDrawContext()
 #if defined (LCT_WINDOWS) || defined(LCT_OSX)
@@ -85,38 +87,37 @@ void AssetViewerProgram::InitWindow()
 
 void AssetViewerProgram::InitAssets()
 {
-	// image
-	m_imageAssetContainer.SetAllocator(&m_allocator);
+	// pack
+	m_assetContainer.SetAllocator(&m_allocator);
 
-	m_imageAssetProcessor.SetAllocator(&m_allocator);
-	m_imageAssetProcessor.SetGraphicsDevice(&m_graphicsDevice);
-	m_imageAssetProcessor.SetAssetContainer(&m_imageAssetContainer);
+	// pass
+	m_passthroughAssetHandler.SetAllocator(&m_allocator);
+	m_passthroughAssetHandler.SetAssetContainer(&m_assetContainer);
+
+	// image
+	m_imageAssetHandler.SetAllocator(&m_allocator);
+	m_imageAssetHandler.SetGraphicsDevice(&m_graphicsDevice);
+	m_imageAssetHandler.SetAssetContainer(&m_assetContainer);
 
 	// fill
 	m_fillDrawContext.SetAllocator(&m_allocator);
 	m_fillDrawContext.SetGraphicsDevice(&m_graphicsDevice);
 	m_fillDrawContext.CreateResources();
 
-	LoadFillAssets();
-
 	// font
-	m_fontAssetContainer.SetAllocator(&m_allocator);
-
-	m_fontAssetProcessor.SetAllocator(&m_allocator);
-	m_fontAssetProcessor.SetAssetContainer(&m_fontAssetContainer);
+	m_fontAssetHandler.SetAllocator(&m_allocator);
+	m_fontAssetHandler.SetAssetContainer(&m_assetContainer);
 
 	m_fontDrawContext.SetAllocator(&m_allocator);
 	m_fontDrawContext.SetGraphicsDevice(&m_graphicsDevice);
 	m_fontDrawContext.CreateResources();
-
-	LoadFontAssets();
 
 	// sprite
 	m_spriteDrawContext.SetAllocator(&m_allocator);
 	m_spriteDrawContext.SetGraphicsDevice(&m_graphicsDevice);
 	m_spriteDrawContext.CreateResources();
 
-	LoadSpriteAssets();
+	LoadAssets();
 
 	Program::InitAssets();
 }
@@ -157,8 +158,8 @@ void AssetViewerProgram::InitOverlays()
 	m_pOverlay->SetScreen(&m_screen);
 	m_pOverlay->SetProgramMessageQueue(&m_messageQueue);
 	m_pOverlay->SetInputCursor(m_pCursor);
-	m_pOverlay->SetFillDrawContext(&m_fillDrawContext);
-	m_pOverlay->SetFontAssetContainer(&m_fontAssetContainer);
+	m_pOverlay->SetSharedAssetContainer(&m_assetContainer);
+	m_pOverlay->SetFillDrawContext(&m_fillDrawContext);	
 	m_pOverlay->SetFontDrawContext(&m_fontDrawContext);
 	m_pOverlay->Init();
 
@@ -179,7 +180,7 @@ void AssetViewerProgram::AcquireGraphics()
 {
 	Program::AcquireGraphics();
 
-	m_imageAssetProcessor.AcquireAllAssetResources();
+	m_imageAssetHandler.AcquireAllAssetResources();
 
 	m_fillDrawContext.AcquireResources();
 
@@ -199,7 +200,7 @@ void AssetViewerProgram::AcquireGraphics()
 
 void AssetViewerProgram::ReleaseGraphics()
 {
-	m_imageAssetProcessor.ReleaseAllAssetResources();
+	m_imageAssetHandler.ReleaseAllAssetResources();
 
 	m_fillDrawContext.ReleaseResources();
 
@@ -241,12 +242,12 @@ void AssetViewerProgram::ConfigureMode()
 {
 	AssetViewerMode* pAssetViewerMode = static_cast<AssetViewerMode*>(m_pCurrMode);
 
-	pAssetViewerMode->SetAccessor(m_pModeAccessor);
-	pAssetViewerMode->SetSpriteDrawContext(&m_spriteDrawContext);
+	pAssetViewerMode->SetAccessor(m_pModeAccessor);	
 	pAssetViewerMode->SetCursor(m_pCursor);
+	pAssetViewerMode->SetSharedAssetContainer(&m_assetContainer);
 	pAssetViewerMode->SetFillDrawContext(&m_fillDrawContext);
-	pAssetViewerMode->SetFontAssetContainer(&m_fontAssetContainer);
 	pAssetViewerMode->SetFontDrawContext(&m_fontDrawContext);
+	pAssetViewerMode->SetSpriteDrawContext(&m_spriteDrawContext);
 
 	Program::ConfigureMode();
 }
@@ -297,74 +298,49 @@ bool AssetViewerProgram::HandleMessage(const lct::fram::Message& message)
 /*
  * Private Instance
  */
-void AssetViewerProgram::LoadFillAssets()
-{
-	 void* pVertexShaderBinary = NULL;
-	 {
-		 static const char* FILE_PATH = "data/shad/fill_vertexShader.glsl";
-		 u32 stringSize;
-		 pVertexShaderBinary = m_pAccessor->LoadFileString(FILE_PATH, &stringSize);
-	 }
-
-	 void* pFragmentShaderBinary = NULL;
-	 {
-		 static const char* FILE_PATH = "data/shad/fill_fragmentShader.glsl";
-		 u32 stringSize;
-		 pFragmentShaderBinary = m_pAccessor->LoadFileString(FILE_PATH, &stringSize);
-	 }
-
-	 m_fillDrawContext.SetShaderBinaries(pVertexShaderBinary, pFragmentShaderBinary);
-}
-
- void AssetViewerProgram::LoadFontAssets()
+ void AssetViewerProgram::LoadAssets()
  {
-	 static const char* FILE_PATH = "data/font/package.bin";
+	 static const char* FILE_PATH = "data/programAssets.bin";
 	 u32 fileSize;
-	 m_pFontAssetBinary = m_pAccessor->LoadFile(FILE_PATH, &fileSize);
+	 m_pAssetBinary = m_pAccessor->LoadFile(FILE_PATH, &fileSize);
+
 	 lct::util::BinaryReader binaryReader;
-	 binaryReader.SetMemory(m_pFontAssetBinary, fileSize);
+	 binaryReader.SetMemory(m_pAssetBinary, fileSize);
 	 lct::pack::PackageWalker packageWalker;
-	 packageWalker.AddAssetHandler(&m_fontAssetProcessor);
-	 packageWalker.AddAssetHandler(&m_imageAssetProcessor);
+	 packageWalker.AddAssetHandler(&m_passthroughAssetHandler);
+	 packageWalker.AddAssetHandler(&m_fontAssetHandler);
+	 packageWalker.AddAssetHandler(&m_imageAssetHandler);
 
 	 packageWalker.LoadAllAssets(binaryReader);
 
-	 m_fontAssetProcessor.FixupAllAssets(m_imageAssetContainer);
-
-	 void* pVertexShaderBinary = NULL;
 	 {
-		 static const char* FILE_PATH = "data/shad/font_vertexShader.glsl";
-		 u32 stringSize;
-		 pVertexShaderBinary = m_pAccessor->LoadFileString(FILE_PATH, &stringSize);
+		 static const char* VERTEX_SHADER_NAME = "fill_vertexShader";
+		 lct::pass::StringAsset* pVertexShaderStringAsset = m_assetContainer.FindAsset<lct::pass::StringAsset>(VERTEX_SHADER_NAME);
+		 static const char* FRAGMENT_SHADER_NAME = "fill_fragmentShader";
+		 lct::pass::StringAsset* pFragmentShaderStringAsset = m_assetContainer.FindAsset<lct::pass::StringAsset>(FRAGMENT_SHADER_NAME);
+
+		 m_fillDrawContext.SetShaderBinaries(pVertexShaderStringAsset->pString, pFragmentShaderStringAsset->pString);
 	 }
 
-	 void* pFragmentShaderBinary = NULL;
 	 {
-		 static const char* FILE_PATH = "data/shad/font_fragmentShader.glsl";
-		 u32 stringSize;
-		 pFragmentShaderBinary = m_pAccessor->LoadFileString(FILE_PATH, &stringSize);
+		 static const char* VERTEX_SHADER_NAME = "font_vertexShader";
+		 lct::pass::StringAsset* pVertexShaderStringAsset = m_assetContainer.FindAsset<lct::pass::StringAsset>(VERTEX_SHADER_NAME);
+		 static const char* FRAGMENT_SHADER_NAME = "font_fragmentShader";
+		 lct::pass::StringAsset* pFragmentShaderStringAsset = m_assetContainer.FindAsset<lct::pass::StringAsset>(FRAGMENT_SHADER_NAME);
+
+		 m_fontDrawContext.SetShaderBinaries(pVertexShaderStringAsset->pString, pFragmentShaderStringAsset->pString);
 	 }
 
-	 m_fontDrawContext.SetShaderBinaries(pVertexShaderBinary, pFragmentShaderBinary);
- }
-
- void AssetViewerProgram::LoadSpriteAssets()
- {
-	 void* pVertexShaderBinary = NULL;
 	 {
-		 static const char* FILE_PATH = "data/shad/spri_vertexShader.glsl";
-		 u32 stringSize;
-		 pVertexShaderBinary = m_pAccessor->LoadFileString(FILE_PATH, &stringSize);
+		 static const char* VERTEX_SHADER_NAME = "spri_vertexShader";
+		 lct::pass::StringAsset* pVertexShaderStringAsset = m_assetContainer.FindAsset<lct::pass::StringAsset>(VERTEX_SHADER_NAME);
+		 static const char* FRAGMENT_SHADER_NAME = "spri_fragmentShader";
+		 lct::pass::StringAsset* pFragmentShaderStringAsset = m_assetContainer.FindAsset<lct::pass::StringAsset>(FRAGMENT_SHADER_NAME);
+
+		 m_spriteDrawContext.SetShaderBinaries(pVertexShaderStringAsset->pString, pFragmentShaderStringAsset->pString);
 	 }
 
-	 void* pFragmentShaderBinary = NULL;
-	 {
-		 static const char* FILE_PATH = "data/shad/spri_fragmentShader.glsl";
-		 u32 stringSize;
-		 pFragmentShaderBinary = m_pAccessor->LoadFileString(FILE_PATH, &stringSize);
-	 }
-
-	 m_spriteDrawContext.SetShaderBinaries(pVertexShaderBinary, pFragmentShaderBinary);
+	 m_fontAssetHandler.FixupAllAssets();
  }
 
  void AssetViewerProgram::CheckOverlayInput()

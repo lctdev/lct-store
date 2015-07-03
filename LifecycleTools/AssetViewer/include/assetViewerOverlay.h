@@ -7,10 +7,11 @@
 
 #include <inpu/inpu_cursor.h>
 
+#include <pack/pack_assetContainer.h>
+
 #include <fill/fill_drawContext.h>
 
 #include <font/font_assets.h>
-#include <font/font_assetContainer.h>
 #include <font/font_data.h>
 #include <font/font_symbolBuffer.h>
 #include <font/font_symbolWriter.h>
@@ -29,8 +30,8 @@ public:
 	virtual ~SpriteViewerOverlay();
 	
 	void SetInputCursor(lct::inpu::Cursor* pCursor);
-	void SetFillDrawContext(lct::fill::DrawContext* pDrawContext);
-	void SetFontAssetContainer(lct::font::AssetContainer* pAssetContainer);
+	void SetSharedAssetContainer(lct::pack::AssetContainer* pAssetContainer);
+	void SetFillDrawContext(lct::fill::DrawContext* pDrawContext);	
 	void SetFontDrawContext(lct::font::DrawContext* pDrawContext);
 
 	virtual void Init();
@@ -46,9 +47,10 @@ protected:
 	// shared
 	lct::inpu::Cursor* m_pInputCursor;
 
-	lct::fill::DrawContext* m_pFillDrawContext;
+	lct::pack::AssetContainer* m_pSharedAssetContainer;
 
-	lct::font::AssetContainer* m_pFontAssetContainer;
+	lct::fill::DrawContext* m_pFillDrawContext;
+	
 	lct::font::DrawContext* m_pFontDrawContext;
 
 	// owned

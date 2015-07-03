@@ -15,3 +15,6 @@ LifecycleTools/ipch/assetviewer_win32-151b3d42/assetviewer_win32-6d171f10.ipch
 *.suo
 *.xcuserstate
 xcuserdata/
+LifecycleTools/.metadata/
+LifecycleTools/.recommenders/
+*.prefs

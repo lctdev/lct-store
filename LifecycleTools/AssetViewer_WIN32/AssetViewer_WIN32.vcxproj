@@ -14,7 +14,7 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="script\buildShaders.bat" />
+    <None Include="script\buildAssets.bat" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{A772599E-57D7-454E-A6D8-8B384C4C9EAE}</ProjectGuid>
@@ -70,7 +70,8 @@
       <AdditionalLibraryDirectories>$(SolutionDir)$(Configuration)\</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
-      <Command>$(ProjectDir)script\buildShaders.bat</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

@@ -11,8 +11,8 @@ AssetViewerMode::AssetViewerMode()
 : Mode()
 , m_pAccessor(NULL)
 , m_pCursor(NULL)
+, m_pSharedAssetContainer(NULL)
 , m_pFillDrawContext(NULL)
-, m_pFontAssetContainer(NULL)
 , m_pFontDrawContext(NULL)
 , m_pSpriteDrawContext(NULL)
 {
@@ -32,14 +32,14 @@ void AssetViewerMode::SetCursor(lct::inpu::Cursor* pCursor)
 	m_pCursor = pCursor;
 }
 
+void AssetViewerMode::SetSharedAssetContainer(lct::pack::AssetContainer* pAssetContainer)
+{
+	m_pSharedAssetContainer = pAssetContainer;
+}
+
 void AssetViewerMode::SetFillDrawContext(lct::fill::DrawContext* pDrawContext)
 {
 	m_pFillDrawContext = pDrawContext;
-}
-
-void AssetViewerMode::SetFontAssetContainer(lct::font::AssetContainer* pAssetContainer)
-{
-	m_pFontAssetContainer = pAssetContainer;
 }
 
 void AssetViewerMode::SetFontDrawContext(lct::font::DrawContext* pDrawContext)

@@ -9,7 +9,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <None Include="script\buildShaders.bat">
+    <None Include="script\buildAssets.bat">
       <Filter>script</Filter>
     </None>
   </ItemGroup>
