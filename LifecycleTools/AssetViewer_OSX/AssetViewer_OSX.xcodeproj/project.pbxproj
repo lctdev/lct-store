@@ -7,15 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F8BCF0171B49E49800001A93 /* programAssets.xml in Resources */ = {isa = PBXBuildFile; fileRef = F8BCF0161B49E49800001A93 /* programAssets.xml */; };
+		F8BCF0191B49E54800001A93 /* buildAssets.sh in Resources */ = {isa = PBXBuildFile; fileRef = F8BCF0181B49E54800001A93 /* buildAssets.sh */; };
 		F8E1B34E1AEF419D0045B0D2 /* main.mm in Sources */ = {isa = PBXBuildFile; fileRef = F8E1B34D1AEF419D0045B0D2 /* main.mm */; };
 		F8E1B3691AEF43530045B0D2 /* libAssetViewer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F8E1B3681AEF43530045B0D2 /* libAssetViewer.a */; };
 		F8E1B36B1AEF46CF0045B0D2 /* libLifecycleRuntime.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F8E1B36A1AEF46CF0045B0D2 /* libLifecycleRuntime.a */; };
 		F8E1B36D1AEF474D0045B0D2 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8E1B36C1AEF474D0045B0D2 /* OpenGL.framework */; };
 		F8E1B36F1AEF47600045B0D2 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8E1B36E1AEF47600045B0D2 /* Cocoa.framework */; };
-		F8E1B3721AEFBACD0045B0D2 /* buildShaders.sh in Resources */ = {isa = PBXBuildFile; fileRef = F8E1B3711AEFBACD0045B0D2 /* buildShaders.sh */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		F8BCF0161B49E49800001A93 /* programAssets.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = programAssets.xml; sourceTree = "<group>"; };
+		F8BCF0181B49E54800001A93 /* buildAssets.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = buildAssets.sh; sourceTree = "<group>"; };
 		F8E1B3451AEF419D0045B0D2 /* AssetViewer_OSX.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AssetViewer_OSX.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F8E1B3491AEF419D0045B0D2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F8E1B34D1AEF419D0045B0D2 /* main.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = main.mm; sourceTree = "<group>"; };
@@ -23,7 +26,6 @@
 		F8E1B36A1AEF46CF0045B0D2 /* libLifecycleRuntime.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLifecycleRuntime.a; path = "../../../Library/Developer/Xcode/DerivedData/LifecycleTools-fzvpxhivbekbshbonvaozrxscadj/Build/Products/Debug/libLifecycleRuntime.a"; sourceTree = "<group>"; };
 		F8E1B36C1AEF474D0045B0D2 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		F8E1B36E1AEF47600045B0D2 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
-		F8E1B3711AEFBACD0045B0D2 /* buildShaders.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = buildShaders.sh; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,7 +84,8 @@
 		F8E1B3701AEFBACD0045B0D2 /* script */ = {
 			isa = PBXGroup;
 			children = (
-				F8E1B3711AEFBACD0045B0D2 /* buildShaders.sh */,
+				F8BCF0181B49E54800001A93 /* buildAssets.sh */,
+				F8BCF0161B49E49800001A93 /* programAssets.xml */,
 			);
 			path = script;
 			sourceTree = "<group>";
@@ -145,7 +148,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F8E1B3721AEFBACD0045B0D2 /* buildShaders.sh in Resources */,
+				F8BCF0191B49E54800001A93 /* buildAssets.sh in Resources */,
+				F8BCF0171B49E49800001A93 /* programAssets.xml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -163,7 +167,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = script/buildShaders.sh;
+			shellScript = script/buildAssets.sh;
 		};
 /* End PBXShellScriptBuildPhase section */
 

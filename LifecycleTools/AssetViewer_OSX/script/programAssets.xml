@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<pack:manifest>
+    <assetEntries>
+    	<!--  Shader Assets -->
+    	<assetEntry group="PASS" type="STRI">
+            <filePath>../../LifecycleRuntime/shader/fill/OSX/fill_vertexShader.glsl</filePath>
+        </assetEntry>
+        <assetEntry group="PASS" type="STRI">
+            <filePath>../../LifecycleRuntime/shader/fill/OSX/fill_fragmentShader.glsl</filePath>
+        </assetEntry>
+        
+        <assetEntry group="PASS" type="STRI">
+            <filePath>../../LifecycleRuntime/shader/font/OSX/font_vertexShader.glsl</filePath>
+        </assetEntry>
+        <assetEntry group="PASS" type="STRI">
+            <filePath>../../LifecycleRuntime/shader/font/OSX/font_fragmentShader.glsl</filePath>
+        </assetEntry>
+        
+        <assetEntry group="PASS" type="STRI">
+            <filePath>../../LifecycleRuntime/shader/spri/OSX/spri_vertexShader.glsl</filePath>
+        </assetEntry>
+        <assetEntry group="PASS" type="STRI">
+            <filePath>../../LifecycleRuntime/shader/spri/OSX/spri_fragmentShader.glsl</filePath>
+        </assetEntry>
+    
+    	<!--  Font Assets  -->
+        <assetEntry group="FONT" type="SHEE">
+            <filePath>../../AssetViewer/ProgramAssets/Font/example_sheet.xml</filePath>
+        </assetEntry>
+        <assetEntry group="IMAG" type="TEXT">
+            <filePath>../../AssetViewer/ProgramAssets/Font/example_sheet_texture.tga</filePath>
+        </assetEntry>
+    </assetEntries>
+</pack:manifest>

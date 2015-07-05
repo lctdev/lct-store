@@ -21,13 +21,30 @@
 		F8BCEFDF1B2B1FBD00001A93 /* font_arrays.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F8BCEFDE1B2B1FBD00001A93 /* font_arrays.cpp */; };
 		F8BCEFE11B2B1FD400001A93 /* fill_arrays.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F8BCEFE01B2B1FD400001A93 /* fill_arrays.cpp */; };
 		F8BCEFE31B2B1FEA00001A93 /* spri_arrays.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F8BCEFE21B2B1FEA00001A93 /* spri_arrays.cpp */; };
+		F8BCEFE51B49E09600001A93 /* spri_assetHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = F8BCEFE41B49E09600001A93 /* spri_assetHandler.h */; };
+		F8BCEFE71B49E0A100001A93 /* font_assetHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = F8BCEFE61B49E0A100001A93 /* font_assetHandler.h */; };
+		F8BCEFE91B49E0DD00001A93 /* imag_assetHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = F8BCEFE81B49E0DD00001A93 /* imag_assetHandler.h */; };
+		F8BCEFEB1B49E0F200001A93 /* pack_assetContainer.h in Headers */ = {isa = PBXBuildFile; fileRef = F8BCEFEA1B49E0F200001A93 /* pack_assetContainer.h */; };
+		F8BCEFED1B49E10000001A93 /* pack_assets.h in Headers */ = {isa = PBXBuildFile; fileRef = F8BCEFEC1B49E10000001A93 /* pack_assets.h */; };
+		F8BCEFF31B49E14000001A93 /* pass_assetHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = F8BCEFEF1B49E14000001A93 /* pass_assetHandler.h */; };
+		F8BCEFF41B49E14000001A93 /* pass_assets.h in Headers */ = {isa = PBXBuildFile; fileRef = F8BCEFF01B49E14000001A93 /* pass_assets.h */; };
+		F8BCEFF51B49E14000001A93 /* pass_constants.h in Headers */ = {isa = PBXBuildFile; fileRef = F8BCEFF11B49E14000001A93 /* pass_constants.h */; };
+		F8BCEFF61B49E14000001A93 /* pass_data.h in Headers */ = {isa = PBXBuildFile; fileRef = F8BCEFF21B49E14000001A93 /* pass_data.h */; };
+		F8BCEFF91B49E16C00001A93 /* spri_assetHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F8BCEFF71B49E16C00001A93 /* spri_assetHandler.cpp */; };
+		F8BCEFFA1B49E16C00001A93 /* spri_assets.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F8BCEFF81B49E16C00001A93 /* spri_assets.cpp */; };
+		F8BCEFFC1B49E18400001A93 /* pack_assetContainer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F8BCEFFB1B49E18400001A93 /* pack_assetContainer.cpp */; };
+		F8BCF0001B49E19400001A93 /* imag_assetHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F8BCEFFD1B49E19400001A93 /* imag_assetHandler.cpp */; };
+		F8BCF0011B49E19400001A93 /* imag_assets.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F8BCEFFE1B49E19400001A93 /* imag_assets.cpp */; };
+		F8BCF0021B49E19400001A93 /* imag_constants.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F8BCEFFF1B49E19400001A93 /* imag_constants.cpp */; };
+		F8BCF0051B49E1C800001A93 /* font_assetHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F8BCF0031B49E1C800001A93 /* font_assetHandler.cpp */; };
+		F8BCF0061B49E1C800001A93 /* font_assets.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F8BCF0041B49E1C800001A93 /* font_assets.cpp */; };
+		F8BCF00A1B49E21D00001A93 /* pass_assetHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F8BCF0081B49E21D00001A93 /* pass_assetHandler.cpp */; };
+		F8BCF00B1B49E21D00001A93 /* pass_assets.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F8BCF0091B49E21D00001A93 /* pass_assets.cpp */; };
 		F8E1B1B41AE7D4D70045B0D2 /* file_accessor.h in Headers */ = {isa = PBXBuildFile; fileRef = F8E1B1531AE7D4D70045B0D2 /* file_accessor.h */; };
 		F8E1B1B51AE7D4D70045B0D2 /* file_packedAccessor.h in Headers */ = {isa = PBXBuildFile; fileRef = F8E1B1541AE7D4D70045B0D2 /* file_packedAccessor.h */; };
 		F8E1B1B61AE7D4D70045B0D2 /* file_systemAccessor.h in Headers */ = {isa = PBXBuildFile; fileRef = F8E1B1551AE7D4D70045B0D2 /* file_systemAccessor.h */; };
 		F8E1B1B71AE7D4D70045B0D2 /* fill_data.h in Headers */ = {isa = PBXBuildFile; fileRef = F8E1B1571AE7D4D70045B0D2 /* fill_data.h */; };
 		F8E1B1B81AE7D4D70045B0D2 /* fill_drawContext.h in Headers */ = {isa = PBXBuildFile; fileRef = F8E1B1581AE7D4D70045B0D2 /* fill_drawContext.h */; };
-		F8E1B1BA1AE7D4D70045B0D2 /* font_assetContainer.h in Headers */ = {isa = PBXBuildFile; fileRef = F8E1B15B1AE7D4D70045B0D2 /* font_assetContainer.h */; };
-		F8E1B1BB1AE7D4D70045B0D2 /* font_assetProcessor.h in Headers */ = {isa = PBXBuildFile; fileRef = F8E1B15C1AE7D4D70045B0D2 /* font_assetProcessor.h */; };
 		F8E1B1BC1AE7D4D70045B0D2 /* font_assets.h in Headers */ = {isa = PBXBuildFile; fileRef = F8E1B15D1AE7D4D70045B0D2 /* font_assets.h */; };
 		F8E1B1BD1AE7D4D70045B0D2 /* font_constants.h in Headers */ = {isa = PBXBuildFile; fileRef = F8E1B15E1AE7D4D70045B0D2 /* font_constants.h */; };
 		F8E1B1BE1AE7D4D70045B0D2 /* font_data.h in Headers */ = {isa = PBXBuildFile; fileRef = F8E1B15F1AE7D4D70045B0D2 /* font_data.h */; };
@@ -61,13 +78,9 @@
 		F8E1B1DC1AE7D4D70045B0D2 /* fram_program.h in Headers */ = {isa = PBXBuildFile; fileRef = F8E1B17F1AE7D4D70045B0D2 /* fram_program.h */; };
 		F8E1B1DD1AE7D4D70045B0D2 /* fram_program_OBJC.h in Headers */ = {isa = PBXBuildFile; fileRef = F8E1B1801AE7D4D70045B0D2 /* fram_program_OBJC.h */; };
 		F8E1B1DE1AE7D4D70045B0D2 /* fram_screen.h in Headers */ = {isa = PBXBuildFile; fileRef = F8E1B1811AE7D4D70045B0D2 /* fram_screen.h */; };
-		F8E1B1DF1AE7D4D70045B0D2 /* imag_assetContainer.h in Headers */ = {isa = PBXBuildFile; fileRef = F8E1B1831AE7D4D70045B0D2 /* imag_assetContainer.h */; };
-		F8E1B1E01AE7D4D70045B0D2 /* imag_assetProcessor.h in Headers */ = {isa = PBXBuildFile; fileRef = F8E1B1841AE7D4D70045B0D2 /* imag_assetProcessor.h */; };
 		F8E1B1E11AE7D4D70045B0D2 /* imag_assets.h in Headers */ = {isa = PBXBuildFile; fileRef = F8E1B1851AE7D4D70045B0D2 /* imag_assets.h */; };
 		F8E1B1E21AE7D4D70045B0D2 /* imag_constants.h in Headers */ = {isa = PBXBuildFile; fileRef = F8E1B1861AE7D4D70045B0D2 /* imag_constants.h */; };
 		F8E1B1E31AE7D4D70045B0D2 /* imag_data.h in Headers */ = {isa = PBXBuildFile; fileRef = F8E1B1871AE7D4D70045B0D2 /* imag_data.h */; };
-		F8E1B1E41AE7D4D70045B0D2 /* imag_resourceHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = F8E1B1881AE7D4D70045B0D2 /* imag_resourceHandler.h */; };
-		F8E1B1E51AE7D4D70045B0D2 /* imag_resources.h in Headers */ = {isa = PBXBuildFile; fileRef = F8E1B1891AE7D4D70045B0D2 /* imag_resources.h */; };
 		F8E1B1E61AE7D4D70045B0D2 /* inpu_constants.h in Headers */ = {isa = PBXBuildFile; fileRef = F8E1B18B1AE7D4D70045B0D2 /* inpu_constants.h */; };
 		F8E1B1E71AE7D4D70045B0D2 /* inpu_cursor.h in Headers */ = {isa = PBXBuildFile; fileRef = F8E1B18C1AE7D4D70045B0D2 /* inpu_cursor.h */; };
 		F8E1B1E81AE7D4D70045B0D2 /* inpu_mouseCursor.h in Headers */ = {isa = PBXBuildFile; fileRef = F8E1B18D1AE7D4D70045B0D2 /* inpu_mouseCursor.h */; };
@@ -79,8 +92,6 @@
 		F8E1B1EE1AE7D4D70045B0D2 /* pack_assetHeader.h in Headers */ = {isa = PBXBuildFile; fileRef = F8E1B1941AE7D4D70045B0D2 /* pack_assetHeader.h */; };
 		F8E1B1EF1AE7D4D70045B0D2 /* pack_packageWalker.h in Headers */ = {isa = PBXBuildFile; fileRef = F8E1B1951AE7D4D70045B0D2 /* pack_packageWalker.h */; };
 		F8E1B1F41AE7D4D70045B0D2 /* spri_animationInstance.h in Headers */ = {isa = PBXBuildFile; fileRef = F8E1B19C1AE7D4D70045B0D2 /* spri_animationInstance.h */; };
-		F8E1B1F51AE7D4D70045B0D2 /* spri_assetContainer.h in Headers */ = {isa = PBXBuildFile; fileRef = F8E1B19D1AE7D4D70045B0D2 /* spri_assetContainer.h */; };
-		F8E1B1F61AE7D4D70045B0D2 /* spri_assetProcessor.h in Headers */ = {isa = PBXBuildFile; fileRef = F8E1B19E1AE7D4D70045B0D2 /* spri_assetProcessor.h */; };
 		F8E1B1F71AE7D4D70045B0D2 /* spri_assets.h in Headers */ = {isa = PBXBuildFile; fileRef = F8E1B19F1AE7D4D70045B0D2 /* spri_assets.h */; };
 		F8E1B1F81AE7D4D70045B0D2 /* spri_bindingBuilder.h in Headers */ = {isa = PBXBuildFile; fileRef = F8E1B1A01AE7D4D70045B0D2 /* spri_bindingBuilder.h */; };
 		F8E1B1F91AE7D4D70045B0D2 /* spri_bindings.h in Headers */ = {isa = PBXBuildFile; fileRef = F8E1B1A11AE7D4D70045B0D2 /* spri_bindings.h */; };
@@ -103,8 +114,6 @@
 		F8E1B24F1AE7D4F60045B0D2 /* file_packedAccessor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F8E1B20D1AE7D4F60045B0D2 /* file_packedAccessor.cpp */; };
 		F8E1B2501AE7D4F60045B0D2 /* file_systemAccessor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F8E1B20E1AE7D4F60045B0D2 /* file_systemAccessor.cpp */; };
 		F8E1B2511AE7D4F60045B0D2 /* fill_drawContext.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F8E1B2101AE7D4F60045B0D2 /* fill_drawContext.cpp */; };
-		F8E1B2521AE7D4F60045B0D2 /* font_assetContainer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F8E1B2121AE7D4F60045B0D2 /* font_assetContainer.cpp */; };
-		F8E1B2531AE7D4F60045B0D2 /* font_assetProcessor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F8E1B2131AE7D4F60045B0D2 /* font_assetProcessor.cpp */; };
 		F8E1B2541AE7D4F60045B0D2 /* font_drawContext.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F8E1B2141AE7D4F60045B0D2 /* font_drawContext.cpp */; };
 		F8E1B2561AE7D4F60045B0D2 /* font_symbolBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F8E1B2161AE7D4F60045B0D2 /* font_symbolBuffer.cpp */; };
 		F8E1B2571AE7D4F60045B0D2 /* font_symbolWriter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F8E1B2171AE7D4F60045B0D2 /* font_symbolWriter.cpp */; };
@@ -124,8 +133,6 @@
 		F8E1B2651AE7D4F60045B0D2 /* fram_program.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F8E1B2271AE7D4F60045B0D2 /* fram_program.cpp */; };
 		F8E1B2661AE7D4F60045B0D2 /* fram_program_OBJC.mm in Sources */ = {isa = PBXBuildFile; fileRef = F8E1B2281AE7D4F60045B0D2 /* fram_program_OBJC.mm */; };
 		F8E1B2671AE7D4F60045B0D2 /* fram_screen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F8E1B2291AE7D4F60045B0D2 /* fram_screen.cpp */; };
-		F8E1B2681AE7D4F60045B0D2 /* imag_assetContainer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F8E1B22B1AE7D4F60045B0D2 /* imag_assetContainer.cpp */; };
-		F8E1B2691AE7D4F60045B0D2 /* imag_assetProcessor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F8E1B22C1AE7D4F60045B0D2 /* imag_assetProcessor.cpp */; };
 		F8E1B26B1AE7D4F60045B0D2 /* inpu_cursor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F8E1B22F1AE7D4F60045B0D2 /* inpu_cursor.cpp */; };
 		F8E1B26C1AE7D4F60045B0D2 /* inpu_mouseCursor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F8E1B2301AE7D4F60045B0D2 /* inpu_mouseCursor.cpp */; };
 		F8E1B26D1AE7D4F60045B0D2 /* inpu_mouseReader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F8E1B2311AE7D4F60045B0D2 /* inpu_mouseReader.cpp */; };
@@ -135,8 +142,6 @@
 		F8E1B2711AE7D4F60045B0D2 /* pack_assetHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F8E1B2361AE7D4F60045B0D2 /* pack_assetHandler.cpp */; };
 		F8E1B2721AE7D4F60045B0D2 /* pack_packageWalker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F8E1B2371AE7D4F60045B0D2 /* pack_packageWalker.cpp */; };
 		F8E1B2741AE7D4F60045B0D2 /* spri_animationInstance.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F8E1B23B1AE7D4F60045B0D2 /* spri_animationInstance.cpp */; };
-		F8E1B2751AE7D4F60045B0D2 /* spri_assetContainer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F8E1B23C1AE7D4F60045B0D2 /* spri_assetContainer.cpp */; };
-		F8E1B2761AE7D4F60045B0D2 /* spri_assetProcessor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F8E1B23D1AE7D4F60045B0D2 /* spri_assetProcessor.cpp */; };
 		F8E1B2771AE7D4F60045B0D2 /* spri_bindingBuilder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F8E1B23E1AE7D4F60045B0D2 /* spri_bindingBuilder.cpp */; };
 		F8E1B2781AE7D4F60045B0D2 /* spri_drawContext.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F8E1B23F1AE7D4F60045B0D2 /* spri_drawContext.cpp */; };
 		F8E1B2791AE7D4F60045B0D2 /* spri_figureInstance.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F8E1B2401AE7D4F60045B0D2 /* spri_figureInstance.cpp */; };
@@ -168,14 +173,37 @@
 		F8BCEFDE1B2B1FBD00001A93 /* font_arrays.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = font_arrays.cpp; sourceTree = "<group>"; };
 		F8BCEFE01B2B1FD400001A93 /* fill_arrays.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = fill_arrays.cpp; sourceTree = "<group>"; };
 		F8BCEFE21B2B1FEA00001A93 /* spri_arrays.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = spri_arrays.cpp; sourceTree = "<group>"; };
+		F8BCEFE41B49E09600001A93 /* spri_assetHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = spri_assetHandler.h; sourceTree = "<group>"; };
+		F8BCEFE61B49E0A100001A93 /* font_assetHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = font_assetHandler.h; sourceTree = "<group>"; };
+		F8BCEFE81B49E0DD00001A93 /* imag_assetHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = imag_assetHandler.h; sourceTree = "<group>"; };
+		F8BCEFEA1B49E0F200001A93 /* pack_assetContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pack_assetContainer.h; sourceTree = "<group>"; };
+		F8BCEFEC1B49E10000001A93 /* pack_assets.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pack_assets.h; sourceTree = "<group>"; };
+		F8BCEFEF1B49E14000001A93 /* pass_assetHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = pass_assetHandler.h; path = pass/pass_assetHandler.h; sourceTree = "<group>"; };
+		F8BCEFF01B49E14000001A93 /* pass_assets.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = pass_assets.h; path = pass/pass_assets.h; sourceTree = "<group>"; };
+		F8BCEFF11B49E14000001A93 /* pass_constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = pass_constants.h; path = pass/pass_constants.h; sourceTree = "<group>"; };
+		F8BCEFF21B49E14000001A93 /* pass_data.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = pass_data.h; path = pass/pass_data.h; sourceTree = "<group>"; };
+		F8BCEFF71B49E16C00001A93 /* spri_assetHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = spri_assetHandler.cpp; sourceTree = "<group>"; };
+		F8BCEFF81B49E16C00001A93 /* spri_assets.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = spri_assets.cpp; sourceTree = "<group>"; };
+		F8BCEFFB1B49E18400001A93 /* pack_assetContainer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = pack_assetContainer.cpp; sourceTree = "<group>"; };
+		F8BCEFFD1B49E19400001A93 /* imag_assetHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = imag_assetHandler.cpp; sourceTree = "<group>"; };
+		F8BCEFFE1B49E19400001A93 /* imag_assets.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = imag_assets.cpp; sourceTree = "<group>"; };
+		F8BCEFFF1B49E19400001A93 /* imag_constants.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = imag_constants.cpp; sourceTree = "<group>"; };
+		F8BCF0031B49E1C800001A93 /* font_assetHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = font_assetHandler.cpp; sourceTree = "<group>"; };
+		F8BCF0041B49E1C800001A93 /* font_assets.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = font_assets.cpp; sourceTree = "<group>"; };
+		F8BCF0081B49E21D00001A93 /* pass_assetHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = pass_assetHandler.cpp; path = pass/pass_assetHandler.cpp; sourceTree = "<group>"; };
+		F8BCF0091B49E21D00001A93 /* pass_assets.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = pass_assets.cpp; path = pass/pass_assets.cpp; sourceTree = "<group>"; };
+		F8BCF0101B49E2F000001A93 /* fill_fragmentShader.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = fill_fragmentShader.glsl; path = WINDOWS/fill_fragmentShader.glsl; sourceTree = "<group>"; };
+		F8BCF0111B49E2F000001A93 /* fill_vertexShader.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = fill_vertexShader.glsl; path = WINDOWS/fill_vertexShader.glsl; sourceTree = "<group>"; };
+		F8BCF0121B49E30600001A93 /* font_fragmentShader.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = font_fragmentShader.glsl; path = WINDOWS/font_fragmentShader.glsl; sourceTree = "<group>"; };
+		F8BCF0131B49E30600001A93 /* font_vertexShader.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = font_vertexShader.glsl; path = WINDOWS/font_vertexShader.glsl; sourceTree = "<group>"; };
+		F8BCF0141B49E32400001A93 /* spri_fragmentShader.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = spri_fragmentShader.glsl; path = WINDOWS/spri_fragmentShader.glsl; sourceTree = "<group>"; };
+		F8BCF0151B49E32400001A93 /* spri_vertexShader.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = spri_vertexShader.glsl; path = WINDOWS/spri_vertexShader.glsl; sourceTree = "<group>"; };
 		F8E1B1371AE685030045B0D2 /* libLifecycleRuntime.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libLifecycleRuntime.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		F8E1B1531AE7D4D70045B0D2 /* file_accessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = file_accessor.h; sourceTree = "<group>"; };
 		F8E1B1541AE7D4D70045B0D2 /* file_packedAccessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = file_packedAccessor.h; sourceTree = "<group>"; };
 		F8E1B1551AE7D4D70045B0D2 /* file_systemAccessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = file_systemAccessor.h; sourceTree = "<group>"; };
 		F8E1B1571AE7D4D70045B0D2 /* fill_data.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = fill_data.h; sourceTree = "<group>"; };
 		F8E1B1581AE7D4D70045B0D2 /* fill_drawContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = fill_drawContext.h; sourceTree = "<group>"; };
-		F8E1B15B1AE7D4D70045B0D2 /* font_assetContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = font_assetContainer.h; sourceTree = "<group>"; };
-		F8E1B15C1AE7D4D70045B0D2 /* font_assetProcessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = font_assetProcessor.h; sourceTree = "<group>"; };
 		F8E1B15D1AE7D4D70045B0D2 /* font_assets.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = font_assets.h; sourceTree = "<group>"; };
 		F8E1B15E1AE7D4D70045B0D2 /* font_constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = font_constants.h; sourceTree = "<group>"; };
 		F8E1B15F1AE7D4D70045B0D2 /* font_data.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = font_data.h; sourceTree = "<group>"; };
@@ -209,13 +237,9 @@
 		F8E1B17F1AE7D4D70045B0D2 /* fram_program.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = fram_program.h; sourceTree = "<group>"; };
 		F8E1B1801AE7D4D70045B0D2 /* fram_program_OBJC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = fram_program_OBJC.h; sourceTree = "<group>"; };
 		F8E1B1811AE7D4D70045B0D2 /* fram_screen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = fram_screen.h; sourceTree = "<group>"; };
-		F8E1B1831AE7D4D70045B0D2 /* imag_assetContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = imag_assetContainer.h; sourceTree = "<group>"; };
-		F8E1B1841AE7D4D70045B0D2 /* imag_assetProcessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = imag_assetProcessor.h; sourceTree = "<group>"; };
 		F8E1B1851AE7D4D70045B0D2 /* imag_assets.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = imag_assets.h; sourceTree = "<group>"; };
 		F8E1B1861AE7D4D70045B0D2 /* imag_constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = imag_constants.h; sourceTree = "<group>"; };
 		F8E1B1871AE7D4D70045B0D2 /* imag_data.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = imag_data.h; sourceTree = "<group>"; };
-		F8E1B1881AE7D4D70045B0D2 /* imag_resourceHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = imag_resourceHandler.h; sourceTree = "<group>"; };
-		F8E1B1891AE7D4D70045B0D2 /* imag_resources.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = imag_resources.h; sourceTree = "<group>"; };
 		F8E1B18B1AE7D4D70045B0D2 /* inpu_constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = inpu_constants.h; sourceTree = "<group>"; };
 		F8E1B18C1AE7D4D70045B0D2 /* inpu_cursor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = inpu_cursor.h; sourceTree = "<group>"; };
 		F8E1B18D1AE7D4D70045B0D2 /* inpu_mouseCursor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = inpu_mouseCursor.h; sourceTree = "<group>"; };
@@ -227,8 +251,6 @@
 		F8E1B1941AE7D4D70045B0D2 /* pack_assetHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pack_assetHeader.h; sourceTree = "<group>"; };
 		F8E1B1951AE7D4D70045B0D2 /* pack_packageWalker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pack_packageWalker.h; sourceTree = "<group>"; };
 		F8E1B19C1AE7D4D70045B0D2 /* spri_animationInstance.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = spri_animationInstance.h; sourceTree = "<group>"; };
-		F8E1B19D1AE7D4D70045B0D2 /* spri_assetContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = spri_assetContainer.h; sourceTree = "<group>"; };
-		F8E1B19E1AE7D4D70045B0D2 /* spri_assetProcessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = spri_assetProcessor.h; sourceTree = "<group>"; };
 		F8E1B19F1AE7D4D70045B0D2 /* spri_assets.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = spri_assets.h; sourceTree = "<group>"; };
 		F8E1B1A01AE7D4D70045B0D2 /* spri_bindingBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = spri_bindingBuilder.h; sourceTree = "<group>"; };
 		F8E1B1A11AE7D4D70045B0D2 /* spri_bindings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = spri_bindings.h; sourceTree = "<group>"; };
@@ -251,8 +273,6 @@
 		F8E1B20D1AE7D4F60045B0D2 /* file_packedAccessor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = file_packedAccessor.cpp; sourceTree = "<group>"; };
 		F8E1B20E1AE7D4F60045B0D2 /* file_systemAccessor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = file_systemAccessor.cpp; sourceTree = "<group>"; };
 		F8E1B2101AE7D4F60045B0D2 /* fill_drawContext.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = fill_drawContext.cpp; sourceTree = "<group>"; };
-		F8E1B2121AE7D4F60045B0D2 /* font_assetContainer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = font_assetContainer.cpp; sourceTree = "<group>"; };
-		F8E1B2131AE7D4F60045B0D2 /* font_assetProcessor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = font_assetProcessor.cpp; sourceTree = "<group>"; };
 		F8E1B2141AE7D4F60045B0D2 /* font_drawContext.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = font_drawContext.cpp; sourceTree = "<group>"; };
 		F8E1B2161AE7D4F60045B0D2 /* font_symbolBuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = font_symbolBuffer.cpp; sourceTree = "<group>"; };
 		F8E1B2171AE7D4F60045B0D2 /* font_symbolWriter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = font_symbolWriter.cpp; sourceTree = "<group>"; };
@@ -272,8 +292,6 @@
 		F8E1B2271AE7D4F60045B0D2 /* fram_program.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = fram_program.cpp; sourceTree = "<group>"; };
 		F8E1B2281AE7D4F60045B0D2 /* fram_program_OBJC.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = fram_program_OBJC.mm; sourceTree = "<group>"; };
 		F8E1B2291AE7D4F60045B0D2 /* fram_screen.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = fram_screen.cpp; sourceTree = "<group>"; };
-		F8E1B22B1AE7D4F60045B0D2 /* imag_assetContainer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = imag_assetContainer.cpp; sourceTree = "<group>"; };
-		F8E1B22C1AE7D4F60045B0D2 /* imag_assetProcessor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = imag_assetProcessor.cpp; sourceTree = "<group>"; };
 		F8E1B22F1AE7D4F60045B0D2 /* inpu_cursor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = inpu_cursor.cpp; sourceTree = "<group>"; };
 		F8E1B2301AE7D4F60045B0D2 /* inpu_mouseCursor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = inpu_mouseCursor.cpp; sourceTree = "<group>"; };
 		F8E1B2311AE7D4F60045B0D2 /* inpu_mouseReader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = inpu_mouseReader.cpp; sourceTree = "<group>"; };
@@ -283,8 +301,6 @@
 		F8E1B2361AE7D4F60045B0D2 /* pack_assetHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = pack_assetHandler.cpp; sourceTree = "<group>"; };
 		F8E1B2371AE7D4F60045B0D2 /* pack_packageWalker.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = pack_packageWalker.cpp; sourceTree = "<group>"; };
 		F8E1B23B1AE7D4F60045B0D2 /* spri_animationInstance.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = spri_animationInstance.cpp; sourceTree = "<group>"; };
-		F8E1B23C1AE7D4F60045B0D2 /* spri_assetContainer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = spri_assetContainer.cpp; sourceTree = "<group>"; };
-		F8E1B23D1AE7D4F60045B0D2 /* spri_assetProcessor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = spri_assetProcessor.cpp; sourceTree = "<group>"; };
 		F8E1B23E1AE7D4F60045B0D2 /* spri_bindingBuilder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = spri_bindingBuilder.cpp; sourceTree = "<group>"; };
 		F8E1B23F1AE7D4F60045B0D2 /* spri_drawContext.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = spri_drawContext.cpp; sourceTree = "<group>"; };
 		F8E1B2401AE7D4F60045B0D2 /* spri_figureInstance.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = spri_figureInstance.cpp; sourceTree = "<group>"; };
@@ -303,20 +319,14 @@
 		F8E1B2891AE7D51C0045B0D2 /* fill_vertexShader.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = fill_vertexShader.glsl; sourceTree = "<group>"; };
 		F8E1B28B1AE7D51C0045B0D2 /* fill_fragmentShader.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = fill_fragmentShader.glsl; sourceTree = "<group>"; };
 		F8E1B28C1AE7D51C0045B0D2 /* fill_vertexShader.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = fill_vertexShader.glsl; sourceTree = "<group>"; };
-		F8E1B28E1AE7D51C0045B0D2 /* fill_fragmentShader.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = fill_fragmentShader.glsl; sourceTree = "<group>"; };
-		F8E1B28F1AE7D51C0045B0D2 /* fill_vertexShader.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = fill_vertexShader.glsl; sourceTree = "<group>"; };
 		F8E1B2921AE7D51C0045B0D2 /* font_fragmentShader.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = font_fragmentShader.glsl; sourceTree = "<group>"; };
 		F8E1B2931AE7D51C0045B0D2 /* font_vertexShader.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = font_vertexShader.glsl; sourceTree = "<group>"; };
 		F8E1B2951AE7D51C0045B0D2 /* font_fragmentShader.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = font_fragmentShader.glsl; sourceTree = "<group>"; };
 		F8E1B2961AE7D51C0045B0D2 /* font_vertexShader.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = font_vertexShader.glsl; sourceTree = "<group>"; };
-		F8E1B2981AE7D51C0045B0D2 /* font_fragmentShader.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = font_fragmentShader.glsl; sourceTree = "<group>"; };
-		F8E1B2991AE7D51C0045B0D2 /* font_vertexShader.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = font_vertexShader.glsl; sourceTree = "<group>"; };
 		F8E1B29C1AE7D51C0045B0D2 /* spri_fragmentShader.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = spri_fragmentShader.glsl; sourceTree = "<group>"; };
 		F8E1B29D1AE7D51C0045B0D2 /* spri_vertexShader.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = spri_vertexShader.glsl; sourceTree = "<group>"; };
 		F8E1B29F1AE7D51C0045B0D2 /* spri_fragmentShader.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = spri_fragmentShader.glsl; sourceTree = "<group>"; };
 		F8E1B2A01AE7D51C0045B0D2 /* spri_vertexShader.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = spri_vertexShader.glsl; sourceTree = "<group>"; };
-		F8E1B2A21AE7D51C0045B0D2 /* spri_fragmentShader.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = spri_fragmentShader.glsl; sourceTree = "<group>"; };
-		F8E1B2A31AE7D51C0045B0D2 /* spri_vertexShader.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = spri_vertexShader.glsl; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -351,6 +361,53 @@
 			name = grap;
 			sourceTree = "<group>";
 		};
+		F8BCEFEE1B49E12E00001A93 /* pass */ = {
+			isa = PBXGroup;
+			children = (
+				F8BCEFEF1B49E14000001A93 /* pass_assetHandler.h */,
+				F8BCEFF01B49E14000001A93 /* pass_assets.h */,
+				F8BCEFF11B49E14000001A93 /* pass_constants.h */,
+				F8BCEFF21B49E14000001A93 /* pass_data.h */,
+			);
+			name = pass;
+			sourceTree = "<group>";
+		};
+		F8BCF0071B49E20500001A93 /* pass */ = {
+			isa = PBXGroup;
+			children = (
+				F8BCF0081B49E21D00001A93 /* pass_assetHandler.cpp */,
+				F8BCF0091B49E21D00001A93 /* pass_assets.cpp */,
+			);
+			name = pass;
+			sourceTree = "<group>";
+		};
+		F8BCF00D1B49E2AF00001A93 /* WINDOWS */ = {
+			isa = PBXGroup;
+			children = (
+				F8BCF0101B49E2F000001A93 /* fill_fragmentShader.glsl */,
+				F8BCF0111B49E2F000001A93 /* fill_vertexShader.glsl */,
+			);
+			name = WINDOWS;
+			sourceTree = "<group>";
+		};
+		F8BCF00E1B49E2B900001A93 /* WINDOWS */ = {
+			isa = PBXGroup;
+			children = (
+				F8BCF0121B49E30600001A93 /* font_fragmentShader.glsl */,
+				F8BCF0131B49E30600001A93 /* font_vertexShader.glsl */,
+			);
+			name = WINDOWS;
+			sourceTree = "<group>";
+		};
+		F8BCF00F1B49E2C000001A93 /* WINDOWS */ = {
+			isa = PBXGroup;
+			children = (
+				F8BCF0141B49E32400001A93 /* spri_fragmentShader.glsl */,
+				F8BCF0151B49E32400001A93 /* spri_vertexShader.glsl */,
+			);
+			name = WINDOWS;
+			sourceTree = "<group>";
+		};
 		F8E1B12E1AE685030045B0D2 = {
 			isa = PBXGroup;
 			children = (
@@ -372,15 +429,16 @@
 		F8E1B1511AE7D4D70045B0D2 /* include */ = {
 			isa = PBXGroup;
 			children = (
-				F8BCEFC91B2B1ED900001A93 /* grap */,
 				F8E1B1521AE7D4D70045B0D2 /* file */,
 				F8E1B1561AE7D4D70045B0D2 /* fill */,
 				F8E1B15A1AE7D4D70045B0D2 /* font */,
 				F8E1B1651AE7D4D70045B0D2 /* foun */,
 				F8E1B1791AE7D4D70045B0D2 /* fram */,
+				F8BCEFC91B2B1ED900001A93 /* grap */,
 				F8E1B1821AE7D4D70045B0D2 /* imag */,
 				F8E1B18A1AE7D4D70045B0D2 /* inpu */,
 				F8E1B1921AE7D4D70045B0D2 /* pack */,
+				F8BCEFEE1B49E12E00001A93 /* pass */,
 				F8E1B19B1AE7D4D70045B0D2 /* spri */,
 				F8E1B1A81AE7D4D70045B0D2 /* test */,
 				F8E1B1B11AE7D4D70045B0D2 /* util */,
@@ -412,9 +470,8 @@
 		F8E1B15A1AE7D4D70045B0D2 /* font */ = {
 			isa = PBXGroup;
 			children = (
+				F8BCEFE61B49E0A100001A93 /* font_assetHandler.h */,
 				F8BCEFDA1B2B1F6600001A93 /* font_arrays.h */,
-				F8E1B15B1AE7D4D70045B0D2 /* font_assetContainer.h */,
-				F8E1B15C1AE7D4D70045B0D2 /* font_assetProcessor.h */,
 				F8E1B15D1AE7D4D70045B0D2 /* font_assets.h */,
 				F8E1B15E1AE7D4D70045B0D2 /* font_constants.h */,
 				F8E1B15F1AE7D4D70045B0D2 /* font_data.h */,
@@ -469,13 +526,10 @@
 		F8E1B1821AE7D4D70045B0D2 /* imag */ = {
 			isa = PBXGroup;
 			children = (
-				F8E1B1831AE7D4D70045B0D2 /* imag_assetContainer.h */,
-				F8E1B1841AE7D4D70045B0D2 /* imag_assetProcessor.h */,
+				F8BCEFE81B49E0DD00001A93 /* imag_assetHandler.h */,
 				F8E1B1851AE7D4D70045B0D2 /* imag_assets.h */,
 				F8E1B1861AE7D4D70045B0D2 /* imag_constants.h */,
 				F8E1B1871AE7D4D70045B0D2 /* imag_data.h */,
-				F8E1B1881AE7D4D70045B0D2 /* imag_resourceHandler.h */,
-				F8E1B1891AE7D4D70045B0D2 /* imag_resources.h */,
 			);
 			path = imag;
 			sourceTree = "<group>";
@@ -497,6 +551,8 @@
 		F8E1B1921AE7D4D70045B0D2 /* pack */ = {
 			isa = PBXGroup;
 			children = (
+				F8BCEFEC1B49E10000001A93 /* pack_assets.h */,
+				F8BCEFEA1B49E0F200001A93 /* pack_assetContainer.h */,
 				F8E1B1931AE7D4D70045B0D2 /* pack_assetHandler.h */,
 				F8E1B1941AE7D4D70045B0D2 /* pack_assetHeader.h */,
 				F8E1B1951AE7D4D70045B0D2 /* pack_packageWalker.h */,
@@ -507,10 +563,9 @@
 		F8E1B19B1AE7D4D70045B0D2 /* spri */ = {
 			isa = PBXGroup;
 			children = (
+				F8BCEFE41B49E09600001A93 /* spri_assetHandler.h */,
 				F8BCEFDC1B2B1F8D00001A93 /* spri_arrays.h */,
 				F8E1B19C1AE7D4D70045B0D2 /* spri_animationInstance.h */,
-				F8E1B19D1AE7D4D70045B0D2 /* spri_assetContainer.h */,
-				F8E1B19E1AE7D4D70045B0D2 /* spri_assetProcessor.h */,
 				F8E1B19F1AE7D4D70045B0D2 /* spri_assets.h */,
 				F8E1B1A01AE7D4D70045B0D2 /* spri_bindingBuilder.h */,
 				F8E1B1A11AE7D4D70045B0D2 /* spri_bindings.h */,
@@ -550,15 +605,16 @@
 		F8E1B20A1AE7D4F60045B0D2 /* source */ = {
 			isa = PBXGroup;
 			children = (
-				F8BCEFC61B2B1EBB00001A93 /* grap */,
 				F8E1B20B1AE7D4F60045B0D2 /* file */,
 				F8E1B20F1AE7D4F60045B0D2 /* fill */,
 				F8E1B2111AE7D4F60045B0D2 /* font */,
 				F8E1B2181AE7D4F60045B0D2 /* foun */,
 				F8E1B2211AE7D4F60045B0D2 /* fram */,
+				F8BCEFC61B2B1EBB00001A93 /* grap */,
 				F8E1B22A1AE7D4F60045B0D2 /* imag */,
 				F8E1B22E1AE7D4F60045B0D2 /* inpu */,
 				F8E1B2351AE7D4F60045B0D2 /* pack */,
+				F8BCF0071B49E20500001A93 /* pass */,
 				F8E1B23A1AE7D4F60045B0D2 /* spri */,
 				F8E1B2421AE7D4F60045B0D2 /* test */,
 				F8E1B24B1AE7D4F60045B0D2 /* util */,
@@ -588,9 +644,9 @@
 		F8E1B2111AE7D4F60045B0D2 /* font */ = {
 			isa = PBXGroup;
 			children = (
+				F8BCF0031B49E1C800001A93 /* font_assetHandler.cpp */,
+				F8BCF0041B49E1C800001A93 /* font_assets.cpp */,
 				F8BCEFDE1B2B1FBD00001A93 /* font_arrays.cpp */,
-				F8E1B2121AE7D4F60045B0D2 /* font_assetContainer.cpp */,
-				F8E1B2131AE7D4F60045B0D2 /* font_assetProcessor.cpp */,
 				F8E1B2141AE7D4F60045B0D2 /* font_drawContext.cpp */,
 				F8E1B2161AE7D4F60045B0D2 /* font_symbolBuffer.cpp */,
 				F8E1B2171AE7D4F60045B0D2 /* font_symbolWriter.cpp */,
@@ -631,8 +687,9 @@
 		F8E1B22A1AE7D4F60045B0D2 /* imag */ = {
 			isa = PBXGroup;
 			children = (
-				F8E1B22B1AE7D4F60045B0D2 /* imag_assetContainer.cpp */,
-				F8E1B22C1AE7D4F60045B0D2 /* imag_assetProcessor.cpp */,
+				F8BCEFFD1B49E19400001A93 /* imag_assetHandler.cpp */,
+				F8BCEFFE1B49E19400001A93 /* imag_assets.cpp */,
+				F8BCEFFF1B49E19400001A93 /* imag_constants.cpp */,
 			);
 			path = imag;
 			sourceTree = "<group>";
@@ -653,6 +710,7 @@
 		F8E1B2351AE7D4F60045B0D2 /* pack */ = {
 			isa = PBXGroup;
 			children = (
+				F8BCEFFB1B49E18400001A93 /* pack_assetContainer.cpp */,
 				F8E1B2361AE7D4F60045B0D2 /* pack_assetHandler.cpp */,
 				F8E1B2371AE7D4F60045B0D2 /* pack_packageWalker.cpp */,
 			);
@@ -662,10 +720,10 @@
 		F8E1B23A1AE7D4F60045B0D2 /* spri */ = {
 			isa = PBXGroup;
 			children = (
+				F8BCEFF71B49E16C00001A93 /* spri_assetHandler.cpp */,
+				F8BCEFF81B49E16C00001A93 /* spri_assets.cpp */,
 				F8BCEFE21B2B1FEA00001A93 /* spri_arrays.cpp */,
 				F8E1B23B1AE7D4F60045B0D2 /* spri_animationInstance.cpp */,
-				F8E1B23C1AE7D4F60045B0D2 /* spri_assetContainer.cpp */,
-				F8E1B23D1AE7D4F60045B0D2 /* spri_assetProcessor.cpp */,
 				F8E1B23E1AE7D4F60045B0D2 /* spri_bindingBuilder.cpp */,
 				F8E1B23F1AE7D4F60045B0D2 /* spri_drawContext.cpp */,
 				F8E1B2401AE7D4F60045B0D2 /* spri_figureInstance.cpp */,
@@ -713,7 +771,7 @@
 			children = (
 				F8E1B2871AE7D51C0045B0D2 /* ANDROID */,
 				F8E1B28A1AE7D51C0045B0D2 /* OSX */,
-				F8E1B28D1AE7D51C0045B0D2 /* WIN32 */,
+				F8BCF00D1B49E2AF00001A93 /* WINDOWS */,
 			);
 			path = fill;
 			sourceTree = "<group>";
@@ -736,21 +794,12 @@
 			path = OSX;
 			sourceTree = "<group>";
 		};
-		F8E1B28D1AE7D51C0045B0D2 /* WIN32 */ = {
-			isa = PBXGroup;
-			children = (
-				F8E1B28E1AE7D51C0045B0D2 /* fill_fragmentShader.glsl */,
-				F8E1B28F1AE7D51C0045B0D2 /* fill_vertexShader.glsl */,
-			);
-			path = WIN32;
-			sourceTree = "<group>";
-		};
 		F8E1B2901AE7D51C0045B0D2 /* font */ = {
 			isa = PBXGroup;
 			children = (
 				F8E1B2911AE7D51C0045B0D2 /* ANDROID */,
 				F8E1B2941AE7D51C0045B0D2 /* OSX */,
-				F8E1B2971AE7D51C0045B0D2 /* WIN32 */,
+				F8BCF00E1B49E2B900001A93 /* WINDOWS */,
 			);
 			path = font;
 			sourceTree = "<group>";
@@ -773,21 +822,12 @@
 			path = OSX;
 			sourceTree = "<group>";
 		};
-		F8E1B2971AE7D51C0045B0D2 /* WIN32 */ = {
-			isa = PBXGroup;
-			children = (
-				F8E1B2981AE7D51C0045B0D2 /* font_fragmentShader.glsl */,
-				F8E1B2991AE7D51C0045B0D2 /* font_vertexShader.glsl */,
-			);
-			path = WIN32;
-			sourceTree = "<group>";
-		};
 		F8E1B29A1AE7D51C0045B0D2 /* spri */ = {
 			isa = PBXGroup;
 			children = (
 				F8E1B29B1AE7D51C0045B0D2 /* ANDROID */,
 				F8E1B29E1AE7D51C0045B0D2 /* OSX */,
-				F8E1B2A11AE7D51C0045B0D2 /* WIN32 */,
+				F8BCF00F1B49E2C000001A93 /* WINDOWS */,
 			);
 			path = spri;
 			sourceTree = "<group>";
@@ -810,15 +850,6 @@
 			path = OSX;
 			sourceTree = "<group>";
 		};
-		F8E1B2A11AE7D51C0045B0D2 /* WIN32 */ = {
-			isa = PBXGroup;
-			children = (
-				F8E1B2A21AE7D51C0045B0D2 /* spri_fragmentShader.glsl */,
-				F8E1B2A31AE7D51C0045B0D2 /* spri_vertexShader.glsl */,
-			);
-			path = WIN32;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -830,28 +861,28 @@
 				F8E1B1D11AE7D4D70045B0D2 /* foun_platform.h in Headers */,
 				F8E1B1D71AE7D4D70045B0D2 /* fram_message.h in Headers */,
 				F8E1B1E11AE7D4D70045B0D2 /* imag_assets.h in Headers */,
-				F8E1B1DF1AE7D4D70045B0D2 /* imag_assetContainer.h in Headers */,
 				F8E1B1FA1AE7D4D70045B0D2 /* spri_constants.h in Headers */,
 				F8E1B1EA1AE7D4D70045B0D2 /* inpu_mouseReader_OBJC.h in Headers */,
 				F8E1B1DE1AE7D4D70045B0D2 /* fram_screen.h in Headers */,
 				F8E1B1C81AE7D4D70045B0D2 /* foun_flags.h in Headers */,
-				F8E1B1F61AE7D4D70045B0D2 /* spri_assetProcessor.h in Headers */,
+				F8BCEFE91B49E0DD00001A93 /* imag_assetHandler.h in Headers */,
 				F8E1B1CD1AE7D4D70045B0D2 /* foun_list.h in Headers */,
 				F8E1B1E31AE7D4D70045B0D2 /* imag_data.h in Headers */,
-				F8E1B1F51AE7D4D70045B0D2 /* spri_assetContainer.h in Headers */,
-				F8E1B1BB1AE7D4D70045B0D2 /* font_assetProcessor.h in Headers */,
 				F8E1B1C31AE7D4D70045B0D2 /* font_symbolWriter.h in Headers */,
+				F8BCEFF41B49E14000001A93 /* pass_assets.h in Headers */,
 				F8BCEFD11B2B1EF900001A93 /* grap_data.h in Headers */,
+				F8BCEFF31B49E14000001A93 /* pass_assetHandler.h in Headers */,
 				F8E1B1D31AE7D4D70045B0D2 /* foun_rect.h in Headers */,
 				F8E1B1D21AE7D4D70045B0D2 /* foun_primitives.h in Headers */,
+				F8BCEFE51B49E09600001A93 /* spri_assetHandler.h in Headers */,
 				F8E1B1B41AE7D4D70045B0D2 /* file_accessor.h in Headers */,
 				F8E1B2011AE7D4D70045B0D2 /* test_boolMenuItem.h in Headers */,
 				F8E1B1CA1AE7D4D70045B0D2 /* foun_intersection.h in Headers */,
-				F8E1B1E41AE7D4D70045B0D2 /* imag_resourceHandler.h in Headers */,
 				F8E1B1E71AE7D4D70045B0D2 /* inpu_cursor.h in Headers */,
 				F8E1B1B71AE7D4D70045B0D2 /* fill_data.h in Headers */,
 				F8E1B1D01AE7D4D70045B0D2 /* foun_matrix.h in Headers */,
 				F8E1B1DD1AE7D4D70045B0D2 /* fram_program_OBJC.h in Headers */,
+				F8BCEFF51B49E14000001A93 /* pass_constants.h in Headers */,
 				F8BCEFD01B2B1EF900001A93 /* grap_constants.h in Headers */,
 				F8E1B2061AE7D4D70045B0D2 /* test_menuItem.h in Headers */,
 				F8E1B1EC1AE7D4D70045B0D2 /* inpu_touchReader.h in Headers */,
@@ -863,7 +894,6 @@
 				F8E1B1CC1AE7D4D70045B0D2 /* foun_linearAllocator.h in Headers */,
 				F8E1B1C51AE7D4D70045B0D2 /* foun_callback.h in Headers */,
 				F8E1B1D61AE7D4D70045B0D2 /* foun_vector.h in Headers */,
-				F8E1B1BA1AE7D4D70045B0D2 /* font_assetContainer.h in Headers */,
 				F8E1B2021AE7D4D70045B0D2 /* test_button.h in Headers */,
 				F8E1B1DB1AE7D4D70045B0D2 /* fram_overlay.h in Headers */,
 				F8E1B1C21AE7D4D70045B0D2 /* font_symbolBuffer.h in Headers */,
@@ -875,8 +905,8 @@
 				F8E1B1CE1AE7D4D70045B0D2 /* foun_math.h in Headers */,
 				F8E1B1C41AE7D4D70045B0D2 /* foun_allocator.h in Headers */,
 				F8E1B1FB1AE7D4D70045B0D2 /* spri_data.h in Headers */,
-				F8E1B1E01AE7D4D70045B0D2 /* imag_assetProcessor.h in Headers */,
-				F8E1B1E51AE7D4D70045B0D2 /* imag_resources.h in Headers */,
+				F8BCEFE71B49E0A100001A93 /* font_assetHandler.h in Headers */,
+				F8BCEFED1B49E10000001A93 /* pack_assets.h in Headers */,
 				F8BCEFD51B2B1EF900001A93 /* grap_resources.h in Headers */,
 				F8E1B2081AE7D4D70045B0D2 /* util_binaryReader.h in Headers */,
 				F8E1B1F41AE7D4D70045B0D2 /* spri_animationInstance.h in Headers */,
@@ -888,6 +918,7 @@
 				F8E1B1E91AE7D4D70045B0D2 /* inpu_mouseReader.h in Headers */,
 				F8E1B1DC1AE7D4D70045B0D2 /* fram_program.h in Headers */,
 				F8E1B1CF1AE7D4D70045B0D2 /* foun_mathTables.h in Headers */,
+				F8BCEFF61B49E14000001A93 /* pass_data.h in Headers */,
 				F8E1B1DA1AE7D4D70045B0D2 /* fram_modeFactory.h in Headers */,
 				F8E1B2001AE7D4D70045B0D2 /* test_actionMenuItem.h in Headers */,
 				F8E1B2051AE7D4D70045B0D2 /* test_menu.h in Headers */,
@@ -895,6 +926,7 @@
 				F8E1B1EB1AE7D4D70045B0D2 /* inpu_touchCursor.h in Headers */,
 				F8BCEFD41B2B1EF900001A93 /* grap_parameters.h in Headers */,
 				F8E1B1C61AE7D4D70045B0D2 /* foun_color.h in Headers */,
+				F8BCEFEB1B49E0F200001A93 /* pack_assetContainer.h in Headers */,
 				F8E1B1F71AE7D4D70045B0D2 /* spri_assets.h in Headers */,
 				F8E1B1D41AE7D4D70045B0D2 /* foun_string.h in Headers */,
 				F8E1B2091AE7D4D70045B0D2 /* util_indexMap.h in Headers */,
@@ -978,29 +1010,33 @@
 				F8BCEFE11B2B1FD400001A93 /* fill_arrays.cpp in Sources */,
 				F8E1B2771AE7D4F60045B0D2 /* spri_bindingBuilder.cpp in Sources */,
 				F8E1B2611AE7D4F60045B0D2 /* fram_messageQueue.cpp in Sources */,
+				F8BCF0001B49E19400001A93 /* imag_assetHandler.cpp in Sources */,
 				F8E1B2721AE7D4F60045B0D2 /* pack_packageWalker.cpp in Sources */,
 				F8E1B25B1AE7D4F60045B0D2 /* foun_linearAllocator.cpp in Sources */,
 				F8E1B26F1AE7D4F60045B0D2 /* inpu_touchCursor.cpp in Sources */,
+				F8BCF00B1B49E21D00001A93 /* pass_assets.cpp in Sources */,
+				F8BCEFFC1B49E18400001A93 /* pack_assetContainer.cpp in Sources */,
 				F8E1B24F1AE7D4F60045B0D2 /* file_packedAccessor.cpp in Sources */,
+				F8BCF0051B49E1C800001A93 /* font_assetHandler.cpp in Sources */,
 				F8E1B2571AE7D4F60045B0D2 /* font_symbolWriter.cpp in Sources */,
 				F8E1B27B1AE7D4F60045B0D2 /* test_actionMenuItem.cpp in Sources */,
-				F8E1B2691AE7D4F60045B0D2 /* imag_assetProcessor.cpp in Sources */,
 				F8E1B26C1AE7D4F60045B0D2 /* inpu_mouseCursor.cpp in Sources */,
 				F8E1B27F1AE7D4F60045B0D2 /* test_floatRangeMenuItem.cpp in Sources */,
 				F8E1B24E1AE7D4F60045B0D2 /* file_accessor.cpp in Sources */,
 				F8BCEFE31B2B1FEA00001A93 /* spri_arrays.cpp in Sources */,
 				F8E1B2801AE7D4F60045B0D2 /* test_menu.cpp in Sources */,
-				F8E1B2521AE7D4F60045B0D2 /* font_assetContainer.cpp in Sources */,
 				F8E1B2641AE7D4F60045B0D2 /* fram_overlay.cpp in Sources */,
 				F8E1B2631AE7D4F60045B0D2 /* fram_modeFactory.cpp in Sources */,
 				F8E1B27E1AE7D4F60045B0D2 /* test_cycleMenuItem.cpp in Sources */,
 				F8E1B2591AE7D4F60045B0D2 /* foun_intersection.cpp in Sources */,
 				F8E1B2781AE7D4F60045B0D2 /* spri_drawContext.cpp in Sources */,
 				F8E1B25E1AE7D4F60045B0D2 /* foun_matrix.cpp in Sources */,
+				F8BCF0011B49E19400001A93 /* imag_assets.cpp in Sources */,
 				F8E1B2711AE7D4F60045B0D2 /* pack_assetHandler.cpp in Sources */,
+				F8BCF0061B49E1C800001A93 /* font_assets.cpp in Sources */,
 				F8E1B2661AE7D4F60045B0D2 /* fram_program_OBJC.mm in Sources */,
 				F8E1B2511AE7D4F60045B0D2 /* fill_drawContext.cpp in Sources */,
-				F8E1B2761AE7D4F60045B0D2 /* spri_assetProcessor.cpp in Sources */,
+				F8BCEFF91B49E16C00001A93 /* spri_assetHandler.cpp in Sources */,
 				F8E1B25F1AE7D4F60045B0D2 /* foun_rect.cpp in Sources */,
 				F8E1B2601AE7D4F60045B0D2 /* fram_message.cpp in Sources */,
 				F8E1B25A1AE7D4F60045B0D2 /* foun_keys.cpp in Sources */,
@@ -1008,16 +1044,15 @@
 				F8E1B2841AE7D4F60045B0D2 /* util_indexMap.cpp in Sources */,
 				F8E1B27A1AE7D4F60045B0D2 /* spri_instanceBuilder.cpp in Sources */,
 				F8E1B27D1AE7D4F60045B0D2 /* test_button.cpp in Sources */,
-				F8E1B2531AE7D4F60045B0D2 /* font_assetProcessor.cpp in Sources */,
-				F8E1B2681AE7D4F60045B0D2 /* imag_assetContainer.cpp in Sources */,
 				F8E1B2811AE7D4F60045B0D2 /* test_menuItem.cpp in Sources */,
 				F8E1B2671AE7D4F60045B0D2 /* fram_screen.cpp in Sources */,
-				F8E1B2751AE7D4F60045B0D2 /* spri_assetContainer.cpp in Sources */,
 				F8E1B2821AE7D4F60045B0D2 /* test_stringArrayMenuItem.cpp in Sources */,
 				F8E1B2621AE7D4F60045B0D2 /* fram_mode.cpp in Sources */,
+				F8BCF00A1B49E21D00001A93 /* pass_assetHandler.cpp in Sources */,
 				F8BCEFDF1B2B1FBD00001A93 /* font_arrays.cpp in Sources */,
 				F8E1B2581AE7D4F60045B0D2 /* foun_allocator.cpp in Sources */,
 				F8E1B2741AE7D4F60045B0D2 /* spri_animationInstance.cpp in Sources */,
+				F8BCEFFA1B49E16C00001A93 /* spri_assets.cpp in Sources */,
 				F8E1B2501AE7D4F60045B0D2 /* file_systemAccessor.cpp in Sources */,
 				F8E1B2541AE7D4F60045B0D2 /* font_drawContext.cpp in Sources */,
 				F8E1B26E1AE7D4F60045B0D2 /* inpu_mouseReader_OBJC.mm in Sources */,
@@ -1027,6 +1062,7 @@
 				F8BCEFC81B2B1ECD00001A93 /* grap_device.cpp in Sources */,
 				F8E1B26D1AE7D4F60045B0D2 /* inpu_mouseReader.cpp in Sources */,
 				F8E1B26B1AE7D4F60045B0D2 /* inpu_cursor.cpp in Sources */,
+				F8BCF0021B49E19400001A93 /* imag_constants.cpp in Sources */,
 				F8E1B2651AE7D4F60045B0D2 /* fram_program.cpp in Sources */,
 				F8E1B25C1AE7D4F60045B0D2 /* foun_math.cpp in Sources */,
 			);
