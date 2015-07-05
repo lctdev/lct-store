@@ -1,3 +1,5 @@
+#!/bin/sh
+
 ASSET_COMPILER_PATH=../AssetViewer/AssetCompiler/AssetCompiler.jar
 
 MANIFEST_PATH=script/programAssets.xml
