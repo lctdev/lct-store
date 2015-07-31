@@ -37,11 +37,6 @@ void ActionMenuItem::SetOffsets(f32 buttonOffsetX)
 	m_buttonOffsetX = buttonOffsetX;
 }
 
-void ActionMenuItem::SetCallback(foun::Callback<int, int>* pTriggerCallback)
-{
-	m_button.SetTriggerCallback(pTriggerCallback);
-}
-
 void ActionMenuItem::Arrange()
 {
 	foun::RectCentered buttonArea;

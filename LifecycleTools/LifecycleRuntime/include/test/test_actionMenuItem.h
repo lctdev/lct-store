@@ -20,7 +20,7 @@ public:
 	virtual ~ActionMenuItem();
 
 	void SetOffsets(f32 buttonOffsetX);
-	void SetCallback(foun::Callback<int, int>* pCallback);
+	foun::Callback& GetCallback() { return m_button.GetTriggerCallback(); }
 
 	virtual void Arrange();
 

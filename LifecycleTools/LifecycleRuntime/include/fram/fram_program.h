@@ -7,15 +7,19 @@
 #include <foun/foun_keys.h>
 #include <foun/foun_platform.h>
 
+#include <grap/grap_screen.h>
 #include <grap/grap_device.h>
 
-#include <fram/fram_screen.h>
+#include <audi/audi_device.h>
+
 #include <fram/fram_modeFactory.h>
 #include <fram/fram_messageQueue.h>
 
 #if defined(LCT_WINDOWS)
 #include <windows.h>
 #include <GL/glew.h>
+#include <AL/al.h>
+#include <AL/alc.h>
 #elif defined(LCT_ANDROID)
 #include <android_native_app_glue.h>
 #include <EGL/egl.h>
@@ -62,25 +66,27 @@ protected:
 	virtual void InitConsole();
 	virtual void InitFiles();
 	virtual void InitGraphics();
+	virtual void InitAudio();
 	virtual void InitAssets();
 	virtual void InitInput();
 	virtual void InitWindow();
-	virtual void InitModes();
-	virtual void InitOverlays();
-	virtual void InitMessages();
+	virtual void InitMiscellaneous();
 
 	void RegisterMode(ModeFactoryItem::CreateModeFunc createModeFunc, const char* pName);
 
 	virtual void AcquireGraphics();
 	virtual void ReleaseGraphics();
+	virtual void AcquireAudio();	
 
-	void BeginMode();
-	void EndMode();
-	virtual void ReadSystemMessages();
+	virtual void ReadSystemMessages();	
 	virtual void ReadMessages();
+	virtual void CheckModeChange();
 	virtual void ReadInput();
 	virtual void Update();
 	virtual void Draw();
+
+	void BeginMode();
+	void EndMode();
 
 	virtual void ConfigureMode();
 	virtual bool HandlePlatformMessage(const foun::PlatformMessage& platformMessage);
@@ -96,10 +102,12 @@ protected:
 
 	grap::Device m_graphicsDevice;
 
+	audi::Device m_audioDevice;
+
 	u32 m_windowWidth;
 	u32 m_windowHeight;
 	const c16* m_pWindowLabel;
-	fram::Screen m_screen;
+	grap::Screen m_screen;
 
 	bool m_running;
 	u32 m_frameCount;

@@ -23,8 +23,6 @@ public:
 	f32 GetMax() { return m_max; }
 	f32 GetValue() { return m_value; }
 
-	void SetCallback(foun::Callback<float, int>* pCallback);
-
 protected:
 	bool m_wrap;
 	f32 m_min;
@@ -36,8 +34,6 @@ protected:
 
 	static const u32 VALUE_STRING_SIZE = 32;
 	char m_valueString[VALUE_STRING_SIZE];
-
-	foun::Callback<float, int>* m_pCallback;
 
 	virtual const char* GetValueString();
 

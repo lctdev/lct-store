@@ -24,6 +24,9 @@
     <ClInclude Include="include\spriteViewerMode.h">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="include\soundViewerMode.h">
+      <Filter>include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\assetViewerMode.cpp">
@@ -36,6 +39,9 @@
       <Filter>source</Filter>
     </ClCompile>
     <ClCompile Include="source\spriteViewerMode.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="source\soundViewerMode.cpp">
       <Filter>source</Filter>
     </ClCompile>
   </ItemGroup>

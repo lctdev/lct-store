@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\soundViewerMode.h" />
     <ClInclude Include="include\spriteViewerMode.h" />
     <ClInclude Include="include\assetViewerMessages.h" />
     <ClInclude Include="include\assetViewerMode.h" />
@@ -18,6 +19,7 @@
     <ClInclude Include="include\assetViewerProgram.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="source\soundViewerMode.cpp" />
     <ClCompile Include="source\spriteViewerMode.cpp" />
     <ClCompile Include="source\assetViewerMode.cpp" />
     <ClCompile Include="source\assetViewerOverlay.cpp" />

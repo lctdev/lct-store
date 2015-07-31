@@ -5,10 +5,10 @@
 #include <foun/foun_allocator.h>
 #include <foun/foun_color.h>
 
-#include <fram/fram_screen.h>
 #include <fram/fram_messageQueue.h>
 #include <fram/fram_message.h>
 
+#include <grap/grap_screen.h>
 #include <grap/grap_device.h>
 
 namespace lct
@@ -22,9 +22,9 @@ public:
 	Overlay();
 	virtual ~Overlay();
 
-	void SetAllocator(lct::foun::Allocator* pAllocator);
-	void SetProgramMessageQueue(lct::fram::MessageQueue* pMessageQueue);
-	void SetScreen(Screen* pScreen);
+	void SetAllocator(foun::Allocator* pAllocator);
+	void SetProgramMessageQueue(fram::MessageQueue* pMessageQueue);
+	void SetScreen(grap::Screen* pScreen);
 	void SetGraphicsDevice(grap::Device* pGraphicsDevice);
 
 	virtual void Init();
@@ -38,9 +38,9 @@ public:
 
 protected:
 	// shared
-	lct::foun::Allocator* m_pAllocator;
-	lct::fram::MessageQueue* m_pProgramMessageQueue;
-	Screen* m_pScreen;
+	foun::Allocator* m_pAllocator;
+	fram::MessageQueue* m_pProgramMessageQueue;
+	grap::Screen* m_pScreen;
 	grap::Device* m_pGraphicsDevice;
 };
 

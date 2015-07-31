@@ -1,8 +1,8 @@
-#include <fram/fram_screen.h>
+#include <grap/grap_screen.h>
 
 namespace lct
 {
-namespace fram
+namespace grap
 {
 
 /*
@@ -21,10 +21,10 @@ void Screen::SetWidthHeight(f32 width, f32 height)
 	m_rectCentered.width = width;
 	m_rectCentered.height = height;
 
-	lct::foun::RectEdgesFromRectCentered(&m_rectEdges, m_rectCentered);
+	foun::RectEdgesFromRectCentered(&m_rectEdges, m_rectCentered);
 }
 
-//namespace fram
+//namespace grap
 }
 //namespace lct
 }

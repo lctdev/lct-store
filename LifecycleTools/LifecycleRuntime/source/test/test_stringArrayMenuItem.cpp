@@ -20,7 +20,6 @@ StringArrayMenuItem::StringArrayMenuItem()
 , m_count(0)
 , m_index(0)
 , m_pValueString(NULL)
-, m_pCallback(NULL)
 {
 }
 
@@ -43,11 +42,6 @@ void StringArrayMenuItem::SetIndex(s32 index)
 	m_index = index;
 
 	UpdateValueString();
-}
-
-void StringArrayMenuItem::SetCallback(foun::Callback<int, int>* pCallback)
-{
-	m_pCallback = pCallback;
 }
 
 /*
@@ -78,12 +72,7 @@ void StringArrayMenuItem::CycleLeft()
 		m_index = 0;
 	}
 
-	UpdateValueString();
-
-	if (m_pCallback != NULL)
-	{
-		m_pCallback->Invoke(m_index);
-	}
+	UpdateValueString();	
 }
 
 void StringArrayMenuItem::CycleRight()
@@ -95,11 +84,6 @@ void StringArrayMenuItem::CycleRight()
 	}
 
 	UpdateValueString();
-
-	if (m_pCallback != NULL)
-	{
-		m_pCallback->Invoke(m_index);
-	}
 }
 
 //namespace test

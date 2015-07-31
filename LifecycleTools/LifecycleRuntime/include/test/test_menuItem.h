@@ -6,19 +6,22 @@
 #include <foun/foun_list.h>
 #include <foun/foun_vector.h>
 
+#include <test/test_menuShared.h>
+
 namespace lct
 {
 namespace fill
 {
-	class DrawContext;
+class DrawContext;
 }
 namespace font
 {
-	class SymbolWriter;
+class SymbolWriter;
 }
 
 namespace test
 {
+class MenuPage;
 
 class MenuItem
 {
@@ -40,6 +43,8 @@ public:
 
 protected:
 	foun::ListNode<MenuItem*> m_listNode;
+	MenuPage* m_pParent;
+	MenuRequest* m_pRequest;
 
 	const char* m_pLabel;
 	foun::Vector2 m_position;
@@ -47,6 +52,7 @@ protected:
 	bool m_isSelected;
 
 	friend class Menu;
+	friend class MenuPage;
 };
 
 //namespace test

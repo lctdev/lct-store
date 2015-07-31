@@ -33,6 +33,11 @@
     <None Include="source\inpu\inpu_mouseReader_OBJC.mm" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\audi\audi_constants.h" />
+    <ClInclude Include="include\audi\audi_debug.h" />
+    <ClInclude Include="include\audi\audi_device.h" />
+    <ClInclude Include="include\audi\audi_parameters.h" />
+    <ClInclude Include="include\audi\audi_resources.h" />
     <ClInclude Include="include\file\file_accessor.h" />
     <ClInclude Include="include\file\file_packedAccessor.h" />
     <ClInclude Include="include\file\file_systemAccessor.h" />
@@ -63,6 +68,7 @@
     <ClInclude Include="include\foun\foun_platform.h" />
     <ClInclude Include="include\foun\foun_primitives.h" />
     <ClInclude Include="include\foun\foun_rect.h" />
+    <ClInclude Include="include\foun\foun_stack.h" />
     <ClInclude Include="include\foun\foun_string.h" />
     <ClInclude Include="include\foun\foun_tree.h" />
     <ClInclude Include="include\foun\foun_vector.h" />
@@ -73,13 +79,13 @@
     <ClInclude Include="include\fram\fram_overlay.h" />
     <ClInclude Include="include\fram\fram_program.h" />
     <ClInclude Include="include\fram\fram_program_OBJC.h" />
-    <ClInclude Include="include\fram\fram_screen.h" />
     <ClInclude Include="include\grap\grap_parameters.h" />
     <ClInclude Include="include\grap\grap_constants.h" />
     <ClInclude Include="include\grap\grap_data.h" />
     <ClInclude Include="include\grap\grap_debug.h" />
     <ClInclude Include="include\grap\grap_device.h" />
     <ClInclude Include="include\grap\grap_resources.h" />
+    <ClInclude Include="include\grap\grap_screen.h" />
     <ClInclude Include="include\imag\imag_assetHandler.h" />
     <ClInclude Include="include\imag\imag_assets.h" />
     <ClInclude Include="include\imag\imag_constants.h" />
@@ -112,17 +118,22 @@
     <ClInclude Include="include\spri\spri_figureInstance.h" />
     <ClInclude Include="include\spri\spri_instanceBuilder.h" />
     <ClInclude Include="include\test\test_actionMenuItem.h" />
+    <ClInclude Include="include\test\test_backMenuItem.h" />
     <ClInclude Include="include\test\test_boolMenuItem.h" />
     <ClInclude Include="include\test\test_button.h" />
     <ClInclude Include="include\test\test_cycleMenuItem.h" />
     <ClInclude Include="include\test\test_floatRangeMenuItem.h" />
     <ClInclude Include="include\test\test_menu.h" />
     <ClInclude Include="include\test\test_menuItem.h" />
+    <ClInclude Include="include\test\test_menuPage.h" />
+    <ClInclude Include="include\test\test_menuShared.h" />
+    <ClInclude Include="include\test\test_pageMenuItem.h" />
     <ClInclude Include="include\test\test_stringArrayMenuItem.h" />
     <ClInclude Include="include\util\util_binaryReader.h" />
     <ClInclude Include="include\util\util_indexMap.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="source\audi\audi_device.cpp" />
     <ClCompile Include="source\file\file_accessor.cpp" />
     <ClCompile Include="source\file\file_packedAccessor.cpp" />
     <ClCompile Include="source\file\file_systemAccessor.cpp" />
@@ -148,8 +159,8 @@
     <ClCompile Include="source\fram\fram_modeFactory.cpp" />
     <ClCompile Include="source\fram\fram_overlay.cpp" />
     <ClCompile Include="source\fram\fram_program.cpp" />
-    <ClCompile Include="source\fram\fram_screen.cpp" />
     <ClCompile Include="source\grap\grap_device.cpp" />
+    <ClCompile Include="source\grap\grap_screen.cpp" />
     <ClCompile Include="source\imag\imag_assetHandler.cpp" />
     <ClCompile Include="source\imag\imag_assets.cpp" />
     <ClCompile Include="source\imag\imag_constants.cpp" />
@@ -172,12 +183,16 @@
     <ClCompile Include="source\spri\spri_figureInstance.cpp" />
     <ClCompile Include="source\spri\spri_instanceBuilder.cpp" />
     <ClCompile Include="source\test\test_actionMenuItem.cpp" />
+    <ClCompile Include="source\test\test_backMenuItem.cpp" />
     <ClCompile Include="source\test\test_boolMenuItem.cpp" />
     <ClCompile Include="source\test\test_button.cpp" />
     <ClCompile Include="source\test\test_cycleMenuItem.cpp" />
     <ClCompile Include="source\test\test_floatRangeMenuItem.cpp" />
     <ClCompile Include="source\test\test_menu.cpp" />
     <ClCompile Include="source\test\test_menuItem.cpp" />
+    <ClCompile Include="source\test\test_menuPage.cpp" />
+    <ClCompile Include="source\test\test_menuShared.cpp" />
+    <ClCompile Include="source\test\test_pageMenuItem.cpp" />
     <ClCompile Include="source\test\test_stringArrayMenuItem.cpp" />
     <ClCompile Include="source\util\util_binaryReader.cpp" />
     <ClCompile Include="source\util\util_indexMap.cpp" />

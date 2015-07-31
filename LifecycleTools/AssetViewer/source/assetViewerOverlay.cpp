@@ -4,135 +4,113 @@
 /*
  * Internal Constants
  */
-static const u32 SYMBOL_BUFFER_QUAD_COUNT = 512;
-
 static const lct::foun::FloatColor BACKER_COLOR = { 0.0f, 0.0f, 0.0f, 0.5f };
 
 /*
  * Public Instance
  */
-SpriteViewerOverlay::SpriteViewerOverlay()
+AssetViewerOverlay::AssetViewerOverlay()
 : Overlay()
 , m_pInputCursor(NULL)
 , m_pSharedAssetContainer(NULL)
 , m_pFillDrawContext(NULL)
 , m_pFontDrawContext(NULL)
 
-, m_symbolBufferArray()
-, m_currSymbolBufferIndex(0)
-, m_symbolWriter()
-, m_backActionCallback()
 , m_menu()
+, m_mainMenuPage()
+, m_programOptionsMenuItem()
+, m_modeOptionsMenuItem()
+, m_closeMenuItem()
+
 , m_projectionTransform()
 {
 }
 
-SpriteViewerOverlay::~SpriteViewerOverlay()
+AssetViewerOverlay::~AssetViewerOverlay()
 {
 }
 
-void SpriteViewerOverlay::SetInputCursor(lct::inpu::Cursor* pCursor)
+void AssetViewerOverlay::SetInputCursor(lct::inpu::Cursor* pCursor)
 {
 	m_pInputCursor = pCursor;
 }
 
-void SpriteViewerOverlay::SetSharedAssetContainer(lct::pack::AssetContainer* pAssetContainer)
+void AssetViewerOverlay::SetSharedAssetContainer(lct::pack::AssetContainer* pAssetContainer)
 {
 	m_pSharedAssetContainer = pAssetContainer;
 }
 
-void SpriteViewerOverlay::SetFillDrawContext(lct::fill::DrawContext* pDrawContext)
+void AssetViewerOverlay::SetFillDrawContext(lct::fill::DrawContext* pDrawContext)
 {
 	m_pFillDrawContext = pDrawContext;
 }
 
-void SpriteViewerOverlay::SetFontDrawContext(lct::font::DrawContext* pDrawContext)
+void AssetViewerOverlay::SetFontDrawContext(lct::font::DrawContext* pDrawContext)
 {
 	m_pFontDrawContext = pDrawContext;
 }
 
-void SpriteViewerOverlay::Init()
+void AssetViewerOverlay::Init()
 {
 	Overlay::Init();
 
 	lct::font::SheetAsset* pSheetAsset = m_pSharedAssetContainer->FindAsset<lct::font::SheetAsset>("example_sheet");
 
-	for (u32 bufferIndex = 0; bufferIndex < SYMBOL_BUFFER_COUNT; ++bufferIndex)
-	{
-		lct::font::SymbolBuffer& symbolBuffer = m_symbolBufferArray[bufferIndex];
-		symbolBuffer.SetSheetAsset(pSheetAsset);
-		symbolBuffer.CreateStructure(SYMBOL_BUFFER_QUAD_COUNT, m_pAllocator);
-	}
-	m_currSymbolBufferIndex = 0;
-
-	m_backActionCallback.Bind(this, &SpriteViewerOverlay::OnBackAction);
+	lct::test::Menu::Shared menuShared;
+	menuShared.pAllocator = m_pAllocator;
+	menuShared.pScreen = m_pScreen;
+	menuShared.pGraphicsDevice = m_pGraphicsDevice;
+	menuShared.pInputCursor = m_pInputCursor;
+	menuShared.pFillDrawContext = m_pFillDrawContext;
+	menuShared.pFontDrawContext = m_pFontDrawContext;
+	menuShared.pSheetAsset = pSheetAsset;
+	m_menu.SetShared(menuShared);
+	m_menu.Initialize();
 
 	m_menu.SetSpacing(pSheetAsset->pSheetData->lineHeight * 2.0f);
+
+	m_mainMenuPage.SetLabel("Main");
 	{
-		lct::test::ActionMenuItem* pItem = m_pAllocator->AllocType<lct::test::ActionMenuItem>();
-		pItem->SetLabel("Program Options");
-		m_menu.AddItem(pItem);
+		m_programOptionsMenuItem.SetLabel("Program Options");
+		m_mainMenuPage.AddItem(&m_programOptionsMenuItem);
 	}
 	{
-		lct::test::ActionMenuItem* pItem = m_pAllocator->AllocType<lct::test::ActionMenuItem>();
-		pItem->SetLabel("Mode Options");
-		m_menu.AddItem(pItem);
+		m_modeOptionsMenuItem.SetLabel("Mode Options");
+		m_mainMenuPage.AddItem(&m_modeOptionsMenuItem);
 	}
 	{
-		lct::test::ActionMenuItem* pItem = m_pAllocator->AllocType<lct::test::ActionMenuItem>();
-		pItem->SetLabel("Back");
-		pItem->SetCallback(&m_backActionCallback);
-		m_menu.AddItem(pItem);
+		m_closeMenuItem.SetLabel("Close");
+		m_closeMenuItem.GetCallback().Bind(this, &AssetViewerOverlay::OnCloseAction);
+		m_mainMenuPage.AddItem(&m_closeMenuItem);
 	}
+	m_menu.AddPage(&m_mainMenuPage);
 	m_menu.Arrange();
+	m_menu.ActivatePage("Main");
 }
 
-void SpriteViewerOverlay::AcquireGraphics()
+void AssetViewerOverlay::AcquireGraphics()
 {
-	for (u32 bufferIndex = 0; bufferIndex < SYMBOL_BUFFER_COUNT; ++bufferIndex)
-	{
-		m_symbolBufferArray[bufferIndex].AcquireResources(m_pGraphicsDevice);
-	}
+	m_menu.AcquireGraphics();
 }
 
-void SpriteViewerOverlay::ReleaseGraphics()
+void AssetViewerOverlay::ReleaseGraphics()
 {
-	for (u32 bufferIndex = 0; bufferIndex < SYMBOL_BUFFER_COUNT; ++bufferIndex)
-	{
-		m_symbolBufferArray[bufferIndex].ReleaseResources(m_pGraphicsDevice);
-	}
+	m_menu.ReleaseGraphics();
 }
 
-void SpriteViewerOverlay::ReadInput()
+void AssetViewerOverlay::ReadInput()
 {
-	lct::foun::Vector2 localCursorPosition;
-	localCursorPosition.x = static_cast<f32>(m_pInputCursor->GetX());
-	localCursorPosition.y = -static_cast<f32>(m_pInputCursor->GetY());
-	if (m_pInputCursor->IsPress())
-	{
-		m_menu.HandlePress(localCursorPosition);
-	}
-	if (m_pInputCursor->IsRelease())
-	{
-		m_menu.HandleRelease(localCursorPosition);
-	}
+	m_menu.HandleInput();
 }
 
-void SpriteViewerOverlay::Update()
+void AssetViewerOverlay::Update()
 {
-	lct::font::SymbolBuffer& symbolBuffer = m_symbolBufferArray[m_currSymbolBufferIndex];
-	symbolBuffer.ResetQuads();
-	m_symbolWriter.SetBuffer(&symbolBuffer);
-
-	m_menu.WriteFont(&m_symbolWriter);
-	symbolBuffer.RefreshResources(m_pGraphicsDevice);
-
 	const lct::foun::RectEdges& screenEdges = m_pScreen->GetRectEdges();
 
 	lct::foun::Matrix44OrthographicProjection(m_projectionTransform, screenEdges.left, screenEdges.right, screenEdges.bottom, screenEdges.top, -1.0f, 1.0f);
 }
 
-void SpriteViewerOverlay::Draw()
+void AssetViewerOverlay::Draw()
 {
 	m_pFillDrawContext->ActivateRenderState();
 	m_pFillDrawContext->ActivateShader();
@@ -145,21 +123,7 @@ void SpriteViewerOverlay::Draw()
 	const lct::foun::RectCentered& backerRect = m_pScreen->GetRectCentered();
 	m_pFillDrawContext->DrawRect(backerRect, BACKER_COLOR);
 
-	const lct::foun::RectEdges& screenEdges = m_pScreen->GetRectEdges();
-	lct::foun::Matrix32 menuWorldTransform;
-	lct::foun::Matrix32Translate(menuWorldTransform, screenEdges.left, screenEdges.top);
-	m_pFillDrawContext->ActivateWorldTransform(menuWorldTransform);
-	m_menu.DrawFill(m_pFillDrawContext);
-
 	m_pFillDrawContext->DeactivateQuad();
-
-	/*lct::foun::RectCentered testRect;
-	testRect.x = 0.0f;
-	testRect.y = 0.0f;
-	testRect.width = 100.0f;
-	testRect.height = 100.0f;
-	lct::foun::FloatColor testColor = { 1.0f, 1.0f, 1.0f, 1.0f };
-	m_pFillDrawContext->DrawRect(testRect, testColor);*/
 
 	/*// TEMP!!!
 	if (m_pInputCursor->IsPress())
@@ -176,31 +140,20 @@ void SpriteViewerOverlay::Draw()
 		m_pSpriteDrawContext->DrawRect(testRect, testColor);
 	}*/
 
-	m_pFontDrawContext->ActivateRenderState();
-	m_pFontDrawContext->ActivateShader();
-	m_pFontDrawContext->ActivateProjectionTransform(m_projectionTransform);
-	m_pFontDrawContext->ActivateWorldTransform(menuWorldTransform);
-
-	lct::font::SymbolBuffer& symbolBuffer = m_symbolBufferArray[m_currSymbolBufferIndex];
-	if (symbolBuffer.GetQuadCount() > 0)
-	{
-		m_pFontDrawContext->ActivateSymbolBuffer(symbolBuffer);
-
-		m_pFontDrawContext->DrawSymbolBuffer(symbolBuffer);
-
-		m_pFontDrawContext->DeactivateSymbolBuffer(symbolBuffer);
-	}
-	m_currSymbolBufferIndex = 1 - m_currSymbolBufferIndex;
+	m_menu.Draw();
 }
 
-int SpriteViewerOverlay::OnBackAction(int parameter)
+void AssetViewerOverlay::AddProgramOptionsMenuPage(lct::test::MenuPage* pMenuPage)
 {
-	lct::fram::Message message;
-	message.SetType(MESSAGE_TYPE_PROGRAM_CLOSE_OVERLAY);
-	m_pProgramMessageQueue->EnqueueMessage(message);
-	return 0;
+	m_menu.AddPage(pMenuPage);
 }
 
 /*
  * Protected Instance
  */
+void AssetViewerOverlay::OnCloseAction()
+{
+	lct::fram::Message message;
+	message.SetType(MESSAGE_TYPE_PROGRAM_CLOSE_OVERLAY);
+	m_pProgramMessageQueue->EnqueueMessage(message);
+}

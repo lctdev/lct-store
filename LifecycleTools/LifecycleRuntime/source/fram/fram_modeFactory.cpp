@@ -51,6 +51,20 @@ Mode* ModeFactory::CreateMode(const char* pName, lct::foun::Allocator* pAllocato
 	return pItem->CreateMode(pAllocator);
 }
 
+void ModeFactory::GetAllModeNames(const char** ppModeNameArray, u32 maxCount)
+{
+	u32 modeNameIndex = 0;
+	for (foun::TreeIterator<lct::foun::StringKey, ModeFactoryItem*> iter = m_itemTree.Begin(); !iter.IsEnd(); iter.Next())
+	{
+		if (modeNameIndex >= maxCount)
+		{
+			return;
+		}
+
+		ppModeNameArray[modeNameIndex++] = iter.GetKey().GetString();
+	}
+}
+
 /*
  * Private Instance
  */

@@ -23,13 +23,12 @@ public:
 	ListNode();
 	ListNode(V value);
 
-	void SetValue(V value) { m_value = value; }
-	V GetValue() { return m_value; }
+	void SetValue(const V& value) { m_value = value; }
+	V& GetValue() { return m_value; }
 
 private:
 	ListNode<V>* m_pPrev;
 	ListNode<V>* m_pNext;
-	List<V>* m_pList;
 	V m_value;
 };
 
@@ -57,7 +56,8 @@ public:
 
 	void AddNode(ListNode<V>* pNode);
 	void RemoveNode(ListNode<V>* pNode);
-	ListIterator<V> Begin() { return ListIterator<V>(m_pHeadNode); }
+	ListIterator<V> Head() { return ListIterator<V>(m_pHeadNode); }
+	ListIterator<V> Tail() { return ListIterator<V>(m_pTailNode); }
 
 private:
 	ListNode<V>* m_pHeadNode;
@@ -72,7 +72,6 @@ template <class V>
 ListNode<V>::ListNode()
 : m_pPrev(NULL)
 , m_pNext(NULL)
-, m_pList(NULL)
 , m_value()
 {
 }
@@ -81,7 +80,6 @@ template <class V>
 ListNode<V>::ListNode(V value)
 : m_pPrev(NULL)
 , m_pNext(NULL)
-, m_pList(NULL)
 , m_value(value)
 {
 }
@@ -109,16 +107,10 @@ List<V>::List()
 template <class V>
 void List<V>::AddNode(ListNode<V>* pNode)
 {
-	if (pNode->m_pList != NULL)
-	{
-		return;
-	}
-
 	if (m_nodeCount == 0)
 	{
 		pNode->m_pNext = NULL;
 		pNode->m_pPrev = NULL;
-		pNode->m_pList = this;
 
 		m_pHeadNode = pNode;
 		m_pTailNode = pNode;
@@ -130,7 +122,6 @@ void List<V>::AddNode(ListNode<V>* pNode)
 
 		pNode->m_pNext = NULL;
 		pNode->m_pPrev = m_pTailNode;
-		pNode->m_pList = this;
 
 		m_pTailNode = pNode;
 		++m_nodeCount;
@@ -140,11 +131,6 @@ void List<V>::AddNode(ListNode<V>* pNode)
 template <class V>
 void List<V>::RemoveNode(ListNode<V>* pNode)
 {
-	if (pNode->m_pList != this)
-	{
-		return;
-	}
-
 	if (m_nodeCount == 1)
 	{
 		m_pHeadNode = NULL;
@@ -178,7 +164,6 @@ void List<V>::RemoveNode(ListNode<V>* pNode)
 
 	pNode->m_pPrev = NULL;
 	pNode->m_pNext = NULL;
-	pNode->m_pList = NULL;
 }
 
 //namespace lct

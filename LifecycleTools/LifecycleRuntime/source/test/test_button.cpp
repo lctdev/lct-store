@@ -26,7 +26,7 @@ static const foun::FloatColor DOWN_COLOR = { 0.25, 0.25f, 0.25f, 1.0f };
  */
 Button::Button()
 : m_pLabel(NULL)
-, m_pTriggerCallback(NULL)
+, m_triggerCallback()
 , m_bounds()
 , m_area()
 , m_borderArea()
@@ -41,11 +41,6 @@ Button::~Button()
 void Button::SetLabel(const char* pLabel)
 {
 	m_pLabel = pLabel;
-}
-
-void Button::SetTriggerCallback(foun::Callback<int, int>* pTriggerCallback)
-{
-	m_pTriggerCallback = pTriggerCallback;
 }
 
 void Button::SetArea(const foun::RectCentered& area)
@@ -72,9 +67,9 @@ void Button::HandleRelease(const foun::Vector2& position)
 	{
 		if (m_down)
 		{
-			if (m_pTriggerCallback != NULL)
+			if (m_triggerCallback.IsBound())
 			{
-				m_pTriggerCallback->Invoke(0);
+				m_triggerCallback.Invoke();
 			}
 		}
 	}

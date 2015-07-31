@@ -124,6 +124,12 @@
     <Filter Include="shader\spri\WINDOWS">
       <UniqueIdentifier>{d926f479-4534-4045-a01f-c931780bf3bd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="include\audi">
+      <UniqueIdentifier>{fe3f76ec-4664-4513-aab3-33c3c564bff9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="source\audi">
+      <UniqueIdentifier>{d042d799-bf4f-4993-9b29-35d8dc71e74a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="shader\fill\ANDROID\fill_fragmentShader.glsl">
@@ -293,9 +299,6 @@
     <ClInclude Include="include\fram\fram_program_OBJC.h">
       <Filter>include\fram</Filter>
     </ClInclude>
-    <ClInclude Include="include\fram\fram_screen.h">
-      <Filter>include\fram</Filter>
-    </ClInclude>
     <ClInclude Include="include\imag\imag_assets.h">
       <Filter>include\imag</Filter>
     </ClInclude>
@@ -452,6 +455,39 @@
     <ClInclude Include="include\font\font_assetHandler.h">
       <Filter>include\font</Filter>
     </ClInclude>
+    <ClInclude Include="include\audi\audi_device.h">
+      <Filter>include\audi</Filter>
+    </ClInclude>
+    <ClInclude Include="include\audi\audi_resources.h">
+      <Filter>include\audi</Filter>
+    </ClInclude>
+    <ClInclude Include="include\audi\audi_constants.h">
+      <Filter>include\audi</Filter>
+    </ClInclude>
+    <ClInclude Include="include\audi\audi_parameters.h">
+      <Filter>include\audi</Filter>
+    </ClInclude>
+    <ClInclude Include="include\audi\audi_debug.h">
+      <Filter>include\audi</Filter>
+    </ClInclude>
+    <ClInclude Include="include\foun\foun_stack.h">
+      <Filter>include\foun</Filter>
+    </ClInclude>
+    <ClInclude Include="include\test\test_menuPage.h">
+      <Filter>include\test</Filter>
+    </ClInclude>
+    <ClInclude Include="include\test\test_pageMenuItem.h">
+      <Filter>include\test</Filter>
+    </ClInclude>
+    <ClInclude Include="include\test\test_menuShared.h">
+      <Filter>include\test</Filter>
+    </ClInclude>
+    <ClInclude Include="include\test\test_backMenuItem.h">
+      <Filter>include\test</Filter>
+    </ClInclude>
+    <ClInclude Include="include\grap\grap_screen.h">
+      <Filter>include\grap</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\file\file_accessor.cpp">
@@ -515,9 +551,6 @@
       <Filter>source\fram</Filter>
     </ClCompile>
     <ClCompile Include="source\fram\fram_program.cpp">
-      <Filter>source\fram</Filter>
-    </ClCompile>
-    <ClCompile Include="source\fram\fram_screen.cpp">
       <Filter>source\fram</Filter>
     </ClCompile>
     <ClCompile Include="source\inpu\inpu_cursor.cpp">
@@ -627,6 +660,24 @@
     </ClCompile>
     <ClCompile Include="source\spri\spri_assetHandler.cpp">
       <Filter>source\spri</Filter>
+    </ClCompile>
+    <ClCompile Include="source\audi\audi_device.cpp">
+      <Filter>source\audi</Filter>
+    </ClCompile>
+    <ClCompile Include="source\test\test_menuPage.cpp">
+      <Filter>source\test</Filter>
+    </ClCompile>
+    <ClCompile Include="source\test\test_pageMenuItem.cpp">
+      <Filter>source\test</Filter>
+    </ClCompile>
+    <ClCompile Include="source\test\test_menuShared.cpp">
+      <Filter>source\test</Filter>
+    </ClCompile>
+    <ClCompile Include="source\test\test_backMenuItem.cpp">
+      <Filter>source\test</Filter>
+    </ClCompile>
+    <ClCompile Include="source\grap\grap_screen.cpp">
+      <Filter>source\grap</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

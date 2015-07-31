@@ -24,12 +24,16 @@ public:
 	AssetViewerMode();
 	virtual ~AssetViewerMode();
 
-	void SetAccessor(lct::file::Accessor* pAccessor);
-	void SetCursor(lct::inpu::Cursor* pCursor);
-	void SetSharedAssetContainer(lct::pack::AssetContainer* pAssetContainer);
-	void SetFillDrawContext(lct::fill::DrawContext* pDrawContext);	
-	void SetFontDrawContext(lct::font::DrawContext* pDrawContext);
-	void SetSpriteDrawContext(lct::spri::DrawContext* pDrawContext);
+	struct SubShared
+	{
+		lct::file::Accessor* pAccessor;
+		lct::inpu::Cursor* pCursor;
+		lct::pack::AssetContainer* pAssetContainer;
+		lct::fill::DrawContext* pFillDrawContext;
+		lct::font::DrawContext* pFontDrawContext;
+		lct::spri::DrawContext* pSpriteDrawContext;
+	};
+	void SetSubShared(const SubShared& subShared);
 
 	virtual void Init();
 
@@ -37,18 +41,7 @@ public:
 	virtual void ReleaseGraphics();
 
 protected:
-	// shared
-	lct::file::Accessor* m_pAccessor;
-
-	lct::inpu::Cursor* m_pCursor;
-
-	lct::pack::AssetContainer* m_pSharedAssetContainer;
-
-	lct::fill::DrawContext* m_pFillDrawContext;
-	
-	lct::font::DrawContext* m_pFontDrawContext;
-
-	lct::spri::DrawContext* m_pSpriteDrawContext;
+	SubShared m_subShared;
 };
 
 #endif//ASSET_VIEWER_MODE_H

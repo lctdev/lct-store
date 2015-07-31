@@ -5,11 +5,13 @@
 #include <foun/foun_allocator.h>
 #include <foun/foun_color.h>
 
-#include <fram/fram_screen.h>
 #include <fram/fram_messageQueue.h>
 #include <fram/fram_message.h>
 
+#include <grap/grap_screen.h>
 #include <grap/grap_device.h>
+
+#include <audi/audi_device.h>
 
 namespace lct
 {
@@ -17,7 +19,6 @@ namespace fram
 {
 
 class MessageQueue;
-class Screen;
 
 class Mode
 {
@@ -25,10 +26,15 @@ public:
 	Mode();
 	virtual ~Mode();
 
-	void SetAllocator(foun::Allocator* pAllocator);
-	void SetProgramMessageQueue(lct::fram::MessageQueue* pMessageQueue);
-	void SetScreen(Screen* pScreen);
-	void SetGraphicsDevice(grap::Device* pGraphicsDevice);
+	struct Shared
+	{
+		foun::Allocator* pAllocator;
+		MessageQueue* pProgramMessageQueue;
+		grap::Screen* pScreen;
+		grap::Device* pGraphicsDevice;
+		audi::Device* pAudioDevice;
+	};
+	void SetShared(const Shared& shared);
 
 	const lct::foun::FloatColor& GetClearColor() { return m_clearColor; }
 
@@ -44,13 +50,8 @@ public:
 	bool IsFinished() { return m_finished; }
 
 protected:
-	// shared
-	foun::Allocator* m_pAllocator;
-	MessageQueue* m_pProgramMessageQueue;
-	Screen* m_pScreen;
-	grap::Device* m_pGraphicsDevice;
+	Shared m_shared;
 
-	// owned
 	bool m_finished;
 	
 	lct::foun::FloatColor m_clearColor;

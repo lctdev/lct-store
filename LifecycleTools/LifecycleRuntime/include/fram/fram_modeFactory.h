@@ -42,6 +42,8 @@ public:
 
 	void AddItem(ModeFactoryItem* pItem);
 	Mode* CreateMode(const char* pName, lct::foun::Allocator* pAllocator);
+	u32 GetModeNameCount() { return m_itemTree.GetNodeCount(); }
+	void GetAllModeNames(const char** ppModeNameArray, u32 maxCount);
 
 private:
 	ModeFactoryItem* FindItem(const lct::foun::StringKey& name);

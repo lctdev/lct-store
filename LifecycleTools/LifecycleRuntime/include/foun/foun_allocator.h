@@ -35,21 +35,21 @@ public:
 		}
 	}
 
-#if defined(__MINGW32__) || defined(LCT_ANDROID) || defined(LCT_OSX) || defined(LCT_WINDOWS)
-	static const u32 NEW_ARRAY_PAD = 0;
-#endif
-
 	template <class T>
 	T* AllocTypeArray(u32 count)
 	{
 		if (count > 0)
 		{
 			u32 size = sizeof(T) * count;
-			size += NEW_ARRAY_PAD;
 			void* pMemory = Alloc(size, 4);
 			if (pMemory != NULL)
 			{
-				T* pTypes = new (pMemory) T[count];
+				T* pTypes = reinterpret_cast<T*>(pMemory);
+				for (u32 index = 0; index < count; ++index)
+				{
+					T* pType = pTypes + index;
+					pType = new (pType) T();
+				}
 				return pTypes;
 			}
 			else

@@ -1,5 +1,5 @@
-#ifndef DATA_MODE_H
-#define DATA_MODE_H
+#ifndef SPRITE_VIEWER_MODE_H
+#define SPRITE_VIEWER_MODE_H
 
 #include "assetViewerMode.h"
 
@@ -34,6 +34,7 @@
 #include <inpu/inpu_cursor.h>
 
 #include <test/test_menu.h>
+#include <test/test_menuPage.h>
 #include <test/test_actionMenuItem.h>
 #include <test/test_stringArrayMenuItem.h>
 #include <test/test_floatRangeMenuItem.h>
@@ -78,24 +79,16 @@ private:
 	lct::spri::FigureInstance* m_pFigureInstance;
 	lct::spri::AnimationInstance* m_pAnimationInstance;
 
-	static const u32 SYMBOL_BUFFER_COUNT = 2;
-	lct::font::SymbolBuffer m_symbolBufferArray[SYMBOL_BUFFER_COUNT];
-	u32 m_currSymbolBufferIndex;
-	lct::font::SymbolWriter m_symbolWriter;
-
-	int OnAnimationCycle(int parameter);
-	int OnStepCycle(float parameter);
-	int OnFrameCycle(float parameter);
-	int OnReloadTrigger(int parameter);
-
-	lct::foun::InstanceCallback<SpriteViewerMode, int, int> m_animationCycleCallback;
-	lct::foun::InstanceCallback<SpriteViewerMode, float, int> m_stepCycleCallback;
-	lct::foun::InstanceCallback<SpriteViewerMode, float, int> m_frameCycleCallback;
-	lct::foun::InstanceCallback<SpriteViewerMode, int, int> m_reloadTriggerCallback;
+	void OnAnimationCycle();
+	void OnStepCycle();
+	void OnFrameCycle();
+	void OnReloadTrigger();
 
 	const char** m_pAnimationNameArray;
 
 	lct::test::Menu m_menu;
+	lct::test::MenuPage m_menuPage;
+	lct::test::ActionMenuItem m_figureMenuItem; // TEMP!
 	lct::test::StringArrayMenuItem m_animationMenuItem;
 	lct::test::StringArrayMenuItem m_playMenuItem;
 	lct::test::FloatRangeMenuItem m_stepMenuItem;
@@ -105,10 +98,6 @@ private:
 
 	lct::foun::Matrix44 m_projectionTransform;
 	lct::foun::Matrix32 m_contentWorldTransform;
-
-	//int OnBackTrigger(const int& parameter);
-
-	//lct::foun::InstanceCallback<SpriteViewerOverlay, int, int> m_backTriggerCallback;
 };
 
-#endif//DATA_MODE_H
+#endif//SPRITE_VIEWER_MODE_H

@@ -107,6 +107,7 @@ Program::Program()
 , m_modeMemorySize(DEFAULT_MODE_MEMORY_SIZE)
 , m_modeAllocator()
 , m_graphicsDevice()
+, m_audioDevice()
 , m_windowWidth(DEFAULT_WINDOW_WIDTH)
 , m_windowHeight(DEFAULT_WINDOW_HEIGHT)
 , m_pWindowLabel(DEFAULT_WINDOW_LABEL)
@@ -163,12 +164,11 @@ void Program::Init()
 	InitConsole();
 	InitFiles();
 	InitGraphics();
+	InitAudio();
 	InitAssets();
 	InitInput();
 	InitWindow();
-	InitModes();
-	InitOverlays();
-	InitMessages();
+	InitMiscellaneous();
 
 	m_initialized = true;
 }
@@ -187,10 +187,7 @@ void Program::Run()
 		{
 			ReadMessages();
 
-			if (m_pCurrMode == NULL)
-			{
-				BeginMode();
-			}
+			CheckModeChange();
 
 			ReadInput();
 
@@ -202,11 +199,6 @@ void Program::Run()
 			}
 
 			++m_frameCount;
-
-			if (m_pCurrMode->IsFinished())
-			{
-				EndMode();
-			}
 		}
 		else
 		{
@@ -247,6 +239,11 @@ void Program::InitFiles()
 
 void Program::InitGraphics()
 {
+}
+
+void Program::InitAudio()
+{
+	AcquireAudio();
 }
 
 void Program::InitAssets()
@@ -298,15 +295,7 @@ void Program::InitWindow()
 #endif
 }
 
-void Program::InitModes()
-{
-}
-
-void Program::InitOverlays()
-{
-}
-
-void Program::InitMessages()
+void Program::InitMiscellaneous()
 {
 	void* pMemory = m_allocator.Alloc(MESSAGE_BUFFER_SIZE, 4);
 	m_messageQueue.SetMemory(pMemory, MESSAGE_BUFFER_SIZE);
@@ -429,6 +418,29 @@ void Program::AcquireGraphics()
 	}
 }
 
+void Program::AcquireAudio()
+{
+	LCT_TRACE("Program::AcquireAudio\n");
+
+#if defined(LCT_WINDOWS)
+	// get the device
+	ALCdevice* pDev = alcOpenDevice(NULL);
+
+	// create and activate context
+	ALCcontext* pCtx = alcCreateContext(pDev, NULL);
+	alcMakeContextCurrent(pCtx);
+	if (!pCtx)
+	{
+		LCT_TRACE("OpenAL create context error");
+		return;
+	}
+#endif
+
+	m_audioDevice.SetAllocator(&m_allocator);
+	m_audioDevice.CreateVoiceResources();
+	m_audioDevice.AcquireVoiceResources();
+}
+
 void Program::ReleaseGraphics()
 {
 	LCT_TRACE("Program::ReleaseGraphics\n");
@@ -457,31 +469,6 @@ void Program::ReleaseGraphics()
 #endif
 
 	m_graphicsAcquired = false;
-}
-
-void Program::BeginMode()
-{
-	LCT_TRACE("Program::BeginMode\n");
-
-	m_pCurrMode = m_modeFactory.CreateMode(m_pNextModeName, &m_modeAllocator);
-	ConfigureMode();
-	m_pCurrMode->Init();
-	if (m_graphicsAcquired)
-	{
-		m_pCurrMode->AcquireGraphics();
-	}
-}
-
-void Program::EndMode()
-{
-	LCT_TRACE("Program::EndMode\n");
-
-	if (m_graphicsAcquired)
-	{
-		m_pCurrMode->ReleaseGraphics();
-	}
-	m_pCurrMode = NULL;
-	m_modeAllocator.Clear();
 }
 
 void Program::ReadSystemMessages()
@@ -542,6 +529,14 @@ void Program::ReadMessages()
 	}
 }
 
+void Program::CheckModeChange()
+{
+	if (m_pCurrMode == NULL)
+	{
+		BeginMode();
+	}
+}
+
 void Program::ReadInput()
 {
 	if (m_pCurrOverlay != NULL)
@@ -590,12 +585,41 @@ void Program::Draw()
 #endif
 }
 
+void Program::BeginMode()
+{
+	LCT_TRACE("Program::BeginMode\n");
+
+	m_pCurrMode = m_modeFactory.CreateMode(m_pNextModeName, &m_modeAllocator);
+	ConfigureMode();
+	m_pCurrMode->Init();
+	if (m_graphicsAcquired)
+	{
+		m_pCurrMode->AcquireGraphics();
+	}
+	m_pNextModeName = NULL;
+}
+
+void Program::EndMode()
+{
+	LCT_TRACE("Program::EndMode\n");
+
+	if (m_graphicsAcquired)
+	{
+		m_pCurrMode->ReleaseGraphics();
+	}
+	m_pCurrMode = NULL;
+	m_modeAllocator.Clear();
+}
+
 void Program::ConfigureMode()
 {
-	m_pCurrMode->SetAllocator(&m_modeAllocator);
-	m_pCurrMode->SetProgramMessageQueue(&m_messageQueue);
-	m_pCurrMode->SetScreen(&m_screen);
-	m_pCurrMode->SetGraphicsDevice(&m_graphicsDevice);
+	Mode::Shared modeShared;
+	modeShared.pAllocator = &m_modeAllocator;
+	modeShared.pProgramMessageQueue = &m_messageQueue;
+	modeShared.pScreen = &m_screen;
+	modeShared.pGraphicsDevice = &m_graphicsDevice;
+	modeShared.pAudioDevice = &m_audioDevice;
+	m_pCurrMode->SetShared(modeShared);
 }
 
 

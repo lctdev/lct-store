@@ -29,7 +29,7 @@ public:
 	virtual ~Button();
 
 	void SetLabel(const char* pLabel);
-	void SetTriggerCallback(foun::Callback<int, int>* pTriggerCallback);
+	foun::Callback& GetTriggerCallback() { return m_triggerCallback; }
 	void SetArea(const foun::RectCentered& area);
 
 	void HandlePress(const foun::Vector2& position);
@@ -41,7 +41,7 @@ public:
 
 protected:
 	const char* m_pLabel;
-	foun::Callback<int, int>* m_pTriggerCallback;
+	foun::Callback m_triggerCallback;
 	foun::RectEdges m_bounds;
 	foun::RectCentered m_area;
 	foun::RectCentered m_borderArea;

@@ -18,9 +18,7 @@ public:
 	void SetCount(u32 count);
 	void SetIndex(s32 index);
 
-	s32 GetIndex() { return m_index; }
-
-	void SetCallback(foun::Callback<int, int>* pCallback);
+	s32 GetIndex() { return m_index; }	
 
 protected:
 	const char** m_pStringArray;
@@ -29,9 +27,7 @@ protected:
 
 	void UpdateValueString();
 
-	const char* m_pValueString;
-
-	foun::Callback<int, int>* m_pCallback;
+	const char* m_pValueString;	
 
 	virtual const char* GetValueString();
 

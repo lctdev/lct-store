@@ -31,7 +31,9 @@
 #include <inpu/inpu_touchReader.h>
 #include <inpu/inpu_touchCursor.h>
 
-class SpriteViewerOverlay;
+#include <test/test_menuPage.h>
+#include <test/test_actionMenuItem.h>
+#include <test/test_stringArrayMenuItem.h>
 
 class AssetViewerProgram : public lct::fram::Program
 {
@@ -45,14 +47,13 @@ protected:
 	virtual void InitWindow();
 	virtual void InitAssets();
 	virtual void InitInput();
-	virtual void InitModes();
-	virtual void InitOverlays();
-	virtual void InitMessages();
+	virtual void InitMiscellaneous();
 
 	virtual void AcquireGraphics();
 	virtual void ReleaseGraphics();
 
 	virtual void ReadSystemMessages();
+	virtual void CheckModeChange();
 	virtual void ReadInput();
 
 	virtual void ConfigureMode();
@@ -61,6 +62,7 @@ protected:
 
 private:
 	void LoadAssets();
+	void BuildMenu();
 
 	void CheckOverlayInput();
 	void OpenOverlay();
@@ -91,7 +93,15 @@ private:
 #endif
 	lct::inpu::Cursor* m_pCursor;
 
-	SpriteViewerOverlay* m_pOverlay;
+	lct::fram::Overlay* m_pOverlay; // manage in base...?
+
+	void OnChangeModeTrigger();
+
+	const char** m_pModeNameArray;
+
+	lct::test::MenuPage m_menuPage;
+	lct::test::StringArrayMenuItem m_modeMenuItem;
+	lct::test::ActionMenuItem m_changeModeMenuItem;
 };
 
 #endif//ASSET_VIEWER_PROGRAM_H

@@ -22,7 +22,6 @@ FloatRangeMenuItem::FloatRangeMenuItem()
 , m_step(0.0f)
 , m_value(0.0f)
 , m_valueString()
-, m_pCallback(NULL)
 {
 }
 
@@ -55,11 +54,6 @@ void FloatRangeMenuItem::SetValue(f32 value)
 	m_value = value;
 
 	UpdateValueString();
-}
-
-void FloatRangeMenuItem::SetCallback(foun::Callback<float, int>* pCallback)
-{
-	m_pCallback = pCallback;
 }
 
 /*
@@ -95,11 +89,6 @@ void FloatRangeMenuItem::CycleLeft()
 	}
 
 	UpdateValueString();
-
-	if (m_pCallback != NULL)
-	{
-		m_pCallback->Invoke(m_value);
-	}
 }
 
 void FloatRangeMenuItem::CycleRight()
@@ -122,11 +111,6 @@ void FloatRangeMenuItem::CycleRight()
 	}
 
 	UpdateValueString();
-
-	if (m_pCallback != NULL)
-	{
-		m_pCallback->Invoke(m_value);
-	}
 }
 
 //namespace test

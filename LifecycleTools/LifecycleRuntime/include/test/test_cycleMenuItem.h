@@ -21,6 +21,8 @@ public:
 
 	void SetOffsets(f32 valueOffsetX, f32 leftButtonOffsetX, f32 rightButtonOffsetX);
 
+	foun::Callback& GetCycleCallback() { return m_cycleCallback; }
+
 	virtual void Arrange();
 
 	virtual void SetIsSelected(bool isSelected);
@@ -33,8 +35,8 @@ public:
 protected:
 	virtual const char* GetValueString() = 0;
 
-	int OnLeftTrigger(int parameter);
-	int OnRightTrigger(int parameter);
+	void OnLeftTrigger();
+	void OnRightTrigger();
 
 	virtual void CycleLeft() = 0;
 	virtual void CycleRight() = 0;
@@ -42,12 +44,11 @@ protected:
 	Button m_leftButton;
 	Button m_rightButton;
 
-	foun::InstanceCallback<CycleMenuItem, int, int> m_leftTriggerCallback;
-	foun::InstanceCallback<CycleMenuItem, int, int> m_rightTriggerCallback;
-
 	f32 m_valueOffsetX;
 	f32 m_leftButtonOffsetX;
 	f32 m_rightButtonoffsetX;
+
+	foun::Callback m_cycleCallback;
 };
 
 //namespace test

@@ -1,0 +1,164 @@
+#include <audi/audi_device.h>
+#include <audi/audi_constants.h>
+#include <audi/audi_debug.h>
+
+#include <foun/foun_debug.h>
+
+#include <string.h>
+
+namespace lct
+{
+namespace audi
+{
+
+/*
+* Public Instance
+*/
+Device::Device()
+: m_pAllocator(NULL)
+, m_pVoiceResourceArray(NULL)
+, m_freeVoiceResourceStack()
+, m_acquiredWaveResourceCount(0)
+{
+}
+
+void Device::SetAllocator(foun::Allocator* pAllocator)
+{
+	m_pAllocator = pAllocator;
+}
+
+void Device::CreateVoiceResources()
+{
+	m_pVoiceResourceArray = m_pAllocator->AllocTypeArray<VoiceResource>(VOICE_COUNT);
+	
+	for (u32 voiceIndex = 0; voiceIndex < VOICE_COUNT; ++voiceIndex)
+	{
+		VoiceResource* pVoiceResource = m_pVoiceResourceArray + voiceIndex;
+
+		m_freeVoiceResourceStack.PushValue(pVoiceResource);
+	}
+}
+
+void Device::AcquireVoiceResources()
+{
+	for (u32 voiceIndex = 0; voiceIndex < VOICE_COUNT; ++voiceIndex)
+	{
+		VoiceResource* pVoiceResource = m_pVoiceResourceArray + voiceIndex;
+
+		alGenSources(1, &pVoiceResource->hSource);
+
+		LCT_TRACE_AL_ERROR();
+	}
+}
+
+void Device::ReleaseVoiceResources()
+{
+	for (u32 voiceIndex = 0; voiceIndex < VOICE_COUNT; ++voiceIndex)
+	{
+		VoiceResource* pVoiceResource = m_pVoiceResourceArray + voiceIndex;
+
+		alDeleteSources(1, &pVoiceResource->hSource);
+
+		LCT_TRACE_AL_ERROR();
+	}
+}
+
+void Device::AcquireWaveResource(const WaveSetupParameters& waveSetupParameters)
+{
+	WaveResource* pWaveResource = waveSetupParameters.pWaveResource;
+	if (pWaveResource->hBuffer != 0)
+	{
+		LCT_TRACE("Wave Resource already acquired!\n");
+		return;
+	}
+
+	ALenum format;
+	if (waveSetupParameters.channelCount == 1)
+	{
+		if (waveSetupParameters.sampleSize == 1)
+		{
+			format = AL_FORMAT_MONO8;
+		}
+		else
+		{
+			format = AL_FORMAT_MONO16;
+		}
+	}
+	else
+	{
+		if (waveSetupParameters.sampleSize == 1)
+		{
+			format = AL_FORMAT_STEREO8;
+		}
+		else
+		{
+			format = AL_FORMAT_STEREO16;
+		}
+	}
+
+	alGenBuffers(1, &pWaveResource->hBuffer);
+	alBufferData(pWaveResource->hBuffer, format, waveSetupParameters.pWaveBinary, waveSetupParameters.size, waveSetupParameters.sampleRate);
+
+	LCT_TRACE_AL_ERROR();
+
+	++m_acquiredWaveResourceCount;
+}
+
+void Device::ReleaseWaveResource(const WaveSetupParameters& waveSetupParameters)
+{
+	WaveResource* pWaveResource = waveSetupParameters.pWaveResource;
+	if (pWaveResource->hBuffer == 0)
+	{
+		LCT_TRACE("Wave Resource not yet acquired!\n");
+		return;
+	}
+
+	alDeleteBuffers(1, &pWaveResource->hBuffer);
+
+	pWaveResource->hBuffer = 0;
+
+	LCT_TRACE_AL_ERROR();
+
+	--m_acquiredWaveResourceCount;
+}
+
+VoiceResource* Device::UseVoice()
+{
+	if (m_freeVoiceResourceStack.GetValueCount() == 0)
+	{
+		return NULL;
+	}
+
+	VoiceResource* pVoice = m_freeVoiceResourceStack.PopValue();
+	pVoice->used = true;
+	return pVoice;
+}
+
+void Device::ReturnVoice(VoiceResource* pVoiceResource)
+{
+	if (!pVoiceResource->used)
+	{
+		return;
+	}
+
+	pVoiceResource->used = false;
+	m_freeVoiceResourceStack.PushValue(pVoiceResource);
+}
+
+void Device::PlayVoice(VoiceResource* pVoiceResource, WaveResource* pWaveResource)
+{
+	alSourcei(pVoiceResource->hSource, AL_BUFFER, pWaveResource->hBuffer);
+	alSourcePlay(pVoiceResource->hSource);
+
+	LCT_TRACE_AL_ERROR();
+}
+
+/*
+* Protected Instance
+*/
+
+
+//namespace audi
+}
+//namespace lct
+}

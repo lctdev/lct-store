@@ -20,6 +20,8 @@ static const foun::FloatColor SELECTED_COLOR = { 1.0f, 1.0f, 0.0f, 1.0f };
  */
 MenuItem::MenuItem()
 : m_listNode(this)
+, m_pParent(NULL)
+, m_pRequest(NULL)
 , m_pLabel(NULL)
 , m_position()
 , m_isSelected(false)

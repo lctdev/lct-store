@@ -2,6 +2,7 @@
 
 #include "assetViewerOverlay.h"
 #include "spriteViewerMode.h"
+#include "soundViewerMode.h"
 #include "assetViewerMessages.h"
 
 #include <foun/foun_debug.h>
@@ -35,6 +36,11 @@ AssetViewerProgram::AssetViewerProgram()
 #endif
 , m_pCursor(NULL)
 , m_pOverlay(NULL)
+
+, m_pModeNameArray(NULL)
+, m_menuPage()
+, m_modeMenuItem()
+, m_changeModeMenuItem()
 {
 }
 
@@ -141,39 +147,36 @@ void AssetViewerProgram::InitInput()
 #endif
 }
 
-void AssetViewerProgram::InitModes()
+void AssetViewerProgram::InitMiscellaneous()
 {
+	Program::InitMiscellaneous();
+
 	RegisterMode(lct::fram::ModeFactoryItem::CreateMode<SpriteViewerMode>, "SpriteViewerMode");
+	RegisterMode(lct::fram::ModeFactoryItem::CreateMode<SoundViewerMode>, "SoundViewerMode");
 
-	m_pNextModeName = "SpriteViewerMode";
+	m_pNextModeName = "SoundViewerMode";
 
-	Program::InitModes();
-}
+	AssetViewerOverlay* pOverlay = m_allocator.AllocType<AssetViewerOverlay>();
+	pOverlay->SetAllocator(&m_allocator);
+	pOverlay->SetGraphicsDevice(&m_graphicsDevice);
+	pOverlay->SetScreen(&m_screen);
+	pOverlay->SetProgramMessageQueue(&m_messageQueue);
+	pOverlay->SetInputCursor(m_pCursor);
+	pOverlay->SetSharedAssetContainer(&m_assetContainer);
+	pOverlay->SetFillDrawContext(&m_fillDrawContext);
+	pOverlay->SetFontDrawContext(&m_fontDrawContext);
+	pOverlay->Init();
 
-void AssetViewerProgram::InitOverlays()
-{
-	m_pOverlay = m_allocator.AllocType<SpriteViewerOverlay>();
-	m_pOverlay->SetAllocator(&m_allocator);
-	m_pOverlay->SetGraphicsDevice(&m_graphicsDevice);
-	m_pOverlay->SetScreen(&m_screen);
-	m_pOverlay->SetProgramMessageQueue(&m_messageQueue);
-	m_pOverlay->SetInputCursor(m_pCursor);
-	m_pOverlay->SetSharedAssetContainer(&m_assetContainer);
-	m_pOverlay->SetFillDrawContext(&m_fillDrawContext);	
-	m_pOverlay->SetFontDrawContext(&m_fontDrawContext);
-	m_pOverlay->Init();
+	m_pOverlay = pOverlay;
 
 	if (m_graphicsAcquired)
 	{
 		m_pOverlay->AcquireGraphics();
 	}
 
-	Program::InitOverlays();
-}
+	BuildMenu();
 
-void AssetViewerProgram::InitMessages()
-{
-	Program::InitMessages();
+	pOverlay->AddProgramOptionsMenuPage(&m_menuPage);
 }
 
 void AssetViewerProgram::AcquireGraphics()
@@ -231,6 +234,19 @@ void AssetViewerProgram::ReadSystemMessages()
 	Program::ReadSystemMessages();
 }
 
+void AssetViewerProgram::CheckModeChange()
+{
+	if (m_pNextModeName != NULL)
+	{
+		if (m_pCurrMode != NULL)
+		{
+			EndMode();
+		}
+
+		BeginMode();
+	}
+}
+
 void AssetViewerProgram::ReadInput()
 {
 	Program::ReadInput();
@@ -242,12 +258,14 @@ void AssetViewerProgram::ConfigureMode()
 {
 	AssetViewerMode* pAssetViewerMode = static_cast<AssetViewerMode*>(m_pCurrMode);
 
-	pAssetViewerMode->SetAccessor(m_pModeAccessor);	
-	pAssetViewerMode->SetCursor(m_pCursor);
-	pAssetViewerMode->SetSharedAssetContainer(&m_assetContainer);
-	pAssetViewerMode->SetFillDrawContext(&m_fillDrawContext);
-	pAssetViewerMode->SetFontDrawContext(&m_fontDrawContext);
-	pAssetViewerMode->SetSpriteDrawContext(&m_spriteDrawContext);
+	AssetViewerMode::SubShared modeSubShared;
+	modeSubShared.pAccessor = m_pModeAccessor;
+	modeSubShared.pCursor = m_pCursor;
+	modeSubShared.pAssetContainer = &m_assetContainer;
+	modeSubShared.pFillDrawContext = &m_fillDrawContext;
+	modeSubShared.pFontDrawContext = &m_fontDrawContext;
+	modeSubShared.pSpriteDrawContext = &m_spriteDrawContext;
+	pAssetViewerMode->SetSubShared(modeSubShared);
 
 	Program::ConfigureMode();
 }
@@ -343,6 +361,27 @@ bool AssetViewerProgram::HandleMessage(const lct::fram::Message& message)
 	 m_fontAssetHandler.FixupAllAssets();
  }
 
+ void AssetViewerProgram::BuildMenu()
+ {
+	 u32 modeCount = m_modeFactory.GetModeNameCount();
+	 m_pModeNameArray = m_allocator.AllocTypeArray<const char*>(modeCount);
+	 m_modeFactory.GetAllModeNames(m_pModeNameArray, modeCount);
+
+	 m_menuPage.SetLabel("Program Options");
+	 {
+		 m_modeMenuItem.SetLabel("Mode");
+		 m_modeMenuItem.SetStringArray(m_pModeNameArray);
+		 m_modeMenuItem.SetCount(modeCount);
+		 m_modeMenuItem.SetIndex(0);
+		 m_menuPage.AddItem(&m_modeMenuItem);
+	 }
+	 {
+		 m_changeModeMenuItem.SetLabel("Change Mode");
+		 m_changeModeMenuItem.GetCallback().Bind(this, &AssetViewerProgram::OnChangeModeTrigger);
+		 m_menuPage.AddItem(&m_changeModeMenuItem);
+	 }
+ }
+
  void AssetViewerProgram::CheckOverlayInput()
  {
 	 if (m_pCurrOverlay == NULL)
@@ -364,4 +403,9 @@ bool AssetViewerProgram::HandleMessage(const lct::fram::Message& message)
  void AssetViewerProgram::CloseOverlay()
  {
 	 m_pCurrOverlay = NULL;
+ }
+
+ void AssetViewerProgram::OnChangeModeTrigger()
+ {
+	 m_pNextModeName = m_pModeNameArray[m_modeMenuItem.GetIndex()];
  }

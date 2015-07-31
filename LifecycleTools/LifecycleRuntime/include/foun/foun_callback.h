@@ -8,76 +8,46 @@ namespace lct
 namespace foun
 {
 
-template <class P, class R>
 class Callback
 {
 public:
-	Callback() {}
-	virtual ~Callback() {}
+	Callback() : m_pInstance(NULL), m_pFunction(NULL) {}
 
-	virtual R Invoke(P parameter) = 0;
-};
+	template <class I>
+	void Bind(I* pInstance, void (I::*pFunction)());
+	bool IsBound() { return (m_pInstance != NULL) && (m_pFunction != NULL); }
 
-template <class P, class R>
-class StaticCallback : public Callback<P, R>
-{
-public:
-	typedef R (*Function)(P);
-
-public:
-	StaticCallback() : Callback<P, R>(), m_pFunction(NULL) {}
-	virtual ~StaticCallback() {}
-
-	void Bind(Function pFunction);
-
-	virtual R Invoke(P parameter);
+	void Invoke();
 
 private:
+	class Placeholder
+	{
+	public:
+		void Function() {}
+	};
+
+	typedef void (Placeholder::*Function)();
+
+	Placeholder* m_pInstance;
 	Function m_pFunction;
 };
 
-template <class P, class R>
-void StaticCallback<P, R>::Bind(Function pFunction)
+/*
+* Public Template
+*/
+template <class I>
+void Callback::Bind(I* pInstance, void (I::*pFunction)())
 {
-	m_pFunction = pFunction;
+	m_pInstance = reinterpret_cast<Placeholder*>(pInstance);
+	m_pFunction = reinterpret_cast<Function>(pFunction);
 }
 
-template <class P, class R>
-R StaticCallback<P, R>::Invoke(P parameter)
+/*
+* Public Instance
+*/
+inline void Callback::Invoke()
 {
-	return m_pFunction(parameter);
-}
-
-template <class I, class P, class R>
-class InstanceCallback : public Callback<P, R>
-{
-public:
-	typedef R (I::*Function)(P);
-
-public:
-	InstanceCallback() : Callback<P, R>(), m_pInstance(NULL), m_pFunction(NULL) {}
-	virtual ~InstanceCallback() {}
-
-	void Bind(I* pInstance, Function pFunction);
-
-	virtual R Invoke(P parameter);
-
-private:
-	I* m_pInstance;
-	Function m_pFunction;
-};
-
-template <class I, class P, class R>
-void InstanceCallback<I, P, R>::Bind(I* pInstance, Function pFunction)
-{
-	m_pInstance = pInstance;
-	m_pFunction = pFunction;
-}
-
-template <class I, class P, class R>
-R InstanceCallback<I, P, R>::Invoke(P parameter)
-{
-	return (m_pInstance->*m_pFunction)(parameter);
+	(m_pInstance->*m_pFunction)();
 }
 
 //namespace lct

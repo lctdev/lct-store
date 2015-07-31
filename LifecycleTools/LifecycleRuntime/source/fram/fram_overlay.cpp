@@ -24,17 +24,17 @@ Overlay::~Overlay()
 {
 }
 
-void Overlay::SetAllocator(lct::foun::Allocator* pAllocator)
+void Overlay::SetAllocator(foun::Allocator* pAllocator)
 {
 	m_pAllocator = pAllocator;
 }
 
-void Overlay::SetProgramMessageQueue(lct::fram::MessageQueue* pMessageQueue)
+void Overlay::SetProgramMessageQueue(fram::MessageQueue* pMessageQueue)
 {
 	m_pProgramMessageQueue = pMessageQueue;
 }
 
-void Overlay::SetScreen(Screen* pScreen)
+void Overlay::SetScreen(grap::Screen* pScreen)
 {
 	m_pScreen = pScreen;
 }

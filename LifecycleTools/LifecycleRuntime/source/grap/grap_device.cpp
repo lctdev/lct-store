@@ -28,7 +28,7 @@ void Device::AcquireShaderResources(const ShaderSetupParameters& shaderSetupPara
 	ShaderResource* pShaderResource = shaderSetupParameters.pShaderResource;
 	if (pShaderResource->hShaderProgram != 0)
 	{
-		LCT_TRACE("Shader Resource already acquired!\n");
+		LCT_TRACE("[Device::AcquireShaderResources] Shader Resource already acquired!\n");
 		return;
 	}
 
@@ -92,7 +92,7 @@ void Device::ReleaseShaderResources(const ShaderSetupParameters& shaderSetupPara
 	ShaderResource* pShaderResource = shaderSetupParameters.pShaderResource;
 	if (pShaderResource->hShaderProgram == 0)
 	{
-		LCT_TRACE("Shader Resource not yet acquired!\n");
+		LCT_TRACE("[Device::ReleaseShaderResources] Shader Resource not yet acquired!\n");
 		return;
 	}
 
@@ -122,7 +122,7 @@ void Device::AcquireVertexResource(const VertexSetupParameters& vertexSetupParam
 	VertexResource* pVertexResource = vertexSetupParameters.pVertexResource;
 	if (pVertexResource->hVertexBuffer != 0)
 	{
-		LCT_TRACE("Vertex Resource already acquired!\n");
+		LCT_TRACE("[Device::AcquireVertexResource] Vertex Resource already acquired!\n");
 		return;
 	}
 	GLenum usage = vertexSetupParameters.dynamic ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW;
@@ -156,7 +156,7 @@ void Device::RefreshVertexResource(const VertexSetupParameters& vertexSetupParam
 	VertexResource* pVertexResource = vertexSetupParameters.pVertexResource;
 	if (pVertexResource->hVertexBuffer == 0)
 	{
-		LCT_TRACE("Vertex Resource not yet acquired!\n");
+		LCT_TRACE("[Device::RefreshVertexResource] Vertex Resource not yet acquired!\n");
 		return;
 	}
 
@@ -171,7 +171,7 @@ void Device::ReleaseVertexResource(const VertexSetupParameters& vertexSetupParam
 	VertexResource* pVertexResource = vertexSetupParameters.pVertexResource;
 	if (pVertexResource->hVertexBuffer == 0)
 	{
-		LCT_TRACE("Vertex Resource not yet acquired!\n");
+		LCT_TRACE("[Device::ReleaseVertexResource] Vertex Resource not yet acquired!\n");
 		return;
 	}
 
@@ -193,7 +193,7 @@ void Device::AcquireIndexResource(const IndexSetupParameters& indexSetupParamete
 	IndexResource* pIndexResource = indexSetupParameters.pIndexResource;
 	if (pIndexResource->hIndexBuffer != 0)
 	{
-		LCT_TRACE("Index Resource already acquired!\n");
+		LCT_TRACE("[Device::AcquireIndexResource] Index Resource already acquired!\n");
 		return;
 	}
 	GLenum usage = indexSetupParameters.dynamic ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW;
@@ -212,7 +212,7 @@ void Device::RefreshIndexResource(const IndexSetupParameters& indexSetupParamete
 	IndexResource* pIndexResource = indexSetupParameters.pIndexResource;
 	if (pIndexResource->hIndexBuffer == 0)
 	{
-		LCT_TRACE("Index Resource not yet acquired!\n");
+		LCT_TRACE("[Device::RefreshIndexResource] Index Resource not yet acquired!\n");
 		return;
 	}
 
@@ -227,7 +227,7 @@ void Device::ReleaseIndexResource(const IndexSetupParameters& indexSetupParamete
 	IndexResource* pIndexResource = indexSetupParameters.pIndexResource;
 	if (pIndexResource->hIndexBuffer == 0)
 	{
-		LCT_TRACE("Index Resource not yet acquired!\n");
+		LCT_TRACE("[Device::ReleaseIndexResource] Index Resource not yet acquired!\n");
 		return;
 	}
 
@@ -245,7 +245,7 @@ void Device::AcquireTextureResource(const TextureSetupParameters& textureSetupPa
 	TextureResource* pTextureResource = textureSetupParameters.pTextureResource;
 	if (pTextureResource->hTexture != 0)
 	{
-		LCT_TRACE("Texture Resource already acquired!\n");
+		LCT_TRACE("[Device::AcquireTextureResource] Texture Resource already acquired!\n");
 		return;
 	}
 
@@ -270,7 +270,7 @@ void Device::ReleaseTextureResource(const TextureSetupParameters& textureSetupPa
 	TextureResource* pTextureResource = textureSetupParameters.pTextureResource;
 	if (pTextureResource->hTexture == 0)
 	{
-		LCT_TRACE("Texture Resource not yet acquired!\n");
+		LCT_TRACE("[Device::ReleaseTextureResource] Texture Resource not yet acquired!\n");
 		return;
 	}
 

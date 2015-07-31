@@ -7,26 +7,38 @@
 #include <foun/foun_vector.h>
 #include <foun/foun_color.h>
 #include <foun/foun_list.h>
+#include <foun/foun_stack.h>
+
+#include <font/font_symbolBuffer.h>
+
+#include <test/test_menuShared.h>
+#include <test/test_backMenuitem.h>
 
 namespace lct
 {
+namespace grap
+{
+class Screen;
+class Device;
+}
 namespace inpu
 {
-	class Cursor;
+class Cursor;
 }
 namespace fill
 {
-	class DrawContext;
+class DrawContext;
 }
 namespace font
 {
-	class SymbolWriter;
+class DrawContext;
+class SymbolWriter;
 }
 
 namespace test
 {
 
-class MenuItem;
+class MenuPage;
 
 class Menu
 {
@@ -34,26 +46,55 @@ public:
 	Menu();
 	virtual ~Menu();
 
-	void SetBounds(const foun::RectEdges& bounds);
+	struct Shared
+	{
+		foun::Allocator* pAllocator;
+		grap::Screen* pScreen;
+		grap::Device* pGraphicsDevice;
+		inpu::Cursor* pInputCursor;
+		fill::DrawContext* pFillDrawContext;
+		font::DrawContext* pFontDrawContext;
+		font::SheetAsset* pSheetAsset;
+	};
+	void SetShared(const Shared& shared);
+
+	void Initialize();
+
+	void AcquireGraphics();
+	void ReleaseGraphics();
+
 	void SetPosition(const foun::Vector2& position);
 	void SetSpacing(f32 spacing);
 
-	void AddItem(MenuItem* pItem);
+	void AddPage(MenuPage* pPage);
 	void Arrange();
+	void ActivatePage(const char* pPageLabel);
 
-	void HandlePress(const foun::Vector2& position);
-	void HandleRelease(const foun::Vector2& position);
+	void HandleInput();
 
-	void DrawFill(fill::DrawContext* pDrawContext);
-	void WriteFont(font::SymbolWriter* pSymbolWriter);
+	void Draw();
 
 protected:
-	foun::RectEdges m_bounds;
+	Shared m_shared;
+
+	MenuRequest m_request;
 	foun::Vector2 m_position;
 	f32 m_spacing;
 
-	foun::List<MenuItem*> m_itemList;
-	MenuItem* m_pSelectedItem;
+	MenuPage* FindPage(const char* pPageLabel);
+	void AdvancePage(MenuPage* pPage);
+	void RetractPage();
+
+	foun::List<MenuPage*> m_pageList;
+	MenuPage* m_pActivePage;
+	static const u32 MAX_PAGE_HISTORY_COUNT = 8;
+	foun::Stack<MenuPage*, MAX_PAGE_HISTORY_COUNT> m_pageHistoryStack;
+
+	BackMenuItem m_backItem;	
+
+	static const u32 SYMBOL_BUFFER_COUNT = 2;
+	font::SymbolBuffer m_symbolBufferArray[SYMBOL_BUFFER_COUNT];
+	u32 m_currSymbolBufferIndex;
 };
 
 //namespace test

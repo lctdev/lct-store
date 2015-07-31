@@ -16,10 +16,7 @@ static const lct::foun::FloatColor DEFAULT_CLEAR_COLOR = { 0.0f, 0.0f, 0.0f, 1.0
  * Public Instance
  */
 Mode::Mode()
-: m_pAllocator(NULL)
-, m_pProgramMessageQueue(NULL)
-, m_pScreen(NULL)
-, m_pGraphicsDevice(NULL)
+: m_shared()
 
 , m_finished(false)
 , m_clearColor(DEFAULT_CLEAR_COLOR)
@@ -30,24 +27,9 @@ Mode::~Mode()
 {
 }
 
-void Mode::SetAllocator(foun::Allocator* pAllocator)
+void Mode::SetShared(const Shared& shared)
 {
-	m_pAllocator = pAllocator;
-}
-
-void Mode::SetProgramMessageQueue(lct::fram::MessageQueue* pMessageQueue)
-{
-	m_pProgramMessageQueue = pMessageQueue;
-}
-
-void Mode::SetScreen(Screen* pScreen)
-{
-	m_pScreen = pScreen;
-}
-
-void Mode::SetGraphicsDevice(grap::Device* pGraphicsDevice)
-{
-	m_pGraphicsDevice = pGraphicsDevice;
+	m_shared = shared;
 }
 
 void Mode::Init()

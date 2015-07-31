@@ -29,20 +29,16 @@ CycleMenuItem::CycleMenuItem()
 : MenuItem()
 , m_leftButton()
 , m_rightButton()
-, m_leftTriggerCallback()
-, m_rightTriggerCallback()
 , m_valueOffsetX(DEFAULT_VALUE_OFFSET_X)
 , m_leftButtonOffsetX(DEFAULT_LEFT_BUTTON_OFFSET_X)
 , m_rightButtonoffsetX(DEFAULT_RIGHT_BUTTON_OFFSET_X)
+, m_cycleCallback()
 {
 	m_leftButton.SetLabel(LEFT_BUTTON_LABEL);
 	m_rightButton.SetLabel(RIGHT_BUTTON_LABEL);
 
-	m_leftTriggerCallback.Bind(this, &CycleMenuItem::OnLeftTrigger);
-	m_rightTriggerCallback.Bind(this, &CycleMenuItem::OnRightTrigger);
-
-	m_leftButton.SetTriggerCallback(&m_leftTriggerCallback);
-	m_rightButton.SetTriggerCallback(&m_rightTriggerCallback);
+	m_leftButton.GetTriggerCallback().Bind(this, &CycleMenuItem::OnLeftTrigger);
+	m_rightButton.GetTriggerCallback().Bind(this, &CycleMenuItem::OnRightTrigger);
 }
 
 CycleMenuItem::~CycleMenuItem()
@@ -128,18 +124,24 @@ void CycleMenuItem::WriteFont(font::SymbolWriter* pSymbolWriter)
 /*
  * Protected Instance
  */
-int CycleMenuItem::OnLeftTrigger(int parameter)
+void CycleMenuItem::OnLeftTrigger()
 {
 	CycleLeft();
 
-	return 0;
+	if (m_cycleCallback.IsBound())
+	{
+		m_cycleCallback.Invoke();
+	}
 }
 
-int CycleMenuItem::OnRightTrigger(int parameter)
+void CycleMenuItem::OnRightTrigger()
 {
 	CycleRight();
 
-	return 0;
+	if (m_cycleCallback.IsBound())
+	{
+		m_cycleCallback.Invoke();
+	}
 }
 
 //namespace test

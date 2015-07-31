@@ -18,7 +18,6 @@ BoolMenuItem::BoolMenuItem()
 : CycleMenuItem()
 , m_value(false)
 , m_valueString()
-, m_pCallback(NULL)
 {
 }
 
@@ -31,11 +30,6 @@ void BoolMenuItem::SetValue(bool value)
 	m_value = value;
 
 	UpdateValueString();
-}
-
-void BoolMenuItem::SetCallback(foun::Callback<bool, int>* pCallback)
-{
-	m_pCallback = pCallback;
 }
 
 /*
@@ -64,11 +58,6 @@ void BoolMenuItem::CycleLeft()
 	m_value = false;
 
 	UpdateValueString();
-
-	if (m_pCallback != NULL)
-	{
-		m_pCallback->Invoke(m_value);
-	}
 }
 
 void BoolMenuItem::CycleRight()
@@ -76,11 +65,6 @@ void BoolMenuItem::CycleRight()
 	m_value = true;
 
 	UpdateValueString();
-
-	if (m_pCallback != NULL)
-	{
-		m_pCallback->Invoke(m_value);
-	}
 }
 
 //namespace test

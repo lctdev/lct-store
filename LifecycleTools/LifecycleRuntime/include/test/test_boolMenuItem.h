@@ -18,8 +18,6 @@ public:
 
 	bool GetValue() { return m_value; }
 
-	void SetCallback(foun::Callback<bool, int>* pCallback);
-
 protected:
 	bool m_value;
 
@@ -27,8 +25,6 @@ protected:
 
 	static const u32 VALUE_STRING_SIZE = 32;
 	char m_valueString[VALUE_STRING_SIZE];
-
-	foun::Callback<bool, int>* m_pCallback;
 
 	virtual const char* GetValueString();
 
