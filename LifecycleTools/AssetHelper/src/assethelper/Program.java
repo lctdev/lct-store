@@ -171,6 +171,46 @@ public class Program {
 			packageXMLConverter.storeManifest(manifest, filePath);
 		}
 	}
+	
+	private static void generateSoundExamples(String directoryPath) {
+		System.out.println("Generating sound examples");
+		
+		lct.soun.XMLConverter xmlConverter = new lct.soun.XMLConverter();
+		lct.soun.SoundConverter soundConverter = new lct.soun.SoundConverter();
+		lct.pack.XMLConverter packageXMLConverter = new lct.pack.XMLConverter();
+		
+		if (!FileUtility.exists(directoryPath)) {
+			FileUtility.createDirectory(directoryPath);
+		}
+		
+		{
+			lct.soun.Clip clip = lct.soun.Examples.createToneClip(lct.soun.Examples.Tone.A_4);
+			String fileName = clip.name + ".xml";
+			String filePath = lct.util.PathUtility.combineFull(directoryPath, fileName);
+			xmlConverter.storeClip(clip, filePath);
+		}
+		
+		{
+			lct.soun.Ramp ramp = lct.soun.Examples.createNoteRamp();
+			String fileName = ramp.name + ".xml";
+			String filePath = lct.util.PathUtility.combineFull(directoryPath, fileName);
+			xmlConverter.storeRamp(ramp, filePath);
+		}
+		
+		{
+			lct.soun.Wave wave = lct.soun.Examples.createToneWave(lct.soun.Examples.Tone.A_4);
+			String fileName = wave.name + ".wav";
+			String filePath = lct.util.PathUtility.combineFull(directoryPath, fileName);
+			soundConverter.storeWaveWAV(wave, filePath);
+		}
+		
+		{
+			lct.pack.Manifest manifest = lct.soun.Examples.createManifest(directoryPath);
+			String fileName = manifest.name + ".xml";
+			String filePath = lct.util.PathUtility.combineFull(directoryPath, fileName);
+			packageXMLConverter.storeManifest(manifest, filePath);
+		}
+	}
 
 	public static void main(String[] args) {
 		parseArguments(args);
@@ -207,6 +247,21 @@ public class Program {
 			switch (s_task) {
 			case TASK_EXAMPLE:
 				generateFontExamples(directoryPath);
+				break;
+			default:
+			{
+				System.err.println("Unhandled task");
+				System.exit(-1);
+			}
+			}
+		}
+		break;
+		
+		case lct.soun.Constants.GROUP_CODE:
+		{
+			switch (s_task) {
+			case TASK_EXAMPLE:
+				generateSoundExamples(directoryPath);
 				break;
 			default:
 			{

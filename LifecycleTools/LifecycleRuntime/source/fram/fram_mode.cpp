@@ -47,6 +47,16 @@ void Mode::ReleaseGraphics()
 	LCT_TRACE("Mode::ReleaseGraphics\n");
 }
 
+void Mode::AcquireAudio()
+{
+	LCT_TRACE("Mode::AcquireAudio\n");
+}
+
+void Mode::ReleaseAudio()
+{
+	LCT_TRACE("Mode::ReleaseAudio\n");
+}
+
 void Mode::ReadInput()
 {
 }

@@ -1,5 +1,5 @@
-#ifndef IMAG_ASSET_HANDLER_H
-#define IMAG_ASSET_HANDLER_H
+#ifndef SOUN_ASSET_HANDLER_H
+#define SOUN_ASSET_HANDLER_H
 
 #include <foun/foun_primitives.h>
 #include <foun/foun_allocator.h>
@@ -8,7 +8,7 @@
 
 namespace lct
 {
-namespace grap
+namespace audi
 {
 class Device;
 }
@@ -22,12 +22,12 @@ namespace util
 class BinaryReader;
 }
 
-namespace imag
+namespace soun
 {
 
-struct TextureAsset;
-struct TextureTableAsset;
-struct TextureData;
+struct WaveAsset;
+struct ClipAsset;
+struct RampAsset;
 
 class AssetHandler : public pack::IAssetHandler
 {
@@ -36,26 +36,29 @@ public:
 	virtual ~AssetHandler();
 
 	void SetAllocator(foun::Allocator* pAllocator);
-	void SetGraphicsDevice(grap::Device* pGraphicsDevice);
+	void SetAudioDevice(audi::Device* pAudioDevice);
 	void SetAssetContainer(pack::AssetContainer* pAssetContainer);
 
 	virtual bool LoadAsset(pack::AssetHeader& assetHeader, util::BinaryReader& binaryReader);
 
-	TextureAsset* LoadTextureAsset(util::BinaryReader& binaryReader);
-	TextureTableAsset* LoadTextureTableAsset(util::BinaryReader& binaryReader);
+	WaveAsset* LoadWaveAsset(util::BinaryReader& binaryReader);
+	ClipAsset* LoadClipAsset(util::BinaryReader& binaryReader);
+	RampAsset* LoadRampAsset(util::BinaryReader& binaryReader);
+
+	void FixupAllAssets();
 
 	void AcquireAllAssetResources();
 	void ReleaseAllAssetResources();
 
 private:
 	foun::Allocator* m_pAllocator;
-	grap::Device* m_pGraphicsDevice;
+	audi::Device* m_pAudioDevice;
 	pack::AssetContainer* m_pAssetContainer;
 };
 
-//namespace imag
+//namespace soun
 }
 //namespace lct
 }
 
-#endif//IMAG_ASSET_HANDLER_H
+#endif//SOUN_ASSET_HANDLER_H

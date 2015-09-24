@@ -38,6 +38,7 @@ public class Program {
 		packageBuilder.addAssetProcessor(new lct.imag.AssetProcessor());
 		packageBuilder.addAssetProcessor(new lct.spri.AssetProcessor());		
 		packageBuilder.addAssetProcessor(new lct.font.AssetProcessor());
+		packageBuilder.addAssetProcessor(new lct.soun.AssetProcessor());
 		packageBuilder.addAssetProcessor(new lct.pass.AssetProcessor());
 		
 		try {

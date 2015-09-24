@@ -328,7 +328,7 @@ void SpriteViewerMode::BuildMenu()
 
 void SpriteViewerMode::LoadAssets()
 {
-	static const char* FILE_PATH = "data/spri/package.bin";
+	static const char* FILE_PATH = "data/spriteViewer/package.bin";
 	u32 fileSize;
 	m_pAssetBinary = m_subShared.pAccessor->LoadFile(FILE_PATH, &fileSize);
 	lct::util::BinaryReader binaryReader;

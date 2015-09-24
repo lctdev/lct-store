@@ -7,6 +7,11 @@
 #include <foun/foun_matrix.h>
 #include <foun/foun_callback.h>
 
+#include <soun/soun_assetHandler.h>
+#include <soun/soun_assets.h>
+// TEMP
+#include <soun/soun_clipCoordinator.h>
+
 #include <pack/pack_packageWalker.h>
 #include <pack/pack_assetContainer.h>
 
@@ -40,6 +45,8 @@ public:
 
 	virtual void AcquireGraphics();
 	virtual void ReleaseGraphics();
+	virtual void AcquireAudio();
+	virtual void ReleaseAudio();
 
 	virtual void ReadInput();
 	virtual void Update();
@@ -50,14 +57,19 @@ private:
 	void LoadAssets();
 
 	lct::pack::AssetContainer m_assetContainer;
+	lct::soun::AssetHandler m_soundAssetHandler;
+	void* m_pAssetBinary;
 
 	// TEMP!
-	lct::audi::WaveResource m_waveResource;
+	//lct::audi::WaveResource m_waveResource;
+	lct::soun::ClipCoordinator m_clipCoordinator;
 
+	void OnPlayTrigger();
 	void OnReloadTrigger();
 
 	lct::test::Menu m_menu;
 	lct::test::MenuPage m_menuPage;
+	lct::test::ActionMenuItem m_playMenuItem;
 	lct::test::ActionMenuItem m_reloadMenuItem;
 
 	lct::foun::Matrix44 m_projectionTransform;

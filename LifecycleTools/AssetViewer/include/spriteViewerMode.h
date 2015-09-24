@@ -64,7 +64,6 @@ private:
 
 	void BuildAnimation(const char* pName);
 
-	// owned
 	lct::foun::LinearAllocator m_animationAllocator;
 
 	lct::pack::AssetContainer m_assetContainer;

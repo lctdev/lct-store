@@ -195,10 +195,6 @@ void AssetViewerProgram::AcquireGraphics()
 	{
 		m_pOverlay->AcquireGraphics();
 	}
-
-	LCT_TRACE("AssetViewerProgram::AcquireGraphics Texture Resource Count: %u\n", m_graphicsDevice.GetUsedTextureResourceCount());
-	LCT_TRACE("AssetViewerProgram::AcquireGraphics Vertex Resource Count: %u\n", m_graphicsDevice.GetUsedVertexResourceCount());
-	LCT_TRACE("AssetViewerProgram::AcquireGraphics Index Resource Count: %u\n", m_graphicsDevice.GetUsedIndexResourceCount());
 }
 
 void AssetViewerProgram::ReleaseGraphics()
@@ -215,10 +211,6 @@ void AssetViewerProgram::ReleaseGraphics()
 	{
 		m_pOverlay->ReleaseGraphics();
 	}
-
-	LCT_TRACE("AssetViewerProgram::ReleaseGraphics Texture Resource Count: %u\n", m_graphicsDevice.GetUsedTextureResourceCount());
-	LCT_TRACE("AssetViewerProgram::ReleaseGraphics Vertex Resource Count: %u\n", m_graphicsDevice.GetUsedVertexResourceCount());
-	LCT_TRACE("AssetViewerProgram::ReleaseGraphics Index Resource Count: %u\n", m_graphicsDevice.GetUsedIndexResourceCount());
 
 	Program::ReleaseGraphics();
 }

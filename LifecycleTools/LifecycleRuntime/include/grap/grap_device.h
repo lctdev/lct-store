@@ -30,21 +30,21 @@ public:
 
 	void AcquireShaderResources(const ShaderSetupParameters& shaderSetupParameters);
 	void ReleaseShaderResources(const ShaderSetupParameters& shaderSetupParameters);
-	u32 GetUsedShaderResourceCount() { return m_usedShaderResourceCount; }
+	u32 GetAcquiredShaderResourceCount() { return m_acquiredShaderResourceCount; }
 
 	void AcquireVertexResource(const VertexSetupParameters& vertexSetupParameters);
 	void RefreshVertexResource(const VertexSetupParameters& vertexSetupParameters);
 	void ReleaseVertexResource(const VertexSetupParameters& vertexSetupParameters);
-	u32 GetUsedVertexResourceCount() { return m_usedVertexResourceCount; }
+	u32 GetAcquiredVertexResourceCount() { return m_acquiredVertexResourceCount; }
 
 	void AcquireIndexResource(const IndexSetupParameters& indexSetupParameters);
 	void RefreshIndexResource(const IndexSetupParameters& indexSetupParameters);
 	void ReleaseIndexResource(const IndexSetupParameters& indexSetupParameters);
-	u32 GetUsedIndexResourceCount() { return m_usedIndexResourceCount; }
+	u32 GetAcquiredIndexResourceCount() { return m_acquiredIndexResourceCount; }
 
 	void AcquireTextureResource(const TextureSetupParameters& textureSetupParameters);
 	void ReleaseTextureResource(const TextureSetupParameters& textureSetupParameters);
-	u32 GetUsedTextureResourceCount() { return m_usedTextureResourceCount; }
+	u32 GetAcquiredTextureResourceCount() { return m_acquiredTextureResourceCount; }
 
 	void ActivateRenderState(RenderStateParameters& renderStateParameters);
 
@@ -65,10 +65,10 @@ public:
 	void Draw(u32 indexCount, u32 indexOffset, IndexType indexType);
 
 protected:
-	u32 m_usedShaderResourceCount;
-	u32 m_usedVertexResourceCount;
-	u32 m_usedIndexResourceCount;
-	u32 m_usedTextureResourceCount;
+	u32 m_acquiredShaderResourceCount;
+	u32 m_acquiredVertexResourceCount;
+	u32 m_acquiredIndexResourceCount;
+	u32 m_acquiredTextureResourceCount;
 };
 
 //namespace grap

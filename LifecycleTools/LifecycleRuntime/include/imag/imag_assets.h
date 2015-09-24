@@ -41,7 +41,7 @@ struct TextureTableAsset : public pack::Asset
 	grap::TextureResource* pTextureResourceArray;
 };
 
-//namespace spri
+//namespace imag
 }
 //namespace lct
 }

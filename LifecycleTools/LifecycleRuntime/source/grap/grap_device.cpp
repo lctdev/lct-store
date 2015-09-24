@@ -14,9 +14,10 @@ namespace grap
 * Public Instance
 */
 Device::Device()
-: m_usedShaderResourceCount(0)
-, m_usedVertexResourceCount(0)
-, m_usedIndexResourceCount(0)
+: m_acquiredShaderResourceCount(0)
+, m_acquiredVertexResourceCount(0)
+, m_acquiredIndexResourceCount(0)
+, m_acquiredTextureResourceCount(0)
 {
 }
 
@@ -84,7 +85,7 @@ void Device::AcquireShaderResources(const ShaderSetupParameters& shaderSetupPara
 		LCT_TRACE_GL_ERROR();
 	}
 
-	++m_usedShaderResourceCount;
+	++m_acquiredShaderResourceCount;
 }
 
 void Device::ReleaseShaderResources(const ShaderSetupParameters& shaderSetupParameters)
@@ -114,7 +115,7 @@ void Device::ReleaseShaderResources(const ShaderSetupParameters& shaderSetupPara
 
 	LCT_TRACE_GL_ERROR();
 
-	--m_usedShaderResourceCount;
+	--m_acquiredShaderResourceCount;
 }
 
 void Device::AcquireVertexResource(const VertexSetupParameters& vertexSetupParameters)
@@ -148,7 +149,7 @@ void Device::AcquireVertexResource(const VertexSetupParameters& vertexSetupParam
 
 	LCT_TRACE_GL_ERROR();
 
-	++m_usedVertexResourceCount;
+	++m_acquiredVertexResourceCount;
 }
 
 void Device::RefreshVertexResource(const VertexSetupParameters& vertexSetupParameters)
@@ -185,7 +186,7 @@ void Device::ReleaseVertexResource(const VertexSetupParameters& vertexSetupParam
 
 	LCT_TRACE_GL_ERROR();
 
-	--m_usedVertexResourceCount;
+	--m_acquiredVertexResourceCount;
 }
 
 void Device::AcquireIndexResource(const IndexSetupParameters& indexSetupParameters)
@@ -204,7 +205,7 @@ void Device::AcquireIndexResource(const IndexSetupParameters& indexSetupParamete
 
 	LCT_TRACE_GL_ERROR();
 
-	++m_usedIndexResourceCount;
+	++m_acquiredIndexResourceCount;
 }
 
 void Device::RefreshIndexResource(const IndexSetupParameters& indexSetupParameters)
@@ -237,7 +238,7 @@ void Device::ReleaseIndexResource(const IndexSetupParameters& indexSetupParamete
 
 	LCT_TRACE_GL_ERROR();
 
-	--m_usedIndexResourceCount;
+	--m_acquiredIndexResourceCount;
 }
 
 void Device::AcquireTextureResource(const TextureSetupParameters& textureSetupParameters)
@@ -262,7 +263,7 @@ void Device::AcquireTextureResource(const TextureSetupParameters& textureSetupPa
 
 	LCT_TRACE_GL_ERROR();
 
-	++m_usedTextureResourceCount;
+	++m_acquiredTextureResourceCount;
 }
 
 void Device::ReleaseTextureResource(const TextureSetupParameters& textureSetupParameters)
@@ -280,7 +281,7 @@ void Device::ReleaseTextureResource(const TextureSetupParameters& textureSetupPa
 
 	LCT_TRACE_GL_ERROR();
 
-	--m_usedTextureResourceCount;
+	--m_acquiredTextureResourceCount;
 }
 
 void Device::ActivateRenderState(RenderStateParameters& renderStateParameters)

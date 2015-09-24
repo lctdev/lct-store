@@ -25,8 +25,11 @@ SoundViewerMode::SoundViewerMode()
 : AssetViewerMode()
 
 , m_assetContainer()
+, m_soundAssetHandler()
+, m_pAssetBinary(NULL)
 
-, m_waveResource()
+//, m_waveResource()
+, m_clipCoordinator()
 
 , m_menu()
 , m_menuPage()
@@ -47,6 +50,12 @@ void SoundViewerMode::Init()
 
 	m_assetContainer.SetAllocator(m_shared.pAllocator);
 
+	m_soundAssetHandler.SetAllocator(m_shared.pAllocator);
+	m_soundAssetHandler.SetAudioDevice(m_shared.pAudioDevice);
+	m_soundAssetHandler.SetAssetContainer(&m_assetContainer);
+
+	m_clipCoordinator.CreateStructure(20, m_shared.pAllocator);
+
 	LoadAssets();
 	BuildMenu();;
 
@@ -56,7 +65,8 @@ void SoundViewerMode::Init()
 	m_clearColor.a = 1.0f;
 
 	// TEMP!
-	const f32 FREQ = 440.f;
+	/*const f32 FREQ = 440.f;
+	const u32 AMPLITUIDE = 32760;
 	const u32 SECONDS = 4;
 	const u32 SAMPLE_RATE = 22050;
 	const u32 BUF_SIZE = SECONDS * SAMPLE_RATE;
@@ -64,9 +74,10 @@ void SoundViewerMode::Init()
 	u16 samples[BUF_SIZE];
 	for (int i = 0; i < BUF_SIZE; ++i)
 	{
-		samples[i] = 32760 * lct::foun::Sin((2.0f * lct::foun::PI_32 * FREQ) / SAMPLE_RATE * i);
-	}
+		samples[i] = AMPLITUIDE * lct::foun::Sin((2.0f * lct::foun::PI_32 * FREQ) / SAMPLE_RATE * i);
+	}*/
 
+	/*
 	lct::audi::WaveSetupParameters waveParams;
 	waveParams.pWaveResource = &m_waveResource;
 	waveParams.pWaveBinary = samples;
@@ -75,9 +86,11 @@ void SoundViewerMode::Init()
 	waveParams.sampleSize = 2;
 	waveParams.sampleRate = SAMPLE_RATE;
 	m_shared.pAudioDevice->AcquireWaveResource(waveParams);
+	*/
 
-	lct::audi::VoiceResource* pVoice = m_shared.pAudioDevice->UseVoice();
-	m_shared.pAudioDevice->PlayVoice(pVoice, &m_waveResource);
+	//lct::audi::VoiceResource* pVoice = m_shared.pAudioDevice->UseVoice();
+	//lct::soun::WaveAsset* pWaveAsset = m_assetContainer.FindAsset<lct::soun::WaveAsset>("horn_mono_16");
+	//m_shared.pAudioDevice->PlayVoice(pVoice, pWaveAsset->pWaveResource);
 }
 
 void SoundViewerMode::AcquireGraphics()
@@ -94,6 +107,26 @@ void SoundViewerMode::ReleaseGraphics()
 	AssetViewerMode::ReleaseGraphics();
 }
 
+void SoundViewerMode::AcquireAudio()
+{
+	m_soundAssetHandler.AcquireAllAssetResources();
+
+	// TEMP!
+	m_clipCoordinator.AcquireAudioResources(m_shared.pAudioDevice);
+
+	AssetViewerMode::AcquireAudio();
+}
+
+void SoundViewerMode::ReleaseAudio()
+{
+	m_soundAssetHandler.ReleaseAllAssetResources();
+
+	// TEMP!
+	m_clipCoordinator.ReleaseAudioResources(m_shared.pAudioDevice);
+
+	AssetViewerMode::ReleaseAudio();
+}
+
 void SoundViewerMode::ReadInput()
 {
 	m_menu.HandleInput();
@@ -103,6 +136,10 @@ void SoundViewerMode::Update()
 {
 	const lct::foun::RectEdges& screenEdges = m_shared.pScreen->GetRectEdges();
 	lct::foun::Matrix44OrthographicProjection(m_projectionTransform, screenEdges.left, screenEdges.right, screenEdges.bottom, screenEdges.top, -1.0f, 1.0f);
+
+	// TEMP!	
+	m_clipCoordinator.ApplyClips(m_shared.pAudioDevice);
+	m_clipCoordinator.UpdateRamps(1.0f / 60.0f);
 }
 
 void SoundViewerMode::Draw()
@@ -134,6 +171,12 @@ void SoundViewerMode::BuildMenu()
 
 	m_menuPage.SetLabel("Default");
 	{
+		m_playMenuItem.SetLabel("Play");
+		m_playMenuItem.SetOffsets(MENU_ITEM_MIDDLE_OFFSET_X);
+		m_playMenuItem.GetCallback().Bind(this, &SoundViewerMode::OnPlayTrigger);
+		m_menuPage.AddItem(&m_playMenuItem);
+	}
+	{
 		m_reloadMenuItem.SetLabel("Reload");
 		m_reloadMenuItem.SetOffsets(MENU_ITEM_MIDDLE_OFFSET_X);
 		m_reloadMenuItem.GetCallback().Bind(this, &SoundViewerMode::OnReloadTrigger);
@@ -146,6 +189,24 @@ void SoundViewerMode::BuildMenu()
 
 void SoundViewerMode::LoadAssets()
 {
+	static const char* FILE_PATH = "data/soundViewer/package.bin";
+	u32 fileSize;
+	m_pAssetBinary = m_subShared.pAccessor->LoadFile(FILE_PATH, &fileSize);
+	lct::util::BinaryReader binaryReader;
+	binaryReader.SetMemory(m_pAssetBinary, fileSize);
+	lct::pack::PackageWalker packageWalker;
+	packageWalker.AddAssetHandler(&m_soundAssetHandler);
+
+	packageWalker.LoadAllAssets(binaryReader);
+	
+	m_soundAssetHandler.FixupAllAssets();
+}
+
+void SoundViewerMode::OnPlayTrigger()
+{
+	lct::soun::ClipAsset* pClipAsset = m_assetContainer.FindAsset<lct::soun::ClipAsset>("example_clip_tone_A_4");
+	lct::soun::RampAsset* pRampAsset = m_assetContainer.FindAsset<lct::soun::RampAsset>("example_ramp_note");
+	m_clipCoordinator.StartClip(pClipAsset, pRampAsset);
 }
 
 void SoundViewerMode::OnReloadTrigger()

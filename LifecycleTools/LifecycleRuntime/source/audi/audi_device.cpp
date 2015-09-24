@@ -153,6 +153,25 @@ void Device::PlayVoice(VoiceResource* pVoiceResource, WaveResource* pWaveResourc
 	LCT_TRACE_AL_ERROR();
 }
 
+bool Device::IsVoicePlaying(VoiceResource* pVoiceResource)
+{
+	ALenum state;
+
+	alGetSourcei(pVoiceResource->hSource, AL_SOURCE_STATE, &state);
+
+	return (state == AL_PLAYING);
+}
+
+void Device::SetVoiceVolume(VoiceResource* pVoiceResource, f32 volume)
+{
+	alSourcef(pVoiceResource->hSource, AL_GAIN, volume);
+}
+
+void Device::SetVoicePitch(VoiceResource* pVoiceResource, f32 pitch)
+{
+	alSourcef(pVoiceResource->hSource, AL_PITCH, pitch);
+}
+
 /*
 * Protected Instance
 */

@@ -402,6 +402,8 @@ public class Examples {
 			}
 		}
 		
+		AnimationUtility.calculateSlopes(animation);
+		
 		return animation;
 	}
 	
@@ -444,6 +446,8 @@ public class Examples {
 				animation.trackVector.add(track);
 			}
 		}
+		
+		AnimationUtility.calculateSlopes(animation);
 		
 		return animation;
 	}
@@ -597,6 +601,8 @@ public class Examples {
 				animation.trackVector.add(track);
 			}
 		}
+		
+		AnimationUtility.calculateSlopes(animation);
 		
 		return animation;
 	}

@@ -310,6 +310,7 @@ public class XMLConverter {
 			}
 			
 			AnimationUtility.validateKeys(animation);
+			AnimationUtility.calculateSlopes(animation);
 			
 			return animation;
 		}

@@ -39,6 +39,8 @@ public:
 
 	virtual void AcquireGraphics();
 	virtual void ReleaseGraphics();
+	virtual void AcquireAudio();
+	virtual void ReleaseAudio();
 
 protected:
 	SubShared m_subShared;

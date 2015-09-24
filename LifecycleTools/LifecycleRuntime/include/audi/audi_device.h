@@ -39,6 +39,9 @@ public:
 	VoiceResource* UseVoice();
 	void ReturnVoice(VoiceResource* pVoiceResource);
 	void PlayVoice(VoiceResource* pVoiceResource, WaveResource* pWaveResource);
+	bool IsVoicePlaying(VoiceResource* pVoiceResource);
+	void SetVoiceVolume(VoiceResource* pVoiceResource, f32 volume);
+	void SetVoicePitch(VoiceResource* pVoiceResource, f32 pitch);
 
 protected:
 	foun::Allocator* m_pAllocator;

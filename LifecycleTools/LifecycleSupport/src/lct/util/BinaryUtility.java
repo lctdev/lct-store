@@ -16,12 +16,27 @@ public class BinaryUtility {
 	private static final int BYTE_2_SHIFT = 8;
 	private static final int BYTE_3_SHIFT = 0;
 	
+	public static int roundSize(int size) {
+		int roundedSize = (size + 3) & ~0x03;
+		return roundedSize;
+	}
+	
 	public static void writeCharArray(OutputStream outputStream, char[] value) throws IOException {
 		byte[] dataArray = new byte[value.length];
 		for (int index = 0; index < value.length; ++index) {
 			dataArray[index] = (byte)value[index];
 		}
 		outputStream.write(dataArray);
+	}
+	
+	public static char[] readCharArray(InputStream inputStream, int length) throws IOException {
+		byte[] dataArray = new byte[length];
+		inputStream.read(dataArray);
+		char[] value = new char[length];
+		for (int index = 0; index < value.length; ++index) {
+			value[index] = (char)dataArray[index];
+		}
+		return value;
 	}
 	
 	public static void writeString(OutputStream outputStream, String value) throws IOException {
@@ -105,16 +120,26 @@ public class BinaryUtility {
 		inputStream.read(dataArray);
 		int value;
 		if (bigEndian) {
-			value = ((dataArray[0] << BYTE_2_SHIFT) | ((dataArray[1] << BYTE_3_SHIFT) & BYTE_3_MASK));
+			value = (
+					((dataArray[0] << BYTE_2_SHIFT) & BYTE_2_MASK) | 
+					((dataArray[1] << BYTE_3_SHIFT) & BYTE_3_MASK)
+					);
 		}
 		else {
-			value = (((dataArray[0] << BYTE_3_SHIFT) & BYTE_3_MASK) | (dataArray[1] << BYTE_2_SHIFT));
+			value = (
+					((dataArray[0] << BYTE_3_SHIFT) & BYTE_3_MASK) | 
+					((dataArray[1] << BYTE_2_SHIFT) & BYTE_2_MASK)
+					);
 		}
 		return value;
 	}
 	
 	public static void writeU32(OutputStream outputStream, int value, boolean bigEndian) throws IOException {
 		writeS32(outputStream, value, bigEndian);
+	}
+	
+	public static int readU32(InputStream inputStream, boolean bigEndian) throws IOException {
+		return readS32(inputStream, bigEndian);
 	}
 	
 	public static void writeS32(OutputStream outputStream, int value, boolean bigEndian) throws IOException {
@@ -138,6 +163,29 @@ public class BinaryUtility {
 			dataArray = littleEndianDataArray;
 		}
 		outputStream.write(dataArray);
+	}
+	
+	public static int readS32(InputStream inputStream, boolean bigEndian) throws IOException {
+		byte[] dataArray = new byte[4];
+		inputStream.read(dataArray);
+		int value;
+		if (bigEndian) {
+			value = (
+					((dataArray[0] << BYTE_0_SHIFT) & BYTE_0_MASK) | 
+					((dataArray[1] << BYTE_1_SHIFT) & BYTE_1_MASK) |
+					((dataArray[2] << BYTE_2_SHIFT) & BYTE_2_MASK) |
+					((dataArray[3] << BYTE_3_SHIFT) & BYTE_3_MASK)
+					);
+		}
+		else {
+			value = (
+					((dataArray[0] << BYTE_3_SHIFT) & BYTE_3_MASK) | 
+					((dataArray[1] << BYTE_2_SHIFT) & BYTE_2_MASK) |
+					((dataArray[2] << BYTE_1_SHIFT) & BYTE_1_MASK) |
+					((dataArray[3] << BYTE_0_SHIFT) & BYTE_0_MASK)
+					);
+		}
+		return value;
 	}
 	
 	public static void writeF32(OutputStream outputStream, float value, boolean bigEndian) throws IOException  {

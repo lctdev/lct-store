@@ -596,6 +596,7 @@ void Program::BeginMode()
 	{
 		m_pCurrMode->AcquireGraphics();
 	}
+	m_pCurrMode->AcquireAudio();
 	m_pNextModeName = NULL;
 }
 
@@ -603,6 +604,7 @@ void Program::EndMode()
 {
 	LCT_TRACE("Program::EndMode\n");
 
+	m_pCurrMode->ReleaseAudio();
 	if (m_graphicsAcquired)
 	{
 		m_pCurrMode->ReleaseGraphics();

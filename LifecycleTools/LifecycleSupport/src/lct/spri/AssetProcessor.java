@@ -31,8 +31,7 @@ public class AssetProcessor implements lct.pack.AssetProcessor {
 			Animation animation = m_xmlConverter.loadAnimation(inputFilePath);
 			if (animation == null) {
 				throw new DataException("Error loading animation file");
-			}
-			AnimationUtility.calculateSlopes(animation);
+			}			
 			
 			m_binaryConverter.storeAnimation(animation, outputFilePath, bigEndian);
 		}

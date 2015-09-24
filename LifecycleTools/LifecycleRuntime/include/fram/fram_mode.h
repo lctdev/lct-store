@@ -42,6 +42,8 @@ public:
 
 	virtual void AcquireGraphics();
 	virtual void ReleaseGraphics();
+	virtual void AcquireAudio();
+	virtual void ReleaseAudio();
 
 	virtual void ReadInput();
 	virtual void Update();

@@ -58,6 +58,7 @@ public:
 	void RemoveNode(ListNode<V>* pNode);
 	ListIterator<V> Head() { return ListIterator<V>(m_pHeadNode); }
 	ListIterator<V> Tail() { return ListIterator<V>(m_pTailNode); }
+	u32 GetNodeCount() { return m_nodeCount; }
 
 private:
 	ListNode<V>* m_pHeadNode;
