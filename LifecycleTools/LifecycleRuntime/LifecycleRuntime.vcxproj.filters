@@ -521,6 +521,12 @@
     <ClInclude Include="include\soun\soun_playContext.h">
       <Filter>include\soun</Filter>
     </ClInclude>
+    <ClInclude Include="include\soun\soun_stats.h">
+      <Filter>include\soun</Filter>
+    </ClInclude>
+    <ClInclude Include="include\soun\soun_handles.h">
+      <Filter>include\soun</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\file\file_accessor.cpp">

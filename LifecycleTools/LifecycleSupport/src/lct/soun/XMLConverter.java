@@ -103,6 +103,7 @@ public class XMLConverter {
 					{						
 						XMLUtility.writeStringElement(document, "targetPropertyType", track.targetPropertyType.toString(), trackElement);
 						XMLUtility.writeStringElement(document, "finishType", track.finishType.toString(), trackElement);
+						XMLUtility.writeFloatElement(document, "loopSecond", track.loopSecond, trackElement);
 						
 						Element keysElement = document.createElement("keys");
 						for (Ramp.Track.Key key : track.keyVector) {
@@ -150,6 +151,7 @@ public class XMLConverter {
 						track.targetPropertyType = Clip.PropertyType.valueOf(targetPropertyTypeString);
 						String finishTypeString = XMLUtility.readStringElement(trackElement, "finishType", 0);
 						track.finishType = Ramp.Track.FinishType.valueOf(finishTypeString);
+						track.loopSecond = XMLUtility.readFloatElement(trackElement, "loopSecond", 0);
 						
 						Element keysElement = (Element)trackElement.getElementsByTagName("keys").item(0);
 						NodeList keyNodeList = keysElement.getElementsByTagName("key");

@@ -9,6 +9,9 @@
 
 #include <soun/soun_assetHandler.h>
 #include <soun/soun_assets.h>
+#include <soun/soun_data.h>
+#include <soun/soun_handles.h>
+#include <soun/soun_stats.h>
 // TEMP
 #include <soun/soun_clipCoordinator.h>
 
@@ -52,6 +55,9 @@ public:
 	virtual void Update();
 	virtual void Draw();
 
+	// TEMP!
+	static const u32 CLIP_CAPACITY = 20;
+
 private:
 	void BuildMenu();
 	void LoadAssets();
@@ -61,15 +67,25 @@ private:
 	void* m_pAssetBinary;
 
 	// TEMP!
-	//lct::audi::WaveResource m_waveResource;
+	//lct::audi::WaveResource m_waveResource;	
 	lct::soun::ClipCoordinator m_clipCoordinator;
 
-	void OnPlayTrigger();
+	lct::soun::ClipHandle m_clipHandle;
+	lct::soun::ClipStats m_clipStatsArray[CLIP_CAPACITY];
+
+	void OnBeginClipTrigger();
+	void OnEndClipTrigger();
 	void OnReloadTrigger();
+
+	const char** m_pClipNameArray;
+	const char** m_pRampNameArray;
 
 	lct::test::Menu m_menu;
 	lct::test::MenuPage m_menuPage;
-	lct::test::ActionMenuItem m_playMenuItem;
+	lct::test::StringArrayMenuItem m_clipMenuItem;
+	lct::test::StringArrayMenuItem m_rampMenuItem;
+	lct::test::ActionMenuItem m_beginClipMenuItem;
+	lct::test::ActionMenuItem m_endClipMenuItem;
 	lct::test::ActionMenuItem m_reloadMenuItem;
 
 	lct::foun::Matrix44 m_projectionTransform;

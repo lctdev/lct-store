@@ -18,7 +18,8 @@ public:
 	void SetCount(u32 count);
 	void SetIndex(s32 index);
 
-	s32 GetIndex() { return m_index; }	
+	s32 GetIndex() { return m_index; }
+	const char* GetValue() { return m_pStringArray[m_index]; }
 
 protected:
 	const char** m_pStringArray;

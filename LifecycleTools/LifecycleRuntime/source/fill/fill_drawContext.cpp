@@ -146,6 +146,13 @@ void DrawContext::DrawRect(const foun::RectCentered& rect, const foun::FloatColo
 	m_pGraphicsDevice->Draw(QUAD_INDEX_COUNT, 0, grap::INDEX_TYPE_U8);
 }
 
+void DrawContext::DrawRect(const foun::RectEdges& rect, const foun::FloatColor& color)
+{
+	foun::RectCentered rectCentered;
+	foun::RectCenteredFromRectEdges(&rectCentered, rect);
+	DrawRect(rectCentered, color);
+}
+
 /*
  * Protected Instance
  */

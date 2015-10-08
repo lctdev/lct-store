@@ -25,6 +25,7 @@ struct RectEdges
 };
 
 void RectEdgesFromRectCentered(RectEdges* pRectEdges, const RectCentered& rectCentered);
+void RectCenteredFromRectEdges(RectCentered* pRectCentered, const RectEdges& rectEdges);
 
 //namespace foun
 }

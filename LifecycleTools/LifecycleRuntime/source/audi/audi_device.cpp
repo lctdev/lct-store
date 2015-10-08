@@ -145,10 +145,17 @@ void Device::ReturnVoice(VoiceResource* pVoiceResource)
 	m_freeVoiceResourceStack.PushValue(pVoiceResource);
 }
 
-void Device::PlayVoice(VoiceResource* pVoiceResource, WaveResource* pWaveResource)
+void Device::PlayVoice(VoiceResource* pVoiceResource)
 {
-	alSourcei(pVoiceResource->hSource, AL_BUFFER, pWaveResource->hBuffer);
 	alSourcePlay(pVoiceResource->hSource);
+
+	LCT_TRACE_AL_ERROR();
+}
+
+void Device::StopVoice(VoiceResource* pVoiceResource)
+{
+	alSourceStop(pVoiceResource->hSource);
+	alSourcei(pVoiceResource->hSource, AL_BUFFER, AL_NONE);
 
 	LCT_TRACE_AL_ERROR();
 }
@@ -159,17 +166,55 @@ bool Device::IsVoicePlaying(VoiceResource* pVoiceResource)
 
 	alGetSourcei(pVoiceResource->hSource, AL_SOURCE_STATE, &state);
 
+	LCT_TRACE_AL_ERROR();
+
 	return (state == AL_PLAYING);
+}
+
+void Device::SetVoiceLoop(VoiceResource* pVoiceResource, bool loop)
+{
+	alSourcei(pVoiceResource->hSource, AL_LOOPING, loop);
+
+	LCT_TRACE_AL_ERROR();
 }
 
 void Device::SetVoiceVolume(VoiceResource* pVoiceResource, f32 volume)
 {
 	alSourcef(pVoiceResource->hSource, AL_GAIN, volume);
+
+	LCT_TRACE_AL_ERROR();
 }
 
 void Device::SetVoicePitch(VoiceResource* pVoiceResource, f32 pitch)
 {
 	alSourcef(pVoiceResource->hSource, AL_PITCH, pitch);
+
+	LCT_TRACE_AL_ERROR();
+}
+
+void Device::AddWave(VoiceResource* pVoiceResource, WaveResource* pWaveResource)
+{
+	alSourceQueueBuffers(pVoiceResource->hSource, 1, &pWaveResource->hBuffer);
+
+	LCT_TRACE_AL_ERROR();
+}
+
+void Device::RemoveWave(VoiceResource* pVoiceResource, WaveResource* pWaveResource)
+{
+	alSourceUnqueueBuffers(pVoiceResource->hSource, 1, &pWaveResource->hBuffer);
+
+	LCT_TRACE_AL_ERROR();
+}
+
+bool Device::IsWavePlaying(VoiceResource* pVoiceResource, WaveResource* pWaveResource)
+{
+	ALint buffer;
+
+	alGetSourcei(pVoiceResource->hSource, AL_BUFFER, &buffer);
+
+	LCT_TRACE_AL_ERROR();
+
+	return (buffer == pWaveResource->hBuffer);
 }
 
 /*

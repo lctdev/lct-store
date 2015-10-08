@@ -49,6 +49,7 @@ public:
 	void ActivateWorldTransform(const foun::Matrix32& worldTransform);
 
 	void DrawRect(const foun::RectCentered& rect, const foun::FloatColor& color);
+	void DrawRect(const foun::RectEdges& rect, const foun::FloatColor& color);
 
 protected:
 	void FillShaderSetupParameters(grap::ShaderSetupParameters& shaderSetupParameters);

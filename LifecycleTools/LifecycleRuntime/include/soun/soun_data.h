@@ -47,7 +47,8 @@ struct TrackData
 	u8 targetPropertyType;
 	u8 finishType;
 	u16 padding;
-	u32 keyCount;
+	f32 loopSecond;
+	u32 keyCount;	
 };
 
 struct RampData

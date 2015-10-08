@@ -37,11 +37,17 @@ public:
 	u32 GetAcquiredWaveResourceCount() { return m_acquiredWaveResourceCount; }
 
 	VoiceResource* UseVoice();
-	void ReturnVoice(VoiceResource* pVoiceResource);
-	void PlayVoice(VoiceResource* pVoiceResource, WaveResource* pWaveResource);
+	void ReturnVoice(VoiceResource* pVoiceResource);	
+	void PlayVoice(VoiceResource* pVoiceResource);	
+	void StopVoice(VoiceResource* pVoiceResource);
 	bool IsVoicePlaying(VoiceResource* pVoiceResource);
+	void SetVoiceLoop(VoiceResource* pVoiceResource, bool loop);
 	void SetVoiceVolume(VoiceResource* pVoiceResource, f32 volume);
 	void SetVoicePitch(VoiceResource* pVoiceResource, f32 pitch);
+
+	void AddWave(VoiceResource* pVoiceResource, WaveResource* pWaveResource);
+	void RemoveWave(VoiceResource* pVoiceResource, WaveResource* pWaveResource);
+	bool IsWavePlaying(VoiceResource* pVoiceResource, WaveResource* pWaveResource);
 
 protected:
 	foun::Allocator* m_pAllocator;

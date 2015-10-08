@@ -56,6 +56,7 @@ public:
 
 	void AddNode(ListNode<V>* pNode);
 	void RemoveNode(ListNode<V>* pNode);
+	void RemoveNode(ListIterator<V>& iterator);
 	ListIterator<V> Head() { return ListIterator<V>(m_pHeadNode); }
 	ListIterator<V> Tail() { return ListIterator<V>(m_pTailNode); }
 	u32 GetNodeCount() { return m_nodeCount; }
@@ -165,6 +166,14 @@ void List<V>::RemoveNode(ListNode<V>* pNode)
 
 	pNode->m_pPrev = NULL;
 	pNode->m_pNext = NULL;
+}
+
+template <class V>
+void List<V>::RemoveNode(ListIterator<V>& iterator)
+{
+	ListNode<V>* pNode = iterator.m_pCurrNode;
+	iterator.Next();
+	RemoveNode(pNode);
 }
 
 //namespace lct

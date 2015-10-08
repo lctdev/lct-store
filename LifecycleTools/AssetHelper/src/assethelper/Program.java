@@ -183,8 +183,44 @@ public class Program {
 			FileUtility.createDirectory(directoryPath);
 		}
 		
+		for (lct.soun.Examples.Tone tone : lct.soun.Examples.Tone.values())
 		{
-			lct.soun.Clip clip = lct.soun.Examples.createToneClip(lct.soun.Examples.Tone.A_4);
+			lct.soun.Wave wave = lct.soun.Examples.createNoteWave(tone);
+			String fileName = wave.name + ".wav";
+			String filePath = lct.util.PathUtility.combineFull(directoryPath, fileName);
+			soundConverter.storeWaveWAV(wave, filePath);
+		}
+		
+		{
+			lct.soun.Wave wave = lct.soun.Examples.createLoopWave();
+			String fileName = wave.name + ".wav";
+			String filePath = lct.util.PathUtility.combineFull(directoryPath, fileName);
+			soundConverter.storeWaveWAV(wave, filePath);
+		}
+		
+		{
+			lct.soun.Wave wave = lct.soun.Examples.createLoopSlideWave();
+			String fileName = wave.name + ".wav";
+			String filePath = lct.util.PathUtility.combineFull(directoryPath, fileName);
+			soundConverter.storeWaveWAV(wave, filePath);
+		}
+		
+		{
+			lct.soun.Clip clip = lct.soun.Examples.createNoteClip(lct.soun.Examples.Tone.A_4);
+			String fileName = clip.name + ".xml";
+			String filePath = lct.util.PathUtility.combineFull(directoryPath, fileName);
+			xmlConverter.storeClip(clip, filePath);
+		}
+		
+		{
+			lct.soun.Clip clip = lct.soun.Examples.createBasicLoopClip();
+			String fileName = clip.name + ".xml";
+			String filePath = lct.util.PathUtility.combineFull(directoryPath, fileName);
+			xmlConverter.storeClip(clip, filePath);
+		}
+		
+		{
+			lct.soun.Clip clip = lct.soun.Examples.createSegmentLoopClip();
 			String fileName = clip.name + ".xml";
 			String filePath = lct.util.PathUtility.combineFull(directoryPath, fileName);
 			xmlConverter.storeClip(clip, filePath);
@@ -198,10 +234,24 @@ public class Program {
 		}
 		
 		{
-			lct.soun.Wave wave = lct.soun.Examples.createToneWave(lct.soun.Examples.Tone.A_4);
-			String fileName = wave.name + ".wav";
+			lct.soun.Ramp ramp = lct.soun.Examples.createBasicLoopIntroRamp();
+			String fileName = ramp.name + ".xml";
 			String filePath = lct.util.PathUtility.combineFull(directoryPath, fileName);
-			soundConverter.storeWaveWAV(wave, filePath);
+			xmlConverter.storeRamp(ramp, filePath);
+		}
+		
+		{
+			lct.soun.Ramp ramp = lct.soun.Examples.createBasicLoopOutroRamp();
+			String fileName = ramp.name + ".xml";
+			String filePath = lct.util.PathUtility.combineFull(directoryPath, fileName);
+			xmlConverter.storeRamp(ramp, filePath);
+		}
+		
+		{
+			lct.soun.Ramp ramp = lct.soun.Examples.createWobbleLoopIntroRamp();
+			String fileName = ramp.name + ".xml";
+			String filePath = lct.util.PathUtility.combineFull(directoryPath, fileName);
+			xmlConverter.storeRamp(ramp, filePath);
 		}
 		
 		{

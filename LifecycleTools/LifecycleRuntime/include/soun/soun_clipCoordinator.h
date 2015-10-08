@@ -19,25 +19,36 @@ namespace soun
 
 class ClipInstance;
 class RampInstance;
+class ClipHandle;
 struct ClipAsset;
 struct RampAsset;
+struct ClipStats;
 
 class ClipCoordinator
 {
 public:
 	ClipCoordinator();
 
+	void SetAudioDevice(audi::Device* pAudioDevice);
+
 	void CreateStructure(u32 slotCapacity, foun::Allocator* pAllocator);
-	void AcquireAudioResources(audi::Device* pAudioDevice);
-	void ReleaseAudioResources(audi::Device* pAudioDevice);
+	void AcquireAudioResources();
+	void ReleaseAudioResources();
 
-	void StartClip(const ClipAsset* pClipAsset, const RampAsset* pRampAsset);
-	void UpdateRamps(f32 secondStep);
-	void ApplyClips(audi::Device* pAudioDevice);
+	void BeginClip(ClipHandle* pClipHandle, const ClipAsset* pClipAsset);
+	void EndClip(ClipHandle* pClipHandle);
+	void SetRamp(ClipHandle* pClipHandle, const RampAsset* pRampAsset);
 
-	u32 GetActiveCount() { return m_activeSlotList.GetNodeCount(); }
+	void Update(f32 secondStep);
+
+	u32 GetActiveClipCount() { return m_activeSlotList.GetNodeCount(); }
+	void FillClipStats(ClipStats* pClipStatsArray, u32 length);
 
 protected:
+	void UpdateVoices();
+	void UpdateRamps(f32 secondStep);
+	void RecycleSlots();	
+
 	struct Slot
 	{
 		foun::ListNode<Slot*> listNode;
@@ -47,15 +58,24 @@ protected:
 
 		enum Flag
 		{
-			FLAG_PLAY_PENDING = 0
+			FLAG_ACTIVE = 0,
+			FLAG_PLAY_PENDING,
+			FLAG_PLAYING,
+			FLAG_LOOPING,
+			FLAG_STOP_PENDING
 		};
 		foun::Flags<u32> flags;
 
-		audi::VoiceResource* pVoiceResource;		
+		audi::VoiceResource* pVoiceResource;
+
+		ClipHandle* pClipHandle;
 	};
 
-	Slot* ActivateSlot();
+	Slot* ActivateSlot(ClipHandle* pClipHandle);
 	void DeactivateSlot(Slot* pSlot);
+	Slot* GetSlot(ClipHandle* pClipHandle);
+
+	audi::Device* m_pAudioDevice;
 
 	u32 m_slotCapacity;
 	Slot* m_pSlotArray;

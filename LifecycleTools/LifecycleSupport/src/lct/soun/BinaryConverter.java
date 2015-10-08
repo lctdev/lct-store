@@ -139,6 +139,7 @@ public class BinaryConverter {
 			BinaryUtility.writeU8(outputStream, ((Clip.PropertyType)track.targetPropertyType).ordinal());
 			BinaryUtility.writeU8(outputStream, track.finishType.ordinal());
 			BinaryUtility.writePadding(outputStream, 2);
+			BinaryUtility.writeF32(outputStream, track.loopSecond, bigEndian);
 			BinaryUtility.writeU32(outputStream, track.keyVector.size(), bigEndian);
 			
 			for (Ramp.Track.Key key : track.keyVector) {

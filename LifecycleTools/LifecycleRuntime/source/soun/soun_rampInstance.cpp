@@ -95,6 +95,19 @@ f32 RampInstance::FindLongestTrackSecondDuration()
 	return longestTrackSecondDuration;
 }
 
+bool RampInstance::IsFinished()
+{
+	for (u32 trackIndex = 0; trackIndex < m_trackCount; ++trackIndex)
+	{
+		Track& track = m_pTrackArray[trackIndex];
+		if (track.second < track.secondDuration)
+		{
+			return false;
+		}
+	}
+	return true;
+}
+
 void RampInstance::ResetTracks()
 {
 	for (u32 trackIndex = 0; trackIndex < m_trackCount; ++trackIndex)
@@ -141,6 +154,7 @@ void RampInstance::UpdateTracks(f32 secondStep)
 				case FINISH_TYPE_LOOP:
 				{
 					track.keyIndex = 0;
+					track.second += pTrackData->loopSecond;
 					track.second -= track.secondDuration;
 					pNextKeyData = pKeyDataArray + track.keyIndex + 1;
 				}

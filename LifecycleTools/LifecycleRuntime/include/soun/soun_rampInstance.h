@@ -28,6 +28,7 @@ public:
 	void BindRampAsset(const RampAsset* pRampAsset);
 
 	f32 FindLongestTrackSecondDuration();
+	bool IsFinished();
 
 	void ResetTracks();
 	void UpdateTracks(f32 secondStep);
