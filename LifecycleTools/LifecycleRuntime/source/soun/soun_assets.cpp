@@ -15,6 +15,9 @@ const pack::AssetCode ClipAsset::TYPE_CODE = soun::CLIP_TYPE_CODE;
 const pack::AssetCode RampAsset::GROUP_CODE = soun::GROUP_CODE;
 const pack::AssetCode RampAsset::TYPE_CODE = soun::RAMP_TYPE_CODE;
 
+const pack::AssetCode SequenceAsset::GROUP_CODE = soun::GROUP_CODE;
+const pack::AssetCode SequenceAsset::TYPE_CODE = soun::SEQUENCE_TYPE_CODE;
+
 //namespace soun
 }
 //namespace lct

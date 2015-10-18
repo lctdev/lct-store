@@ -14,6 +14,7 @@ const pack::AssetCode GROUP_CODE = { 'S', 'O', 'U', 'N' };
 const pack::AssetCode WAVE_TYPE_CODE = { 'W', 'A', 'V', 'E' };
 const pack::AssetCode CLIP_TYPE_CODE = { 'C', 'L', 'I', 'P' };
 const pack::AssetCode RAMP_TYPE_CODE = { 'R', 'A', 'M', 'P' };
+const pack::AssetCode SEQUENCE_TYPE_CODE = { 'S', 'E', 'Q', 'U' };
 
 const u16 VERSION = 0;
 
@@ -30,6 +31,14 @@ enum CurveType
 {
 	CURVE_TYPE_FLAT = 0,
 	CURVE_TYPE_LINEAR,
+};
+
+enum ActionType
+{
+	ACTION_TYPE_NONE = 0,
+	ACTION_TYPE_BEGIN_CLIP,
+	ACTION_TYPE_END_CLIP,
+	ACTION_TYPE_SET_RAMP
 };
 
 enum FinishType

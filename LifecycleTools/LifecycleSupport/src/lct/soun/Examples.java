@@ -52,6 +52,12 @@ public class Examples {
 	static final String BASIC_LOOP_OUTRO_RAMP_NAME = "example_ramp_basic_loop_outro";
 	static final String WOBBLE_LOOP_INTRO_RAMP_NAME = "example_ramp_wobble_loop_intro";
 	
+	static final String NOTE_SEQUENCE_PREFIX = "example_sequence_note_";
+	static final String SCALE_SEQUENCE_NAME = "example_sequence_scale";
+	static final String BASIC_LOOP_SEQUENCE_NAME = "example_sequence_basic_loop";
+	static final String WOBBLE_LOOP_SEQUENCE_NAME = "example_sequence_wobble_loop";
+	static final String SEGMENT_LOOP_SEQUENCE_NAME = "example_sequence_segment_loop";
+	
 	static final String MANIFEST_NAME = "example_manifest";
 	
 	static final int MAX_SAMPLE_AMPLITUDIE_S16 = 32760;
@@ -446,6 +452,467 @@ public class Examples {
 		return ramp;
 	}
 	
+	public static Sequence createNoteSequence(Tone tone) {
+		Sequence sequence = new Sequence();
+		sequence.name = NOTE_SEQUENCE_PREFIX + tone.toString();
+		{
+			sequence.clipHandleCount = 1;
+			
+			sequence.clipReferenceVector = new Vector<Sequence.ClipReference>();
+			{
+				Sequence.ClipReference clipReference = new Sequence.ClipReference();
+				clipReference.clipName = NOTE_CLIP_PREFIX + tone.toString();
+				sequence.clipReferenceVector.add(clipReference);
+			}
+			
+			sequence.rampReferenceVector = new Vector<Sequence.RampReference>();
+			{
+				Sequence.RampReference rampReference = new Sequence.RampReference();
+				rampReference.rampName = NOTE_RAMP_NAME;
+				sequence.rampReferenceVector.add(rampReference);
+			}
+			
+			sequence.timelineVector = new Vector<Sequence.Timeline>();
+			{
+				Sequence.Timeline timeline =  new Sequence.Timeline();
+				timeline.finishType = Sequence.Timeline.FinishType.HOLD;
+				timeline.loopSecond = 0.0f;
+				timeline.actionVector = new Vector<Sequence.Timeline.Action>();
+				{
+					Sequence.Timeline.BeginClipAction beginClipAction = new Sequence.Timeline.BeginClipAction();
+					beginClipAction.second = 0.0f;
+					beginClipAction.type = Sequence.Timeline.Action.Type.BEGIN_CLIP;
+					beginClipAction.handleIndex = 0;
+					beginClipAction.clipIndex = 0;
+					timeline.actionVector.add(beginClipAction);
+				}
+				{
+					Sequence.Timeline.SetRampAction setRampAction = new Sequence.Timeline.SetRampAction();
+					setRampAction.second = 0.0f;
+					setRampAction.type = Sequence.Timeline.Action.Type.SET_RAMP;
+					setRampAction.handleIndex = 0;
+					setRampAction.rampIndex = 0;
+					timeline.actionVector.add(setRampAction);
+				}
+				sequence.timelineVector.add(timeline);
+			}
+		}
+		
+		return sequence;
+	}
+	
+	public static Sequence createScaleSequence() {
+		Sequence sequence = new Sequence();
+		sequence.name = SCALE_SEQUENCE_NAME;
+		{
+			sequence.clipHandleCount = 1;
+			
+			sequence.clipReferenceVector = new Vector<Sequence.ClipReference>();
+			{
+				Sequence.ClipReference clipReference = new Sequence.ClipReference();
+				clipReference.clipName = NOTE_CLIP_PREFIX + Tone.A_4.toString();
+				sequence.clipReferenceVector.add(clipReference);
+			}
+			{
+				Sequence.ClipReference clipReference = new Sequence.ClipReference();
+				clipReference.clipName = NOTE_CLIP_PREFIX + Tone.B_4.toString();
+				sequence.clipReferenceVector.add(clipReference);
+			}
+			{
+				Sequence.ClipReference clipReference = new Sequence.ClipReference();
+				clipReference.clipName = NOTE_CLIP_PREFIX + Tone.C_5.toString();
+				sequence.clipReferenceVector.add(clipReference);
+			}
+			{
+				Sequence.ClipReference clipReference = new Sequence.ClipReference();
+				clipReference.clipName = NOTE_CLIP_PREFIX + Tone.D_5.toString();
+				sequence.clipReferenceVector.add(clipReference);
+			}
+			{
+				Sequence.ClipReference clipReference = new Sequence.ClipReference();
+				clipReference.clipName = NOTE_CLIP_PREFIX + Tone.E_5.toString();
+				sequence.clipReferenceVector.add(clipReference);
+			}
+			{
+				Sequence.ClipReference clipReference = new Sequence.ClipReference();
+				clipReference.clipName = NOTE_CLIP_PREFIX + Tone.F_5.toString();
+				sequence.clipReferenceVector.add(clipReference);
+			}
+			{
+				Sequence.ClipReference clipReference = new Sequence.ClipReference();
+				clipReference.clipName = NOTE_CLIP_PREFIX + Tone.G_5.toString();
+				sequence.clipReferenceVector.add(clipReference);
+			}
+			{
+				Sequence.ClipReference clipReference = new Sequence.ClipReference();
+				clipReference.clipName = NOTE_CLIP_PREFIX + Tone.A_5.toString();
+				sequence.clipReferenceVector.add(clipReference);
+			}
+			
+			sequence.rampReferenceVector = new Vector<Sequence.RampReference>();
+			{
+				Sequence.RampReference rampReference = new Sequence.RampReference();
+				rampReference.rampName = NOTE_RAMP_NAME;
+				sequence.rampReferenceVector.add(rampReference);
+			}
+						
+			sequence.timelineVector = new Vector<Sequence.Timeline>();
+			{
+				Sequence.Timeline timeline =  new Sequence.Timeline();
+				timeline.finishType = Sequence.Timeline.FinishType.LOOP;
+				timeline.loopSecond = 0.0f;
+				timeline.actionVector = new Vector<Sequence.Timeline.Action>();
+				{
+					Sequence.Timeline.BeginClipAction beginClipAction = new Sequence.Timeline.BeginClipAction();
+					beginClipAction.second = 0.0f;
+					beginClipAction.type = Sequence.Timeline.Action.Type.BEGIN_CLIP;
+					beginClipAction.handleIndex = 0;
+					beginClipAction.clipIndex = 0;
+					timeline.actionVector.add(beginClipAction);
+				}
+				{
+					Sequence.Timeline.SetRampAction setRampAction = new Sequence.Timeline.SetRampAction();
+					setRampAction.second = 0.0f;
+					setRampAction.type = Sequence.Timeline.Action.Type.SET_RAMP;
+					setRampAction.handleIndex = 0;
+					setRampAction.rampIndex = 0;
+					timeline.actionVector.add(setRampAction);
+				}
+				
+				{
+					Sequence.Timeline.BeginClipAction beginClipAction = new Sequence.Timeline.BeginClipAction();
+					beginClipAction.second = 0.25f;
+					beginClipAction.type = Sequence.Timeline.Action.Type.BEGIN_CLIP;
+					beginClipAction.handleIndex = 0;
+					beginClipAction.clipIndex = 1;
+					timeline.actionVector.add(beginClipAction);
+				}
+				{
+					Sequence.Timeline.SetRampAction setRampAction = new Sequence.Timeline.SetRampAction();
+					setRampAction.second = 0.25f;
+					setRampAction.type = Sequence.Timeline.Action.Type.SET_RAMP;
+					setRampAction.handleIndex = 0;
+					setRampAction.rampIndex = 0;
+					timeline.actionVector.add(setRampAction);
+				}
+				
+				{
+					Sequence.Timeline.BeginClipAction beginClipAction = new Sequence.Timeline.BeginClipAction();
+					beginClipAction.second = 0.5f;
+					beginClipAction.type = Sequence.Timeline.Action.Type.BEGIN_CLIP;
+					beginClipAction.handleIndex = 0;
+					beginClipAction.clipIndex = 2;
+					timeline.actionVector.add(beginClipAction);
+				}
+				{
+					Sequence.Timeline.SetRampAction setRampAction = new Sequence.Timeline.SetRampAction();
+					setRampAction.second = 0.5f;
+					setRampAction.type = Sequence.Timeline.Action.Type.SET_RAMP;
+					setRampAction.handleIndex = 0;
+					setRampAction.rampIndex = 0;
+					timeline.actionVector.add(setRampAction);
+				}
+				
+				{
+					Sequence.Timeline.BeginClipAction beginClipAction = new Sequence.Timeline.BeginClipAction();
+					beginClipAction.second = 0.75f;
+					beginClipAction.type = Sequence.Timeline.Action.Type.BEGIN_CLIP;
+					beginClipAction.handleIndex = 0;
+					beginClipAction.clipIndex = 3;
+					timeline.actionVector.add(beginClipAction);
+				}
+				{
+					Sequence.Timeline.SetRampAction setRampAction = new Sequence.Timeline.SetRampAction();
+					setRampAction.second = 0.75f;
+					setRampAction.type = Sequence.Timeline.Action.Type.SET_RAMP;
+					setRampAction.handleIndex = 0;
+					setRampAction.rampIndex = 0;
+					timeline.actionVector.add(setRampAction);
+				}
+				
+				{
+					Sequence.Timeline.BeginClipAction beginClipAction = new Sequence.Timeline.BeginClipAction();
+					beginClipAction.second = 1.0f;
+					beginClipAction.type = Sequence.Timeline.Action.Type.BEGIN_CLIP;
+					beginClipAction.handleIndex = 0;
+					beginClipAction.clipIndex = 4;
+					timeline.actionVector.add(beginClipAction);
+				}
+				{
+					Sequence.Timeline.SetRampAction setRampAction = new Sequence.Timeline.SetRampAction();
+					setRampAction.second = 1.0f;
+					setRampAction.type = Sequence.Timeline.Action.Type.SET_RAMP;
+					setRampAction.handleIndex = 0;
+					setRampAction.rampIndex = 0;
+					timeline.actionVector.add(setRampAction);
+				}
+				
+				{
+					Sequence.Timeline.BeginClipAction beginClipAction = new Sequence.Timeline.BeginClipAction();
+					beginClipAction.second = 1.25f;
+					beginClipAction.type = Sequence.Timeline.Action.Type.BEGIN_CLIP;
+					beginClipAction.handleIndex = 0;
+					beginClipAction.clipIndex = 5;
+					timeline.actionVector.add(beginClipAction);
+				}
+				{
+					Sequence.Timeline.SetRampAction setRampAction = new Sequence.Timeline.SetRampAction();
+					setRampAction.second = 1.25f;
+					setRampAction.type = Sequence.Timeline.Action.Type.SET_RAMP;
+					setRampAction.handleIndex = 0;
+					setRampAction.rampIndex = 0;
+					timeline.actionVector.add(setRampAction);
+				}
+				
+				{
+					Sequence.Timeline.BeginClipAction beginClipAction = new Sequence.Timeline.BeginClipAction();
+					beginClipAction.second = 1.5f;
+					beginClipAction.type = Sequence.Timeline.Action.Type.BEGIN_CLIP;
+					beginClipAction.handleIndex = 0;
+					beginClipAction.clipIndex = 6;
+					timeline.actionVector.add(beginClipAction);
+				}
+				{
+					Sequence.Timeline.SetRampAction setRampAction = new Sequence.Timeline.SetRampAction();
+					setRampAction.second = 1.5f;
+					setRampAction.type = Sequence.Timeline.Action.Type.SET_RAMP;
+					setRampAction.handleIndex = 0;
+					setRampAction.rampIndex = 0;
+					timeline.actionVector.add(setRampAction);
+				}
+				
+				{
+					Sequence.Timeline.BeginClipAction beginClipAction = new Sequence.Timeline.BeginClipAction();
+					beginClipAction.second = 1.75f;
+					beginClipAction.type = Sequence.Timeline.Action.Type.BEGIN_CLIP;
+					beginClipAction.handleIndex = 0;
+					beginClipAction.clipIndex = 7;
+					timeline.actionVector.add(beginClipAction);
+				}
+				{
+					Sequence.Timeline.SetRampAction setRampAction = new Sequence.Timeline.SetRampAction();
+					setRampAction.second = 1.75f;
+					setRampAction.type = Sequence.Timeline.Action.Type.SET_RAMP;
+					setRampAction.handleIndex = 0;
+					setRampAction.rampIndex = 0;
+					timeline.actionVector.add(setRampAction);
+				}
+				
+				{
+					Sequence.Timeline.Action action = new Sequence.Timeline.Action();
+					action.second = 2.0f;
+					action.type = Sequence.Timeline.Action.Type.NONE;
+					timeline.actionVector.add(action);
+				}
+				sequence.timelineVector.add(timeline);
+			}
+		}
+		
+		return sequence;
+	}
+	
+	public static Sequence createBasicLoopSequence() {
+		Sequence sequence = new Sequence();
+		sequence.name = BASIC_LOOP_SEQUENCE_NAME;
+		{
+			sequence.clipHandleCount = 1;
+			
+			sequence.clipReferenceVector = new Vector<Sequence.ClipReference>();
+			{
+				Sequence.ClipReference clipReference = new Sequence.ClipReference();
+				clipReference.clipName = BASIC_LOOP_CLIP_NAME;
+				sequence.clipReferenceVector.add(clipReference);
+			}
+			
+			sequence.rampReferenceVector = new Vector<Sequence.RampReference>();
+			{
+				Sequence.RampReference rampReference = new Sequence.RampReference();
+				rampReference.rampName = BASIC_LOOP_INTRO_RAMP_NAME;
+				sequence.rampReferenceVector.add(rampReference);
+			}
+			{
+				Sequence.RampReference rampReference = new Sequence.RampReference();
+				rampReference.rampName = BASIC_LOOP_OUTRO_RAMP_NAME;
+				sequence.rampReferenceVector.add(rampReference);
+			}
+			
+			sequence.timelineVector = new Vector<Sequence.Timeline>();
+			{
+				Sequence.Timeline timeline =  new Sequence.Timeline();
+				timeline.finishType = Sequence.Timeline.FinishType.HOLD;
+				timeline.loopSecond = 0.0f;
+				timeline.actionVector = new Vector<Sequence.Timeline.Action>();
+				{
+					Sequence.Timeline.BeginClipAction beginClipAction = new Sequence.Timeline.BeginClipAction();
+					beginClipAction.second = 0.0f;
+					beginClipAction.type = Sequence.Timeline.Action.Type.BEGIN_CLIP;
+					beginClipAction.handleIndex = 0;
+					beginClipAction.clipIndex = 0;
+					timeline.actionVector.add(beginClipAction);
+				}
+				{
+					Sequence.Timeline.SetRampAction setRampAction = new Sequence.Timeline.SetRampAction();
+					setRampAction.second = 0.0f;
+					setRampAction.type = Sequence.Timeline.Action.Type.SET_RAMP;
+					setRampAction.handleIndex = 0;
+					setRampAction.rampIndex = 0;
+					timeline.actionVector.add(setRampAction);
+				}
+				sequence.timelineVector.add(timeline);
+			}
+			{
+				Sequence.Timeline timeline =  new Sequence.Timeline();
+				timeline.finishType = Sequence.Timeline.FinishType.HOLD;
+				timeline.loopSecond = 0.0f;
+				timeline.actionVector = new Vector<Sequence.Timeline.Action>();
+				{
+					Sequence.Timeline.EndClipAction endClipAction = new Sequence.Timeline.EndClipAction();
+					endClipAction.second = 0.0f;
+					endClipAction.type = Sequence.Timeline.Action.Type.END_CLIP;
+					endClipAction.handleIndex = 0;
+					timeline.actionVector.add(endClipAction);
+				}
+				{
+					Sequence.Timeline.SetRampAction setRampAction = new Sequence.Timeline.SetRampAction();
+					setRampAction.second = 0.0f;
+					setRampAction.type = Sequence.Timeline.Action.Type.SET_RAMP;
+					setRampAction.handleIndex = 0;
+					setRampAction.rampIndex = 1;
+					timeline.actionVector.add(setRampAction);
+				}
+				sequence.timelineVector.add(timeline);
+			}
+		}
+		
+		return sequence;
+	}
+	
+	public static Sequence createWobbleLoopSequence() {
+		Sequence sequence = new Sequence();
+		sequence.name = WOBBLE_LOOP_SEQUENCE_NAME;
+		{
+			sequence.clipHandleCount = 1;
+			
+			sequence.clipReferenceVector = new Vector<Sequence.ClipReference>();
+			{
+				Sequence.ClipReference clipReference = new Sequence.ClipReference();
+				clipReference.clipName = BASIC_LOOP_CLIP_NAME;
+				sequence.clipReferenceVector.add(clipReference);
+			}
+			
+			sequence.rampReferenceVector = new Vector<Sequence.RampReference>();
+			{
+				Sequence.RampReference rampReference = new Sequence.RampReference();
+				rampReference.rampName = WOBBLE_LOOP_INTRO_RAMP_NAME;
+				sequence.rampReferenceVector.add(rampReference);
+			}
+			{
+				Sequence.RampReference rampReference = new Sequence.RampReference();
+				rampReference.rampName = BASIC_LOOP_OUTRO_RAMP_NAME;
+				sequence.rampReferenceVector.add(rampReference);
+			}
+			
+			sequence.timelineVector = new Vector<Sequence.Timeline>();
+			{
+				Sequence.Timeline timeline =  new Sequence.Timeline();
+				timeline.finishType = Sequence.Timeline.FinishType.HOLD;
+				timeline.loopSecond = 0.0f;
+				timeline.actionVector = new Vector<Sequence.Timeline.Action>();
+				{
+					Sequence.Timeline.BeginClipAction beginClipAction = new Sequence.Timeline.BeginClipAction();
+					beginClipAction.second = 0.0f;
+					beginClipAction.type = Sequence.Timeline.Action.Type.BEGIN_CLIP;
+					beginClipAction.handleIndex = 0;
+					beginClipAction.clipIndex = 0;
+					timeline.actionVector.add(beginClipAction);
+				}
+				{
+					Sequence.Timeline.SetRampAction setRampAction = new Sequence.Timeline.SetRampAction();
+					setRampAction.second = 0.0f;
+					setRampAction.type = Sequence.Timeline.Action.Type.SET_RAMP;
+					setRampAction.handleIndex = 0;
+					setRampAction.rampIndex = 0;
+					timeline.actionVector.add(setRampAction);
+				}
+				sequence.timelineVector.add(timeline);
+			}
+			{
+				Sequence.Timeline timeline =  new Sequence.Timeline();
+				timeline.finishType = Sequence.Timeline.FinishType.HOLD;
+				timeline.loopSecond = 0.0f;
+				timeline.actionVector = new Vector<Sequence.Timeline.Action>();
+				{
+					Sequence.Timeline.EndClipAction endClipAction = new Sequence.Timeline.EndClipAction();
+					endClipAction.second = 0.0f;
+					endClipAction.type = Sequence.Timeline.Action.Type.END_CLIP;
+					endClipAction.handleIndex = 0;
+					timeline.actionVector.add(endClipAction);
+				}
+				{
+					Sequence.Timeline.SetRampAction setRampAction = new Sequence.Timeline.SetRampAction();
+					setRampAction.second = 0.0f;
+					setRampAction.type = Sequence.Timeline.Action.Type.SET_RAMP;
+					setRampAction.handleIndex = 0;
+					setRampAction.rampIndex = 1;
+					timeline.actionVector.add(setRampAction);
+				}
+				sequence.timelineVector.add(timeline);
+			}
+		}
+		
+		return sequence;
+	}
+	
+	public static Sequence createSegmentLoopSequence() {
+		Sequence sequence = new Sequence();
+		sequence.name = SEGMENT_LOOP_SEQUENCE_NAME;
+		{
+			sequence.clipHandleCount = 1;
+			
+			sequence.clipReferenceVector = new Vector<Sequence.ClipReference>();
+			{
+				Sequence.ClipReference clipReference = new Sequence.ClipReference();
+				clipReference.clipName = SEGMENT_LOOP_CLIP_NAME;
+				sequence.clipReferenceVector.add(clipReference);
+			}
+			
+			sequence.rampReferenceVector = new Vector<Sequence.RampReference>();
+			
+			sequence.timelineVector = new Vector<Sequence.Timeline>();
+			{
+				Sequence.Timeline timeline =  new Sequence.Timeline();
+				timeline.finishType = Sequence.Timeline.FinishType.HOLD;
+				timeline.loopSecond = 0.0f;
+				timeline.actionVector = new Vector<Sequence.Timeline.Action>();
+				{
+					Sequence.Timeline.BeginClipAction beginClipAction = new Sequence.Timeline.BeginClipAction();
+					beginClipAction.second = 0.0f;
+					beginClipAction.type = Sequence.Timeline.Action.Type.BEGIN_CLIP;
+					beginClipAction.handleIndex = 0;
+					beginClipAction.clipIndex = 0;
+					timeline.actionVector.add(beginClipAction);
+				}
+				sequence.timelineVector.add(timeline);
+			}
+			{
+				Sequence.Timeline timeline =  new Sequence.Timeline();
+				timeline.finishType = Sequence.Timeline.FinishType.HOLD;
+				timeline.loopSecond = 0.0f;
+				timeline.actionVector = new Vector<Sequence.Timeline.Action>();
+				{
+					Sequence.Timeline.EndClipAction endClipAction = new Sequence.Timeline.EndClipAction();
+					endClipAction.second = 0.0f;
+					endClipAction.type = Sequence.Timeline.Action.Type.END_CLIP;
+					endClipAction.handleIndex = 0;
+					timeline.actionVector.add(endClipAction);
+				}
+				sequence.timelineVector.add(timeline);
+			}
+		}
+		
+		return sequence;
+	}
+	
 	public static Manifest createManifest(String directoryPath) {
 		Manifest manifest = new Manifest();
 		manifest.name = MANIFEST_NAME;
@@ -480,8 +947,9 @@ public class Examples {
 					manifest.assetEntryVector.add(assetEntry);
 				}
 				
+				for (Tone tone : Tone.values())
 				{
-					String fileName = NOTE_CLIP_PREFIX + Tone.A_4.toString() + ".xml";
+					String fileName = NOTE_CLIP_PREFIX + tone.toString() + ".xml";
 					Manifest.AssetEntry assetEntry = new Manifest.AssetEntry();
 					assetEntry.groupCode = Constants.GROUP_CODE;
 					assetEntry.typeCode = Constants.CLIP_TYPE_CODE;
@@ -539,6 +1007,69 @@ public class Examples {
 					Manifest.AssetEntry assetEntry = new Manifest.AssetEntry();
 					assetEntry.groupCode = Constants.GROUP_CODE;
 					assetEntry.typeCode = Constants.RAMP_TYPE_CODE;
+					assetEntry.filePath = PathUtility.combineFull(directoryPath, fileName);					
+					manifest.assetEntryVector.add(assetEntry);
+				}
+				
+				{
+					String fileName = NOTE_SEQUENCE_PREFIX + Tone.A_4.toString() + ".xml";
+					Manifest.AssetEntry assetEntry = new Manifest.AssetEntry();
+					assetEntry.groupCode = Constants.GROUP_CODE;
+					assetEntry.typeCode = Constants.SEQUENCE_TYPE_CODE;
+					assetEntry.filePath = PathUtility.combineFull(directoryPath, fileName);					
+					manifest.assetEntryVector.add(assetEntry);
+				}
+				
+				{
+					String fileName = NOTE_SEQUENCE_PREFIX + Tone.C_5.toString() + ".xml";
+					Manifest.AssetEntry assetEntry = new Manifest.AssetEntry();
+					assetEntry.groupCode = Constants.GROUP_CODE;
+					assetEntry.typeCode = Constants.SEQUENCE_TYPE_CODE;
+					assetEntry.filePath = PathUtility.combineFull(directoryPath, fileName);					
+					manifest.assetEntryVector.add(assetEntry);
+				}
+				
+				{
+					String fileName = NOTE_SEQUENCE_PREFIX + Tone.E_5.toString() + ".xml";
+					Manifest.AssetEntry assetEntry = new Manifest.AssetEntry();
+					assetEntry.groupCode = Constants.GROUP_CODE;
+					assetEntry.typeCode = Constants.SEQUENCE_TYPE_CODE;
+					assetEntry.filePath = PathUtility.combineFull(directoryPath, fileName);					
+					manifest.assetEntryVector.add(assetEntry);
+				}
+				
+				{
+					String fileName = SCALE_SEQUENCE_NAME + ".xml";
+					Manifest.AssetEntry assetEntry = new Manifest.AssetEntry();
+					assetEntry.groupCode = Constants.GROUP_CODE;
+					assetEntry.typeCode = Constants.SEQUENCE_TYPE_CODE;
+					assetEntry.filePath = PathUtility.combineFull(directoryPath, fileName);					
+					manifest.assetEntryVector.add(assetEntry);
+				}
+				
+				{
+					String fileName = BASIC_LOOP_SEQUENCE_NAME + ".xml";
+					Manifest.AssetEntry assetEntry = new Manifest.AssetEntry();
+					assetEntry.groupCode = Constants.GROUP_CODE;
+					assetEntry.typeCode = Constants.SEQUENCE_TYPE_CODE;
+					assetEntry.filePath = PathUtility.combineFull(directoryPath, fileName);					
+					manifest.assetEntryVector.add(assetEntry);
+				}
+				
+				{
+					String fileName = WOBBLE_LOOP_SEQUENCE_NAME + ".xml";
+					Manifest.AssetEntry assetEntry = new Manifest.AssetEntry();
+					assetEntry.groupCode = Constants.GROUP_CODE;
+					assetEntry.typeCode = Constants.SEQUENCE_TYPE_CODE;
+					assetEntry.filePath = PathUtility.combineFull(directoryPath, fileName);					
+					manifest.assetEntryVector.add(assetEntry);
+				}
+				
+				{
+					String fileName = SEGMENT_LOOP_SEQUENCE_NAME + ".xml";
+					Manifest.AssetEntry assetEntry = new Manifest.AssetEntry();
+					assetEntry.groupCode = Constants.GROUP_CODE;
+					assetEntry.typeCode = Constants.SEQUENCE_TYPE_CODE;
 					assetEntry.filePath = PathUtility.combineFull(directoryPath, fileName);					
 					manifest.assetEntryVector.add(assetEntry);
 				}

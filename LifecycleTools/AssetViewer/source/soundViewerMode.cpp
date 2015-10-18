@@ -37,10 +37,13 @@ SoundViewerMode::SoundViewerMode()
 , m_soundAssetHandler()
 , m_pAssetBinary(NULL)
 
-//, m_waveResource()
+// TEMP!
 , m_clipCoordinator()
+, m_sequenceCoordinator()
 
 , m_clipHandle()
+, m_sequenceHandle()
+
 , m_clipStatsArray()
 
 , m_pClipNameArray(NULL)
@@ -52,6 +55,9 @@ SoundViewerMode::SoundViewerMode()
 , m_rampMenuItem()
 , m_beginClipMenuItem()
 , m_endClipMenuItem()
+, m_sequenceMenuItem()
+, m_beginSequenceMenuItem()
+, m_endSequenceMenuItem()
 , m_reloadMenuItem()
 
 , m_projectionTransform()
@@ -75,6 +81,9 @@ void SoundViewerMode::Init()
 
 	m_clipCoordinator.SetAudioDevice(m_shared.pAudioDevice);
 	m_clipCoordinator.CreateStructure(CLIP_CAPACITY, m_shared.pAllocator);
+
+	m_sequenceCoordinator.SetClipCoordinator(&m_clipCoordinator);
+	m_sequenceCoordinator.CreateStructure(SEQUENCE_CAPACITY, m_shared.pAllocator);
 
 	LoadAssets();
 	BuildMenu();
@@ -131,8 +140,11 @@ void SoundViewerMode::Update()
 
 	lct::foun::Matrix32Translate(m_contentWorldTransform, CONTENT_OFFSET_X, 0.0f);
 
-	// TEMP!	
-	m_clipCoordinator.Update(1.0f / 60.0f);
+	// TEMP!
+	f32 secondStep = 1.0f / 60.0f;
+	m_clipCoordinator.Update(secondStep);
+	m_sequenceCoordinator.Update(secondStep);
+
 	m_clipCoordinator.FillClipStats(m_clipStatsArray, CLIP_CAPACITY);
 }
 
@@ -215,6 +227,16 @@ void SoundViewerMode::BuildMenu()
 		rampIterator.Next();
 	}
 
+	u32 sequenceNameCount = m_assetContainer.GetAssetCount<lct::soun::SequenceAsset>() + 1;
+	m_pSequenceNameArray = m_shared.pAllocator->AllocTypeArray<const char*>(sequenceNameCount);
+	m_pSequenceNameArray[0] = "<NONE>";
+	lct::pack::AssetIterator<lct::soun::SequenceAsset> sequenceIterator = m_assetContainer.GetIterator<lct::soun::SequenceAsset>();
+	for (u32 sequenceNameIndex = 1; sequenceNameIndex < sequenceNameCount; ++sequenceNameIndex)
+	{
+		m_pSequenceNameArray[sequenceNameIndex] = sequenceIterator.GetAsset()->pSequenceData->name;
+		sequenceIterator.Next();
+	}
+
 	m_menu.SetSpacing(pSheetAsset->pSheetData->lineHeight * 2.0f);
 	lct::foun::Vector2 menuPosition = { MENU_OFFSET_X, MENU_OFFSET_Y };
 	m_menu.SetPosition(menuPosition);
@@ -251,6 +273,26 @@ void SoundViewerMode::BuildMenu()
 		m_menuPage.AddItem(&m_endClipMenuItem);
 	}
 	{
+		m_sequenceMenuItem.SetLabel("Sequence");
+		m_sequenceMenuItem.SetOffsets(MENU_ITEM_MIDDLE_OFFSET_X, MENU_ITEM_LEFT_OFFSET_X, MENU_ITEM_RIGHT_OFFSET_X);
+		m_sequenceMenuItem.SetStringArray(m_pSequenceNameArray);
+		m_sequenceMenuItem.SetCount(sequenceNameCount);
+		m_sequenceMenuItem.SetIndex(0);
+		m_menuPage.AddItem(&m_sequenceMenuItem);
+	}
+	{
+		m_beginSequenceMenuItem.SetLabel("Begin Sequence");
+		m_beginSequenceMenuItem.SetOffsets(MENU_ITEM_MIDDLE_OFFSET_X);
+		m_beginSequenceMenuItem.GetCallback().Bind(this, &SoundViewerMode::OnBeginSequenceTrigger);
+		m_menuPage.AddItem(&m_beginSequenceMenuItem);
+	}
+	{
+		m_endSequenceMenuItem.SetLabel("End Sequence");
+		m_endSequenceMenuItem.SetOffsets(MENU_ITEM_MIDDLE_OFFSET_X);
+		m_endSequenceMenuItem.GetCallback().Bind(this, &SoundViewerMode::OnEndSequenceTrigger);
+		m_menuPage.AddItem(&m_endSequenceMenuItem);
+	}
+	{
 		m_reloadMenuItem.SetLabel("Reload");
 		m_reloadMenuItem.SetOffsets(MENU_ITEM_MIDDLE_OFFSET_X);
 		m_reloadMenuItem.GetCallback().Bind(this, &SoundViewerMode::OnReloadTrigger);
@@ -278,8 +320,6 @@ void SoundViewerMode::LoadAssets()
 
 void SoundViewerMode::OnBeginClipTrigger()
 {
-	//lct::soun::ClipAsset* pClipAsset = m_assetContainer.FindAsset<lct::soun::ClipAsset>("example_clip_tone_A_4");
-	//lct::soun::RampAsset* pRampAsset = m_assetContainer.FindAsset<lct::soun::RampAsset>("example_ramp_note");
 	const char* pClipName = m_clipMenuItem.GetValue();
 	lct::soun::ClipAsset* pClipAsset = m_assetContainer.FindAsset<lct::soun::ClipAsset>(pClipName);
 	const char* pRampName = m_rampMenuItem.GetValue();
@@ -303,6 +343,21 @@ void SoundViewerMode::OnEndClipTrigger()
 		m_clipCoordinator.SetRamp(&m_clipHandle, pRampAsset);
 	}
 	m_clipCoordinator.EndClip(&m_clipHandle);
+}
+
+void SoundViewerMode::OnBeginSequenceTrigger()
+{
+	const char* pSequenceName = m_sequenceMenuItem.GetValue();
+	lct::soun::SequenceAsset* pSequenceAsset = m_assetContainer.FindAsset<lct::soun::SequenceAsset>(pSequenceName);
+	if (pSequenceAsset != NULL)
+	{
+		m_sequenceCoordinator.BeginSequence(&m_sequenceHandle, pSequenceAsset);
+	}
+}
+
+void SoundViewerMode::OnEndSequenceTrigger()
+{
+	m_sequenceCoordinator.EndSequence(&m_sequenceHandle);
 }
 
 void SoundViewerMode::OnReloadTrigger()

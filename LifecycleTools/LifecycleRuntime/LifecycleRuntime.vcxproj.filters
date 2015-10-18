@@ -527,6 +527,9 @@
     <ClInclude Include="include\soun\soun_handles.h">
       <Filter>include\soun</Filter>
     </ClInclude>
+    <ClInclude Include="include\soun\soun_sequenceCoordinator.h">
+      <Filter>include\soun</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\file\file_accessor.cpp">
@@ -734,6 +737,9 @@
       <Filter>source\soun</Filter>
     </ClCompile>
     <ClCompile Include="source\soun\soun_clipCoordinator.cpp">
+      <Filter>source\soun</Filter>
+    </ClCompile>
+    <ClCompile Include="source\soun\soun_sequenceCoordinator.cpp">
       <Filter>source\soun</Filter>
     </ClCompile>
   </ItemGroup>

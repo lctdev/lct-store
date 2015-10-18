@@ -115,6 +115,7 @@
     <ClInclude Include="include\soun\soun_handles.h" />
     <ClInclude Include="include\soun\soun_playContext.h" />
     <ClInclude Include="include\soun\soun_rampInstance.h" />
+    <ClInclude Include="include\soun\soun_sequenceCoordinator.h" />
     <ClInclude Include="include\soun\soun_sequenceInstance.h" />
     <ClInclude Include="include\soun\soun_stats.h" />
     <ClInclude Include="include\spri\spri_animationInstance.h" />
@@ -190,6 +191,7 @@
     <ClCompile Include="source\soun\soun_clipInstance.cpp" />
     <ClCompile Include="source\soun\soun_clipCoordinator.cpp" />
     <ClCompile Include="source\soun\soun_rampInstance.cpp" />
+    <ClCompile Include="source\soun\soun_sequenceCoordinator.cpp" />
     <ClCompile Include="source\soun\soun_sequenceInstance.cpp" />
     <ClCompile Include="source\spri\spri_animationInstance.cpp" />
     <ClCompile Include="source\spri\spri_arrays.cpp" />

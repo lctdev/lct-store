@@ -74,6 +74,12 @@ bool AssetHandler::LoadAsset(pack::AssetHeader& assetHeader, util::BinaryReader&
 			m_pAssetContainer->AddAsset(pRampAsset, pRampAsset->pRampData->name);
 			assetLoaded = true;
 		}
+		else if (assetHeader.typeCode.numeric == SEQUENCE_TYPE_CODE.numeric)
+		{
+			SequenceAsset* pSequenceAsset = LoadSequenceAsset(binaryReader);
+			m_pAssetContainer->AddAsset(pSequenceAsset, pSequenceAsset->pSequenceData->name);
+			assetLoaded = true;
+		}
 	}
 	return assetLoaded;
 }
@@ -137,6 +143,76 @@ RampAsset* AssetHandler::LoadRampAsset(util::BinaryReader& binaryReader)
 	return pRampAsset;
 }
 
+SequenceAsset* AssetHandler::LoadSequenceAsset(util::BinaryReader& binaryReader)
+{
+	SequenceData* pSequenceData = binaryReader.ReadType<SequenceData>();
+
+	SequenceAsset::ClipReference* pClipReferenceArray = m_pAllocator->AllocTypeArray<SequenceAsset::ClipReference>(pSequenceData->clipReferenceCount);
+	for (u32 clipReferenceIndex = 0; clipReferenceIndex < pSequenceData->clipReferenceCount; ++clipReferenceIndex)
+	{
+		ClipReferenceData* pClipReferenceData = binaryReader.ReadType<ClipReferenceData>();
+
+		SequenceAsset::ClipReference* pClipReference = pClipReferenceArray + clipReferenceIndex;
+		pClipReference->pClipReferenceData = pClipReferenceData;
+	}
+
+	SequenceAsset::RampReference* pRampReferenceArray = m_pAllocator->AllocTypeArray<SequenceAsset::RampReference>(pSequenceData->rampReferenceCount);
+	for (u32 rampReferenceIndex = 0; rampReferenceIndex < pSequenceData->rampReferenceCount; ++rampReferenceIndex)
+	{
+		RampReferenceData* pRampReferenceData = binaryReader.ReadType<RampReferenceData>();
+
+		SequenceAsset::RampReference* pRampReference = pRampReferenceArray + rampReferenceIndex;
+		pRampReference->pRampReferenceData = pRampReferenceData;
+	}
+
+	SequenceAsset::Timeline* pTimelineArray = m_pAllocator->AllocTypeArray<SequenceAsset::Timeline>(pSequenceData->timelineCount);
+	for (u32 timelineIndex = 0; timelineIndex < pSequenceData->timelineCount; ++timelineIndex)
+	{
+		TimelineData* pTimelineData = binaryReader.ReadType<TimelineData>();
+
+		SequenceAsset::Action* pActionArray = m_pAllocator->AllocTypeArray<SequenceAsset::Action>(pTimelineData->actionCount);
+		for (u32 actionIndex = 0; actionIndex < pTimelineData->actionCount; ++actionIndex)
+		{
+			ActionData* pActionData = binaryReader.ReadType<ActionData>();
+			u32 typeSize = sizeof(ActionData);
+			switch (pActionData->type)
+			{
+			case ACTION_TYPE_BEGIN_CLIP:
+			{
+				typeSize = sizeof(BeginClipActionData);
+			}
+			break;
+			case ACTION_TYPE_END_CLIP:
+			{
+				typeSize = sizeof(EndClipActionData);
+			}
+			break;
+			case ACTION_TYPE_SET_RAMP:
+			{
+				typeSize = sizeof(SetRampActionData);
+			}
+			}
+			u32 remainingSize = typeSize - sizeof(ActionData);
+			binaryReader.Read(remainingSize);
+
+			SequenceAsset::Action* pAction = pActionArray + actionIndex;
+			pAction->pActionData = pActionData;
+		}
+
+		SequenceAsset::Timeline* pTimeline = pTimelineArray + timelineIndex;
+		pTimeline->pTimelineData = pTimelineData;
+		pTimeline->pActionArray = pActionArray;
+	}
+
+	SequenceAsset* pSequenceAsset = m_pAllocator->AllocType<SequenceAsset>();
+	pSequenceAsset->pSequenceData = pSequenceData;
+	pSequenceAsset->pClipReferenceArray = pClipReferenceArray;
+	pSequenceAsset->pRampReferenceArray = pRampReferenceArray;
+	pSequenceAsset->pTimelineArray = pTimelineArray;
+
+	return pSequenceAsset;
+}
+
 void AssetHandler::FixupAllAssets()
 {
 	for (pack::AssetIterator<ClipAsset> clipIterator = m_pAssetContainer->GetIterator<ClipAsset>(); !clipIterator.IsEnd(); clipIterator.Next())
@@ -149,6 +225,27 @@ void AssetHandler::FixupAllAssets()
 			SegmentData* pSegmentData = pSegment->pSegmentData;
 			WaveAsset* pWaveAsset = m_pAssetContainer->FindAsset<WaveAsset>(pSegmentData->waveName);
 			pSegment->pWaveAsset = pWaveAsset;
+		}
+	}
+
+	for (pack::AssetIterator<SequenceAsset> sequenceIterator = m_pAssetContainer->GetIterator<SequenceAsset>(); !sequenceIterator.IsEnd(); sequenceIterator.Next())
+	{
+		SequenceAsset* pSequenceAsset = sequenceIterator.GetAsset();
+		SequenceData* pSequenceData = pSequenceAsset->pSequenceData;
+		for (u32 clipReferenceIndex = 0; clipReferenceIndex < pSequenceData->clipReferenceCount; ++clipReferenceIndex)
+		{
+			SequenceAsset::ClipReference* pClipReference = pSequenceAsset->pClipReferenceArray + clipReferenceIndex;
+			ClipReferenceData* pClipReferenceData = pClipReference->pClipReferenceData;
+			ClipAsset* pClipAsset = m_pAssetContainer->FindAsset<ClipAsset>(pClipReferenceData->clipName);
+			pClipReference->pClipAsset = pClipAsset;
+		}
+
+		for (u32 rampReferenceIndex = 0; rampReferenceIndex < pSequenceData->rampReferenceCount; ++rampReferenceIndex)
+		{
+			SequenceAsset::RampReference* pRampReference = pSequenceAsset->pRampReferenceArray + rampReferenceIndex;
+			RampReferenceData* pRampReferenceData = pRampReference->pRampReferenceData;
+			RampAsset* pRampAsset = m_pAssetContainer->FindAsset<RampAsset>(pRampReferenceData->rampName);
+			pRampReference->pRampAsset = pRampAsset;
 		}
 	}
 }

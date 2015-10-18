@@ -99,6 +99,17 @@ void ClipCoordinator::BeginClip(ClipHandle* pClipHandle, const ClipAsset* pClipA
 	pSlot->flags.Set(Slot::FLAG_PLAY_PENDING);
 }
 
+void ClipCoordinator::EndClip(ClipHandle* pClipHandle)
+{
+	Slot* pSlot = GetSlot(pClipHandle);
+	if (pSlot == NULL)
+	{
+		return;
+	}
+
+	pSlot->flags.Set(Slot::FLAG_STOP_PENDING);
+}
+
 void ClipCoordinator::SetRamp(ClipHandle* pClipHandle, const RampAsset* pRampAsset)
 {
 	Slot* pSlot = GetSlot(pClipHandle);
@@ -115,15 +126,15 @@ void ClipCoordinator::SetRamp(ClipHandle* pClipHandle, const RampAsset* pRampAss
 	pRampInstance->ResetTracks();
 }
 
-void ClipCoordinator::EndClip(ClipHandle* pClipHandle)
+void ClipCoordinator::DetachHandle(ClipHandle* pClipHandle)
 {
 	Slot* pSlot = GetSlot(pClipHandle);
-	if (pSlot == NULL)
+	if (pSlot != NULL)
 	{
-		return;
-	}
+		pClipHandle->m_slotIndex = -1;
 
-	pSlot->flags.Set(Slot::FLAG_STOP_PENDING);
+		pSlot->pClipHandle = NULL;
+	}
 }
 
 void ClipCoordinator::Update(f32 secondStep)

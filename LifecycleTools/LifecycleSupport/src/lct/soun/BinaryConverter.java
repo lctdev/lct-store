@@ -135,6 +135,7 @@ public class BinaryConverter {
 	private void writeRampData(Ramp ramp, OutputStream outputStream, boolean bigEndian) throws IOException {
 		BinaryUtility.writeStringBuffer(outputStream, ramp.name, MAX_NAME_SIZE);
 		BinaryUtility.writeU32(outputStream, ramp.trackVector.size(), bigEndian);
+		
 		for (Ramp.Track track : ramp.trackVector) {
 			BinaryUtility.writeU8(outputStream, ((Clip.PropertyType)track.targetPropertyType).ordinal());
 			BinaryUtility.writeU8(outputStream, track.finishType.ordinal());
@@ -147,6 +148,77 @@ public class BinaryConverter {
 				BinaryUtility.writeF32(outputStream, key.value, bigEndian);
 				BinaryUtility.writeF32(outputStream, key.slope, bigEndian);
 				BinaryUtility.writeU32(outputStream, key.curveType.ordinal(), bigEndian);
+			}
+		}
+	}
+	
+	public void storeSequence(Sequence sequence, String filePath, boolean bigEndian) {
+		try {
+			FileOutputStream fileOutputStream = new FileOutputStream(filePath);
+			
+			ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+			writeSequenceData(sequence, byteArrayOutputStream, bigEndian);
+			byte[] dataArray = byteArrayOutputStream.toByteArray();			
+			
+			BinaryHeader binaryHeader = new BinaryHeader();
+			binaryHeader.groupCode = Constants.GROUP_CODE.toCharArray();
+			binaryHeader.typeCode = Constants.SEQUENCE_TYPE_CODE.toCharArray();
+			binaryHeader.bigEndian = bigEndian;
+			binaryHeader.version = VERSION;
+			binaryHeader.dataSize = dataArray.length;
+			
+			BinaryUtility.writeBinaryHeader(fileOutputStream, binaryHeader, bigEndian);
+			fileOutputStream.write(dataArray);
+			
+			fileOutputStream.close();
+		}
+		catch (Exception e) {
+			System.out.println(e.getMessage());
+			e.printStackTrace();
+		}
+	}
+	
+	private void writeSequenceData(Sequence sequence, OutputStream outputStream, boolean bigEndian) throws IOException {
+		BinaryUtility.writeStringBuffer(outputStream, sequence.name, MAX_NAME_SIZE);
+		BinaryUtility.writeU32(outputStream, sequence.clipHandleCount, bigEndian);
+		BinaryUtility.writeU32(outputStream, sequence.clipReferenceVector.size(), bigEndian);
+		BinaryUtility.writeU32(outputStream, sequence.rampReferenceVector.size(), bigEndian);
+		BinaryUtility.writeU32(outputStream, sequence.timelineVector.size(), bigEndian);
+		
+		for (Sequence.ClipReference clipReference : sequence.clipReferenceVector) {
+			BinaryUtility.writeStringBuffer(outputStream, clipReference.clipName, MAX_NAME_SIZE);
+		}
+		
+		for (Sequence.RampReference rampReference : sequence.rampReferenceVector) {
+			BinaryUtility.writeStringBuffer(outputStream, rampReference.rampName, MAX_NAME_SIZE);
+		}
+		
+		for (Sequence.Timeline timeline : sequence.timelineVector) {
+			BinaryUtility.writeU32(outputStream, timeline.finishType.ordinal(), bigEndian);
+			BinaryUtility.writeF32(outputStream, timeline.loopSecond, bigEndian);
+			BinaryUtility.writeU32(outputStream, timeline.actionVector.size(), bigEndian);
+			
+			for (Sequence.Timeline.Action action : timeline.actionVector) {
+				BinaryUtility.writeF32(outputStream, action.second, bigEndian);
+				BinaryUtility.writeU32(outputStream, action.type.ordinal(), bigEndian);
+				switch (action.type) {
+				case NONE:
+					break;
+				case BEGIN_CLIP:
+					Sequence.Timeline.BeginClipAction beginClipAction = (Sequence.Timeline.BeginClipAction)action;
+					BinaryUtility.writeU32(outputStream, beginClipAction.handleIndex, bigEndian);
+					BinaryUtility.writeU32(outputStream, beginClipAction.clipIndex, bigEndian);
+					break;
+				case END_CLIP:
+					Sequence.Timeline.EndClipAction endClipAction = (Sequence.Timeline.EndClipAction)action;
+					BinaryUtility.writeU32(outputStream, endClipAction.handleIndex, bigEndian);
+					break;
+				case SET_RAMP:
+					Sequence.Timeline.SetRampAction setRampAction = (Sequence.Timeline.SetRampAction)action;
+					BinaryUtility.writeU32(outputStream, setRampAction.handleIndex, bigEndian);
+					BinaryUtility.writeU32(outputStream, setRampAction.rampIndex, bigEndian);
+					break;
+				}
 			}
 		}
 	}

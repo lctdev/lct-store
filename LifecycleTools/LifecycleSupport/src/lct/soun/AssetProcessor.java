@@ -49,6 +49,17 @@ public class AssetProcessor implements lct.pack.AssetProcessor {
 		}
 		break;
 		
+		case Constants.SEQUENCE_TYPE_CODE:
+		{
+			Sequence sequence = m_xmlConverter.loadSequence(inputFilePath);
+			if (sequence == null) {
+				throw new DataException("Error loading sequence file");
+			}
+			
+			m_binaryConverter.storeSequence(sequence, outputFilePath, bigEndian);
+		}
+		break;
+		
 		default:
 		{
 			throw new DataException("Unhandled type code: " + typeCode);

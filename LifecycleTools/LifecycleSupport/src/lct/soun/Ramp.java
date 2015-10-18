@@ -26,8 +26,8 @@ public class Ramp {
 		
 		public Object targetPropertyType;
 		public FinishType finishType;
-		public Vector<Key> keyVector;
 		public float loopSecond;
+		public Vector<Key> keyVector;		
 	}
 	
 	public String name;

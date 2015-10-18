@@ -14,6 +14,7 @@
 #include <soun/soun_stats.h>
 // TEMP
 #include <soun/soun_clipCoordinator.h>
+#include <soun/soun_sequenceCoordinator.h>
 
 #include <pack/pack_packageWalker.h>
 #include <pack/pack_assetContainer.h>
@@ -57,6 +58,7 @@ public:
 
 	// TEMP!
 	static const u32 CLIP_CAPACITY = 20;
+	static const u32 SEQUENCE_CAPACITY = 20;
 
 private:
 	void BuildMenu();
@@ -67,18 +69,23 @@ private:
 	void* m_pAssetBinary;
 
 	// TEMP!
-	//lct::audi::WaveResource m_waveResource;	
 	lct::soun::ClipCoordinator m_clipCoordinator;
+	lct::soun::SequenceCoordinator m_sequenceCoordinator;
 
 	lct::soun::ClipHandle m_clipHandle;
+	lct::soun::SequenceHandle m_sequenceHandle;
+
 	lct::soun::ClipStats m_clipStatsArray[CLIP_CAPACITY];
 
 	void OnBeginClipTrigger();
 	void OnEndClipTrigger();
+	void OnBeginSequenceTrigger();
+	void OnEndSequenceTrigger();
 	void OnReloadTrigger();
 
 	const char** m_pClipNameArray;
 	const char** m_pRampNameArray;
+	const char** m_pSequenceNameArray;
 
 	lct::test::Menu m_menu;
 	lct::test::MenuPage m_menuPage;
@@ -86,6 +93,9 @@ private:
 	lct::test::StringArrayMenuItem m_rampMenuItem;
 	lct::test::ActionMenuItem m_beginClipMenuItem;
 	lct::test::ActionMenuItem m_endClipMenuItem;
+	lct::test::StringArrayMenuItem m_sequenceMenuItem;
+	lct::test::ActionMenuItem m_beginSequenceMenuItem;
+	lct::test::ActionMenuItem m_endSequenceMenuItem;
 	lct::test::ActionMenuItem m_reloadMenuItem;
 
 	lct::foun::Matrix44 m_projectionTransform;

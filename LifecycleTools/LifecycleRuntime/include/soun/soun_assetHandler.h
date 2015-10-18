@@ -28,6 +28,7 @@ namespace soun
 struct WaveAsset;
 struct ClipAsset;
 struct RampAsset;
+struct SequenceAsset;
 
 class AssetHandler : public pack::IAssetHandler
 {
@@ -44,6 +45,7 @@ public:
 	WaveAsset* LoadWaveAsset(util::BinaryReader& binaryReader);
 	ClipAsset* LoadClipAsset(util::BinaryReader& binaryReader);
 	RampAsset* LoadRampAsset(util::BinaryReader& binaryReader);
+	SequenceAsset* LoadSequenceAsset(util::BinaryReader& binaryReader);
 
 	void FixupAllAssets();
 

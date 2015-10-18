@@ -57,6 +57,55 @@ struct RampData
 	u32 trackCount;
 };
 
+struct ClipReferenceData
+{
+	char clipName[MAX_NAME_SIZE];
+};
+
+struct RampReferenceData
+{
+	char rampName[MAX_NAME_SIZE];
+};
+
+struct ActionData
+{
+	f32 second;
+	u32 type;
+};
+
+struct BeginClipActionData : ActionData
+{
+	u32 handleIndex;
+	u32 clipIndex;
+};
+
+struct EndClipActionData : ActionData
+{
+	u32 handleIndex;
+};
+
+struct SetRampActionData : ActionData
+{
+	u32 handleIndex;
+	u32 rampIndex;
+};
+
+struct TimelineData
+{
+	u32 finishType;
+	f32 loopSecond;
+	u32 actionCount;
+};
+
+struct SequenceData
+{
+	char name[MAX_NAME_SIZE];
+	u32 clipHandleCount;
+	u32 clipReferenceCount;
+	u32 rampReferenceCount;
+	u32 timelineCount;
+};
+
 //namespace soun
 }
 //namespace lct
