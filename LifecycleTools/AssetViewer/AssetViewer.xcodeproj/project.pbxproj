@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F8DDD0601BD5204900183CFF /* soundViewerMode.h in Headers */ = {isa = PBXBuildFile; fileRef = F8DDD05F1BD5204900183CFF /* soundViewerMode.h */; settings = {ASSET_TAGS = (); }; };
+		F8DDD0621BD5205A00183CFF /* soundViewerMode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F8DDD0611BD5205A00183CFF /* soundViewerMode.cpp */; settings = {ASSET_TAGS = (); }; };
 		F8E1B2CD1AEE68F30045B0D2 /* assetViewerMessages.h in Headers */ = {isa = PBXBuildFile; fileRef = F8E1B2C81AEE68F20045B0D2 /* assetViewerMessages.h */; };
 		F8E1B2CE1AEE68F30045B0D2 /* assetViewerMode.h in Headers */ = {isa = PBXBuildFile; fileRef = F8E1B2C91AEE68F30045B0D2 /* assetViewerMode.h */; };
 		F8E1B2CF1AEE68F30045B0D2 /* assetViewerOverlay.h in Headers */ = {isa = PBXBuildFile; fileRef = F8E1B2CA1AEE68F30045B0D2 /* assetViewerOverlay.h */; };
@@ -19,6 +21,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		F8DDD05F1BD5204900183CFF /* soundViewerMode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = soundViewerMode.h; sourceTree = "<group>"; };
+		F8DDD0611BD5205A00183CFF /* soundViewerMode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = soundViewerMode.cpp; sourceTree = "<group>"; };
 		F8E1B2AD1AEE67EF0045B0D2 /* libAssetViewer.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAssetViewer.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		F8E1B2C81AEE68F20045B0D2 /* assetViewerMessages.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = assetViewerMessages.h; sourceTree = "<group>"; };
 		F8E1B2C91AEE68F30045B0D2 /* assetViewerMode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = assetViewerMode.h; sourceTree = "<group>"; };
@@ -62,6 +66,7 @@
 		F8E1B2C71AEE68F20045B0D2 /* include */ = {
 			isa = PBXGroup;
 			children = (
+				F8DDD05F1BD5204900183CFF /* soundViewerMode.h */,
 				F8E1B2C81AEE68F20045B0D2 /* assetViewerMessages.h */,
 				F8E1B2C91AEE68F30045B0D2 /* assetViewerMode.h */,
 				F8E1B2CA1AEE68F30045B0D2 /* assetViewerOverlay.h */,
@@ -74,6 +79,7 @@
 		F8E1B2D21AEE690A0045B0D2 /* source */ = {
 			isa = PBXGroup;
 			children = (
+				F8DDD0611BD5205A00183CFF /* soundViewerMode.cpp */,
 				F8E1B2D31AEE690A0045B0D2 /* assetViewerMode.cpp */,
 				F8E1B2D41AEE690A0045B0D2 /* assetViewerOverlay.cpp */,
 				F8E1B2D51AEE690A0045B0D2 /* assetViewerProgram.cpp */,
@@ -92,6 +98,7 @@
 				F8E1B2D01AEE68F30045B0D2 /* assetViewerProgram.h in Headers */,
 				F8E1B2CE1AEE68F30045B0D2 /* assetViewerMode.h in Headers */,
 				F8E1B2CD1AEE68F30045B0D2 /* assetViewerMessages.h in Headers */,
+				F8DDD0601BD5204900183CFF /* soundViewerMode.h in Headers */,
 				F8E1B2CF1AEE68F30045B0D2 /* assetViewerOverlay.h in Headers */,
 				F8E1B2D11AEE68F30045B0D2 /* spriteViewerMode.h in Headers */,
 			);
@@ -155,6 +162,7 @@
 			files = (
 				F8E1B2D71AEE690A0045B0D2 /* assetViewerMode.cpp in Sources */,
 				F8E1B2D81AEE690A0045B0D2 /* assetViewerOverlay.cpp in Sources */,
+				F8DDD0621BD5205A00183CFF /* soundViewerMode.cpp in Sources */,
 				F8E1B2D91AEE690A0045B0D2 /* assetViewerProgram.cpp in Sources */,
 				F8E1B2DA1AEE690A0045B0D2 /* spriteViewerMode.cpp in Sources */,
 			);

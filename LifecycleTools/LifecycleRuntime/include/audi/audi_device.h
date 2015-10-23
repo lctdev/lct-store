@@ -12,6 +12,9 @@
 #if defined(LCT_WINDOWS)
 #include <AL/al.h>
 #include <AL/alc.h>
+#elif defined(LCT_OSX)
+#include <AL/al.h>
+#include <AL/alc.h>
 #endif
 
 namespace lct
@@ -48,6 +51,7 @@ public:
 	void AddWave(VoiceResource* pVoiceResource, WaveResource* pWaveResource);
 	void RemoveWave(VoiceResource* pVoiceResource, WaveResource* pWaveResource);
 	bool IsWavePlaying(VoiceResource* pVoiceResource, WaveResource* pWaveResource);
+	u32 GetPlayedWaveCount(VoiceResource* pVoiceResource);
 
 protected:
 	foun::Allocator* m_pAllocator;

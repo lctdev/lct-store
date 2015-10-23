@@ -434,6 +434,18 @@ void Program::AcquireAudio()
 		LCT_TRACE("OpenAL create context error");
 		return;
 	}
+#elif defined(LCT_OSX)
+	// get the device
+	ALCdevice* pDev = alcOpenDevice(NULL);
+
+	// create and activate context
+	ALCcontext* pCtx = alcCreateContext(pDev, NULL);
+	alcMakeContextCurrent(pCtx);
+	if (!pCtx)
+	{
+		LCT_TRACE("OpenAL create context error");
+		return;
+	}
 #endif
 
 	m_audioDevice.SetAllocator(&m_allocator);

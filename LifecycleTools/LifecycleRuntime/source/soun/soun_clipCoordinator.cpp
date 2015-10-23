@@ -121,9 +121,22 @@ void ClipCoordinator::SetRamp(ClipHandle* pClipHandle, const RampAsset* pRampAss
 	ClipInstance* pClipInstance = pSlot->pClipInstance;
 	RampInstance* pRampInstance = pSlot->pRampInstance;
 
-	pRampInstance->BindClipInstance(pSlot->pClipInstance);
+	pRampInstance->BindClipInstance(pClipInstance);
 	pRampInstance->BindRampAsset(pRampAsset);
 	pRampInstance->ResetTracks();
+}
+
+void ClipCoordinator::ClearRamp(ClipHandle* pClipHandle)
+{
+	Slot* pSlot = GetSlot(pClipHandle);
+	if (pSlot == NULL)
+	{
+		return;
+	}
+
+	RampInstance* pRampInstance = pSlot->pRampInstance;
+
+	pRampInstance->ClearRampAsset();
 }
 
 void ClipCoordinator::DetachHandle(ClipHandle* pClipHandle)
@@ -205,8 +218,10 @@ void ClipCoordinator::UpdateVoices()
 			if (pClipAsset->pClipData->loop && !pSlot->flags.Test(Slot::FLAG_LOOPING))
 			{
 				u32 lastSegmentIndex = pClipAsset->pClipData->segmentCount - 1;
-				const WaveAsset* pLastWaveAsset = pClipAsset->pSegmentArray[lastSegmentIndex].pWaveAsset;
-				if (m_pAudioDevice->IsWavePlaying(pVoiceResource, pLastWaveAsset->pWaveResource))
+				//const WaveAsset* pLastWaveAsset = pClipAsset->pSegmentArray[lastSegmentIndex].pWaveAsset;
+				//if (m_pAudioDevice->IsWavePlaying(pVoiceResource, pLastWaveAsset->pWaveResource))
+				u32 playedWaveCount = m_pAudioDevice->GetPlayedWaveCount(pVoiceResource);
+				if (playedWaveCount >= lastSegmentIndex)
 				{
 					// if the clip should be looping and have started the last wave, remove all previous waves and set up the loop
 					for (u32 waveIndex = 0; waveIndex < lastSegmentIndex; ++waveIndex)
@@ -254,8 +269,6 @@ void ClipCoordinator::RecycleSlots()
 	while (!slotIterator.IsEnd())
 	{
 		Slot* pSlot = slotIterator.GetValue();
-		ClipInstance* pClipInstance = pSlot->pClipInstance;
-		audi::VoiceResource* pVoiceResource = pSlot->pVoiceResource;
 		bool deactivate = false;
 
 		if (!pSlot->flags.Test(Slot::FLAG_ACTIVE))

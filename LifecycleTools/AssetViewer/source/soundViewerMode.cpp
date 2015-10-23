@@ -342,6 +342,10 @@ void SoundViewerMode::OnEndClipTrigger()
 	{
 		m_clipCoordinator.SetRamp(&m_clipHandle, pRampAsset);
 	}
+	else
+	{
+		m_clipCoordinator.ClearRamp(&m_clipHandle);
+	}
 	m_clipCoordinator.EndClip(&m_clipHandle);
 }
 

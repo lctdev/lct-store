@@ -187,6 +187,7 @@ void Device::SetVoiceVolume(VoiceResource* pVoiceResource, f32 volume)
 
 void Device::SetVoicePitch(VoiceResource* pVoiceResource, f32 pitch)
 {
+	// NOTE: this seems to cause a pop in OSX when first set to value other than 1.0
 	alSourcef(pVoiceResource->hSource, AL_PITCH, pitch);
 
 	LCT_TRACE_AL_ERROR();
@@ -208,6 +209,7 @@ void Device::RemoveWave(VoiceResource* pVoiceResource, WaveResource* pWaveResour
 
 bool Device::IsWavePlaying(VoiceResource* pVoiceResource, WaveResource* pWaveResource)
 {
+	// NOTE: this does not seem to work on OSX when the source is looping
 	ALint buffer;
 
 	alGetSourcei(pVoiceResource->hSource, AL_BUFFER, &buffer);
@@ -215,6 +217,17 @@ bool Device::IsWavePlaying(VoiceResource* pVoiceResource, WaveResource* pWaveRes
 	LCT_TRACE_AL_ERROR();
 
 	return (buffer == pWaveResource->hBuffer);
+}
+
+u32 Device::GetPlayedWaveCount(VoiceResource* pVoiceResource)
+{
+	ALint buffersProcessed;
+	
+	alGetSourcei(pVoiceResource->hSource, AL_BUFFERS_PROCESSED, &buffersProcessed);
+	
+	LCT_TRACE_AL_ERROR();
+	
+	return buffersProcessed;
 }
 
 /*

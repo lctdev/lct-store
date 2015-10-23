@@ -6,6 +6,9 @@
 #if defined(LCT_WINDOWS)
 #include <AL/al.h>
 #include <AL/alc.h>
+#elif defined(LCT_OSX)
+#include <AL/al.h>
+#include <AL/alc.h>
 #endif
 
 namespace lct

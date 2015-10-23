@@ -1,6 +1,8 @@
-﻿- Currently, all native projects are compiling in 32 bit mode.  On Windows this is more or less default, but on OS X this had to be specially set up.  The GLEW library makefiles were altered slightly to accommodate this.  For this reason, the architecture on the projects is set to “32 bit intel”, and the “Automatic reference counting” feature for Objective C was disabled ( not supported in 32 bit mode ).
+- Currently, all native projects are compiling in 32 bit mode.  On Windows this is more or less default, but on OS X this had to be specially set up.  The GLEW library makefiles were altered slightly to accommodate this.  For this reason, the architecture on the projects is set to “32 bit intel”, and the “Automatic reference counting” feature for Objective C was disabled ( not supported in 32 bit mode ).
 
 - openAL (soft) is very particular in the way it lets you queue and unqueue buffers.  When
 you queue, it will play them in order, and will continue to play them if looped.  When you
 unqueue, if the buffers have not been fully played you may get errors ( even if the source
 is stopped ).  You can clear out the buffers though by setting the current buffer to AL_NONE
+
+- openAL (OS X) seems to have some popping issues.  Sounds that are looping have a slight pop every time they return to the start.  Also, there seems to be a large pop when you first chance a source’s pitch to anything other than 1.0.

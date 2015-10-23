@@ -38,6 +38,7 @@ public:
 	void BeginClip(ClipHandle* pClipHandle, const ClipAsset* pClipAsset);
 	void EndClip(ClipHandle* pClipHandle);
 	void SetRamp(ClipHandle* pClipHandle, const RampAsset* pRampAsset);
+	void ClearRamp(ClipHandle* pClipHandle);
 	void DetachHandle(ClipHandle* pClipHandle);
 
 	void Update(f32 secondStep);

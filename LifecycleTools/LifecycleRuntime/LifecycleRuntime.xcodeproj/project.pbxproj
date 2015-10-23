@@ -40,6 +40,41 @@
 		F8BCF0061B49E1C800001A93 /* font_assets.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F8BCF0041B49E1C800001A93 /* font_assets.cpp */; };
 		F8BCF00A1B49E21D00001A93 /* pass_assetHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F8BCF0081B49E21D00001A93 /* pass_assetHandler.cpp */; };
 		F8BCF00B1B49E21D00001A93 /* pass_assets.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F8BCF0091B49E21D00001A93 /* pass_assets.cpp */; };
+		F8DDD02F1BD51EFE00183CFF /* audi_constants.h in Headers */ = {isa = PBXBuildFile; fileRef = F8DDD02A1BD51EFE00183CFF /* audi_constants.h */; settings = {ASSET_TAGS = (); }; };
+		F8DDD0301BD51EFE00183CFF /* audi_debug.h in Headers */ = {isa = PBXBuildFile; fileRef = F8DDD02B1BD51EFE00183CFF /* audi_debug.h */; settings = {ASSET_TAGS = (); }; };
+		F8DDD0311BD51EFE00183CFF /* audi_device.h in Headers */ = {isa = PBXBuildFile; fileRef = F8DDD02C1BD51EFE00183CFF /* audi_device.h */; settings = {ASSET_TAGS = (); }; };
+		F8DDD0321BD51EFE00183CFF /* audi_parameters.h in Headers */ = {isa = PBXBuildFile; fileRef = F8DDD02D1BD51EFE00183CFF /* audi_parameters.h */; settings = {ASSET_TAGS = (); }; };
+		F8DDD0331BD51EFE00183CFF /* audi_resources.h in Headers */ = {isa = PBXBuildFile; fileRef = F8DDD02E1BD51EFE00183CFF /* audi_resources.h */; settings = {ASSET_TAGS = (); }; };
+		F8DDD0411BD51F4900183CFF /* soun_assetHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = F8DDD0351BD51F4900183CFF /* soun_assetHandler.h */; settings = {ASSET_TAGS = (); }; };
+		F8DDD0421BD51F4900183CFF /* soun_assets.h in Headers */ = {isa = PBXBuildFile; fileRef = F8DDD0361BD51F4900183CFF /* soun_assets.h */; settings = {ASSET_TAGS = (); }; };
+		F8DDD0431BD51F4900183CFF /* soun_clipCoordinator.h in Headers */ = {isa = PBXBuildFile; fileRef = F8DDD0371BD51F4900183CFF /* soun_clipCoordinator.h */; settings = {ASSET_TAGS = (); }; };
+		F8DDD0441BD51F4900183CFF /* soun_clipInstance.h in Headers */ = {isa = PBXBuildFile; fileRef = F8DDD0381BD51F4900183CFF /* soun_clipInstance.h */; settings = {ASSET_TAGS = (); }; };
+		F8DDD0451BD51F4900183CFF /* soun_constants.h in Headers */ = {isa = PBXBuildFile; fileRef = F8DDD0391BD51F4900183CFF /* soun_constants.h */; settings = {ASSET_TAGS = (); }; };
+		F8DDD0461BD51F4900183CFF /* soun_data.h in Headers */ = {isa = PBXBuildFile; fileRef = F8DDD03A1BD51F4900183CFF /* soun_data.h */; settings = {ASSET_TAGS = (); }; };
+		F8DDD0471BD51F4900183CFF /* soun_handles.h in Headers */ = {isa = PBXBuildFile; fileRef = F8DDD03B1BD51F4900183CFF /* soun_handles.h */; settings = {ASSET_TAGS = (); }; };
+		F8DDD0481BD51F4900183CFF /* soun_playContext.h in Headers */ = {isa = PBXBuildFile; fileRef = F8DDD03C1BD51F4900183CFF /* soun_playContext.h */; settings = {ASSET_TAGS = (); }; };
+		F8DDD0491BD51F4900183CFF /* soun_rampInstance.h in Headers */ = {isa = PBXBuildFile; fileRef = F8DDD03D1BD51F4900183CFF /* soun_rampInstance.h */; settings = {ASSET_TAGS = (); }; };
+		F8DDD04A1BD51F4900183CFF /* soun_sequenceCoordinator.h in Headers */ = {isa = PBXBuildFile; fileRef = F8DDD03E1BD51F4900183CFF /* soun_sequenceCoordinator.h */; settings = {ASSET_TAGS = (); }; };
+		F8DDD04B1BD51F4900183CFF /* soun_sequenceInstance.h in Headers */ = {isa = PBXBuildFile; fileRef = F8DDD03F1BD51F4900183CFF /* soun_sequenceInstance.h */; settings = {ASSET_TAGS = (); }; };
+		F8DDD04C1BD51F4900183CFF /* soun_stats.h in Headers */ = {isa = PBXBuildFile; fileRef = F8DDD0401BD51F4900183CFF /* soun_stats.h */; settings = {ASSET_TAGS = (); }; };
+		F8DDD04F1BD51FB900183CFF /* audi_device.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F8DDD04E1BD51FB900183CFF /* audi_device.cpp */; settings = {ASSET_TAGS = (); }; };
+		F8DDD0581BD51FD400183CFF /* soun_assetHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F8DDD0511BD51FD400183CFF /* soun_assetHandler.cpp */; settings = {ASSET_TAGS = (); }; };
+		F8DDD0591BD51FD400183CFF /* soun_assets.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F8DDD0521BD51FD400183CFF /* soun_assets.cpp */; settings = {ASSET_TAGS = (); }; };
+		F8DDD05A1BD51FD400183CFF /* soun_clipCoordinator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F8DDD0531BD51FD400183CFF /* soun_clipCoordinator.cpp */; settings = {ASSET_TAGS = (); }; };
+		F8DDD05B1BD51FD400183CFF /* soun_clipInstance.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F8DDD0541BD51FD400183CFF /* soun_clipInstance.cpp */; settings = {ASSET_TAGS = (); }; };
+		F8DDD05C1BD51FD400183CFF /* soun_rampInstance.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F8DDD0551BD51FD400183CFF /* soun_rampInstance.cpp */; settings = {ASSET_TAGS = (); }; };
+		F8DDD05D1BD51FD400183CFF /* soun_sequenceCoordinator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F8DDD0561BD51FD400183CFF /* soun_sequenceCoordinator.cpp */; settings = {ASSET_TAGS = (); }; };
+		F8DDD05E1BD51FD400183CFF /* soun_sequenceInstance.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F8DDD0571BD51FD400183CFF /* soun_sequenceInstance.cpp */; settings = {ASSET_TAGS = (); }; };
+		F8DDD0641BD5213B00183CFF /* grap_screen.h in Headers */ = {isa = PBXBuildFile; fileRef = F8DDD0631BD5213B00183CFF /* grap_screen.h */; settings = {ASSET_TAGS = (); }; };
+		F8DDD0661BD5214E00183CFF /* grap_screen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F8DDD0651BD5214E00183CFF /* grap_screen.cpp */; settings = {ASSET_TAGS = (); }; };
+		F8DDD06B1BD521F100183CFF /* test_backMenuItem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F8DDD0671BD521F100183CFF /* test_backMenuItem.cpp */; settings = {ASSET_TAGS = (); }; };
+		F8DDD06C1BD521F100183CFF /* test_menuPage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F8DDD0681BD521F100183CFF /* test_menuPage.cpp */; settings = {ASSET_TAGS = (); }; };
+		F8DDD06D1BD521F100183CFF /* test_menuShared.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F8DDD0691BD521F100183CFF /* test_menuShared.cpp */; settings = {ASSET_TAGS = (); }; };
+		F8DDD06E1BD521F100183CFF /* test_pageMenuItem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F8DDD06A1BD521F100183CFF /* test_pageMenuItem.cpp */; settings = {ASSET_TAGS = (); }; };
+		F8DDD0731BD5221E00183CFF /* test_backMenuItem.h in Headers */ = {isa = PBXBuildFile; fileRef = F8DDD06F1BD5221E00183CFF /* test_backMenuItem.h */; settings = {ASSET_TAGS = (); }; };
+		F8DDD0741BD5221E00183CFF /* test_menuPage.h in Headers */ = {isa = PBXBuildFile; fileRef = F8DDD0701BD5221E00183CFF /* test_menuPage.h */; settings = {ASSET_TAGS = (); }; };
+		F8DDD0751BD5221E00183CFF /* test_menuShared.h in Headers */ = {isa = PBXBuildFile; fileRef = F8DDD0711BD5221E00183CFF /* test_menuShared.h */; settings = {ASSET_TAGS = (); }; };
+		F8DDD0761BD5221E00183CFF /* test_pageMenuItem.h in Headers */ = {isa = PBXBuildFile; fileRef = F8DDD0721BD5221E00183CFF /* test_pageMenuItem.h */; settings = {ASSET_TAGS = (); }; };
 		F8E1B1B41AE7D4D70045B0D2 /* file_accessor.h in Headers */ = {isa = PBXBuildFile; fileRef = F8E1B1531AE7D4D70045B0D2 /* file_accessor.h */; };
 		F8E1B1B51AE7D4D70045B0D2 /* file_packedAccessor.h in Headers */ = {isa = PBXBuildFile; fileRef = F8E1B1541AE7D4D70045B0D2 /* file_packedAccessor.h */; };
 		F8E1B1B61AE7D4D70045B0D2 /* file_systemAccessor.h in Headers */ = {isa = PBXBuildFile; fileRef = F8E1B1551AE7D4D70045B0D2 /* file_systemAccessor.h */; };
@@ -77,7 +112,6 @@
 		F8E1B1DB1AE7D4D70045B0D2 /* fram_overlay.h in Headers */ = {isa = PBXBuildFile; fileRef = F8E1B17E1AE7D4D70045B0D2 /* fram_overlay.h */; };
 		F8E1B1DC1AE7D4D70045B0D2 /* fram_program.h in Headers */ = {isa = PBXBuildFile; fileRef = F8E1B17F1AE7D4D70045B0D2 /* fram_program.h */; };
 		F8E1B1DD1AE7D4D70045B0D2 /* fram_program_OBJC.h in Headers */ = {isa = PBXBuildFile; fileRef = F8E1B1801AE7D4D70045B0D2 /* fram_program_OBJC.h */; };
-		F8E1B1DE1AE7D4D70045B0D2 /* fram_screen.h in Headers */ = {isa = PBXBuildFile; fileRef = F8E1B1811AE7D4D70045B0D2 /* fram_screen.h */; };
 		F8E1B1E11AE7D4D70045B0D2 /* imag_assets.h in Headers */ = {isa = PBXBuildFile; fileRef = F8E1B1851AE7D4D70045B0D2 /* imag_assets.h */; };
 		F8E1B1E21AE7D4D70045B0D2 /* imag_constants.h in Headers */ = {isa = PBXBuildFile; fileRef = F8E1B1861AE7D4D70045B0D2 /* imag_constants.h */; };
 		F8E1B1E31AE7D4D70045B0D2 /* imag_data.h in Headers */ = {isa = PBXBuildFile; fileRef = F8E1B1871AE7D4D70045B0D2 /* imag_data.h */; };
@@ -132,7 +166,6 @@
 		F8E1B2641AE7D4F60045B0D2 /* fram_overlay.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F8E1B2261AE7D4F60045B0D2 /* fram_overlay.cpp */; };
 		F8E1B2651AE7D4F60045B0D2 /* fram_program.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F8E1B2271AE7D4F60045B0D2 /* fram_program.cpp */; };
 		F8E1B2661AE7D4F60045B0D2 /* fram_program_OBJC.mm in Sources */ = {isa = PBXBuildFile; fileRef = F8E1B2281AE7D4F60045B0D2 /* fram_program_OBJC.mm */; };
-		F8E1B2671AE7D4F60045B0D2 /* fram_screen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F8E1B2291AE7D4F60045B0D2 /* fram_screen.cpp */; };
 		F8E1B26B1AE7D4F60045B0D2 /* inpu_cursor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F8E1B22F1AE7D4F60045B0D2 /* inpu_cursor.cpp */; };
 		F8E1B26C1AE7D4F60045B0D2 /* inpu_mouseCursor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F8E1B2301AE7D4F60045B0D2 /* inpu_mouseCursor.cpp */; };
 		F8E1B26D1AE7D4F60045B0D2 /* inpu_mouseReader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F8E1B2311AE7D4F60045B0D2 /* inpu_mouseReader.cpp */; };
@@ -198,6 +231,41 @@
 		F8BCF0131B49E30600001A93 /* font_vertexShader.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = font_vertexShader.glsl; path = WINDOWS/font_vertexShader.glsl; sourceTree = "<group>"; };
 		F8BCF0141B49E32400001A93 /* spri_fragmentShader.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = spri_fragmentShader.glsl; path = WINDOWS/spri_fragmentShader.glsl; sourceTree = "<group>"; };
 		F8BCF0151B49E32400001A93 /* spri_vertexShader.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = spri_vertexShader.glsl; path = WINDOWS/spri_vertexShader.glsl; sourceTree = "<group>"; };
+		F8DDD02A1BD51EFE00183CFF /* audi_constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = audi_constants.h; path = audi/audi_constants.h; sourceTree = "<group>"; };
+		F8DDD02B1BD51EFE00183CFF /* audi_debug.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = audi_debug.h; path = audi/audi_debug.h; sourceTree = "<group>"; };
+		F8DDD02C1BD51EFE00183CFF /* audi_device.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = audi_device.h; path = audi/audi_device.h; sourceTree = "<group>"; };
+		F8DDD02D1BD51EFE00183CFF /* audi_parameters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = audi_parameters.h; path = audi/audi_parameters.h; sourceTree = "<group>"; };
+		F8DDD02E1BD51EFE00183CFF /* audi_resources.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = audi_resources.h; path = audi/audi_resources.h; sourceTree = "<group>"; };
+		F8DDD0351BD51F4900183CFF /* soun_assetHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = soun_assetHandler.h; path = soun/soun_assetHandler.h; sourceTree = "<group>"; };
+		F8DDD0361BD51F4900183CFF /* soun_assets.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = soun_assets.h; path = soun/soun_assets.h; sourceTree = "<group>"; };
+		F8DDD0371BD51F4900183CFF /* soun_clipCoordinator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = soun_clipCoordinator.h; path = soun/soun_clipCoordinator.h; sourceTree = "<group>"; };
+		F8DDD0381BD51F4900183CFF /* soun_clipInstance.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = soun_clipInstance.h; path = soun/soun_clipInstance.h; sourceTree = "<group>"; };
+		F8DDD0391BD51F4900183CFF /* soun_constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = soun_constants.h; path = soun/soun_constants.h; sourceTree = "<group>"; };
+		F8DDD03A1BD51F4900183CFF /* soun_data.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = soun_data.h; path = soun/soun_data.h; sourceTree = "<group>"; };
+		F8DDD03B1BD51F4900183CFF /* soun_handles.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = soun_handles.h; path = soun/soun_handles.h; sourceTree = "<group>"; };
+		F8DDD03C1BD51F4900183CFF /* soun_playContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = soun_playContext.h; path = soun/soun_playContext.h; sourceTree = "<group>"; };
+		F8DDD03D1BD51F4900183CFF /* soun_rampInstance.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = soun_rampInstance.h; path = soun/soun_rampInstance.h; sourceTree = "<group>"; };
+		F8DDD03E1BD51F4900183CFF /* soun_sequenceCoordinator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = soun_sequenceCoordinator.h; path = soun/soun_sequenceCoordinator.h; sourceTree = "<group>"; };
+		F8DDD03F1BD51F4900183CFF /* soun_sequenceInstance.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = soun_sequenceInstance.h; path = soun/soun_sequenceInstance.h; sourceTree = "<group>"; };
+		F8DDD0401BD51F4900183CFF /* soun_stats.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = soun_stats.h; path = soun/soun_stats.h; sourceTree = "<group>"; };
+		F8DDD04E1BD51FB900183CFF /* audi_device.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = audi_device.cpp; path = audi/audi_device.cpp; sourceTree = "<group>"; };
+		F8DDD0511BD51FD400183CFF /* soun_assetHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = soun_assetHandler.cpp; path = soun/soun_assetHandler.cpp; sourceTree = "<group>"; };
+		F8DDD0521BD51FD400183CFF /* soun_assets.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = soun_assets.cpp; path = soun/soun_assets.cpp; sourceTree = "<group>"; };
+		F8DDD0531BD51FD400183CFF /* soun_clipCoordinator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = soun_clipCoordinator.cpp; path = soun/soun_clipCoordinator.cpp; sourceTree = "<group>"; };
+		F8DDD0541BD51FD400183CFF /* soun_clipInstance.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = soun_clipInstance.cpp; path = soun/soun_clipInstance.cpp; sourceTree = "<group>"; };
+		F8DDD0551BD51FD400183CFF /* soun_rampInstance.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = soun_rampInstance.cpp; path = soun/soun_rampInstance.cpp; sourceTree = "<group>"; };
+		F8DDD0561BD51FD400183CFF /* soun_sequenceCoordinator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = soun_sequenceCoordinator.cpp; path = soun/soun_sequenceCoordinator.cpp; sourceTree = "<group>"; };
+		F8DDD0571BD51FD400183CFF /* soun_sequenceInstance.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = soun_sequenceInstance.cpp; path = soun/soun_sequenceInstance.cpp; sourceTree = "<group>"; };
+		F8DDD0631BD5213B00183CFF /* grap_screen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = grap_screen.h; path = grap/grap_screen.h; sourceTree = "<group>"; };
+		F8DDD0651BD5214E00183CFF /* grap_screen.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = grap_screen.cpp; path = grap/grap_screen.cpp; sourceTree = "<group>"; };
+		F8DDD0671BD521F100183CFF /* test_backMenuItem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = test_backMenuItem.cpp; sourceTree = "<group>"; };
+		F8DDD0681BD521F100183CFF /* test_menuPage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = test_menuPage.cpp; sourceTree = "<group>"; };
+		F8DDD0691BD521F100183CFF /* test_menuShared.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = test_menuShared.cpp; sourceTree = "<group>"; };
+		F8DDD06A1BD521F100183CFF /* test_pageMenuItem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = test_pageMenuItem.cpp; sourceTree = "<group>"; };
+		F8DDD06F1BD5221E00183CFF /* test_backMenuItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = test_backMenuItem.h; sourceTree = "<group>"; };
+		F8DDD0701BD5221E00183CFF /* test_menuPage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = test_menuPage.h; sourceTree = "<group>"; };
+		F8DDD0711BD5221E00183CFF /* test_menuShared.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = test_menuShared.h; sourceTree = "<group>"; };
+		F8DDD0721BD5221E00183CFF /* test_pageMenuItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = test_pageMenuItem.h; sourceTree = "<group>"; };
 		F8E1B1371AE685030045B0D2 /* libLifecycleRuntime.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libLifecycleRuntime.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		F8E1B1531AE7D4D70045B0D2 /* file_accessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = file_accessor.h; sourceTree = "<group>"; };
 		F8E1B1541AE7D4D70045B0D2 /* file_packedAccessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = file_packedAccessor.h; sourceTree = "<group>"; };
@@ -236,7 +304,6 @@
 		F8E1B17E1AE7D4D70045B0D2 /* fram_overlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = fram_overlay.h; sourceTree = "<group>"; };
 		F8E1B17F1AE7D4D70045B0D2 /* fram_program.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = fram_program.h; sourceTree = "<group>"; };
 		F8E1B1801AE7D4D70045B0D2 /* fram_program_OBJC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = fram_program_OBJC.h; sourceTree = "<group>"; };
-		F8E1B1811AE7D4D70045B0D2 /* fram_screen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = fram_screen.h; sourceTree = "<group>"; };
 		F8E1B1851AE7D4D70045B0D2 /* imag_assets.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = imag_assets.h; sourceTree = "<group>"; };
 		F8E1B1861AE7D4D70045B0D2 /* imag_constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = imag_constants.h; sourceTree = "<group>"; };
 		F8E1B1871AE7D4D70045B0D2 /* imag_data.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = imag_data.h; sourceTree = "<group>"; };
@@ -291,7 +358,6 @@
 		F8E1B2261AE7D4F60045B0D2 /* fram_overlay.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = fram_overlay.cpp; sourceTree = "<group>"; };
 		F8E1B2271AE7D4F60045B0D2 /* fram_program.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = fram_program.cpp; sourceTree = "<group>"; };
 		F8E1B2281AE7D4F60045B0D2 /* fram_program_OBJC.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = fram_program_OBJC.mm; sourceTree = "<group>"; };
-		F8E1B2291AE7D4F60045B0D2 /* fram_screen.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = fram_screen.cpp; sourceTree = "<group>"; };
 		F8E1B22F1AE7D4F60045B0D2 /* inpu_cursor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = inpu_cursor.cpp; sourceTree = "<group>"; };
 		F8E1B2301AE7D4F60045B0D2 /* inpu_mouseCursor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = inpu_mouseCursor.cpp; sourceTree = "<group>"; };
 		F8E1B2311AE7D4F60045B0D2 /* inpu_mouseReader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = inpu_mouseReader.cpp; sourceTree = "<group>"; };
@@ -343,6 +409,7 @@
 		F8BCEFC61B2B1EBB00001A93 /* grap */ = {
 			isa = PBXGroup;
 			children = (
+				F8DDD0651BD5214E00183CFF /* grap_screen.cpp */,
 				F8BCEFC71B2B1ECD00001A93 /* grap_device.cpp */,
 			);
 			name = grap;
@@ -351,6 +418,7 @@
 		F8BCEFC91B2B1ED900001A93 /* grap */ = {
 			isa = PBXGroup;
 			children = (
+				F8DDD0631BD5213B00183CFF /* grap_screen.h */,
 				F8BCEFCA1B2B1EF900001A93 /* grap_constants.h */,
 				F8BCEFCB1B2B1EF900001A93 /* grap_data.h */,
 				F8BCEFCC1B2B1EF900001A93 /* grap_debug.h */,
@@ -408,6 +476,59 @@
 			name = WINDOWS;
 			sourceTree = "<group>";
 		};
+		F8DDD0291BD51ECA00183CFF /* audi */ = {
+			isa = PBXGroup;
+			children = (
+				F8DDD02A1BD51EFE00183CFF /* audi_constants.h */,
+				F8DDD02B1BD51EFE00183CFF /* audi_debug.h */,
+				F8DDD02C1BD51EFE00183CFF /* audi_device.h */,
+				F8DDD02D1BD51EFE00183CFF /* audi_parameters.h */,
+				F8DDD02E1BD51EFE00183CFF /* audi_resources.h */,
+			);
+			name = audi;
+			sourceTree = "<group>";
+		};
+		F8DDD0341BD51F1200183CFF /* soun */ = {
+			isa = PBXGroup;
+			children = (
+				F8DDD0351BD51F4900183CFF /* soun_assetHandler.h */,
+				F8DDD0361BD51F4900183CFF /* soun_assets.h */,
+				F8DDD0371BD51F4900183CFF /* soun_clipCoordinator.h */,
+				F8DDD0381BD51F4900183CFF /* soun_clipInstance.h */,
+				F8DDD0391BD51F4900183CFF /* soun_constants.h */,
+				F8DDD03A1BD51F4900183CFF /* soun_data.h */,
+				F8DDD03B1BD51F4900183CFF /* soun_handles.h */,
+				F8DDD03C1BD51F4900183CFF /* soun_playContext.h */,
+				F8DDD03D1BD51F4900183CFF /* soun_rampInstance.h */,
+				F8DDD03E1BD51F4900183CFF /* soun_sequenceCoordinator.h */,
+				F8DDD03F1BD51F4900183CFF /* soun_sequenceInstance.h */,
+				F8DDD0401BD51F4900183CFF /* soun_stats.h */,
+			);
+			name = soun;
+			sourceTree = "<group>";
+		};
+		F8DDD04D1BD51FA300183CFF /* audi */ = {
+			isa = PBXGroup;
+			children = (
+				F8DDD04E1BD51FB900183CFF /* audi_device.cpp */,
+			);
+			name = audi;
+			sourceTree = "<group>";
+		};
+		F8DDD0501BD51FC300183CFF /* soun */ = {
+			isa = PBXGroup;
+			children = (
+				F8DDD0511BD51FD400183CFF /* soun_assetHandler.cpp */,
+				F8DDD0521BD51FD400183CFF /* soun_assets.cpp */,
+				F8DDD0531BD51FD400183CFF /* soun_clipCoordinator.cpp */,
+				F8DDD0541BD51FD400183CFF /* soun_clipInstance.cpp */,
+				F8DDD0551BD51FD400183CFF /* soun_rampInstance.cpp */,
+				F8DDD0561BD51FD400183CFF /* soun_sequenceCoordinator.cpp */,
+				F8DDD0571BD51FD400183CFF /* soun_sequenceInstance.cpp */,
+			);
+			name = soun;
+			sourceTree = "<group>";
+		};
 		F8E1B12E1AE685030045B0D2 = {
 			isa = PBXGroup;
 			children = (
@@ -429,6 +550,8 @@
 		F8E1B1511AE7D4D70045B0D2 /* include */ = {
 			isa = PBXGroup;
 			children = (
+				F8DDD0341BD51F1200183CFF /* soun */,
+				F8DDD0291BD51ECA00183CFF /* audi */,
 				F8E1B1521AE7D4D70045B0D2 /* file */,
 				F8E1B1561AE7D4D70045B0D2 /* fill */,
 				F8E1B15A1AE7D4D70045B0D2 /* font */,
@@ -518,7 +641,6 @@
 				F8E1B17E1AE7D4D70045B0D2 /* fram_overlay.h */,
 				F8E1B17F1AE7D4D70045B0D2 /* fram_program.h */,
 				F8E1B1801AE7D4D70045B0D2 /* fram_program_OBJC.h */,
-				F8E1B1811AE7D4D70045B0D2 /* fram_screen.h */,
 			);
 			path = fram;
 			sourceTree = "<group>";
@@ -581,6 +703,10 @@
 		F8E1B1A81AE7D4D70045B0D2 /* test */ = {
 			isa = PBXGroup;
 			children = (
+				F8DDD06F1BD5221E00183CFF /* test_backMenuItem.h */,
+				F8DDD0701BD5221E00183CFF /* test_menuPage.h */,
+				F8DDD0711BD5221E00183CFF /* test_menuShared.h */,
+				F8DDD0721BD5221E00183CFF /* test_pageMenuItem.h */,
 				F8E1B1A91AE7D4D70045B0D2 /* test_actionMenuItem.h */,
 				F8E1B1AA1AE7D4D70045B0D2 /* test_boolMenuItem.h */,
 				F8E1B1AB1AE7D4D70045B0D2 /* test_button.h */,
@@ -605,6 +731,8 @@
 		F8E1B20A1AE7D4F60045B0D2 /* source */ = {
 			isa = PBXGroup;
 			children = (
+				F8DDD0501BD51FC300183CFF /* soun */,
+				F8DDD04D1BD51FA300183CFF /* audi */,
 				F8E1B20B1AE7D4F60045B0D2 /* file */,
 				F8E1B20F1AE7D4F60045B0D2 /* fill */,
 				F8E1B2111AE7D4F60045B0D2 /* font */,
@@ -679,7 +807,6 @@
 				F8E1B2261AE7D4F60045B0D2 /* fram_overlay.cpp */,
 				F8E1B2271AE7D4F60045B0D2 /* fram_program.cpp */,
 				F8E1B2281AE7D4F60045B0D2 /* fram_program_OBJC.mm */,
-				F8E1B2291AE7D4F60045B0D2 /* fram_screen.cpp */,
 			);
 			path = fram;
 			sourceTree = "<group>";
@@ -735,6 +862,10 @@
 		F8E1B2421AE7D4F60045B0D2 /* test */ = {
 			isa = PBXGroup;
 			children = (
+				F8DDD0671BD521F100183CFF /* test_backMenuItem.cpp */,
+				F8DDD0681BD521F100183CFF /* test_menuPage.cpp */,
+				F8DDD0691BD521F100183CFF /* test_menuShared.cpp */,
+				F8DDD06A1BD521F100183CFF /* test_pageMenuItem.cpp */,
 				F8E1B2431AE7D4F60045B0D2 /* test_actionMenuItem.cpp */,
 				F8E1B2441AE7D4F60045B0D2 /* test_boolMenuItem.cpp */,
 				F8E1B2451AE7D4F60045B0D2 /* test_button.cpp */,
@@ -862,8 +993,9 @@
 				F8E1B1D71AE7D4D70045B0D2 /* fram_message.h in Headers */,
 				F8E1B1E11AE7D4D70045B0D2 /* imag_assets.h in Headers */,
 				F8E1B1FA1AE7D4D70045B0D2 /* spri_constants.h in Headers */,
+				F8DDD0751BD5221E00183CFF /* test_menuShared.h in Headers */,
+				F8DDD0311BD51EFE00183CFF /* audi_device.h in Headers */,
 				F8E1B1EA1AE7D4D70045B0D2 /* inpu_mouseReader_OBJC.h in Headers */,
-				F8E1B1DE1AE7D4D70045B0D2 /* fram_screen.h in Headers */,
 				F8E1B1C81AE7D4D70045B0D2 /* foun_flags.h in Headers */,
 				F8BCEFE91B49E0DD00001A93 /* imag_assetHandler.h in Headers */,
 				F8E1B1CD1AE7D4D70045B0D2 /* foun_list.h in Headers */,
@@ -871,14 +1003,19 @@
 				F8E1B1C31AE7D4D70045B0D2 /* font_symbolWriter.h in Headers */,
 				F8BCEFF41B49E14000001A93 /* pass_assets.h in Headers */,
 				F8BCEFD11B2B1EF900001A93 /* grap_data.h in Headers */,
+				F8DDD0331BD51EFE00183CFF /* audi_resources.h in Headers */,
 				F8BCEFF31B49E14000001A93 /* pass_assetHandler.h in Headers */,
 				F8E1B1D31AE7D4D70045B0D2 /* foun_rect.h in Headers */,
 				F8E1B1D21AE7D4D70045B0D2 /* foun_primitives.h in Headers */,
+				F8DDD04C1BD51F4900183CFF /* soun_stats.h in Headers */,
+				F8DDD0731BD5221E00183CFF /* test_backMenuItem.h in Headers */,
 				F8BCEFE51B49E09600001A93 /* spri_assetHandler.h in Headers */,
 				F8E1B1B41AE7D4D70045B0D2 /* file_accessor.h in Headers */,
+				F8DDD0451BD51F4900183CFF /* soun_constants.h in Headers */,
 				F8E1B2011AE7D4D70045B0D2 /* test_boolMenuItem.h in Headers */,
 				F8E1B1CA1AE7D4D70045B0D2 /* foun_intersection.h in Headers */,
 				F8E1B1E71AE7D4D70045B0D2 /* inpu_cursor.h in Headers */,
+				F8DDD0481BD51F4900183CFF /* soun_playContext.h in Headers */,
 				F8E1B1B71AE7D4D70045B0D2 /* fill_data.h in Headers */,
 				F8E1B1D01AE7D4D70045B0D2 /* foun_matrix.h in Headers */,
 				F8E1B1DD1AE7D4D70045B0D2 /* fram_program_OBJC.h in Headers */,
@@ -886,37 +1023,46 @@
 				F8BCEFD01B2B1EF900001A93 /* grap_constants.h in Headers */,
 				F8E1B2061AE7D4D70045B0D2 /* test_menuItem.h in Headers */,
 				F8E1B1EC1AE7D4D70045B0D2 /* inpu_touchReader.h in Headers */,
+				F8DDD0741BD5221E00183CFF /* test_menuPage.h in Headers */,
 				F8E1B2071AE7D4D70045B0D2 /* test_stringArrayMenuItem.h in Headers */,
 				F8E1B1EF1AE7D4D70045B0D2 /* pack_packageWalker.h in Headers */,
 				F8E1B2031AE7D4D70045B0D2 /* test_cycleMenuItem.h in Headers */,
 				F8E1B1BC1AE7D4D70045B0D2 /* font_assets.h in Headers */,
 				F8E1B1BD1AE7D4D70045B0D2 /* font_constants.h in Headers */,
 				F8E1B1CC1AE7D4D70045B0D2 /* foun_linearAllocator.h in Headers */,
+				F8DDD0491BD51F4900183CFF /* soun_rampInstance.h in Headers */,
 				F8E1B1C51AE7D4D70045B0D2 /* foun_callback.h in Headers */,
+				F8DDD04B1BD51F4900183CFF /* soun_sequenceInstance.h in Headers */,
 				F8E1B1D61AE7D4D70045B0D2 /* foun_vector.h in Headers */,
 				F8E1B2021AE7D4D70045B0D2 /* test_button.h in Headers */,
 				F8E1B1DB1AE7D4D70045B0D2 /* fram_overlay.h in Headers */,
 				F8E1B1C21AE7D4D70045B0D2 /* font_symbolBuffer.h in Headers */,
 				F8E1B1FE1AE7D4D70045B0D2 /* spri_instanceBuilder.h in Headers */,
+				F8DDD02F1BD51EFE00183CFF /* audi_constants.h in Headers */,
 				F8BCEFDD1B2B1F8D00001A93 /* spri_arrays.h in Headers */,
 				F8E1B1D81AE7D4D70045B0D2 /* fram_messageQueue.h in Headers */,
 				F8E1B1D51AE7D4D70045B0D2 /* foun_tree.h in Headers */,
 				F8BCEFD91B2B1F4700001A93 /* fill_constants.h in Headers */,
+				F8DDD0641BD5213B00183CFF /* grap_screen.h in Headers */,
 				F8E1B1CE1AE7D4D70045B0D2 /* foun_math.h in Headers */,
 				F8E1B1C41AE7D4D70045B0D2 /* foun_allocator.h in Headers */,
 				F8E1B1FB1AE7D4D70045B0D2 /* spri_data.h in Headers */,
 				F8BCEFE71B49E0A100001A93 /* font_assetHandler.h in Headers */,
+				F8DDD0441BD51F4900183CFF /* soun_clipInstance.h in Headers */,
 				F8BCEFED1B49E10000001A93 /* pack_assets.h in Headers */,
 				F8BCEFD51B2B1EF900001A93 /* grap_resources.h in Headers */,
 				F8E1B2081AE7D4D70045B0D2 /* util_binaryReader.h in Headers */,
+				F8DDD0301BD51EFE00183CFF /* audi_debug.h in Headers */,
 				F8E1B1F41AE7D4D70045B0D2 /* spri_animationInstance.h in Headers */,
 				F8E1B2041AE7D4D70045B0D2 /* test_floatRangeMenuItem.h in Headers */,
 				F8E1B1F81AE7D4D70045B0D2 /* spri_bindingBuilder.h in Headers */,
 				F8E1B1C91AE7D4D70045B0D2 /* foun_graphicsDebug.h in Headers */,
+				F8DDD0411BD51F4900183CFF /* soun_assetHandler.h in Headers */,
 				F8E1B1BE1AE7D4D70045B0D2 /* font_data.h in Headers */,
 				F8E1B1F91AE7D4D70045B0D2 /* spri_bindings.h in Headers */,
 				F8E1B1E91AE7D4D70045B0D2 /* inpu_mouseReader.h in Headers */,
 				F8E1B1DC1AE7D4D70045B0D2 /* fram_program.h in Headers */,
+				F8DDD0471BD51F4900183CFF /* soun_handles.h in Headers */,
 				F8E1B1CF1AE7D4D70045B0D2 /* foun_mathTables.h in Headers */,
 				F8BCEFF61B49E14000001A93 /* pass_data.h in Headers */,
 				F8E1B1DA1AE7D4D70045B0D2 /* fram_modeFactory.h in Headers */,
@@ -925,13 +1071,16 @@
 				F8E1B1D91AE7D4D70045B0D2 /* fram_mode.h in Headers */,
 				F8E1B1EB1AE7D4D70045B0D2 /* inpu_touchCursor.h in Headers */,
 				F8BCEFD41B2B1EF900001A93 /* grap_parameters.h in Headers */,
+				F8DDD0461BD51F4900183CFF /* soun_data.h in Headers */,
 				F8E1B1C61AE7D4D70045B0D2 /* foun_color.h in Headers */,
 				F8BCEFEB1B49E0F200001A93 /* pack_assetContainer.h in Headers */,
 				F8E1B1F71AE7D4D70045B0D2 /* spri_assets.h in Headers */,
 				F8E1B1D41AE7D4D70045B0D2 /* foun_string.h in Headers */,
 				F8E1B2091AE7D4D70045B0D2 /* util_indexMap.h in Headers */,
+				F8DDD0761BD5221E00183CFF /* test_pageMenuItem.h in Headers */,
 				F8E1B1E81AE7D4D70045B0D2 /* inpu_mouseCursor.h in Headers */,
 				F8BCEFD31B2B1EF900001A93 /* grap_device.h in Headers */,
+				F8DDD0321BD51EFE00183CFF /* audi_parameters.h in Headers */,
 				F8E1B1E21AE7D4D70045B0D2 /* imag_constants.h in Headers */,
 				F8BCEFDB1B2B1F6600001A93 /* font_arrays.h in Headers */,
 				F8BCEFD21B2B1EF900001A93 /* grap_debug.h in Headers */,
@@ -941,10 +1090,13 @@
 				F8E1B1CB1AE7D4D70045B0D2 /* foun_keys.h in Headers */,
 				F8E1B1BF1AE7D4D70045B0D2 /* font_drawContext.h in Headers */,
 				F8E1B1ED1AE7D4D70045B0D2 /* pack_assetHandler.h in Headers */,
+				F8DDD0421BD51F4900183CFF /* soun_assets.h in Headers */,
+				F8DDD04A1BD51F4900183CFF /* soun_sequenceCoordinator.h in Headers */,
 				F8BCEFD81B2B1F4700001A93 /* fill_arrays.h in Headers */,
 				F8E1B1EE1AE7D4D70045B0D2 /* pack_assetHeader.h in Headers */,
 				F8E1B1FC1AE7D4D70045B0D2 /* spri_drawContext.h in Headers */,
 				F8E1B1B61AE7D4D70045B0D2 /* file_systemAccessor.h in Headers */,
+				F8DDD0431BD51F4900183CFF /* soun_clipCoordinator.h in Headers */,
 				F8E1B1B51AE7D4D70045B0D2 /* file_packedAccessor.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1008,7 +1160,11 @@
 				F8E1B2791AE7D4F60045B0D2 /* spri_figureInstance.cpp in Sources */,
 				F8E1B25D1AE7D4F60045B0D2 /* foun_mathTables.cpp in Sources */,
 				F8BCEFE11B2B1FD400001A93 /* fill_arrays.cpp in Sources */,
+				F8DDD06B1BD521F100183CFF /* test_backMenuItem.cpp in Sources */,
 				F8E1B2771AE7D4F60045B0D2 /* spri_bindingBuilder.cpp in Sources */,
+				F8DDD05E1BD51FD400183CFF /* soun_sequenceInstance.cpp in Sources */,
+				F8DDD05D1BD51FD400183CFF /* soun_sequenceCoordinator.cpp in Sources */,
+				F8DDD0591BD51FD400183CFF /* soun_assets.cpp in Sources */,
 				F8E1B2611AE7D4F60045B0D2 /* fram_messageQueue.cpp in Sources */,
 				F8BCF0001B49E19400001A93 /* imag_assetHandler.cpp in Sources */,
 				F8E1B2721AE7D4F60045B0D2 /* pack_packageWalker.cpp in Sources */,
@@ -1019,22 +1175,27 @@
 				F8E1B24F1AE7D4F60045B0D2 /* file_packedAccessor.cpp in Sources */,
 				F8BCF0051B49E1C800001A93 /* font_assetHandler.cpp in Sources */,
 				F8E1B2571AE7D4F60045B0D2 /* font_symbolWriter.cpp in Sources */,
+				F8DDD06D1BD521F100183CFF /* test_menuShared.cpp in Sources */,
 				F8E1B27B1AE7D4F60045B0D2 /* test_actionMenuItem.cpp in Sources */,
 				F8E1B26C1AE7D4F60045B0D2 /* inpu_mouseCursor.cpp in Sources */,
 				F8E1B27F1AE7D4F60045B0D2 /* test_floatRangeMenuItem.cpp in Sources */,
 				F8E1B24E1AE7D4F60045B0D2 /* file_accessor.cpp in Sources */,
 				F8BCEFE31B2B1FEA00001A93 /* spri_arrays.cpp in Sources */,
 				F8E1B2801AE7D4F60045B0D2 /* test_menu.cpp in Sources */,
+				F8DDD0661BD5214E00183CFF /* grap_screen.cpp in Sources */,
 				F8E1B2641AE7D4F60045B0D2 /* fram_overlay.cpp in Sources */,
 				F8E1B2631AE7D4F60045B0D2 /* fram_modeFactory.cpp in Sources */,
 				F8E1B27E1AE7D4F60045B0D2 /* test_cycleMenuItem.cpp in Sources */,
 				F8E1B2591AE7D4F60045B0D2 /* foun_intersection.cpp in Sources */,
+				F8DDD05A1BD51FD400183CFF /* soun_clipCoordinator.cpp in Sources */,
 				F8E1B2781AE7D4F60045B0D2 /* spri_drawContext.cpp in Sources */,
 				F8E1B25E1AE7D4F60045B0D2 /* foun_matrix.cpp in Sources */,
 				F8BCF0011B49E19400001A93 /* imag_assets.cpp in Sources */,
 				F8E1B2711AE7D4F60045B0D2 /* pack_assetHandler.cpp in Sources */,
 				F8BCF0061B49E1C800001A93 /* font_assets.cpp in Sources */,
+				F8DDD06C1BD521F100183CFF /* test_menuPage.cpp in Sources */,
 				F8E1B2661AE7D4F60045B0D2 /* fram_program_OBJC.mm in Sources */,
+				F8DDD0581BD51FD400183CFF /* soun_assetHandler.cpp in Sources */,
 				F8E1B2511AE7D4F60045B0D2 /* fill_drawContext.cpp in Sources */,
 				F8BCEFF91B49E16C00001A93 /* spri_assetHandler.cpp in Sources */,
 				F8E1B25F1AE7D4F60045B0D2 /* foun_rect.cpp in Sources */,
@@ -1045,17 +1206,20 @@
 				F8E1B27A1AE7D4F60045B0D2 /* spri_instanceBuilder.cpp in Sources */,
 				F8E1B27D1AE7D4F60045B0D2 /* test_button.cpp in Sources */,
 				F8E1B2811AE7D4F60045B0D2 /* test_menuItem.cpp in Sources */,
-				F8E1B2671AE7D4F60045B0D2 /* fram_screen.cpp in Sources */,
 				F8E1B2821AE7D4F60045B0D2 /* test_stringArrayMenuItem.cpp in Sources */,
 				F8E1B2621AE7D4F60045B0D2 /* fram_mode.cpp in Sources */,
 				F8BCF00A1B49E21D00001A93 /* pass_assetHandler.cpp in Sources */,
 				F8BCEFDF1B2B1FBD00001A93 /* font_arrays.cpp in Sources */,
 				F8E1B2581AE7D4F60045B0D2 /* foun_allocator.cpp in Sources */,
+				F8DDD06E1BD521F100183CFF /* test_pageMenuItem.cpp in Sources */,
 				F8E1B2741AE7D4F60045B0D2 /* spri_animationInstance.cpp in Sources */,
 				F8BCEFFA1B49E16C00001A93 /* spri_assets.cpp in Sources */,
 				F8E1B2501AE7D4F60045B0D2 /* file_systemAccessor.cpp in Sources */,
 				F8E1B2541AE7D4F60045B0D2 /* font_drawContext.cpp in Sources */,
+				F8DDD05B1BD51FD400183CFF /* soun_clipInstance.cpp in Sources */,
 				F8E1B26E1AE7D4F60045B0D2 /* inpu_mouseReader_OBJC.mm in Sources */,
+				F8DDD05C1BD51FD400183CFF /* soun_rampInstance.cpp in Sources */,
+				F8DDD04F1BD51FB900183CFF /* audi_device.cpp in Sources */,
 				F8E1B27C1AE7D4F60045B0D2 /* test_boolMenuItem.cpp in Sources */,
 				F8E1B2701AE7D4F60045B0D2 /* inpu_touchReader.cpp in Sources */,
 				F8E1B2561AE7D4F60045B0D2 /* font_symbolBuffer.cpp in Sources */,
@@ -1097,6 +1261,7 @@
 					"DEBUG=1",
 					"$(inherited)",
 					LCT_OSX,
+					LCT_DEBUG,
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;

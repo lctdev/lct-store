@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		F8BCF0171B49E49800001A93 /* programAssets.xml in Resources */ = {isa = PBXBuildFile; fileRef = F8BCF0161B49E49800001A93 /* programAssets.xml */; };
 		F8BCF0191B49E54800001A93 /* buildAssets.sh in Resources */ = {isa = PBXBuildFile; fileRef = F8BCF0181B49E54800001A93 /* buildAssets.sh */; };
+		F8DDD0781BD522D200183CFF /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8DDD0771BD522D200183CFF /* OpenAL.framework */; };
 		F8E1B34E1AEF419D0045B0D2 /* main.mm in Sources */ = {isa = PBXBuildFile; fileRef = F8E1B34D1AEF419D0045B0D2 /* main.mm */; };
 		F8E1B3691AEF43530045B0D2 /* libAssetViewer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F8E1B3681AEF43530045B0D2 /* libAssetViewer.a */; };
 		F8E1B36B1AEF46CF0045B0D2 /* libLifecycleRuntime.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F8E1B36A1AEF46CF0045B0D2 /* libLifecycleRuntime.a */; };
@@ -19,6 +20,7 @@
 /* Begin PBXFileReference section */
 		F8BCF0161B49E49800001A93 /* programAssets.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = programAssets.xml; sourceTree = "<group>"; };
 		F8BCF0181B49E54800001A93 /* buildAssets.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = buildAssets.sh; sourceTree = "<group>"; };
+		F8DDD0771BD522D200183CFF /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = System/Library/Frameworks/OpenAL.framework; sourceTree = SDKROOT; };
 		F8E1B3451AEF419D0045B0D2 /* AssetViewer_OSX.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AssetViewer_OSX.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F8E1B3491AEF419D0045B0D2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F8E1B34D1AEF419D0045B0D2 /* main.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = main.mm; sourceTree = "<group>"; };
@@ -33,6 +35,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F8DDD0781BD522D200183CFF /* OpenAL.framework in Frameworks */,
 				F8E1B36F1AEF47600045B0D2 /* Cocoa.framework in Frameworks */,
 				F8E1B36D1AEF474D0045B0D2 /* OpenGL.framework in Frameworks */,
 				F8E1B36B1AEF46CF0045B0D2 /* libLifecycleRuntime.a in Frameworks */,
@@ -46,6 +49,7 @@
 		F8E1B33C1AEF419D0045B0D2 = {
 			isa = PBXGroup;
 			children = (
+				F8DDD0771BD522D200183CFF /* OpenAL.framework */,
 				F8E1B3701AEFBACD0045B0D2 /* script */,
 				F8E1B36E1AEF47600045B0D2 /* Cocoa.framework */,
 				F8E1B36C1AEF474D0045B0D2 /* OpenGL.framework */,
