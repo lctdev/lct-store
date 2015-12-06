@@ -284,6 +284,14 @@ void Device::ReleaseTextureResource(const TextureSetupParameters& textureSetupPa
 	--m_acquiredTextureResourceCount;
 }
 
+void Device::ClearFrameBuffer(const lct::foun::FloatColor& clearColor)
+{
+	glClearColor(clearColor.r, clearColor.g, clearColor.b, clearColor.a);
+	glClear(GL_COLOR_BUFFER_BIT);
+	
+	LCT_TRACE_GL_ERROR();
+}
+
 void Device::ActivateRenderState(RenderStateParameters& renderStateParameters)
 {
 	if (renderStateParameters.enableBlend)
@@ -342,7 +350,7 @@ void Device::ActivateVertex(const VertexResource* pVertexResource)
 	for (u32 attributeIndex = 0; attributeIndex < pVertexResource->attributeCount; ++attributeIndex)
 	{
 		const grap::AttributeData* pAttributeData = pVertexResource->pAttributeDataArray + attributeIndex;
-		glVertexAttribPointer(attributeIndex, pAttributeData->componentCount, GL_FLOAT, GL_FALSE, pVertexResource->vertexStride, (GLvoid*)attributeOffset);
+		glVertexAttribPointer(attributeIndex, pAttributeData->componentCount, GL_FLOAT, GL_FALSE, pVertexResource->vertexStride, reinterpret_cast<GLvoid*>(attributeOffset));
 		glEnableVertexAttribArray(attributeIndex);
 
 		u32 attributeSize = pAttributeData->componentCount * sizeof(f32);
@@ -389,7 +397,7 @@ void Device::Draw(u32 indexCount, u32 indexOffset, IndexType indexType)
 		GL_UNSIGNED_SHORT
 	};
 
-	glDrawElements(GL_TRIANGLES, indexCount, TYPE_TABLE[indexType], (GLvoid*)indexOffset);
+	glDrawElements(GL_TRIANGLES, indexCount, TYPE_TABLE[indexType], reinterpret_cast<GLvoid*>(indexOffset));
 
 	LCT_TRACE_GL_ERROR();
 }

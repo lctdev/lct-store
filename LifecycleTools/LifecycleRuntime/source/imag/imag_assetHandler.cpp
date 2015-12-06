@@ -147,7 +147,8 @@ void AssetHandler::AcquireAllAssetResources()
 			m_pGraphicsDevice->AcquireTextureResource(textureSetupParameters);
 
 			// advance to the next texture binary in the table
-			pTextureBinary = reinterpret_cast<void*>(reinterpret_cast<u32>(pTextureBinary)+textureSize);
+			uptr textureAddr = reinterpret_cast<uptr>(pTextureBinary);
+			pTextureBinary = reinterpret_cast<void*>(textureAddr + textureSize);
 		}
 	}
 }

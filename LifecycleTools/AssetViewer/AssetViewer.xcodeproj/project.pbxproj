@@ -7,8 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		F8DDD0601BD5204900183CFF /* soundViewerMode.h in Headers */ = {isa = PBXBuildFile; fileRef = F8DDD05F1BD5204900183CFF /* soundViewerMode.h */; settings = {ASSET_TAGS = (); }; };
-		F8DDD0621BD5205A00183CFF /* soundViewerMode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F8DDD0611BD5205A00183CFF /* soundViewerMode.cpp */; settings = {ASSET_TAGS = (); }; };
+		F8DDD0601BD5204900183CFF /* soundViewerMode.h in Headers */ = {isa = PBXBuildFile; fileRef = F8DDD05F1BD5204900183CFF /* soundViewerMode.h */; };
+		F8DDD0621BD5205A00183CFF /* soundViewerMode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F8DDD0611BD5205A00183CFF /* soundViewerMode.cpp */; };
+		F8DDD1051BE0860C00183CFF /* soundViewerMode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F8DDD0611BD5205A00183CFF /* soundViewerMode.cpp */; };
+		F8DDD1061BE0860C00183CFF /* assetViewerMode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F8E1B2D31AEE690A0045B0D2 /* assetViewerMode.cpp */; };
+		F8DDD1071BE0860C00183CFF /* assetViewerOverlay.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F8E1B2D41AEE690A0045B0D2 /* assetViewerOverlay.cpp */; };
+		F8DDD1081BE0860C00183CFF /* assetViewerProgram.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F8E1B2D51AEE690A0045B0D2 /* assetViewerProgram.cpp */; };
+		F8DDD1091BE0860C00183CFF /* spriteViewerMode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F8E1B2D61AEE690A0045B0D2 /* spriteViewerMode.cpp */; };
 		F8E1B2CD1AEE68F30045B0D2 /* assetViewerMessages.h in Headers */ = {isa = PBXBuildFile; fileRef = F8E1B2C81AEE68F20045B0D2 /* assetViewerMessages.h */; };
 		F8E1B2CE1AEE68F30045B0D2 /* assetViewerMode.h in Headers */ = {isa = PBXBuildFile; fileRef = F8E1B2C91AEE68F30045B0D2 /* assetViewerMode.h */; };
 		F8E1B2CF1AEE68F30045B0D2 /* assetViewerOverlay.h in Headers */ = {isa = PBXBuildFile; fileRef = F8E1B2CA1AEE68F30045B0D2 /* assetViewerOverlay.h */; };
@@ -20,9 +25,22 @@
 		F8E1B2DA1AEE690A0045B0D2 /* spriteViewerMode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F8E1B2D61AEE690A0045B0D2 /* spriteViewerMode.cpp */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		F8DDD0FA1BE0847900183CFF /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/$(PRODUCT_NAME)";
+			dstSubfolderSpec = 16;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		F8DDD05F1BD5204900183CFF /* soundViewerMode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = soundViewerMode.h; sourceTree = "<group>"; };
 		F8DDD0611BD5205A00183CFF /* soundViewerMode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = soundViewerMode.cpp; sourceTree = "<group>"; };
+		F8DDD0FC1BE0847900183CFF /* libAssetViewer_IOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAssetViewer_IOS.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		F8E1B2AD1AEE67EF0045B0D2 /* libAssetViewer.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAssetViewer.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		F8E1B2C81AEE68F20045B0D2 /* assetViewerMessages.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = assetViewerMessages.h; sourceTree = "<group>"; };
 		F8E1B2C91AEE68F30045B0D2 /* assetViewerMode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = assetViewerMode.h; sourceTree = "<group>"; };
@@ -36,6 +54,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		F8DDD0F91BE0847900183CFF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		F8E1B2AA1AEE67EF0045B0D2 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -59,6 +84,7 @@
 			isa = PBXGroup;
 			children = (
 				F8E1B2AD1AEE67EF0045B0D2 /* libAssetViewer.a */,
+				F8DDD0FC1BE0847900183CFF /* libAssetViewer_IOS.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -107,6 +133,23 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		F8DDD0FB1BE0847900183CFF /* AssetViewer_IOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F8DDD1021BE0847A00183CFF /* Build configuration list for PBXNativeTarget "AssetViewer_IOS" */;
+			buildPhases = (
+				F8DDD0F81BE0847900183CFF /* Sources */,
+				F8DDD0F91BE0847900183CFF /* Frameworks */,
+				F8DDD0FA1BE0847900183CFF /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = AssetViewer_IOS;
+			productName = AssetViewer_IOS;
+			productReference = F8DDD0FC1BE0847900183CFF /* libAssetViewer_IOS.a */;
+			productType = "com.apple.product-type.library.static";
+		};
 		F8E1B2AC1AEE67EF0045B0D2 /* AssetViewer */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = F8E1B2C11AEE67EF0045B0D2 /* Build configuration list for PBXNativeTarget "AssetViewer" */;
@@ -133,6 +176,9 @@
 				LastUpgradeCheck = 0620;
 				ORGANIZATIONNAME = "Michael Kron";
 				TargetAttributes = {
+					F8DDD0FB1BE0847900183CFF = {
+						CreatedOnToolsVersion = 7.0.1;
+					};
 					F8E1B2AC1AEE67EF0045B0D2 = {
 						CreatedOnToolsVersion = 6.2;
 					};
@@ -151,11 +197,24 @@
 			projectRoot = "";
 			targets = (
 				F8E1B2AC1AEE67EF0045B0D2 /* AssetViewer */,
+				F8DDD0FB1BE0847900183CFF /* AssetViewer_IOS */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXSourcesBuildPhase section */
+		F8DDD0F81BE0847900183CFF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F8DDD1051BE0860C00183CFF /* soundViewerMode.cpp in Sources */,
+				F8DDD1061BE0860C00183CFF /* assetViewerMode.cpp in Sources */,
+				F8DDD1071BE0860C00183CFF /* assetViewerOverlay.cpp in Sources */,
+				F8DDD1081BE0860C00183CFF /* assetViewerProgram.cpp in Sources */,
+				F8DDD1091BE0860C00183CFF /* spriteViewerMode.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		F8E1B2A91AEE67EF0045B0D2 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -171,11 +230,47 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
+		F8DDD1031BE0847A00183CFF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_TESTABILITY = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+					LCT_IOS,
+				);
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				VALID_ARCHS = "arm64 armv7 armv7s x86_64";
+			};
+			name = Debug;
+		};
+		F8DDD1041BE0847A00183CFF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
 		F8E1B2BF1AEE67EF0045B0D2 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				ARCHS = "$(ARCHS_STANDARD)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -197,7 +292,7 @@
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
-					LCT_OSX,
+					LCT_DEBUG,
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -214,7 +309,7 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = YES;
-				ONLY_ACTIVE_ARCH = YES;
+				ONLY_ACTIVE_ARCH = NO;
 				SDKROOT = macosx;
 			};
 			name = Debug;
@@ -223,7 +318,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				ARCHS = "$(ARCHS_STANDARD)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -264,6 +359,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				EXECUTABLE_PREFIX = lib;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+					LCT_DEBUG,
+					LCT_OSX,
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -279,6 +380,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		F8DDD1021BE0847A00183CFF /* Build configuration list for PBXNativeTarget "AssetViewer_IOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F8DDD1031BE0847A00183CFF /* Debug */,
+				F8DDD1041BE0847A00183CFF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		F8E1B2A81AEE67EF0045B0D2 /* Build configuration list for PBXProject "AssetViewer" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

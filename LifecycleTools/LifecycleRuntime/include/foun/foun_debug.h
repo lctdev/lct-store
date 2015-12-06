@@ -5,7 +5,7 @@
 #include <Windows.h>
 #include <assert.h>
 #include <stdio.h>
-#elif defined(LCT_OSX)
+#elif defined(LCT_OSX) || defined(LCT_IOS)
 #include <stdio.h>
 #elif defined(LCT_ANDROID)
 #include <android/log.h>
@@ -16,7 +16,7 @@
 #if defined(LCT_WINDOWS)
 #define LCT_TRACE(...) { char buffer[256]; sprintf_s(buffer, 256, __VA_ARGS__); wchar_t wideBuffer[256]; mbstowcs_s(NULL, wideBuffer, 256, buffer, 256); OutputDebugString(wideBuffer); }
 #define LCT_ASSERT(exp) assert(exp);
-#elif defined(LCT_OSX)
+#elif defined(LCT_OSX) || defined(LCT_IOS)
 #define LCT_TRACE(...) printf(__VA_ARGS__); fflush(stdout)
 #define LCT_ASSERT(exp) if (!(exp)) { printf("assertion failed: %s\n", #exp); fflush(stdout); __builtin_trap(); }
 #elif defined(LCT_ANDROID)

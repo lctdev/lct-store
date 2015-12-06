@@ -157,7 +157,6 @@ void SequenceCoordinator::RecycleSlots()
 	while (!slotIterator.IsEnd())
 	{
 		Slot* pSlot = slotIterator.GetValue();
-		SequenceInstance* pSequenceInstance = pSlot->pSequenceInstance;
 		bool deactivate = false;
 
 		if (!pSlot->flags.Test(Slot::FLAG_ACTIVE))
@@ -188,7 +187,7 @@ SequenceCoordinator::Slot* SequenceCoordinator::ActivateSlot(SequenceHandle* pSe
 
 	if (pSequenceHandle != NULL)
 	{
-		pSequenceHandle->m_slotIndex = pSlot - m_pSlotArray;
+		pSequenceHandle->m_slotIndex = static_cast<s32>(pSlot - m_pSlotArray);
 
 		pSlot->pSequenceHandle = pSequenceHandle;
 	}

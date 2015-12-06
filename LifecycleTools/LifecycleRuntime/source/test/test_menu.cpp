@@ -27,8 +27,6 @@ namespace test
  */
 static const char* BACK_ITEM_LABEL = "Back";
 
-static const f32 ITEM_INPUT_WIDTH = 128.0f;
-
 static const u32 SYMBOL_BUFFER_QUAD_COUNT = 512;
 
 /*

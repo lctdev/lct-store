@@ -26,6 +26,8 @@ struct PlatformMessage
 	AInputEvent* inputEvent;
 #elif defined(LCT_OSX)
 	void* nsEvent;
+#elif defined (LCT_IOS)
+	void* uiEvent;
 #endif
 };
 

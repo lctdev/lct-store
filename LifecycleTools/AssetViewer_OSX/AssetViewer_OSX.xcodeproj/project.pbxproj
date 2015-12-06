@@ -7,8 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		F8BCF0171B49E49800001A93 /* programAssets.xml in Resources */ = {isa = PBXBuildFile; fileRef = F8BCF0161B49E49800001A93 /* programAssets.xml */; };
-		F8BCF0191B49E54800001A93 /* buildAssets.sh in Resources */ = {isa = PBXBuildFile; fileRef = F8BCF0181B49E54800001A93 /* buildAssets.sh */; };
 		F8DDD0781BD522D200183CFF /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8DDD0771BD522D200183CFF /* OpenAL.framework */; };
 		F8E1B34E1AEF419D0045B0D2 /* main.mm in Sources */ = {isa = PBXBuildFile; fileRef = F8E1B34D1AEF419D0045B0D2 /* main.mm */; };
 		F8E1B3691AEF43530045B0D2 /* libAssetViewer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F8E1B3681AEF43530045B0D2 /* libAssetViewer.a */; };
@@ -152,8 +150,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F8BCF0191B49E54800001A93 /* buildAssets.sh in Resources */,
-				F8BCF0171B49E49800001A93 /* programAssets.xml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

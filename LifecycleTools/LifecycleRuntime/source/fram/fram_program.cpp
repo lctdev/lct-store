@@ -26,7 +26,7 @@ static const u32 DEFAULT_WINDOW_WIDTH = 960;
 static const u32 DEFAULT_WINDOW_HEIGHT = 540;
 static const c16* DEFAULT_WINDOW_LABEL = LCT_UNICODE("Program");
 
-static const u32 MESSAGE_BUFFER_SIZE = 64;
+static const u32 MESSAGE_BUFFER_SIZE = 32;
 
 /*
  * Private Static
@@ -94,6 +94,15 @@ int32_t Program::OnInputEvent(struct android_app* app, AInputEvent* event)
 		return 0;
 	}
 }
+#elif defined(LCT_IOS)
+void Program::OnUIEvent(void* program, void* uiEvent)
+{
+	Program* pProgram = static_cast<Program*>(program);
+
+	foun::PlatformMessage platformMessage;
+	platformMessage.uiEvent = uiEvent;
+	pProgram->HandlePlatformMessage(platformMessage);
+}
 #endif
 
 /*
@@ -129,7 +138,7 @@ Program::Program()
 , m_display(NULL)
 , m_surface(NULL)
 , m_context(NULL)
-#elif defined(LCT_OSX)
+#elif defined(LCT_OSX) || defined(LCT_IOS)
 , m_nsAppInfo()
 #endif
 {
@@ -292,6 +301,11 @@ void Program::InitWindow()
     CreateWindow(&m_nsAppInfo, (int)m_windowWidth, (int)m_windowHeight, m_pWindowLabel);
     
     AcquireGraphics();
+#elif defined(LCT_IOS)
+	CreateWindow(&m_nsAppInfo, (int)m_windowWidth, (int)m_windowHeight, m_pWindowLabel);
+	RegisterUIEventCallback(OnUIEvent, this);
+    
+    AcquireGraphics();
 #endif
 }
 
@@ -406,6 +420,13 @@ void Program::AcquireGraphics()
 		LCT_TRACE("Glew Init error");
 		return;
 	}
+#elif defined(LCT_IOS)
+	CreateGLContext(&m_nsAppInfo);
+	
+	NSScreenInfo screenInfo;
+	GetScreenInfo(&screenInfo);
+	m_windowWidth = screenInfo.width;
+	m_windowHeight = screenInfo.height;
 #endif
 
 	m_screen.SetWidthHeight((f32)m_windowWidth, (f32)m_windowHeight);
@@ -446,6 +467,18 @@ void Program::AcquireAudio()
 		LCT_TRACE("OpenAL create context error");
 		return;
 	}
+#elif defined(LCT_IOS)
+	// get the device
+	ALCdevice* pDev = alcOpenDevice(NULL);
+
+	// create and activate context
+	ALCcontext* pCtx = alcCreateContext(pDev, NULL);
+	alcMakeContextCurrent(pCtx);
+	if (!pCtx)
+	{
+		LCT_TRACE("OpenAL create context error");
+		return;
+	}
 #endif
 
 	m_audioDevice.SetAllocator(&m_allocator);
@@ -463,7 +496,7 @@ void Program::ReleaseGraphics()
 	}
 
 #if defined(LCT_WINDOWS)
-
+	// TODO
 #elif defined(LCT_ANDROID)
 	if (m_display != EGL_NO_DISPLAY) {
 		eglMakeCurrent(m_display, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT);
@@ -527,6 +560,8 @@ void Program::ReadSystemMessages()
 	{
 		m_running = false;
 	}
+#elif defined(LCT_IOS)
+	ProcessRunLoop();
 #endif
 }
 
@@ -573,12 +608,9 @@ void Program::Update()
 
 void Program::Draw()
 {
-#if defined(LCT_WINDOWS) || defined(LCT_ANDROID) || defined(LCT_OSX)
 	// clear the back buffer
 	const lct::foun::FloatColor& clearColor = m_pCurrMode->GetClearColor();
-	glClearColor(clearColor.r, clearColor.g, clearColor.b, clearColor.a);
-	glClear(GL_COLOR_BUFFER_BIT);
-#endif
+	m_graphicsDevice.ClearFrameBuffer(clearColor);
 
 	m_pCurrMode->Draw();
 
@@ -592,8 +624,9 @@ void Program::Draw()
 	SwapBuffers(m_hDC);
 #elif defined(LCT_ANDROID)
 	eglSwapBuffers(m_display, m_surface);
-#elif defined(LCT_OSX)
+#elif defined(LCT_OSX) || defined(LCT_IOS)
 	SwapBuffers(&m_nsAppInfo);
+	//WaitVsync();
 #endif
 }
 

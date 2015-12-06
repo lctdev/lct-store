@@ -9,6 +9,9 @@
 #elif defined(LCT_OSX)
 #include <AL/al.h>
 #include <AL/alc.h>
+#elif defined(LCT_IOS)
+#include <OpenAL/al.h>
+#include <OpenAL/alc.h>
 #endif
 
 namespace lct

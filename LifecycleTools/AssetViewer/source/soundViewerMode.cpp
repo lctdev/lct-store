@@ -9,8 +9,6 @@
 /*
 * Internal Constants
 */
-static const u32 SYMBOL_BUFFER_QUAD_COUNT = 512;
-
 static const f32 MENU_OFFSET_X = 0.0f;
 static const f32 MENU_OFFSET_Y = -100.0f;
 

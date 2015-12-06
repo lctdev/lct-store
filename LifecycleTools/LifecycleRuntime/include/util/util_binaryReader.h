@@ -29,9 +29,9 @@ public:
 	s32 GetPosition();
 
 private:
-	u32 m_beginAddr;
-	u32 m_endAddr;
-	u32 m_currAddr;
+	uptr m_beginAddr;
+	uptr m_endAddr;
+	uptr m_currAddr;
 };
 
 /*

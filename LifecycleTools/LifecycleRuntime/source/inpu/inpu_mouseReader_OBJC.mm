@@ -7,10 +7,13 @@
 //
 
 #import <Foundation/Foundation.h>
+#if defined(LCT_OSX)
 #import <Cocoa/Cocoa.h>
+#endif
 
 #import <inpu/inpu_mouseReader_OBJC.h>
 
+#if defined(LCT_OSX)
 NSPoint GetEventLocTopLeftOrigin(NSEvent* event)
 {
 	NSWindow* window = [[NSApplication sharedApplication] mainWindow];
@@ -53,23 +56,20 @@ int GetXParam(void* nsEvent)
 {
 	NSEvent* event = (NSEvent*)nsEvent;
 	
-	//NSPoint eventLocation = [event locationInWindow];
 	NSPoint eventLocation = GetEventLocTopLeftOrigin(event);
 	return eventLocation.x;
-	//return event.mouseLocation.x;
 }
 
 int GetYParam(void* nsEvent)
 {
 	NSEvent* event = (NSEvent*)nsEvent;
 	
-	//NSPoint eventLocation = [event locationInWindow];
 	NSPoint eventLocation = GetEventLocTopLeftOrigin(event);
 	return eventLocation.y;
-	//return event.mouseLocation.y;
 }
 
 //namespace inpu
 }
 //namespace lct
 }
+#endif

@@ -4,10 +4,12 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
+typedef unsigned long u64;
 
 typedef signed char s8;
 typedef signed short s16;
 typedef signed int s32;
+typedef signed long s64;
 
 typedef float f32;
 typedef double f64;
@@ -16,6 +18,14 @@ typedef double f64;
 typedef wchar_t c16;
 #else
 typedef char16_t c16;
+#endif
+
+#if defined(LCT_IOS)
+typedef u64 uptr;
+typedef s64 ssiz;
+#else
+typedef u32 uptr;
+typedef s32 ssiz;
 #endif
 
 #ifndef NULL

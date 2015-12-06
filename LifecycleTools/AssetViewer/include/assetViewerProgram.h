@@ -88,8 +88,8 @@ private:
 
 #if defined(LCT_WINDOWS) || defined(LCT_OSX)
 	lct::inpu::MouseReader* m_pMouseReader;
-#elif defined(LCT_ANDROID)
-	lct::inpu::TouchReader* m_touchReader;
+#elif defined(LCT_IOS) || defined(LCT_ANDROID)
+	lct::inpu::TouchReader* m_pTouchReader;
 #endif
 	lct::inpu::Cursor* m_pCursor;
 

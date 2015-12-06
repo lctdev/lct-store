@@ -299,7 +299,7 @@ ClipCoordinator::Slot* ClipCoordinator::ActivateSlot(ClipHandle* pClipHandle)
 
 	if (pClipHandle != NULL)
 	{
-		pClipHandle->m_slotIndex = pSlot - m_pSlotArray;
+		pClipHandle->m_slotIndex = static_cast<s32>(pSlot - m_pSlotArray);
 
 		pSlot->pClipHandle = pClipHandle;
 	}

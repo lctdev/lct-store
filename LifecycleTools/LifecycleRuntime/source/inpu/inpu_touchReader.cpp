@@ -2,6 +2,10 @@
 
 #include <foun/foun_platform.h>
 
+#if defined(LCT_IOS)
+#include <inpu/inpu_touchReader_OBJC.h>
+#endif
+
 namespace lct
 {
 namespace inpu
@@ -69,6 +73,34 @@ bool TouchReader::HandlePlatformMessage(const foun::PlatformMessage& platformMes
 			break;
 			}
 		}
+	}
+#elif defined(LCT_IOS)
+	//LogEvent(platformMessage.uiEvent);
+
+	if (IsTouchDownEvent(platformMessage.uiEvent))
+	{
+		m_x = GetXParam(platformMessage.uiEvent);
+		m_y = GetYParam(platformMessage.uiEvent);
+		m_currDown = true;
+		
+		return true;
+	}
+	
+	if (IsTouchUpEvent(platformMessage.uiEvent))
+	{
+		m_x = GetXParam(platformMessage.uiEvent);
+		m_y = GetYParam(platformMessage.uiEvent);
+		m_currDown = false;
+		
+		return true;
+	}
+
+	if (IsTouchMoveEvent(platformMessage.uiEvent))
+	{
+		m_x = GetXParam(platformMessage.uiEvent);
+		m_y = GetYParam(platformMessage.uiEvent);
+	
+		return true;
 	}
 #endif
 	return false;

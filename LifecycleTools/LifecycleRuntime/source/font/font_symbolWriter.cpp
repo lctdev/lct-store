@@ -92,7 +92,7 @@ void SymbolWriter::SetColor(const foun::FloatColor& color)
 
 f32 SymbolWriter::MeasureStringWidth(const char* pString)
 {
-	u32 characterCount = strlen(pString);
+	u32 characterCount = static_cast<s32>(strlen(pString));
 	f32 width = 0.0f;
 
 	for (u32 characterIndex = 0; characterIndex < characterCount; ++characterIndex)
@@ -116,7 +116,7 @@ void SymbolWriter::WriteString(const char* pString)
 	SheetAsset* pSheetAsset = m_pBuffer->m_pSheetAsset;
 	SheetData* pSheetData = pSheetAsset->pSheetData;
 
-	u32 characterCount = strlen(pString);
+	u32 characterCount = static_cast<s32>(strlen(pString));
 	f32 x = m_cursor.x;
 	f32 y = m_cursor.y;
 	f32 normalizedCellWidth = 1.0f / static_cast<f32>(pSheetData->horizontalCellCount);

@@ -27,6 +27,8 @@
 #elif defined(LCT_OSX)
 #include <fram/fram_program_OBJC.h>
 #include <GL/glew.h>
+#elif defined(LCT_IOS)
+#include <fram/fram_program_OBJC.h>
 #endif
 
 namespace lct
@@ -45,6 +47,8 @@ private:
 #elif defined(LCT_ANDROID)
 	static void OnAppCmd(struct android_app* app, int32_t cmd);
 	static int32_t OnInputEvent(struct android_app* app, AInputEvent* event);
+#elif defined(LCT_IOS)
+	static void OnUIEvent(void* program, void* uiEvent);
 #endif
 
 public:
@@ -130,7 +134,7 @@ protected:
 	EGLDisplay m_display;
 	EGLSurface m_surface;
 	EGLContext m_context;
-#elif defined(LCT_OSX)
+#elif defined(LCT_OSX) || defined(LCT_IOS)
     NSAppInfo m_nsAppInfo;
 #endif
 };

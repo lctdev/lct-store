@@ -14,9 +14,7 @@ namespace fram
 struct MessageHeader
 {
 	u32 type;
-	u32 contentAddr;
 	u32 contentSize;
-	u32 nextAddr;
 };
 
 /*
@@ -31,12 +29,13 @@ MessageQueue::MessageQueue()
 , m_endAddr(0)
 , m_writeAddr(0)
 , m_readAddr(0)
+, m_wrapAddr(0)
 {
 }
 
-void MessageQueue::SetMemory(void* pMemory, u32 size)
+void MessageQueue::SetMemory(void* pMemory, ssiz size)
 {
-	m_beginAddr = (u32)pMemory;
+	m_beginAddr = (uptr)pMemory;
 	m_endAddr = m_beginAddr + size;
 	m_writeAddr = m_beginAddr;
 	m_readAddr = m_beginAddr;
@@ -44,48 +43,44 @@ void MessageQueue::SetMemory(void* pMemory, u32 size)
 
 bool MessageQueue::EnqueueMessage(const Message& message)
 {
-	u32 endAddr = m_writeAddr + sizeof(MessageHeader);
-
-	u32 contentAddr = 0;
-	if (message.m_pContent != NULL)
-	{
-		contentAddr = FindFreeAddress(endAddr, message.m_contentSize);
-		if (contentAddr == 0)
-		{
-			return false;
-		}
-		endAddr = contentAddr + message.m_contentSize;
-	}
-
-	u32 nextAddr = FindFreeAddress(endAddr, sizeof(MessageHeader));
-	if (nextAddr == 0)
+	ssiz size = sizeof(MessageHeader) + message.m_contentSize;
+	uptr beginAddr;
+	uptr endAddr;
+	bool isWrap;
+	if (!FindWriteRange(size, beginAddr, endAddr, isWrap))
 	{
 		return false;
 	}
-
+	
 	MessageHeader header;
 	header.type = message.m_type;
-	header.contentAddr = contentAddr;
 	header.contentSize = message.m_contentSize;
-	header.nextAddr = nextAddr;
 
-	void* pHeaderMemory = reinterpret_cast<void*>(m_writeAddr);
+	void* pHeaderMemory = reinterpret_cast<void*>(beginAddr);
 	memcpy(pHeaderMemory, &header, sizeof(MessageHeader));
 
 	if (message.m_pContent != NULL)
 	{
-		void* pContentMemory = reinterpret_cast<void*>(contentAddr);
+		void* pContentMemory = reinterpret_cast<void*>(beginAddr + sizeof(MessageHeader));
 		memcpy(pContentMemory, message.m_pContent, message.m_contentSize);
 	}
 
-	// TODO: make threadsafe?
-	m_writeAddr = nextAddr;
-
+	// TODO: make atomic?
+	if (isWrap)
+	{
+		m_wrapAddr = endAddr;
+		m_writeAddr = m_beginAddr;
+	}
+	else
+	{
+		m_writeAddr = endAddr;
+	}
 	return true;
 }
 
 bool MessageQueue::GetFrontMessage(Message& message)
 {
+	// TODO: make atomic?
 	if (m_readAddr == m_writeAddr)
 	{
 		return false;
@@ -97,14 +92,24 @@ bool MessageQueue::GetFrontMessage(Message& message)
 	memcpy(&header, pHeaderMemory, sizeof(MessageHeader));
 
 	message.m_type = header.type;
-	message.m_pContent = reinterpret_cast<void*>(header.contentAddr);
-	message.m_contentSize = header.contentSize;
+	if (header.contentSize != 0)
+	{
+		void* pContentMemory = reinterpret_cast<void*>(m_readAddr + sizeof(MessageHeader));
+		message.m_pContent = pContentMemory;
+		message.m_contentSize = header.contentSize;
+	}
+	else
+	{
+		message.m_pContent = NULL;
+		message.m_contentSize = 0;
+	}
 
 	return true;
 }
 
 bool MessageQueue::DequeueMessage()
 {
+	// TODO: make atomic?
 	if (m_readAddr == m_writeAddr)
 	{
 		return false;
@@ -114,34 +119,76 @@ bool MessageQueue::DequeueMessage()
 
 	void* pHeaderMemory = reinterpret_cast<void*>(m_readAddr);
 	memcpy(&header, pHeaderMemory, sizeof(MessageHeader));
+	
+	ssiz size = sizeof(MessageHeader) + header.contentSize;
+	uptr readAddr = m_readAddr + size;
+	if (readAddr == m_wrapAddr)
+	{
+		readAddr = m_beginAddr;
+	}
 
-	// TODO: make threadsafe?
-	m_readAddr = header.nextAddr;
+	// TODO: make atomic?
+	m_readAddr = readAddr;
 
 	return true;
 }
 
-u32 MessageQueue::FindFreeAddress(u32 startAddr, u32 size)
+/*
+ * Private Instance
+ */
+bool MessageQueue::FindWriteRange(ssiz size, uptr& beginAddr, uptr& endAddr, bool& doesWrap)
 {
-	u32 currAddr = startAddr;
-	u32 nextAddr = startAddr + size;
-
-	if (nextAddr > m_endAddr)
+	// TODO: make atomic?
+	uptr readAddr = m_readAddr;
+	
+	// set up the initial range
+	beginAddr = m_writeAddr;
+	endAddr = m_writeAddr + size;
+	doesWrap = false;
+	
+	if ((beginAddr < readAddr) && (endAddr >= readAddr))
 	{
-		currAddr = m_beginAddr;
-		nextAddr = m_beginAddr + size;
-		if (currAddr == m_readAddr)
+		// range would overlap
+		return false;
+	}
+	
+	if (endAddr < m_endAddr)
+	{
+		// not at the end, nothing else to check
+		return true;
+	}
+	else if (endAddr == m_endAddr)
+	{
+		// we are at the end, so we need to wrap
+		doesWrap = true;
+		
+		if (readAddr == m_beginAddr)
 		{
-			return 0;
+			// wrap would overlap
+			return false;
+		}
+		else
+		{
+			return true;
 		}
 	}
-
-	if ((currAddr < m_readAddr) && (nextAddr >= m_readAddr))
+	else
 	{
-		return 0;
+		// we are past the end, so we need to reset the range and wrap
+		beginAddr = m_beginAddr;
+		endAddr = m_beginAddr + size;
+		doesWrap = true;
+		
+		if ((beginAddr < readAddr) && (endAddr >= readAddr))
+		{
+			// wrapped range overlaps
+			return false;
+		}
+		else
+		{
+			return true;
+		}
 	}
-
-	return currAddr;
 }
 
 //namespace fram

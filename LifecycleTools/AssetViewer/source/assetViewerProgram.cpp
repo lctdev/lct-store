@@ -29,9 +29,9 @@ AssetViewerProgram::AssetViewerProgram()
 , m_fontAssetHandler()
 , m_fontDrawContext()
 , m_spriteDrawContext()
-#if defined (LCT_WINDOWS) || defined(LCT_OSX)
+#if defined(LCT_WINDOWS) || defined(LCT_OSX)
 , m_pMouseReader(NULL)
-#elif defined (LCT_ANDROID)
+#elif defined(LCT_IOS) || defined (LCT_ANDROID)
 , m_pTouchReader(NULL)
 #endif
 , m_pCursor(NULL)
@@ -80,6 +80,12 @@ void AssetViewerProgram::InitFiles()
     char currentDirectoryPath[1024];
     m_pModeAccessor->GetCurrentDirectoryPath(currentDirectoryPath, sizeof(currentDirectoryPath));
     LCT_TRACE("Current directory is: %s\n", currentDirectoryPath);
+#elif defined(LCT_IOS)
+	lct::file::PackedAccessor* pAccessor = m_allocator.AllocType<lct::file::PackedAccessor>();
+	lct::file::PackedAccessor* pModeAccessor = m_allocator.AllocType<lct::file::PackedAccessor>();
+	
+	m_pAccessor = pAccessor;
+	m_pModeAccessor = pModeAccessor;
 #endif
 
 	m_pAccessor->SetAllocator(&m_allocator);
@@ -137,7 +143,7 @@ void AssetViewerProgram::InitInput()
 	pCursor->SetReader(m_pMouseReader);
 
 	m_pCursor = pCursor;
-#elif defined(LCT_ANDROID)
+#elif defined(LCT_ANDROID) || defined(LCT_IOS)
 	m_pTouchReader = m_allocator.AllocType<lct::inpu::TouchReader>();
 
 	lct::inpu::TouchCursor* pCursor = m_allocator.AllocType<lct::inpu::TouchCursor>();
@@ -154,7 +160,7 @@ void AssetViewerProgram::InitMiscellaneous()
 	RegisterMode(lct::fram::ModeFactoryItem::CreateMode<SpriteViewerMode>, "SpriteViewerMode");
 	RegisterMode(lct::fram::ModeFactoryItem::CreateMode<SoundViewerMode>, "SoundViewerMode");
 
-	m_pNextModeName = "SoundViewerMode";
+	m_pNextModeName = "SpriteViewerMode";
 
 	AssetViewerOverlay* pOverlay = m_allocator.AllocType<AssetViewerOverlay>();
 	pOverlay->SetAllocator(&m_allocator);
@@ -219,7 +225,7 @@ void AssetViewerProgram::ReadSystemMessages()
 {
 #if defined(LCT_WINDOWS) || defined(LCT_OSX)
 	m_pMouseReader->PrepareValues();
-#elif defined(LCT_ANDROID)
+#elif defined(LCT_ANDROID) || defined(LCT_IOS)
 	m_pTouchReader->PrepareValues();
 #endif
 
@@ -269,7 +275,7 @@ bool AssetViewerProgram::HandlePlatformMessage(const lct::foun::PlatformMessage&
 	{
 		return true;
 	}
-#elif defined(LCT_ANDROID)
+#elif defined (LCT_IOS) || defined(LCT_ANDROID)
 	if (m_pTouchReader->HandlePlatformMessage(platformMessage))
 	{
 		return true;

@@ -64,7 +64,6 @@ void SequenceInstance::BindSequenceAsset(const SequenceAsset* pSequenceAsset)
 	{
 		const SequenceAsset::Timeline& assetTimeline = pSequenceAsset->pTimelineArray[assetTimelineIndex];
 		const TimelineData* pTimelineData = assetTimeline.pTimelineData;
-		const SequenceAsset::Action* pAssetActionArray = assetTimeline.pActionArray;
 		LCT_ASSERT(pTimelineData->actionCount > 0);
 	}	
 

@@ -122,12 +122,35 @@ void AssetViewerOverlay::Draw()
 	m_pFillDrawContext->ActivateWorldTransform(backerWorldTransform);
 	const lct::foun::RectCentered& backerRect = m_pScreen->GetRectCentered();
 	m_pFillDrawContext->DrawRect(backerRect, BACKER_COLOR);
-
-	m_pFillDrawContext->DeactivateQuad();
-
-	/*// TEMP!!!
+	
+	// TEMP!!!
+#if 0
+	static const lct::foun::FloatColor PRESS_COLOR = { 0.0, 1.0f, 0.0f, 1.0f };
+	static const lct::foun::FloatColor DOWN_COLOR = { 1.0, 1.0f, 0.0f, 1.0f };
+	static const lct::foun::FloatColor RELEASE_COLOR = { 1.0, 0.0f, 0.0f, 1.0f };
+	bool drawTest = false;
+	lct::foun::FloatColor testColor;
 	if (m_pInputCursor->IsPress())
 	{
+		drawTest = true;
+		testColor = PRESS_COLOR;
+	}
+	else if (m_pInputCursor->IsDown())
+	{
+		drawTest = true;
+		testColor = DOWN_COLOR;
+	}
+	else if (m_pInputCursor->IsRelease())
+	{
+		drawTest = true;
+		testColor = RELEASE_COLOR;
+	}
+	if (drawTest)
+	{
+		lct::foun::Matrix32 pressWorldTransform;
+		lct::foun::Matrix32Identity(pressWorldTransform);
+		m_pFillDrawContext->ActivateWorldTransform(pressWorldTransform);
+		
 		const lct::foun::RectEdges& screenEdges = m_pScreen->GetRectEdges();
 		lct::foun::RectCentered testRect;
 		testRect.x = static_cast<f32>(m_pInputCursor->GetX()) + screenEdges.left;
@@ -135,10 +158,11 @@ void AssetViewerOverlay::Draw()
 		testRect.width = 64.0f;
 		testRect.height = 64.0f;
 
-		lct::foun::FloatColor testColor = { 1.0f, 1.0f, 1.0f, 1.0f };
-
-		m_pSpriteDrawContext->DrawRect(testRect, testColor);
-	}*/
+		m_pFillDrawContext->DrawRect(testRect, testColor);
+	}
+	
+	m_pFillDrawContext->DeactivateQuad();
+#endif
 
 	m_menu.Draw();
 }

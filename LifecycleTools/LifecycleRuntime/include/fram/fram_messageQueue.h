@@ -15,19 +15,20 @@ class MessageQueue
 public:
 	MessageQueue();
 
-	void SetMemory(void* pMemory, u32 size);
+	void SetMemory(void* pMemory, ssiz size);
 
 	bool EnqueueMessage(const Message& message);
 	bool GetFrontMessage(Message& message);
 	bool DequeueMessage();
 
 private:
-	u32 FindFreeAddress(u32 startAddr, u32 size);
+	bool FindWriteRange(ssiz size, uptr& beginAddr, uptr& endAddr, bool& doesWrap);
 
-	u32 m_beginAddr;
-	u32 m_endAddr;
-	u32 m_writeAddr;
-	u32 m_readAddr;
+	uptr m_beginAddr;
+	uptr m_endAddr;
+	uptr m_writeAddr;
+	uptr m_readAddr;
+	uptr m_wrapAddr;
 };
 
 //namespace fram

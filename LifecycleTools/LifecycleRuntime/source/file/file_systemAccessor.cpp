@@ -36,7 +36,7 @@ s32 SystemAccessor::GetFileSize(const char* pPath)
 #endif
 
 	fseek(pFile, 0, SEEK_END);
-	s32 fileSize = ftell(pFile);
+	s32 fileSize = static_cast<s32>(ftell(pFile));
 
 	fclose(pFile);
 
@@ -72,7 +72,7 @@ void* SystemAccessor::LoadFile(const char* pPath, u32* pSize)
 	}
 
 	fseek(pFile, 0, SEEK_END);
-	s32 size = ftell(pFile);
+	s32 size = static_cast<s32>(ftell(pFile));
 
 	void* pMemory = NULL;
 	if (size > 0)
@@ -98,7 +98,7 @@ char* SystemAccessor::LoadFileString(const char* pPath, u32* pSize)
 #endif
 
 	fseek(pFile, 0, SEEK_END);
-	s32 fileSize = ftell(pFile);
+	s32 fileSize = static_cast<s32>(ftell(pFile));
 
 	char* pString = NULL;
 	u32 stringSize = 0;

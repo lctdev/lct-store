@@ -5,6 +5,8 @@
 
 #if defined(LCT_WINDOWS) || defined(LCT_OSX)
 #include <GL/glew.h>
+#elif defined(LCT_IOS)
+#include <OpenGLES/ES2/gl.h>
 #elif defined(LCT_ANDROID)
 #include <GLES2/gl2.h>
 #endif

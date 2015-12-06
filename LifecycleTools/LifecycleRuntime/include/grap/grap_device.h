@@ -16,6 +16,8 @@
 #include <GLES2/gl2.h>
 #elif defined(LCT_OSX)
 #include <GL/glew.h>
+#elif defined(LCT_IOS)
+#include <OpenGLES/ES2/gl.h>
 #endif
 
 namespace lct
@@ -45,6 +47,8 @@ public:
 	void AcquireTextureResource(const TextureSetupParameters& textureSetupParameters);
 	void ReleaseTextureResource(const TextureSetupParameters& textureSetupParameters);
 	u32 GetAcquiredTextureResourceCount() { return m_acquiredTextureResourceCount; }
+	
+	void ClearFrameBuffer(const lct::foun::FloatColor& clearColor);
 
 	void ActivateRenderState(RenderStateParameters& renderStateParameters);
 

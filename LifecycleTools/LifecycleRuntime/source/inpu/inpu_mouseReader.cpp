@@ -1,10 +1,11 @@
 #include <inpu/inpu_mouseReader.h>
-#include <inpu/inpu_mouseReader_OBJC.h>
 
 #include <foun/foun_platform.h>
 
 #if defined(LCT_WINDOWS)
 #include <windowsx.h>
+#elif defined(LCT_OSX)
+#include <inpu/inpu_mouseReader_OBJC.h>
 #endif
 
 namespace lct
@@ -61,11 +62,6 @@ bool MouseReader::HandlePlatformMessage(const foun::PlatformMessage& platformMes
 		return true;
 	}
 	break;
-
-	default:
-	{
-		return false;
-	}
 	}
 #elif defined(LCT_OSX)
     if (IsMouseDownEvent(platformMessage.nsEvent))
@@ -93,9 +89,8 @@ bool MouseReader::HandlePlatformMessage(const foun::PlatformMessage& platformMes
 	
 		return true;
 	}
-
-	return false;
 #endif
+	return false;
 }
 
 bool MouseReader::IsButtonDown(MouseButton button)

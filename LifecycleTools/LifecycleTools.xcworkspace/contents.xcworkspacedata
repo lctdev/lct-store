@@ -2,6 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:AssetViewer_IOS/AssetViewer_IOS.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:AssetViewer_OSX/AssetViewer_OSX.xcodeproj">
    </FileRef>
    <FileRef
