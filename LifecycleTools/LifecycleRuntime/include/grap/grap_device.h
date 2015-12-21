@@ -48,14 +48,14 @@ public:
 	void ReleaseTextureResource(const TextureSetupParameters& textureSetupParameters);
 	u32 GetAcquiredTextureResourceCount() { return m_acquiredTextureResourceCount; }
 	
-	void ClearFrameBuffer(const lct::foun::FloatColor& clearColor);
+	void ClearFrameBuffer(const lct::foun::FloatColor4& clearColor);
 
 	void ActivateRenderState(RenderStateParameters& renderStateParameters);
 
 	void ActivateShader(const ShaderResource* pShaderResource);
 
 	void ActivateUniform(const UniformResource* pUniformResource, const foun::Vector4& vector);
-	void ActivateUniform(const UniformResource* pUniformResource, const foun::FloatColor& color);
+	void ActivateUniform(const UniformResource* pUniformResource, const foun::FloatColor4& color);
 	void ActivateUniform(const UniformResource* pUniformResource, const foun::Matrix33& matrix);
 	void ActivateUniform(const UniformResource* pUniformResource, const foun::Matrix44& matrix);
 

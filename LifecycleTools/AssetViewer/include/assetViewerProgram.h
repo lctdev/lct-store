@@ -34,6 +34,7 @@
 #include <test/test_menuPage.h>
 #include <test/test_actionMenuItem.h>
 #include <test/test_stringArrayMenuItem.h>
+#include <test/test_boolMenuItem.h>
 
 class AssetViewerProgram : public lct::fram::Program
 {
@@ -65,10 +66,7 @@ private:
 	void BuildMenu();
 
 	void CheckOverlayInput();
-	void OpenOverlay();
-	void CloseOverlay();
 
-	// owned
 	lct::file::Accessor* m_pAccessor;
 	lct::file::Accessor* m_pModeAccessor;
 
@@ -93,15 +91,15 @@ private:
 #endif
 	lct::inpu::Cursor* m_pCursor;
 
-	lct::fram::Overlay* m_pOverlay; // manage in base...?
-
 	void OnChangeModeTrigger();
+	void OnCursorOverlayChange();
 
 	const char** m_pModeNameArray;
 
 	lct::test::MenuPage m_menuPage;
 	lct::test::StringArrayMenuItem m_modeMenuItem;
 	lct::test::ActionMenuItem m_changeModeMenuItem;
+	lct::test::BoolMenuItem m_cursorOverlayMenuItem;
 };
 
 #endif//ASSET_VIEWER_PROGRAM_H

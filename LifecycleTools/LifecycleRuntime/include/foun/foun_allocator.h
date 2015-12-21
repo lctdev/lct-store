@@ -16,14 +16,16 @@ public:
 	Allocator();
 	virtual ~Allocator();
 
-	virtual void* Alloc(u32 size, u32 align);
+	virtual void* Alloc(ssiz size, u32 align);
 	virtual void Free(void* pMemory);
+
+	static const u32 TYPE_ALIGN = sizeof(ssiz);
 
 	template <class T>
 	T* AllocType()
 	{
-		u32 size = sizeof(T);
-		void* pMemory = Alloc(size, 4);
+		ssiz size = sizeof(T);
+		void* pMemory = Alloc(size, TYPE_ALIGN);
 		if (pMemory != NULL)
 		{
 			T* pType = new (pMemory) T();
@@ -41,7 +43,7 @@ public:
 		if (count > 0)
 		{
 			u32 size = sizeof(T) * count;
-			void* pMemory = Alloc(size, 4);
+			void* pMemory = Alloc(size, TYPE_ALIGN);
 			if (pMemory != NULL)
 			{
 				T* pTypes = reinterpret_cast<T*>(pMemory);

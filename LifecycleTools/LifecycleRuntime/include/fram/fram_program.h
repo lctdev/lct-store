@@ -93,6 +93,10 @@ protected:
 	void EndMode();
 
 	virtual void ConfigureMode();
+	virtual void ActivateOverlay(u32 index);
+	virtual void DeactivateOverlay(u32 index);
+	virtual bool IsOverlayActive(u32 index);
+
 	virtual bool HandlePlatformMessage(const foun::PlatformMessage& platformMessage);
 	virtual bool HandleMessage(const Message& message);
 
@@ -120,7 +124,8 @@ protected:
 	Mode* m_pCurrMode;
 	const char* m_pNextModeName;
 
-	Overlay* m_pCurrOverlay;
+	Overlay** m_pOverlayArray;
+	u32 m_overlayCount;
 
 	MessageQueue m_messageQueue;
 

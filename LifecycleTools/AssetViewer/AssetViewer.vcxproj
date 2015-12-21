@@ -11,6 +11,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\cursorOverlay.h" />
+    <ClInclude Include="include\menuOverlay.h" />
     <ClInclude Include="include\soundViewerMode.h" />
     <ClInclude Include="include\spriteViewerMode.h" />
     <ClInclude Include="include\assetViewerMessages.h" />
@@ -19,6 +21,8 @@
     <ClInclude Include="include\assetViewerProgram.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="source\cursorOverlay.cpp" />
+    <ClCompile Include="source\menuOverlay.cpp" />
     <ClCompile Include="source\soundViewerMode.cpp" />
     <ClCompile Include="source\spriteViewerMode.cpp" />
     <ClCompile Include="source\assetViewerMode.cpp" />

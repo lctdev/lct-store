@@ -20,10 +20,10 @@ static const f32 MENU_ITEM_RIGHT_OFFSET_X = 400.0f;
 
 static const f32 AXIS_LINE_LENGTH = 512.0f;
 static const f32 AXIS_LINE_THICKNESS = 1.0f;
-static const lct::foun::FloatColor AXIS_LINE_COLOR = { 0.25f, 0.25f, 0.25f, 1.0f };
+static const lct::foun::FloatColor4 AXIS_LINE_COLOR = { 0.25f, 0.25f, 0.25f, 1.0f };
 
 static const lct::foun::RectCentered JOINT_RECT = { 0.0f, 0.0f, 4.0f, 4.0f };
-static const lct::foun::FloatColor JOINT_COLOR = { 0.0f, 1.0f, 0.0f, 1.0f };
+static const lct::foun::FloatColor4 JOINT_COLOR = { 0.0f, 1.0f, 0.0f, 1.0f };
 
 static const f32 CONTENT_OFFSET_X = 200.0f;
 
@@ -327,7 +327,7 @@ void SpriteViewerMode::BuildMenu()
 void SpriteViewerMode::LoadAssets()
 {
 	static const char* FILE_PATH = "data/spriteViewer/package.bin";
-	u32 fileSize;
+	ssiz fileSize;
 	m_pAssetBinary = m_subShared.pAccessor->LoadFile(FILE_PATH, &fileSize);
 	lct::util::BinaryReader binaryReader;
 	binaryReader.SetMemory(m_pAssetBinary, fileSize);

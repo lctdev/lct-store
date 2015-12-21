@@ -19,7 +19,7 @@ namespace font
 /*
  * Internal Constants
  */
-static const foun::FloatColor DEFAULT_COLOR = { 1.0f, 1.0f, 1.0f, 1.0f };
+static const foun::FloatColor4 DEFAULT_COLOR = { 1.0f, 1.0f, 1.0f, 1.0f };
 
 /*
  * Internal Functions
@@ -85,7 +85,7 @@ void SymbolWriter::SetVerticalAlign(VerticalAlign verticalAlign)
 	m_verticalAlign = verticalAlign;
 }
 
-void SymbolWriter::SetColor(const foun::FloatColor& color)
+void SymbolWriter::SetColor(const foun::FloatColor4& color)
 {
 	m_color = color;
 }

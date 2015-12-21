@@ -34,6 +34,11 @@ s32 SystemAccessor::GetFileSize(const char* pPath)
 #else
 	FILE* pFile = fopen(pPath, "rb");
 #endif
+	if (pFile == NULL)
+	{
+		LCT_TRACE("Could not open file path: %s\n", pPath);
+		return 0;
+	}
 
 	fseek(pFile, 0, SEEK_END);
 	s32 fileSize = static_cast<s32>(ftell(pFile));
@@ -43,21 +48,7 @@ s32 SystemAccessor::GetFileSize(const char* pPath)
 	return fileSize;
 }
 
-void SystemAccessor::ReadFile(const char* pPath, void* pMemory, u32 size)
-{
-#if defined(LCT_WINDOWS)
-	FILE* pFile;
-	fopen_s(&pFile, pPath, "rb");
-#else
-	FILE* pFile = fopen(pPath, "rb");
-#endif
-
-	fread(pMemory, 1, size, pFile);
-
-	fclose(pFile);
-}
-
-void* SystemAccessor::LoadFile(const char* pPath, u32* pSize)
+void SystemAccessor::ReadFile(const char* pPath, void* pMemory, ssiz size)
 {
 #if defined(LCT_WINDOWS)
 	FILE* pFile;
@@ -68,11 +59,31 @@ void* SystemAccessor::LoadFile(const char* pPath, u32* pSize)
 	if (pFile == NULL)
 	{
 		LCT_TRACE("Could not open file path: %s\n", pPath);
+		return;
+	}
+
+	fread(pMemory, 1, size, pFile);
+
+	fclose(pFile);
+}
+
+void* SystemAccessor::LoadFile(const char* pPath, ssiz* pSize)
+{
+#if defined(LCT_WINDOWS)
+	FILE* pFile;
+	fopen_s(&pFile, pPath, "rb");
+#else
+	FILE* pFile = fopen(pPath, "rb");
+#endif
+	if (pFile == NULL)
+	{
+		LCT_TRACE("Could not open file path: %s\n", pPath);
+		*pSize = 0;
 		return NULL;
 	}
 
 	fseek(pFile, 0, SEEK_END);
-	s32 size = static_cast<s32>(ftell(pFile));
+	ssiz size = ftell(pFile);
 
 	void* pMemory = NULL;
 	if (size > 0)
@@ -88,7 +99,7 @@ void* SystemAccessor::LoadFile(const char* pPath, u32* pSize)
 	return pMemory;
 }
 
-char* SystemAccessor::LoadFileString(const char* pPath, u32* pSize)
+char* SystemAccessor::LoadFileString(const char* pPath, ssiz* pSize)
 {
 #if defined(LCT_WINDOWS)
 	FILE* pFile;
@@ -96,12 +107,18 @@ char* SystemAccessor::LoadFileString(const char* pPath, u32* pSize)
 #else
 	FILE* pFile = fopen(pPath, "rb");
 #endif
+	if (pFile == NULL)
+	{
+		LCT_TRACE("Could not open file path: %s\n", pPath);
+		*pSize = 0;
+		return NULL;
+	}
 
 	fseek(pFile, 0, SEEK_END);
-	s32 fileSize = static_cast<s32>(ftell(pFile));
+	ssiz fileSize = ftell(pFile);
 
 	char* pString = NULL;
-	u32 stringSize = 0;
+	ssiz stringSize = 0;
 	if (fileSize > 0)
 	{
 		stringSize = fileSize + 1;
@@ -117,7 +134,7 @@ char* SystemAccessor::LoadFileString(const char* pPath, u32* pSize)
 	return pString;
 }
 
-void SystemAccessor::GetCurrentDirectoryPath(char* pPath, u32 maxSize)
+void SystemAccessor::GetCurrentDirectoryPath(char* pPath, ssiz maxSize)
 {
 #if defined (LCT_WINDOWS)
 	static const u32 PATH_BUFFER_SIZE = 256;

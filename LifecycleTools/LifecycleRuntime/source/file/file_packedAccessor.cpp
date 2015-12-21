@@ -18,7 +18,7 @@ namespace file
 /*
 * Internal Constants
 */
-static const u32 RESOURCE_PATH_SIZE = 256;
+static const ssiz RESOURCE_PATH_SIZE = 256;
 #endif
 
 #if defined(LCT_ANDROID)
@@ -40,18 +40,18 @@ void PackedAccessor::SetAssetManager(AAssetManager* pAssetManager)
 	m_pAssetManager = pAssetManager;
 }
 
-s32 PackedAccessor::GetFileSize(const char* pPath)
+ssiz PackedAccessor::GetFileSize(const char* pPath)
 {
 	AAsset* pAsset = AAssetManager_open(m_pAssetManager, pPath, AASSET_MODE_UNKNOWN);
 
-	s32 fileSize = AAsset_getLength(pAsset);
+	ssiz fileSize = AAsset_getLength(pAsset);
 
 	AAsset_close(pAsset);
 
 	return fileSize;
 }
 
-void PackedAccessor::ReadFile(const char* pPath, void* pMemory, u32 size)
+void PackedAccessor::ReadFile(const char* pPath, void* pMemory, ssiz size)
 {
 	AAsset* pAsset = AAssetManager_open(m_pAssetManager, pPath, AASSET_MODE_BUFFER);
 
@@ -60,11 +60,11 @@ void PackedAccessor::ReadFile(const char* pPath, void* pMemory, u32 size)
 	AAsset_close(pAsset);
 }
 
-void* PackedAccessor::LoadFile(const char* pPath, u32* pSize)
+void* PackedAccessor::LoadFile(const char* pPath, ssiz* pSize)
 {
 	AAsset* pAsset = AAssetManager_open(m_pAssetManager, pPath, AASSET_MODE_BUFFER);
 
-	s32 fileSize = AAsset_getLength(pAsset);
+	ssiz fileSize = AAsset_getLength(pAsset);
 
 	void* pMemory = NULL;
 	if (fileSize > 0)
@@ -79,14 +79,14 @@ void* PackedAccessor::LoadFile(const char* pPath, u32* pSize)
 	return pMemory;
 }
 
-char* PackedAccessor::LoadFileString(const char* pPath, u32* pSize)
+char* PackedAccessor::LoadFileString(const char* pPath, ssiz* pSize)
 {
 	AAsset* pAsset = AAssetManager_open(m_pAssetManager, pPath, AASSET_MODE_BUFFER);
 
-	s32 fileSize = AAsset_getLength(pAsset);
+	ssiz fileSize = AAsset_getLength(pAsset);
 
 	char* pString = NULL;
-	u32 stringSize = 0;
+	ssiz stringSize = 0;
 	if (fileSize > 0)
 	{
 		stringSize = fileSize + 1;
@@ -110,21 +110,21 @@ PackedAccessor::~PackedAccessor()
 {
 }
 
-s32 PackedAccessor::GetFileSize(const char* pPath)
+ssiz PackedAccessor::GetFileSize(const char* pPath)
 {
 	char resourcePath[RESOURCE_PATH_SIZE];
 	ConvertResourcePath(pPath, resourcePath, RESOURCE_PATH_SIZE);
 	FILE* pFile = fopen(resourcePath, "rb");
 
 	fseek(pFile, 0, SEEK_END);
-	s32 fileSize = static_cast<s32>(ftell(pFile));
+	ssiz fileSize = ftell(pFile);
 
 	fclose(pFile);
 
 	return fileSize;
 }
 
-void PackedAccessor::ReadFile(const char* pPath, void* pMemory, u32 size)
+void PackedAccessor::ReadFile(const char* pPath, void* pMemory, ssiz size)
 {
 	char resourcePath[RESOURCE_PATH_SIZE];
 	ConvertResourcePath(pPath, resourcePath, RESOURCE_PATH_SIZE);
@@ -135,7 +135,7 @@ void PackedAccessor::ReadFile(const char* pPath, void* pMemory, u32 size)
 	fclose(pFile);
 }
 
-void* PackedAccessor::LoadFile(const char* pPath, u32* pSize)
+void* PackedAccessor::LoadFile(const char* pPath, ssiz* pSize)
 {
 	char resourcePath[RESOURCE_PATH_SIZE];
 	ConvertResourcePath(pPath, resourcePath, RESOURCE_PATH_SIZE);
@@ -148,7 +148,7 @@ void* PackedAccessor::LoadFile(const char* pPath, u32* pSize)
 	}
 
 	fseek(pFile, 0, SEEK_END);
-	s32 size = static_cast<s32>(ftell(pFile));
+	ssiz size = ftell(pFile);
 
 	void* pMemory = NULL;
 	if (size > 0)
@@ -164,17 +164,17 @@ void* PackedAccessor::LoadFile(const char* pPath, u32* pSize)
 	return pMemory;
 }
 
-char* PackedAccessor::LoadFileString(const char* pPath, u32* pSize)
+char* PackedAccessor::LoadFileString(const char* pPath, ssiz* pSize)
 {
 	char resourcePath[RESOURCE_PATH_SIZE];
 	ConvertResourcePath(pPath, resourcePath, RESOURCE_PATH_SIZE);
 	FILE* pFile = fopen(resourcePath, "rb");
 
 	fseek(pFile, 0, SEEK_END);
-	s32 fileSize = static_cast<s32>(ftell(pFile));
+	ssiz fileSize = ftell(pFile);
 
 	char* pString = NULL;
-	u32 stringSize = 0;
+	ssiz stringSize = 0;
 	if (fileSize > 0)
 	{
 		stringSize = fileSize + 1;

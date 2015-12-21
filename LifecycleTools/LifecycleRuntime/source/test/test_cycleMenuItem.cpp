@@ -13,7 +13,7 @@ namespace test
  * Internal Constants
  */
 static const f32 DEFAULT_VALUE_OFFSET_X = 300.0f;
-static const foun::FloatColor VALUE_COLOR = { 1.0f, 1.0f, 1.0f, 1.0f };
+static const foun::FloatColor4 VALUE_COLOR = { 1.0f, 1.0f, 1.0f, 1.0f };
 
 static const char* LEFT_BUTTON_LABEL = "<";
 static const char* RIGHT_BUTTON_LABEL = ">";

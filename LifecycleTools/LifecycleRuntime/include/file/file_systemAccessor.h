@@ -14,12 +14,12 @@ public:
 	SystemAccessor();
 	virtual ~SystemAccessor();
 
-	virtual s32 GetFileSize(const char* pPath);
-	virtual void ReadFile(const char* pPath, void* pMemory, u32 size);
-	virtual void* LoadFile(const char* pPath, u32* pSize);
-	virtual char* LoadFileString(const char* pPath, u32* pSize);
+	virtual ssiz GetFileSize(const char* pPath);
+	virtual void ReadFile(const char* pPath, void* pMemory, ssiz size);
+	virtual void* LoadFile(const char* pPath, ssiz* pSize);
+	virtual char* LoadFileString(const char* pPath, ssiz* pSize);
 
-	virtual void GetCurrentDirectoryPath(char* pPath, u32 maxSize);
+	virtual void GetCurrentDirectoryPath(char* pPath, ssiz maxSize);
 };
 
 //namespace file

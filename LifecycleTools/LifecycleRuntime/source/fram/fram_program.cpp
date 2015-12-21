@@ -126,7 +126,8 @@ Program::Program()
 , m_modeFactory()
 , m_pCurrMode(NULL)
 , m_pNextModeName(NULL)
-, m_pCurrOverlay(NULL)
+, m_pOverlayArray(NULL)
+, m_overlayCount(0)
 , m_messageQueue()
 #if defined(LCT_WINDOWS)
 , m_hInstance(NULL)
@@ -437,6 +438,12 @@ void Program::AcquireGraphics()
 	{
 		m_pCurrMode->AcquireGraphics();
 	}
+
+	for (u32 overlayIndex = 0; overlayIndex < m_overlayCount; ++overlayIndex)
+	{
+		Overlay* pOverlay = m_pOverlayArray[overlayIndex];
+		pOverlay->AcquireGraphics();
+	}
 }
 
 void Program::AcquireAudio()
@@ -493,6 +500,12 @@ void Program::ReleaseGraphics()
 	if (m_pCurrMode != NULL)
 	{
 		m_pCurrMode->ReleaseGraphics();
+	}
+
+	for (u32 overlayIndex = 0; overlayIndex < m_overlayCount; ++overlayIndex)
+	{
+		Overlay* pOverlay = m_pOverlayArray[overlayIndex];
+		pOverlay->AcquireGraphics();
 	}
 
 #if defined(LCT_WINDOWS)
@@ -586,11 +599,21 @@ void Program::CheckModeChange()
 
 void Program::ReadInput()
 {
-	if (m_pCurrOverlay != NULL)
+	bool inputBlocked = false;
+	for (u32 overlayIndex = 0; overlayIndex < m_overlayCount; ++overlayIndex)
 	{
-		m_pCurrOverlay->ReadInput();
+		Overlay* pOverlay = m_pOverlayArray[overlayIndex];
+		if (pOverlay->IsActive() && !inputBlocked)
+		{
+			pOverlay->ReadInput();
+			if (pOverlay->DoesBlockInput())
+			{
+				inputBlocked = true;
+			}
+		}
 	}
-	else
+
+	if (!inputBlocked)
 	{
 		m_pCurrMode->ReadInput();
 	}
@@ -600,23 +623,31 @@ void Program::Update()
 {
 	m_pCurrMode->Update();
 
-	if (m_pCurrOverlay != NULL)
+	for (u32 overlayIndex = 0; overlayIndex < m_overlayCount; ++overlayIndex)
 	{
-		m_pCurrOverlay->Update();
+		Overlay* pOverlay = m_pOverlayArray[overlayIndex];
+		if (pOverlay->IsActive())
+		{
+			pOverlay->Update();
+		}
 	}
 }
 
 void Program::Draw()
 {
 	// clear the back buffer
-	const lct::foun::FloatColor& clearColor = m_pCurrMode->GetClearColor();
+	const lct::foun::FloatColor4& clearColor = m_pCurrMode->GetClearColor();
 	m_graphicsDevice.ClearFrameBuffer(clearColor);
 
 	m_pCurrMode->Draw();
 
-	if (m_pCurrOverlay != NULL)
+	for (u32 overlayIndex = 0; overlayIndex < m_overlayCount; ++overlayIndex)
 	{
-		m_pCurrOverlay->Draw();
+		Overlay* pOverlay = m_pOverlayArray[overlayIndex];
+		if (pOverlay->IsActive())
+		{
+			pOverlay->Draw();
+		}
 	}
 
 #if defined(LCT_WINDOWS)
@@ -669,6 +700,35 @@ void Program::ConfigureMode()
 	m_pCurrMode->SetShared(modeShared);
 }
 
+void Program::ActivateOverlay(u32 index)
+{
+	if (index >= m_overlayCount)
+	{
+		return;
+	}
+
+	m_pOverlayArray[index]->Activate();
+}
+
+void Program::DeactivateOverlay(u32 index)
+{
+	if (index >= m_overlayCount)
+	{
+		return;
+	}
+
+	m_pOverlayArray[index]->Deactivate();
+}
+
+bool Program::IsOverlayActive(u32 index)
+{
+	if (index >= m_overlayCount)
+	{
+		return false;
+	}
+
+	return m_pOverlayArray[index]->IsActive();
+}
 
 bool Program::HandlePlatformMessage(const foun::PlatformMessage& platformMessage)
 {

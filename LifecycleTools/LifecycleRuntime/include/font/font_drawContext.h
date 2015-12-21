@@ -60,9 +60,6 @@ protected:
 	void* m_pFragmentShaderBinary;
 	grap::ShaderResource* m_pShaderResource;
 	grap::UniformResource* m_pUniformResourceArray;
-
-	grap::VertexResource* m_pQuadVertexResource;
-	grap::IndexResource* m_pQuadIndexResource;
 };
 
 //namespace spri

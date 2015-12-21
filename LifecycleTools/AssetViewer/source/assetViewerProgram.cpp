@@ -1,6 +1,8 @@
 #include "assetViewerProgram.h"
 
-#include "assetViewerOverlay.h"
+#include "cursorOverlay.h"
+#include "menuOverlay.h"
+
 #include "spriteViewerMode.h"
 #include "soundViewerMode.h"
 #include "assetViewerMessages.h"
@@ -13,6 +15,13 @@
  * Internal Constants
  */
 static const s16 OVERLAY_TOUCH_ACTIVATE_SIZE = 100;
+
+enum OverlayType
+{
+	OVERLAY_TYPE_CURSOR = 0,
+	OVERLAY_TYPE_MENU,
+	OVERLAY_TYPE_COUNT
+};
 
 /*
  * Public Instance
@@ -35,7 +44,6 @@ AssetViewerProgram::AssetViewerProgram()
 , m_pTouchReader(NULL)
 #endif
 , m_pCursor(NULL)
-, m_pOverlay(NULL)
 
 , m_pModeNameArray(NULL)
 , m_menuPage()
@@ -162,27 +170,51 @@ void AssetViewerProgram::InitMiscellaneous()
 
 	m_pNextModeName = "SpriteViewerMode";
 
-	AssetViewerOverlay* pOverlay = m_allocator.AllocType<AssetViewerOverlay>();
-	pOverlay->SetAllocator(&m_allocator);
-	pOverlay->SetGraphicsDevice(&m_graphicsDevice);
-	pOverlay->SetScreen(&m_screen);
-	pOverlay->SetProgramMessageQueue(&m_messageQueue);
-	pOverlay->SetInputCursor(m_pCursor);
-	pOverlay->SetSharedAssetContainer(&m_assetContainer);
-	pOverlay->SetFillDrawContext(&m_fillDrawContext);
-	pOverlay->SetFontDrawContext(&m_fontDrawContext);
-	pOverlay->Init();
 
-	m_pOverlay = pOverlay;
+	m_pOverlayArray = m_allocator.AllocTypeArray<lct::fram::Overlay*>(OVERLAY_TYPE_COUNT);
+
+	lct::fram::Overlay::Shared overlayShared;
+	overlayShared.pAllocator = &m_modeAllocator;
+	overlayShared.pProgramMessageQueue = &m_messageQueue;
+	overlayShared.pScreen = &m_screen;
+	overlayShared.pGraphicsDevice = &m_graphicsDevice;
+	overlayShared.pAudioDevice = &m_audioDevice;
+	AssetViewerOverlay::SubShared overlaySubShared;
+	overlaySubShared.pCursor = m_pCursor;
+	overlaySubShared.pAssetContainer = &m_assetContainer;
+	overlaySubShared.pFillDrawContext = &m_fillDrawContext;
+	overlaySubShared.pFontDrawContext = &m_fontDrawContext;
+
+	{
+		CursorOverlay* pOverlay = m_allocator.AllocType<CursorOverlay>();
+		pOverlay->SetShared(overlayShared);
+		pOverlay->SetSubShared(overlaySubShared);
+		pOverlay->Init();
+
+		m_pOverlayArray[OVERLAY_TYPE_CURSOR] = pOverlay;
+	}
+	{
+		MenuOverlay* pOverlay = m_allocator.AllocType<MenuOverlay>();
+		pOverlay->SetShared(overlayShared);
+		pOverlay->SetSubShared(overlaySubShared);
+		pOverlay->Init();
+		pOverlay->AddProgramOptionsMenuPage(&m_menuPage);
+
+		m_pOverlayArray[OVERLAY_TYPE_MENU] = pOverlay;
+	}
+	m_overlayCount = OVERLAY_TYPE_COUNT;
 
 	if (m_graphicsAcquired)
 	{
-		m_pOverlay->AcquireGraphics();
+		for (u32 overlayIndex = 0; overlayIndex < m_overlayCount; ++overlayIndex)
+		{
+			lct::fram::Overlay* pOverlay = m_pOverlayArray[overlayIndex];
+			pOverlay->AcquireGraphics();
+		}
 	}
 
-	BuildMenu();
 
-	pOverlay->AddProgramOptionsMenuPage(&m_menuPage);
+	BuildMenu();	
 }
 
 void AssetViewerProgram::AcquireGraphics()
@@ -196,11 +228,6 @@ void AssetViewerProgram::AcquireGraphics()
 	m_fontDrawContext.AcquireResources();
 
 	m_spriteDrawContext.AcquireResources();
-
-	if (m_pOverlay != NULL) // should go in base...?
-	{
-		m_pOverlay->AcquireGraphics();
-	}
 }
 
 void AssetViewerProgram::ReleaseGraphics()
@@ -212,11 +239,6 @@ void AssetViewerProgram::ReleaseGraphics()
 	m_fontDrawContext.ReleaseResources();
 
 	m_spriteDrawContext.ReleaseResources();
-
-	if (m_pOverlay != NULL) // should go in base...?
-	{
-		m_pOverlay->ReleaseGraphics();
-	}
 
 	Program::ReleaseGraphics();
 }
@@ -291,9 +313,9 @@ bool AssetViewerProgram::HandleMessage(const lct::fram::Message& message)
 {
 	switch (message.GetType())
 	{
-	case MESSAGE_TYPE_PROGRAM_CLOSE_OVERLAY:
+	case MESSAGE_TYPE_PROGRAM_CLOSE_MENU_OVERLAY:
 	{
-		CloseOverlay();
+		DeactivateOverlay(OVERLAY_TYPE_MENU);
 		return true;
 	}
 	case MESSAGE_TYPE_PROGRAM_CHANGE_MODE:
@@ -317,7 +339,7 @@ bool AssetViewerProgram::HandleMessage(const lct::fram::Message& message)
  void AssetViewerProgram::LoadAssets()
  {
 	 static const char* FILE_PATH = "data/programAssets.bin";
-	 u32 fileSize;
+	 ssiz fileSize;
 	 m_pAssetBinary = m_pAccessor->LoadFile(FILE_PATH, &fileSize);
 
 	 lct::util::BinaryReader binaryReader;
@@ -378,32 +400,40 @@ bool AssetViewerProgram::HandleMessage(const lct::fram::Message& message)
 		 m_changeModeMenuItem.GetCallback().Bind(this, &AssetViewerProgram::OnChangeModeTrigger);
 		 m_menuPage.AddItem(&m_changeModeMenuItem);
 	 }
+	 {
+		 m_cursorOverlayMenuItem.SetLabel("Cursor Overlay");
+		 m_cursorOverlayMenuItem.SetValue(false);
+		 m_cursorOverlayMenuItem.GetCycleCallback().Bind(this, &AssetViewerProgram::OnCursorOverlayChange);
+		 m_menuPage.AddItem(&m_cursorOverlayMenuItem);
+	 }
  }
 
  void AssetViewerProgram::CheckOverlayInput()
  {
-	 if (m_pCurrOverlay == NULL)
+	 if (!IsOverlayActive(OVERLAY_TYPE_MENU))
 	 {
 		 s16 x = m_pCursor->GetX();
 		 s16 y = m_pCursor->GetY();
 		 if (m_pCursor->IsRelease() && (x < OVERLAY_TOUCH_ACTIVATE_SIZE) && (y < OVERLAY_TOUCH_ACTIVATE_SIZE))
 		 {
-			 m_pCurrOverlay = m_pOverlay;
+			 ActivateOverlay(OVERLAY_TYPE_MENU);
 		 }
 	 }
- }
-
- void AssetViewerProgram::OpenOverlay()
- {
-
- }
-
- void AssetViewerProgram::CloseOverlay()
- {
-	 m_pCurrOverlay = NULL;
  }
 
  void AssetViewerProgram::OnChangeModeTrigger()
  {
 	 m_pNextModeName = m_pModeNameArray[m_modeMenuItem.GetIndex()];
+ }
+
+ void AssetViewerProgram::OnCursorOverlayChange()
+ {
+	 if (m_cursorOverlayMenuItem.GetValue())
+	 {
+		 ActivateOverlay(OVERLAY_TYPE_CURSOR);
+	 }
+	 else
+	 {
+		 DeactivateOverlay(OVERLAY_TYPE_CURSOR);
+	 }
  }

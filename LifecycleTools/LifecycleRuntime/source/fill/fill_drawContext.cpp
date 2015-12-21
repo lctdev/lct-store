@@ -129,7 +129,7 @@ void DrawContext::ActivateWorldTransform(const foun::Matrix32& worldTransform)
 	m_pGraphicsDevice->ActivateUniform(pWorldTransformUniformResource, tempWorldMatrix);
 }
 
-void DrawContext::DrawRect(const foun::RectCentered& rect, const foun::FloatColor& color)
+void DrawContext::DrawRect(const foun::RectCentered& rect, const foun::FloatColor4& color)
 {
 	const grap::UniformResource* pPlacementUniformResource = m_pUniformResourceArray + UNIFORM_PLACEMENT;
 	const grap::UniformResource* pModulateColorUniformResource = m_pUniformResourceArray + UNIFORM_MODULATE_COLOR;
@@ -146,7 +146,7 @@ void DrawContext::DrawRect(const foun::RectCentered& rect, const foun::FloatColo
 	m_pGraphicsDevice->Draw(QUAD_INDEX_COUNT, 0, grap::INDEX_TYPE_U8);
 }
 
-void DrawContext::DrawRect(const foun::RectEdges& rect, const foun::FloatColor& color)
+void DrawContext::DrawRect(const foun::RectEdges& rect, const foun::FloatColor4& color)
 {
 	foun::RectCentered rectCentered;
 	foun::RectCenteredFromRectEdges(&rectCentered, rect);

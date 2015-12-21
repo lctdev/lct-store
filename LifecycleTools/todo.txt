@@ -2,14 +2,20 @@
 
 - replace all “WIN32/__APPLE_/…” define checks with “LCT_…” equivalents : [DONE]
 
-- Move all "debug menu" related resources ( font buffers, graphics device, etc. ) into the Menu class for easier re-use
+- Move all "debug menu" related resources ( font buffers, graphics device, etc. ) into the Menu class for easier re-use : [DONE]
 
-- Start using the "Services" struct convention for passing shared pointers around at the application level ( ie: not LCT )
+- Start using the "Services" struct convention for passing shared pointers around at the application level ( ie: not LCT ) : [DONE]
 
-- Refactor callbacks to cast function/instance pointers to known types from a templated "Bind()", instead of using virtual functions
+- Refactor callbacks to cast function/instance pointers to known types from a templated "Bind()", instead of using virtual functions : [DONE]
 
 - Move all graphics API code ( OpenGL ) into a single Graphics Device class : [DONE]
 
-- Conslidate the asset pipeline into a single Java program, with a plugin interface for the different asset types
+- Conslidate the asset pipeline into a single Java program, with a plugin interface for the different asset types : [DONE]
 
-- change to using 64 bit code ( iOS requires it now )
+- change to using 64 bit code ( iOS requires it now ) : [PARTIAL]
+
+- cleanup usage of memory size to always use the new "ssize" type
+
+- refactor Overlay system to allow for multiple active
+
+- add Overlays for cursor debug, CPU profile

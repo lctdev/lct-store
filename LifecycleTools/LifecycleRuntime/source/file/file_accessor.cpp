@@ -27,21 +27,23 @@ s32 Accessor::GetFileSize(const char* pPath)
 	return 0;
 }
 
-void Accessor::ReadFile(const char* pPath, void* pMemory, u32 size)
+void Accessor::ReadFile(const char* pPath, void* pMemory, ssiz size)
 {
 }
 
-void* Accessor::LoadFile(const char* pPath, u32* pSize)
+void* Accessor::LoadFile(const char* pPath, ssiz* pSize)
 {
+	*pSize = 0;
 	return NULL;
 }
 
-char* Accessor::LoadFileString(const char* pPath, u32* pSize)
+char* Accessor::LoadFileString(const char* pPath, ssiz* pSize)
 {
+	*pSize = 0;
 	return NULL;
 }
 
-void Accessor::GetCurrentDirectoryPath(char* pPath, u32 maxSize)
+void Accessor::GetCurrentDirectoryPath(char* pPath, ssiz maxSize)
 {
 	pPath[0] = '\0';
 }

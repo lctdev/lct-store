@@ -16,7 +16,7 @@ Allocator::~Allocator()
 {
 }
 
-void* Allocator::Alloc(u32 size, u32 align)
+void* Allocator::Alloc(ssiz size, u32 align)
 {
 	return NULL;
 }

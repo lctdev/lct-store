@@ -13,10 +13,9 @@ namespace fram
  * Public Instance
  */
 Overlay::Overlay()
-: m_pAllocator(NULL)
-, m_pProgramMessageQueue(NULL)
-, m_pScreen(NULL)
-, m_pGraphicsDevice(NULL)
+: m_shared()
+
+, m_active(false)
 {
 }
 
@@ -24,24 +23,9 @@ Overlay::~Overlay()
 {
 }
 
-void Overlay::SetAllocator(foun::Allocator* pAllocator)
+void Overlay::SetShared(const Shared& shared)
 {
-	m_pAllocator = pAllocator;
-}
-
-void Overlay::SetProgramMessageQueue(fram::MessageQueue* pMessageQueue)
-{
-	m_pProgramMessageQueue = pMessageQueue;
-}
-
-void Overlay::SetScreen(grap::Screen* pScreen)
-{
-	m_pScreen = pScreen;
-}
-
-void Overlay::SetGraphicsDevice(grap::Device* pGraphicsDevice)
-{
-	m_pGraphicsDevice = pGraphicsDevice;
+	m_shared = shared;
 }
 
 void Overlay::Init()
@@ -54,6 +38,21 @@ void Overlay::AcquireGraphics()
 
 void Overlay::ReleaseGraphics()
 {
+}
+
+void Overlay::Activate()
+{
+	m_active = true;
+}
+
+void Overlay::Deactivate()
+{
+	m_active = false;
+}
+
+bool Overlay::DoesBlockInput()
+{
+	return false;
 }
 
 void Overlay::ReadInput()

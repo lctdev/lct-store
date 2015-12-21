@@ -27,7 +27,7 @@ public:
 	void SetCursorY(f32 cursorY);
 	void SetHorizontalAlign(HorizontalAlign horizontalAlign);
 	void SetVerticalAlign(VerticalAlign verticalAlign);
-	void SetColor(const foun::FloatColor& color);
+	void SetColor(const foun::FloatColor4& color);
 
 	f32 MeasureStringWidth(const char* pString);
 
@@ -39,7 +39,7 @@ protected:
 	foun::Vector2 m_cursor;
 	HorizontalAlign m_horizontalAlign;
 	VerticalAlign m_verticalAlign;
-	foun::FloatColor m_color;
+	foun::FloatColor4 m_color;
 };
 
 //namespace font

@@ -11,6 +11,8 @@
 #include <grap/grap_screen.h>
 #include <grap/grap_device.h>
 
+#include <audi/audi_device.h>
+
 namespace lct
 {
 namespace fram
@@ -22,26 +24,34 @@ public:
 	Overlay();
 	virtual ~Overlay();
 
-	void SetAllocator(foun::Allocator* pAllocator);
-	void SetProgramMessageQueue(fram::MessageQueue* pMessageQueue);
-	void SetScreen(grap::Screen* pScreen);
-	void SetGraphicsDevice(grap::Device* pGraphicsDevice);
+	struct Shared
+	{
+		foun::Allocator* pAllocator;
+		MessageQueue* pProgramMessageQueue;
+		grap::Screen* pScreen;
+		grap::Device* pGraphicsDevice;
+		audi::Device* pAudioDevice;
+	};
+	void SetShared(const Shared& shared);
 
 	virtual void Init();
 
 	virtual void AcquireGraphics();
 	virtual void ReleaseGraphics();
 
+	virtual void Activate();
+	virtual void Deactivate();
+	virtual bool IsActive() { return m_active; }
+	virtual bool DoesBlockInput();
+
 	virtual void ReadInput();
 	virtual void Update();
 	virtual void Draw();
 
 protected:
-	// shared
-	foun::Allocator* m_pAllocator;
-	fram::MessageQueue* m_pProgramMessageQueue;
-	grap::Screen* m_pScreen;
-	grap::Device* m_pGraphicsDevice;
+	Shared m_shared;
+
+	bool m_active;
 };
 
 //namespace lct

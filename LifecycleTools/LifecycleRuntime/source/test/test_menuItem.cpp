@@ -12,8 +12,8 @@ namespace test
 /*
  * Internal Constants
  */
-static const foun::FloatColor NORMAL_COLOR = { 1.0f, 1.0f, 1.0f, 1.0f };
-static const foun::FloatColor SELECTED_COLOR = { 1.0f, 1.0f, 0.0f, 1.0f };
+static const foun::FloatColor4 NORMAL_COLOR = { 1.0f, 1.0f, 1.0f, 1.0f };
+static const foun::FloatColor4 SELECTED_COLOR = { 1.0f, 1.0f, 0.0f, 1.0f };
 
 /*
  * Public Instance

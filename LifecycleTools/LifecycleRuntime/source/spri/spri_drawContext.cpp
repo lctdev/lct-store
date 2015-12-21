@@ -150,8 +150,8 @@ void DrawContext::DrawFigure(FigureInstance& figureInstance)
 		FigureInstance::Pattern& pattern = pPatternArray[part.pPartData->patternIndex];
 
 		foun::Matrix33FromMatrix32(tempJointMatrix, joint.transform);
-		foun::FloatColor& modulateColor = (foun::FloatColor&)part.propertyArray[PART_PROPERTY_TYPE_MODULATE_COLOR_R];
-		foun::FloatColor& interpolateColor = (foun::FloatColor&)part.propertyArray[PART_PROPERTY_TYPE_INTERPOLATE_COLOR_R];		
+		foun::FloatColor4& modulateColor = (foun::FloatColor4&)part.propertyArray[PART_PROPERTY_TYPE_MODULATE_COLOR_R];
+		foun::FloatColor4& interpolateColor = (foun::FloatColor4&)part.propertyArray[PART_PROPERTY_TYPE_INTERPOLATE_COLOR_R];		
 
 		m_pGraphicsDevice->ActivateUniform(pJointTransformUniformResource, tempJointMatrix);
 		m_pGraphicsDevice->ActivateUniform(pPlacementUniformResource, part.placement);

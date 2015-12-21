@@ -36,7 +36,7 @@ public:
 	};
 	void SetShared(const Shared& shared);
 
-	const lct::foun::FloatColor& GetClearColor() { return m_clearColor; }
+	const lct::foun::FloatColor4& GetClearColor() { return m_clearColor; }
 
 	virtual void Init();
 
@@ -56,7 +56,7 @@ protected:
 
 	bool m_finished;
 	
-	lct::foun::FloatColor m_clearColor;
+	lct::foun::FloatColor4 m_clearColor;
 };
 
 //namespace lct

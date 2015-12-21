@@ -121,7 +121,7 @@ void DrawContext::DrawSymbolBuffer(SymbolBuffer& symbolBuffer)
 	const grap::UniformResource* pModulateColorUniformResource = m_pUniformResourceArray + UNIFORM_MODULATE_COLOR;
 	const grap::UniformResource* pTextureUniformResource = m_pUniformResourceArray + UNIFORM_TEXTURE;
 
-	foun::FloatColor modulateColor = { 1.0f, 1.0f, 1.0f, 1.0f }; // TEMP!
+	foun::FloatColor4 modulateColor = { 1.0f, 1.0f, 1.0f, 1.0f }; // TEMP!
 
 	m_pGraphicsDevice->ActivateUniform(pModulateColorUniformResource, modulateColor);
 

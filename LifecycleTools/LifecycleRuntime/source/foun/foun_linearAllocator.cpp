@@ -32,7 +32,7 @@ void LinearAllocator::Clear()
 	m_currAddr = m_beginAddr;
 }
 
-void* LinearAllocator::Alloc(u32 size, u32 align)
+void* LinearAllocator::Alloc(ssiz size, u32 align)
 {
 	if (size > 0)
 	{

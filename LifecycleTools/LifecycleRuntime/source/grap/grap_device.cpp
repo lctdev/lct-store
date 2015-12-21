@@ -284,7 +284,7 @@ void Device::ReleaseTextureResource(const TextureSetupParameters& textureSetupPa
 	--m_acquiredTextureResourceCount;
 }
 
-void Device::ClearFrameBuffer(const lct::foun::FloatColor& clearColor)
+void Device::ClearFrameBuffer(const lct::foun::FloatColor4& clearColor)
 {
 	glClearColor(clearColor.r, clearColor.g, clearColor.b, clearColor.a);
 	glClear(GL_COLOR_BUFFER_BIT);
@@ -321,7 +321,7 @@ void Device::ActivateUniform(const UniformResource* pUniformResource, const foun
 	LCT_TRACE_GL_ERROR();
 }
 
-void Device::ActivateUniform(const UniformResource* pUniformResource, const foun::FloatColor& color)
+void Device::ActivateUniform(const UniformResource* pUniformResource, const foun::FloatColor4& color)
 {
 	glUniform4fv(pUniformResource->uniformLocation, 1, (GLfloat*)&color);
 

@@ -10,7 +10,7 @@ namespace fram
 /*
  * Internal Constants
  */
-static const lct::foun::FloatColor DEFAULT_CLEAR_COLOR = { 0.0f, 0.0f, 0.0f, 1.0f };
+static const lct::foun::FloatColor4 DEFAULT_CLEAR_COLOR = { 0.0f, 0.0f, 0.0f, 1.0f };
 
 /*
  * Public Instance

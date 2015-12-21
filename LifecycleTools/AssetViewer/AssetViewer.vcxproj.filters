@@ -27,6 +27,12 @@
     <ClInclude Include="include\soundViewerMode.h">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="include\menuOverlay.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\cursorOverlay.h">
+      <Filter>include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\assetViewerMode.cpp">
@@ -42,6 +48,12 @@
       <Filter>source</Filter>
     </ClCompile>
     <ClCompile Include="source\soundViewerMode.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="source\menuOverlay.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="source\cursorOverlay.cpp">
       <Filter>source</Filter>
     </ClCompile>
   </ItemGroup>

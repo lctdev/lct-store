@@ -8,7 +8,14 @@ namespace lct
 namespace foun
 {
 
-struct FloatColor
+struct FloatColor3
+{
+	f32 r;
+	f32 g;
+	f32 b;
+};
+
+struct FloatColor4
 {
 	f32 r;
 	f32 g;

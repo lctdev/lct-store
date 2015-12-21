@@ -19,8 +19,8 @@ static const f32 MENU_ITEM_RIGHT_OFFSET_X = 440.0f;
 static const f32 BAR_WIDTH = 128.0f;
 static const f32 BAR_HEIGHT = 8.0f;
 static const f32 BAR_SPACING = 8.0f;
-static const lct::foun::FloatColor VOLUME_BAR_COLOR = { 0.0f, 0.0f, 1.0f, 1.0f };
-static const lct::foun::FloatColor PITCH_BAR_COLOR = { 1.0f, 1.0f, 0.0f, 1.0f };
+static const lct::foun::FloatColor4 VOLUME_BAR_COLOR = { 0.0f, 0.0f, 1.0f, 1.0f };
+static const lct::foun::FloatColor4 PITCH_BAR_COLOR = { 1.0f, 1.0f, 0.0f, 1.0f };
 
 static const f32 CONTENT_OFFSET_X = 200.0f;
 static const f32 CONTENT_HEIGHT = SoundViewerMode::CLIP_CAPACITY * ((BAR_HEIGHT * 2.0f) + BAR_SPACING);
@@ -304,7 +304,7 @@ void SoundViewerMode::BuildMenu()
 void SoundViewerMode::LoadAssets()
 {
 	static const char* FILE_PATH = "data/soundViewer/package.bin";
-	u32 fileSize;
+	ssiz fileSize;
 	m_pAssetBinary = m_subShared.pAccessor->LoadFile(FILE_PATH, &fileSize);
 	lct::util::BinaryReader binaryReader;
 	binaryReader.SetMemory(m_pAssetBinary, fileSize);

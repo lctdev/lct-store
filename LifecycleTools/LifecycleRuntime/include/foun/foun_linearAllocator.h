@@ -17,7 +17,7 @@ public:
 	void SetMemory(void* pMemory, u32 size);
 	void Clear();
 
-	virtual void* Alloc(u32 size, u32 align);
+	virtual void* Alloc(ssiz size, u32 align);
 
 private:
 	uptr m_beginAddr;

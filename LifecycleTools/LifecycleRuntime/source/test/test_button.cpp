@@ -17,9 +17,9 @@ namespace test
  */
 static const f32 BORDER_SIZE = 4.0f;
 
-static const foun::FloatColor BORDER_COLOR = { 1.0f, 1.0f, 1.0f, 1.0f };
-static const foun::FloatColor UP_COLOR = { 0.75f, 0.75f, 0.75f, 1.0f };
-static const foun::FloatColor DOWN_COLOR = { 0.25, 0.25f, 0.25f, 1.0f };
+static const foun::FloatColor4 BORDER_COLOR = { 1.0f, 1.0f, 1.0f, 1.0f };
+static const foun::FloatColor4 UP_COLOR = { 0.75f, 0.75f, 0.75f, 1.0f };
+static const foun::FloatColor4 DOWN_COLOR = { 0.25, 0.25f, 0.25f, 1.0f };
 
 /*
  * Public Instance
