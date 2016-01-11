@@ -55,14 +55,14 @@ void BackMenuItem::SetIsSelected(bool isSelected)
 	m_button.ForceUp();
 }
 
-void BackMenuItem::HandlePress(const foun::Vector2& position)
+void BackMenuItem::HandlePress(const foun::RectEdges& pressBounds)
 {
-	m_button.HandlePress(position);
+	m_button.HandlePress(pressBounds);
 }
 
-void BackMenuItem::HandleRelease(const foun::Vector2& position)
+void BackMenuItem::HandleRelease(const foun::RectEdges& pressBounds)
 {
-	m_button.HandleRelease(position);
+	m_button.HandleRelease(pressBounds);
 }
 
 void BackMenuItem::DrawFill(fill::DrawContext* pDrawContext)

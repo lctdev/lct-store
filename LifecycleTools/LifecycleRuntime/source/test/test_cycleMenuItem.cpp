@@ -80,16 +80,16 @@ void CycleMenuItem::SetIsSelected(bool isSelected)
 	m_rightButton.ForceUp();
 }
 
-void CycleMenuItem::HandlePress(const foun::Vector2& position)
+void CycleMenuItem::HandlePress(const foun::RectEdges& pressBounds)
 {
-	m_leftButton.HandlePress(position);
-	m_rightButton.HandlePress(position);
+	m_leftButton.HandlePress(pressBounds);
+	m_rightButton.HandlePress(pressBounds);
 }
 
-void CycleMenuItem::HandleRelease(const foun::Vector2& position)
+void CycleMenuItem::HandleRelease(const foun::RectEdges& pressBounds)
 {
-	m_leftButton.HandleRelease(position);
-	m_rightButton.HandleRelease(position);
+	m_leftButton.HandleRelease(pressBounds);
+	m_rightButton.HandleRelease(pressBounds);
 }
 
 void CycleMenuItem::DrawFill(fill::DrawContext* pDrawContext)

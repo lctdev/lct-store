@@ -53,17 +53,17 @@ void Button::SetArea(const foun::RectCentered& area)
 	foun::RectEdgesFromRectCentered(&m_bounds, m_area);
 }
 
-void Button::HandlePress(const foun::Vector2& position)
+void Button::HandlePress(const foun::RectEdges& pressBounds)
 {
-	if (foun::TestIntersection(position, m_bounds))
+	if (foun::TestIntersection(pressBounds, m_bounds))
 	{
 		m_down = true;
 	}
 }
 
-void Button::HandleRelease(const foun::Vector2& position)
+void Button::HandleRelease(const foun::RectEdges& pressBounds)
 {
-	if (foun::TestIntersection(position, m_bounds))
+	if (foun::TestIntersection(pressBounds, m_bounds))
 	{
 		if (m_down)
 		{

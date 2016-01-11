@@ -42,7 +42,7 @@ public:
 	{
 		if (count > 0)
 		{
-			u32 size = sizeof(T) * count;
+			ssiz size = sizeof(T) * count;
 			void* pMemory = Alloc(size, TYPE_ALIGN);
 			if (pMemory != NULL)
 			{

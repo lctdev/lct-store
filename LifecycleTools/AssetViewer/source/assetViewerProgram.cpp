@@ -174,7 +174,7 @@ void AssetViewerProgram::InitMiscellaneous()
 	m_pOverlayArray = m_allocator.AllocTypeArray<lct::fram::Overlay*>(OVERLAY_TYPE_COUNT);
 
 	lct::fram::Overlay::Shared overlayShared;
-	overlayShared.pAllocator = &m_modeAllocator;
+	overlayShared.pAllocator = &m_allocator;
 	overlayShared.pProgramMessageQueue = &m_messageQueue;
 	overlayShared.pScreen = &m_screen;
 	overlayShared.pGraphicsDevice = &m_graphicsDevice;

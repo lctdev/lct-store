@@ -100,23 +100,35 @@ void MenuPage::Arrange()
 	}
 }
 
-void MenuPage::HandlePress(const foun::Vector2& position)
+void MenuPage::HandlePress(const foun::RectEdges& pressBounds)
 {
+	foun::RectCentered pressRect;
+	foun::RectCenteredFromRectEdges(&pressRect, pressBounds);
+	foun::Vector2 pressPosition = { pressRect.x, pressRect.y };
 	foun::RectEdges itemBounds;
 	itemBounds.left = m_position.x;
 	itemBounds.right = itemBounds.left + ITEM_INPUT_WIDTH;
 	itemBounds.top = m_position.y;
 	itemBounds.bottom = itemBounds.top - m_spacing;
+	foun::Vector2 itemPosition = { m_position.x, m_position.y - (m_spacing / 2.0f) };
 	MenuItem* pOldSelectedItem = m_pSelectedItem;
 	MenuItem* pNewSelectedItem = NULL;
+	f32 newItemDistSqr = 0.0f;
 	for (foun::ListIterator<MenuItem*> iter = m_itemList.Head(); !iter.IsEnd(); iter.Next())
 	{
-		if (foun::TestIntersection(position, itemBounds))
+		if (foun::TestIntersection(pressBounds, itemBounds))
 		{
-			pNewSelectedItem = iter.GetValue();
+			f32 itemDistSqr = foun::Vector2DistanceSquared(pressPosition, itemPosition);
+			if ((pNewSelectedItem == NULL) || (itemDistSqr < newItemDistSqr))
+			{
+				pNewSelectedItem = iter.GetValue();
+				newItemDistSqr = itemDistSqr;
+			}
 		}
+		
 		itemBounds.top -= m_spacing;
 		itemBounds.bottom -= m_spacing;
+		itemPosition.y -= m_spacing;
 	}
 
 	if (pNewSelectedItem != NULL)
@@ -134,15 +146,15 @@ void MenuPage::HandlePress(const foun::Vector2& position)
 
 	if (m_pSelectedItem != NULL)
 	{
-		m_pSelectedItem->HandlePress(position);
+		m_pSelectedItem->HandlePress(pressBounds);
 	}
 }
 
-void MenuPage::HandleRelease(const foun::Vector2& position)
+void MenuPage::HandleRelease(const foun::RectEdges& pressBounds)
 {
 	if (m_pSelectedItem != NULL)
 	{
-		m_pSelectedItem->HandleRelease(position);
+		m_pSelectedItem->HandleRelease(pressBounds);
 	}
 }
 

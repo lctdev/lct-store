@@ -54,14 +54,14 @@ void ActionMenuItem::SetIsSelected(bool isSelected)
 	m_button.ForceUp();
 }
 
-void ActionMenuItem::HandlePress(const foun::Vector2& position)
+void ActionMenuItem::HandlePress(const foun::RectEdges& pressBounds)
 {
-	m_button.HandlePress(position);
+	m_button.HandlePress(pressBounds);
 }
 
-void ActionMenuItem::HandleRelease(const foun::Vector2& position)
+void ActionMenuItem::HandleRelease(const foun::RectEdges& pressBounds)
 {
-	m_button.HandleRelease(position);
+	m_button.HandleRelease(pressBounds);
 }
 
 void ActionMenuItem::DrawFill(fill::DrawContext* pDrawContext)

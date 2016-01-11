@@ -5,6 +5,7 @@
 #include <foun/foun_allocator.h>
 #include <foun/foun_rect.h>
 #include <foun/foun_vector.h>
+#include <foun/foun_rect.h>
 #include <foun/foun_color.h>
 #include <foun/foun_list.h>
 #include <foun/foun_stack.h>
@@ -64,6 +65,7 @@ public:
 	void ReleaseGraphics();
 
 	void SetPosition(const foun::Vector2& position);
+	void SetPressSize(const foun::Vector2& pressSize);
 	void SetSpacing(f32 spacing);
 
 	void AddPage(MenuPage* pPage);
@@ -79,6 +81,7 @@ protected:
 
 	MenuRequest m_request;
 	foun::Vector2 m_position;
+	foun::Vector2 m_pressSize;
 	f32 m_spacing;
 
 	MenuPage* FindPage(const char* pPageLabel);

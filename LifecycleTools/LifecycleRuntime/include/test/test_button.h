@@ -32,8 +32,8 @@ public:
 	foun::Callback& GetTriggerCallback() { return m_triggerCallback; }
 	void SetArea(const foun::RectCentered& area);
 
-	void HandlePress(const foun::Vector2& position);
-	void HandleRelease(const foun::Vector2& position);
+	void HandlePress(const foun::RectEdges& pressBounds);
+	void HandleRelease(const foun::RectEdges& pressBounds);
 	void ForceUp();
 
 	void DrawFill(fill::DrawContext* pDrawContext);

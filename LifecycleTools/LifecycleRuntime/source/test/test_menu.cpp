@@ -37,6 +37,7 @@ Menu::Menu()
 
 , m_request()
 , m_position()
+, m_pressSize()
 , m_spacing(0.0f)
 , m_pageList()
 , m_pActivePage(NULL)
@@ -92,6 +93,11 @@ void Menu::SetPosition(const foun::Vector2& position)
 	Arrange();
 }
 
+void Menu::SetPressSize(const foun::Vector2& pressSize)
+{
+	m_pressSize = pressSize;
+}
+
 void Menu::SetSpacing(f32 spacing)
 {
 	m_spacing = spacing;
@@ -139,16 +145,20 @@ void Menu::ActivatePage(const char* pPageLabel)
 
 void Menu::HandleInput()
 {
-	lct::foun::Vector2 localCursorPosition;
+	foun::Vector2 localCursorPosition;
 	localCursorPosition.x = static_cast<f32>(m_shared.pInputCursor->GetX());
 	localCursorPosition.y = -static_cast<f32>(m_shared.pInputCursor->GetY());
+	foun::RectCentered tempRect = { localCursorPosition.x, localCursorPosition.y, m_pressSize.x, m_pressSize.y };
+	foun::RectEdges pressBounds;
+	foun::RectEdgesFromRectCentered(&pressBounds, tempRect);
+	
 	if (m_shared.pInputCursor->IsPress())
 	{
-		m_pActivePage->HandlePress(localCursorPosition);
+		m_pActivePage->HandlePress(pressBounds);
 	}
 	if (m_shared.pInputCursor->IsRelease())
 	{
-		m_pActivePage->HandleRelease(localCursorPosition);
+		m_pActivePage->HandleRelease(pressBounds);
 	}
 
 	if (m_request.pChangePageLabel != NULL)

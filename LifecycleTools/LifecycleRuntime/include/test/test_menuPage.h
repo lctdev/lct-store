@@ -3,6 +3,7 @@
 
 #include <foun/foun_list.h>
 #include <foun/foun_vector.h>
+#include <foun/foun_rect.h>
 
 #include <test/test_menuShared.h>
 
@@ -39,8 +40,8 @@ public:
 	MenuItem* GetLastItem();
 	void Arrange();
 
-	void HandlePress(const foun::Vector2& position);
-	void HandleRelease(const foun::Vector2& position);
+	void HandlePress(const foun::RectEdges& pressBounds);
+	void HandleRelease(const foun::RectEdges& pressBounds);
 
 	void DrawFill(fill::DrawContext* pDrawContext);
 	void WriteFont(font::SymbolWriter* pSymbolWriter);

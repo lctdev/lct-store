@@ -11,6 +11,7 @@ namespace foun
 {
 
 bool TestIntersection(const Vector2& point, const RectEdges& rect);
+bool TestIntersection(const RectEdges& rectA, const RectEdges& rectB);
 
 //namespace foun
 }

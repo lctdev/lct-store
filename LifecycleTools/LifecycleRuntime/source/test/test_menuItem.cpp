@@ -51,11 +51,11 @@ void MenuItem::SetIsSelected(bool isSelected)
 	m_isSelected = isSelected;
 }
 
-void MenuItem::HandlePress(const foun::Vector2& position)
+void MenuItem::HandlePress(const foun::RectEdges& pressBounds)
 {
 }
 
-void MenuItem::HandleRelease(const foun::Vector2& position)
+void MenuItem::HandleRelease(const foun::RectEdges& pressBounds)
 {
 }
 

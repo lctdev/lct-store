@@ -14,10 +14,10 @@ public:
 	BinaryReader();
 	virtual ~BinaryReader();
 
-	void SetMemory(void* pMemory, u32 size);
+	void SetMemory(void* pMemory, ssiz size);
 
-	bool CanRead(u32 size);
-	void* Read(u32 size);
+	bool CanRead(ssiz size);
+	void* Read(ssiz size);
 
 	template <class T>
 	bool CanReadType();
@@ -26,7 +26,7 @@ public:
 	template <class T>
 	T* ReadTypeArray(u32 count);
 
-	s32 GetPosition();
+	ssiz GetPosition();
 
 private:
 	uptr m_beginAddr;

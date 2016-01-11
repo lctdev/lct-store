@@ -22,7 +22,7 @@ void Accessor::SetAllocator(lct::foun::Allocator* pAllocator)
 	m_pAllocator = pAllocator;
 }
 
-s32 Accessor::GetFileSize(const char* pPath)
+ssiz Accessor::GetFileSize(const char* pPath)
 {
 	return 0;
 }

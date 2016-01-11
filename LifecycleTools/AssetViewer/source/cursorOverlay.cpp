@@ -1,8 +1,6 @@
 #include "cursorOverlay.h"
 #include "assetViewerMessages.h"
 
-#include <foun\foun_math.h>
-
 /*
 * Internal Constants
 */
@@ -12,6 +10,7 @@ static const lct::foun::FloatColor3 DOWN_COLOR = { 0.0f, 0.0f, 1.0f };
 
 static const f32 MARKER_FRAMES = 60.0f;
 static const f32 MARKER_ALPHA_STEP = 1.0f / MARKER_FRAMES;
+static const f32 MARKER_SIZE = 64.0f;
 
 /*
 * Public Instance
@@ -133,8 +132,8 @@ void CursorOverlay::DrawMarker(Marker& marker, const lct::foun::FloatColor3& col
 	}
 
 	lct::foun::RectCentered cursorRect;
-	cursorRect.width = 64.0f;
-	cursorRect.height = 64.0f;
+	cursorRect.width = MARKER_SIZE;
+	cursorRect.height = MARKER_SIZE;
 
 	lct::foun::FloatColor4 cursorColor;
 

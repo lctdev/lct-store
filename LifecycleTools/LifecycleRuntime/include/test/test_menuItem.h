@@ -5,6 +5,7 @@
 #include <foun/foun_color.h>
 #include <foun/foun_list.h>
 #include <foun/foun_vector.h>
+#include <foun/foun_rect.h>
 
 #include <test/test_menuShared.h>
 
@@ -35,8 +36,8 @@ public:
 	virtual void Arrange();
 
 	virtual void SetIsSelected(bool isSelected);
-	virtual void HandlePress(const foun::Vector2& position);
-	virtual void HandleRelease(const foun::Vector2& position);
+	virtual void HandlePress(const foun::RectEdges& pressBounds);
+	virtual void HandleRelease(const foun::RectEdges& pressBounds);
 
 	virtual void DrawFill(fill::DrawContext* pDrawContext);
 	virtual void WriteFont(font::SymbolWriter* pSymbolWriter);

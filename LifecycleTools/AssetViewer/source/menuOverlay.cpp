@@ -6,6 +6,12 @@
 */
 static const lct::foun::FloatColor4 BACKER_COLOR = { 0.0f, 0.0f, 0.0f, 0.5f };
 
+#if defined (LCT_WINDOWS) || defined(LCT_OSX)
+static const lct::foun::Vector2 PRESS_SIZE = { 0.0f, 0.0f };
+#else
+static const lct::foun::Vector2 PRESS_SIZE = { 64.0f, 64.0f };
+#endif
+
 /*
 * Public Instance
 */
@@ -43,6 +49,7 @@ void MenuOverlay::Init()
 	m_menu.SetShared(menuShared);
 	m_menu.Initialize();
 
+	m_menu.SetPressSize(PRESS_SIZE);
 	m_menu.SetSpacing(pSheetAsset->pSheetData->lineHeight * 2.0f);
 
 	m_mainMenuPage.SetLabel("Main");

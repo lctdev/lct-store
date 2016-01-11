@@ -22,7 +22,7 @@ public:
 	void SetAssetManager(AAssetManager* pAssetManager);
 #endif
 
-	virtual s32 GetFileSize(const char* pPath);
+	virtual ssiz GetFileSize(const char* pPath);
 	virtual void ReadFile(const char* pPath, void* pMemory, ssiz size);
 	virtual void* LoadFile(const char* pPath, ssiz* pSize);
 	virtual char* LoadFileString(const char* pPath, ssiz* pSize);

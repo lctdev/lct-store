@@ -23,6 +23,12 @@
 		F8E1B2D81AEE690A0045B0D2 /* assetViewerOverlay.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F8E1B2D41AEE690A0045B0D2 /* assetViewerOverlay.cpp */; };
 		F8E1B2D91AEE690A0045B0D2 /* assetViewerProgram.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F8E1B2D51AEE690A0045B0D2 /* assetViewerProgram.cpp */; };
 		F8E1B2DA1AEE690A0045B0D2 /* spriteViewerMode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F8E1B2D61AEE690A0045B0D2 /* spriteViewerMode.cpp */; };
+		F8EF914E1C28417700E96590 /* cursorOverlay.h in Headers */ = {isa = PBXBuildFile; fileRef = F8EF914C1C28417700E96590 /* cursorOverlay.h */; };
+		F8EF914F1C28417700E96590 /* menuOverlay.h in Headers */ = {isa = PBXBuildFile; fileRef = F8EF914D1C28417700E96590 /* menuOverlay.h */; };
+		F8EF91521C28418800E96590 /* cursorOverlay.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F8EF91501C28418800E96590 /* cursorOverlay.cpp */; };
+		F8EF91531C28418800E96590 /* menuOverlay.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F8EF91511C28418800E96590 /* menuOverlay.cpp */; };
+		F8EF91541C2AE03000E96590 /* cursorOverlay.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F8EF91501C28418800E96590 /* cursorOverlay.cpp */; };
+		F8EF91551C2AE03000E96590 /* menuOverlay.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F8EF91511C28418800E96590 /* menuOverlay.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -51,6 +57,10 @@
 		F8E1B2D41AEE690A0045B0D2 /* assetViewerOverlay.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = assetViewerOverlay.cpp; sourceTree = "<group>"; };
 		F8E1B2D51AEE690A0045B0D2 /* assetViewerProgram.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = assetViewerProgram.cpp; sourceTree = "<group>"; };
 		F8E1B2D61AEE690A0045B0D2 /* spriteViewerMode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = spriteViewerMode.cpp; sourceTree = "<group>"; };
+		F8EF914C1C28417700E96590 /* cursorOverlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cursorOverlay.h; sourceTree = "<group>"; };
+		F8EF914D1C28417700E96590 /* menuOverlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = menuOverlay.h; sourceTree = "<group>"; };
+		F8EF91501C28418800E96590 /* cursorOverlay.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = cursorOverlay.cpp; sourceTree = "<group>"; };
+		F8EF91511C28418800E96590 /* menuOverlay.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = menuOverlay.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,6 +102,8 @@
 		F8E1B2C71AEE68F20045B0D2 /* include */ = {
 			isa = PBXGroup;
 			children = (
+				F8EF914C1C28417700E96590 /* cursorOverlay.h */,
+				F8EF914D1C28417700E96590 /* menuOverlay.h */,
 				F8DDD05F1BD5204900183CFF /* soundViewerMode.h */,
 				F8E1B2C81AEE68F20045B0D2 /* assetViewerMessages.h */,
 				F8E1B2C91AEE68F30045B0D2 /* assetViewerMode.h */,
@@ -105,6 +117,8 @@
 		F8E1B2D21AEE690A0045B0D2 /* source */ = {
 			isa = PBXGroup;
 			children = (
+				F8EF91501C28418800E96590 /* cursorOverlay.cpp */,
+				F8EF91511C28418800E96590 /* menuOverlay.cpp */,
 				F8DDD0611BD5205A00183CFF /* soundViewerMode.cpp */,
 				F8E1B2D31AEE690A0045B0D2 /* assetViewerMode.cpp */,
 				F8E1B2D41AEE690A0045B0D2 /* assetViewerOverlay.cpp */,
@@ -121,7 +135,9 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F8EF914E1C28417700E96590 /* cursorOverlay.h in Headers */,
 				F8E1B2D01AEE68F30045B0D2 /* assetViewerProgram.h in Headers */,
+				F8EF914F1C28417700E96590 /* menuOverlay.h in Headers */,
 				F8E1B2CE1AEE68F30045B0D2 /* assetViewerMode.h in Headers */,
 				F8E1B2CD1AEE68F30045B0D2 /* assetViewerMessages.h in Headers */,
 				F8DDD0601BD5204900183CFF /* soundViewerMode.h in Headers */,
@@ -207,6 +223,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F8EF91541C2AE03000E96590 /* cursorOverlay.cpp in Sources */,
+				F8EF91551C2AE03000E96590 /* menuOverlay.cpp in Sources */,
 				F8DDD1051BE0860C00183CFF /* soundViewerMode.cpp in Sources */,
 				F8DDD1061BE0860C00183CFF /* assetViewerMode.cpp in Sources */,
 				F8DDD1071BE0860C00183CFF /* assetViewerOverlay.cpp in Sources */,
@@ -219,6 +237,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F8EF91521C28418800E96590 /* cursorOverlay.cpp in Sources */,
+				F8EF91531C28418800E96590 /* menuOverlay.cpp in Sources */,
 				F8E1B2D71AEE690A0045B0D2 /* assetViewerMode.cpp in Sources */,
 				F8E1B2D81AEE690A0045B0D2 /* assetViewerOverlay.cpp in Sources */,
 				F8DDD0621BD5205A00183CFF /* soundViewerMode.cpp in Sources */,
@@ -358,6 +378,7 @@
 		F8E1B2C21AEE67EF0045B0D2 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				EXECUTABLE_PREFIX = lib;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -372,6 +393,7 @@
 		F8E1B2C31AEE67EF0045B0D2 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				EXECUTABLE_PREFIX = lib;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};

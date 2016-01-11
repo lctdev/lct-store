@@ -41,7 +41,7 @@ void PackageWalker::LoadAllAssets(util::BinaryReader& binaryReader)
 		pAssetHeader = binaryReader.ReadType<pack::AssetHeader>();
 		bool assetLoaded = false;
 #if defined(LCT_DEBUG)
-		s32 oldPosition = binaryReader.GetPosition();
+		ssiz oldPosition = binaryReader.GetPosition();
 #endif
 		for (u32 handlerIndex = 0; handlerIndex < m_assetHandlerCount; ++handlerIndex)
 		{
@@ -50,8 +50,8 @@ void PackageWalker::LoadAllAssets(util::BinaryReader& binaryReader)
 			if (assetLoaded)
 			{
 #if defined(LCT_DEBUG)
-				s32 newPosition = binaryReader.GetPosition();
-				s32 offset = newPosition - oldPosition;
+				ssiz newPosition = binaryReader.GetPosition();
+				ssiz offset = newPosition - oldPosition;
 				LCT_ASSERT(offset == (s32)pAssetHeader->dataSize);
 #endif
 				break;

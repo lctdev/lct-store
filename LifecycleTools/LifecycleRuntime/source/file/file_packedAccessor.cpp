@@ -178,7 +178,8 @@ char* PackedAccessor::LoadFileString(const char* pPath, ssiz* pSize)
 	if (fileSize > 0)
 	{
 		stringSize = fileSize + 1;
-		pString = m_pAllocator->AllocTypeArray<char>(stringSize);
+		void* pMemory = m_pAllocator->Alloc(stringSize, foun::Allocator::TYPE_ALIGN);
+		pString = reinterpret_cast<char*>(pMemory);
 		fseek(pFile, 0, SEEK_SET);
 		fread(pString, 1, fileSize, pFile);
 		pString[fileSize] = 0;

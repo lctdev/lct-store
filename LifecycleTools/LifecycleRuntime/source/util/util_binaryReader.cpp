@@ -19,14 +19,14 @@ BinaryReader::~BinaryReader()
 {
 }
 
-void BinaryReader::SetMemory(void* pMemory, u32 size)
+void BinaryReader::SetMemory(void* pMemory, ssiz size)
 {
 	m_beginAddr = reinterpret_cast<uptr>(pMemory);
 	m_endAddr = m_beginAddr + size;
 	m_currAddr = m_beginAddr;
 }
 
-bool BinaryReader::CanRead(u32 size)
+bool BinaryReader::CanRead(ssiz size)
 {
 	uptr nextAddr = m_currAddr + size;
 	if (nextAddr <= m_endAddr)
@@ -39,7 +39,7 @@ bool BinaryReader::CanRead(u32 size)
 	}
 }
 
-void* BinaryReader::Read(u32 size)
+void* BinaryReader::Read(ssiz size)
 {
 	void* pMemory = reinterpret_cast<void*>(m_currAddr);
 	uptr nextAddr = m_currAddr + size;
@@ -54,9 +54,9 @@ void* BinaryReader::Read(u32 size)
 	}
 }
 
-s32 BinaryReader::GetPosition()
+ssiz BinaryReader::GetPosition()
 {
-	s32 position = (s32)m_currAddr - (s32)m_beginAddr;
+	ssiz position = static_cast<ssiz>(m_currAddr) - static_cast<ssiz>(m_beginAddr);
 	return position;
 }
 

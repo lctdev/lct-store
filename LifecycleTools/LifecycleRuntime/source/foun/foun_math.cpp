@@ -37,6 +37,11 @@ f32 Floor(f32 value)
     return floor(value);
 }
 
+f32 Sqrt(f32 value)
+{
+	return sqrt(value);
+}
+
 f32 Lerp(f32 x, f32 x0, f32 x1, f32 y0, f32 y1)
 {
 	f32 xRange = x1 - x0;
