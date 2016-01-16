@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		F85444C21C42AD55009AF44B /* foun_vector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F85444C11C42AD55009AF44B /* foun_vector.cpp */; };
 		F85444C31C42AD55009AF44B /* foun_vector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F85444C11C42AD55009AF44B /* foun_vector.cpp */; };
+		F872D30F1C4A15D900655F0F /* part_constants.h in Headers */ = {isa = PBXBuildFile; fileRef = F872D30E1C4A15D900655F0F /* part_constants.h */; };
 		F8BCEFC81B2B1ECD00001A93 /* grap_device.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F8BCEFC71B2B1ECD00001A93 /* grap_device.cpp */; };
 		F8BCEFD01B2B1EF900001A93 /* grap_constants.h in Headers */ = {isa = PBXBuildFile; fileRef = F8BCEFCA1B2B1EF900001A93 /* grap_constants.h */; };
 		F8BCEFD11B2B1EF900001A93 /* grap_data.h in Headers */ = {isa = PBXBuildFile; fileRef = F8BCEFCB1B2B1EF900001A93 /* grap_data.h */; };
@@ -282,6 +283,7 @@
 
 /* Begin PBXFileReference section */
 		F85444C11C42AD55009AF44B /* foun_vector.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = foun_vector.cpp; sourceTree = "<group>"; };
+		F872D30E1C4A15D900655F0F /* part_constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = part_constants.h; path = part/part_constants.h; sourceTree = "<group>"; };
 		F8BCEFC71B2B1ECD00001A93 /* grap_device.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = grap_device.cpp; path = grap/grap_device.cpp; sourceTree = "<group>"; };
 		F8BCEFCA1B2B1EF900001A93 /* grap_constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = grap_constants.h; path = grap/grap_constants.h; sourceTree = "<group>"; };
 		F8BCEFCB1B2B1EF900001A93 /* grap_data.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = grap_data.h; path = grap/grap_data.h; sourceTree = "<group>"; };
@@ -513,6 +515,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		F872D30C1C4A138800655F0F /* part */ = {
+			isa = PBXGroup;
+			children = (
+				F872D30E1C4A15D900655F0F /* part_constants.h */,
+			);
+			name = part;
+			sourceTree = "<group>";
+		};
 		F8BCEFC61B2B1EBB00001A93 /* grap */ = {
 			isa = PBXGroup;
 			children = (
@@ -685,6 +695,7 @@
 		F8E1B1511AE7D4D70045B0D2 /* include */ = {
 			isa = PBXGroup;
 			children = (
+				F872D30C1C4A138800655F0F /* part */,
 				F8DDD0341BD51F1200183CFF /* soun */,
 				F8DDD0291BD51ECA00183CFF /* audi */,
 				F8E1B1521AE7D4D70045B0D2 /* file */,
@@ -1148,6 +1159,7 @@
 				F8DDD0331BD51EFE00183CFF /* audi_resources.h in Headers */,
 				F8BCEFF31B49E14000001A93 /* pass_assetHandler.h in Headers */,
 				F8E1B1D31AE7D4D70045B0D2 /* foun_rect.h in Headers */,
+				F872D30F1C4A15D900655F0F /* part_constants.h in Headers */,
 				F8E1B1D21AE7D4D70045B0D2 /* foun_primitives.h in Headers */,
 				F8DDD04C1BD51F4900183CFF /* soun_stats.h in Headers */,
 				F8DDD0731BD5221E00183CFF /* test_backMenuItem.h in Headers */,

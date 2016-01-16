@@ -4,6 +4,7 @@
 #include "menuOverlay.h"
 
 #include "spriteViewerMode.h"
+#include "particleViewerMode.h"
 #include "soundViewerMode.h"
 #include "assetViewerMessages.h"
 
@@ -166,6 +167,7 @@ void AssetViewerProgram::InitMiscellaneous()
 	Program::InitMiscellaneous();
 
 	RegisterMode(lct::fram::ModeFactoryItem::CreateMode<SpriteViewerMode>, "SpriteViewerMode");
+	RegisterMode(lct::fram::ModeFactoryItem::CreateMode<ParticleViewerMode>, "ParticleViewerMode");
 	RegisterMode(lct::fram::ModeFactoryItem::CreateMode<SoundViewerMode>, "SoundViewerMode");
 
 	m_pNextModeName = "SpriteViewerMode";

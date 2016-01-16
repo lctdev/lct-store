@@ -1,4 +1,4 @@
-#include "spriteViewerMode.h"
+#include "particleViewerMode.h"
 #include "assetViewerMessages.h"
 #include "assetViewerConstants.h"
 
@@ -44,9 +44,10 @@ static const char* PLAY_TYPE_STRING_ARRAY[PLAY_TYPE_COUNT] =
 /*
  * Public Instance
  */
-SpriteViewerMode::SpriteViewerMode()
+ParticleViewerMode::ParticleViewerMode()
 : AssetViewerMode()
 
+/*
 , m_animationAllocator()
 
 , m_assetContainer()
@@ -72,20 +73,22 @@ SpriteViewerMode::SpriteViewerMode()
 , m_frameMenuItem()
 , m_drawJointsMenuItem()
 , m_reloadMenuItem()
+*/
 
 , m_projectionTransform()
 , m_contentWorldTransform()
 {
 }
 
-SpriteViewerMode::~SpriteViewerMode()
+ParticleViewerMode::~ParticleViewerMode()
 {
 }
 
-void SpriteViewerMode::Init()
+void ParticleViewerMode::Init()
 {
 	AssetViewerMode::Init();
 
+/*
 	{
 		void* pMemory = m_shared.pAllocator->Alloc(ANIMATION_MEMORY_SIZE, 4);
 		m_animationAllocator.SetMemory(pMemory, ANIMATION_MEMORY_SIZE);
@@ -103,14 +106,15 @@ void SpriteViewerMode::Init()
 	m_bindingBuilder.SetAllocator(m_shared.pAllocator);
 
 	m_instanceBuilder.SetAllocator(m_shared.pAllocator);
+*/
 
 	LoadAssets();
 	BuildMenu();
 	BuildBindings();
 	BuildInstances();
 
-	const char* pAnimationName = m_pAnimationNameArray[0];
-	BuildAnimation(pAnimationName);
+	//const char* pAnimationName = m_pAnimationNameArray[0];
+	//BuildAnimation(pAnimationName);
 
 	m_clearColor.r = 0.5f;
 	m_clearColor.g = 0.5f;
@@ -118,36 +122,37 @@ void SpriteViewerMode::Init()
 	m_clearColor.a = 1.0f;
 }
 
-void SpriteViewerMode::AcquireGraphics()
+void ParticleViewerMode::AcquireGraphics()
 {
-	m_imageAssetHandler.AcquireAllAssetResources();
+	//m_imageAssetHandler.AcquireAllAssetResources();
 
-	m_menu.AcquireGraphics();
+	//m_menu.AcquireGraphics();
 
 	AssetViewerMode::AcquireGraphics();
 }
 
-void SpriteViewerMode::ReleaseGraphics()
+void ParticleViewerMode::ReleaseGraphics()
 {
-	m_imageAssetHandler.ReleaseAllAssetResources();
+	//m_imageAssetHandler.ReleaseAllAssetResources();
 
-	m_menu.ReleaseGraphics();
+	//m_menu.ReleaseGraphics();
 
 	AssetViewerMode::ReleaseGraphics();
 }
 
-void SpriteViewerMode::ReadInput()
+void ParticleViewerMode::ReadInput()
 {
-	m_menu.HandleInput();
+	//m_menu.HandleInput();
 }
 
-void SpriteViewerMode::Update()
+void ParticleViewerMode::Update()
 {
 	const lct::foun::RectEdges& screenEdges = m_shared.pScreen->GetRectEdges();
 	lct::foun::Matrix44OrthographicProjection(m_projectionTransform, screenEdges.left, screenEdges.right, screenEdges.bottom, screenEdges.top, -1.0f, 1.0f);
 
 	lct::foun::Matrix32Translate(m_contentWorldTransform, CONTENT_OFFSET_X, 0.0f);
 
+/*
 	PlayType playType = static_cast<PlayType>(m_playMenuItem.GetIndex());
 	if (playType == PLAY_TYPE_AUTOMATIC)
 	{
@@ -173,9 +178,10 @@ void SpriteViewerMode::Update()
 		}
 		m_frameMenuItem.SetValue(frameValue);
 	}
+	*/
 }
 
-void SpriteViewerMode::Draw()
+void ParticleViewerMode::Draw()
 {
 	// axes
 	m_subShared.pFillDrawContext->ActivateRenderState();
@@ -191,6 +197,7 @@ void SpriteViewerMode::Draw()
 
 	m_subShared.pFillDrawContext->DeactivateQuad();
 
+/*
 	// sprite
 	m_pFigureInstance->CalculateTextures();
 	m_pFigureInstance->CalculateTransforms();
@@ -229,13 +236,15 @@ void SpriteViewerMode::Draw()
 
 	// menu
 	m_menu.Draw();
+	*/
 }
 
 /*
  * Private Instance
  */
-void SpriteViewerMode::BuildMenu()
+void ParticleViewerMode::BuildMenu()
 {
+/*
 	lct::font::SheetAsset* pSheetAsset = m_subShared.pAssetContainer->FindAsset<lct::font::SheetAsset>("example_sheet");
 
 	lct::test::Menu::Shared menuShared;
@@ -324,10 +333,12 @@ void SpriteViewerMode::BuildMenu()
 	m_menu.AddPage(&m_menuPage);
 	m_menu.Arrange();
 	m_menu.ActivatePage("Default");
+	*/
 }
 
-void SpriteViewerMode::LoadAssets()
+void ParticleViewerMode::LoadAssets()
 {
+/*
 	static const char* FILE_PATH = "data/spriteViewer/package.bin";
 	ssiz fileSize;
 	m_pAssetBinary = m_subShared.pAccessor->LoadFile(FILE_PATH, &fileSize);
@@ -342,23 +353,21 @@ void SpriteViewerMode::LoadAssets()
 	m_spriteAssetHandler.FixupAllAssets();
 
 	m_pFigureAsset = m_assetContainer.GetIterator<lct::spri::FigureAsset>().GetAsset();
+	*/
 }
 
-void SpriteViewerMode::BuildBindings()
+void ParticleViewerMode::BuildBindings()
 {
 
 }
 
-void SpriteViewerMode::BuildInstances()
+void ParticleViewerMode::BuildInstances()
 {
-	m_pFigureInstance = m_instanceBuilder.CreateFigureInstance(*m_pFigureAsset);
-
-	/*m_pAnimationInstance = m_pInstanceBuilder->CreateAnimationInstance(m_pAnimationAsset->pAnimationData->trackCount);
-	m_pAnimationInstance->BindFigureInstance(*m_pFigureInstance);
-	m_pAnimationInstance->BindAnimationAsset(*m_pAnimationAsset, *m_pAnimationFigureBinding);*/
+	//m_pFigureInstance = m_instanceBuilder.CreateFigureInstance(*m_pFigureAsset);
 }
 
-void SpriteViewerMode::BuildAnimation(const char* pName)
+/*
+void ParticleViewerMode::BuildAnimation(const char* pName)
 {
 	// reset all properties on the figure
 	m_pFigureInstance->ResetProperties();
@@ -427,3 +436,4 @@ void SpriteViewerMode::OnReloadTrigger()
 	message.SetContent(&content);
 	m_shared.pProgramMessageQueue->EnqueueMessage(message);
 }
+*/

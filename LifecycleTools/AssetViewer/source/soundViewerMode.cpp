@@ -1,5 +1,6 @@
 #include "soundViewerMode.h"
 #include "assetViewerMessages.h"
+#include "assetViewerConstants.h"
 
 #include <foun/foun_math.h>
 #include <foun/foun_debug.h>
@@ -238,6 +239,7 @@ void SoundViewerMode::BuildMenu()
 	m_menu.SetSpacing(pSheetAsset->pSheetData->lineHeight * 2.0f);
 	lct::foun::Vector2 menuPosition = { MENU_OFFSET_X, MENU_OFFSET_Y };
 	m_menu.SetPosition(menuPosition);
+	m_menu.SetPressSize(PRESS_SIZE);
 
 	m_menuPage.SetLabel("Default");
 	{

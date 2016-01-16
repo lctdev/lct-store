@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F872D3061C4A093000655F0F /* assetViewerConstants.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F872D3051C4A093000655F0F /* assetViewerConstants.cpp */; };
+		F872D3071C4A093000655F0F /* assetViewerConstants.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F872D3051C4A093000655F0F /* assetViewerConstants.cpp */; };
+		F872D30A1C4A0F5A00655F0F /* particleViewerMode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F872D3091C4A0F5A00655F0F /* particleViewerMode.cpp */; };
+		F872D30B1C4A0F5A00655F0F /* particleViewerMode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F872D3091C4A0F5A00655F0F /* particleViewerMode.cpp */; };
 		F8DDD0601BD5204900183CFF /* soundViewerMode.h in Headers */ = {isa = PBXBuildFile; fileRef = F8DDD05F1BD5204900183CFF /* soundViewerMode.h */; };
 		F8DDD0621BD5205A00183CFF /* soundViewerMode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F8DDD0611BD5205A00183CFF /* soundViewerMode.cpp */; };
 		F8DDD1051BE0860C00183CFF /* soundViewerMode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F8DDD0611BD5205A00183CFF /* soundViewerMode.cpp */; };
@@ -44,6 +48,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		F872D3041C4A08FD00655F0F /* assetViewerConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = assetViewerConstants.h; sourceTree = "<group>"; };
+		F872D3051C4A093000655F0F /* assetViewerConstants.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = assetViewerConstants.cpp; sourceTree = "<group>"; };
+		F872D3081C4A0F1000655F0F /* particleViewerMode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = particleViewerMode.h; sourceTree = "<group>"; };
+		F872D3091C4A0F5A00655F0F /* particleViewerMode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = particleViewerMode.cpp; sourceTree = "<group>"; };
 		F8DDD05F1BD5204900183CFF /* soundViewerMode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = soundViewerMode.h; sourceTree = "<group>"; };
 		F8DDD0611BD5205A00183CFF /* soundViewerMode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = soundViewerMode.cpp; sourceTree = "<group>"; };
 		F8DDD0FC1BE0847900183CFF /* libAssetViewer_IOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAssetViewer_IOS.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -104,11 +112,13 @@
 			children = (
 				F8EF914C1C28417700E96590 /* cursorOverlay.h */,
 				F8EF914D1C28417700E96590 /* menuOverlay.h */,
-				F8DDD05F1BD5204900183CFF /* soundViewerMode.h */,
 				F8E1B2C81AEE68F20045B0D2 /* assetViewerMessages.h */,
 				F8E1B2C91AEE68F30045B0D2 /* assetViewerMode.h */,
 				F8E1B2CA1AEE68F30045B0D2 /* assetViewerOverlay.h */,
 				F8E1B2CB1AEE68F30045B0D2 /* assetViewerProgram.h */,
+				F872D3041C4A08FD00655F0F /* assetViewerConstants.h */,
+				F872D3081C4A0F1000655F0F /* particleViewerMode.h */,
+				F8DDD05F1BD5204900183CFF /* soundViewerMode.h */,
 				F8E1B2CC1AEE68F30045B0D2 /* spriteViewerMode.h */,
 			);
 			path = include;
@@ -119,10 +129,12 @@
 			children = (
 				F8EF91501C28418800E96590 /* cursorOverlay.cpp */,
 				F8EF91511C28418800E96590 /* menuOverlay.cpp */,
-				F8DDD0611BD5205A00183CFF /* soundViewerMode.cpp */,
 				F8E1B2D31AEE690A0045B0D2 /* assetViewerMode.cpp */,
 				F8E1B2D41AEE690A0045B0D2 /* assetViewerOverlay.cpp */,
 				F8E1B2D51AEE690A0045B0D2 /* assetViewerProgram.cpp */,
+				F872D3051C4A093000655F0F /* assetViewerConstants.cpp */,
+				F872D3091C4A0F5A00655F0F /* particleViewerMode.cpp */,
+				F8DDD0611BD5205A00183CFF /* soundViewerMode.cpp */,
 				F8E1B2D61AEE690A0045B0D2 /* spriteViewerMode.cpp */,
 			);
 			path = source;
@@ -223,6 +235,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F872D3071C4A093000655F0F /* assetViewerConstants.cpp in Sources */,
+				F872D30B1C4A0F5A00655F0F /* particleViewerMode.cpp in Sources */,
 				F8EF91541C2AE03000E96590 /* cursorOverlay.cpp in Sources */,
 				F8EF91551C2AE03000E96590 /* menuOverlay.cpp in Sources */,
 				F8DDD1051BE0860C00183CFF /* soundViewerMode.cpp in Sources */,
@@ -237,6 +251,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F872D3061C4A093000655F0F /* assetViewerConstants.cpp in Sources */,
+				F872D30A1C4A0F5A00655F0F /* particleViewerMode.cpp in Sources */,
 				F8EF91521C28418800E96590 /* cursorOverlay.cpp in Sources */,
 				F8EF91531C28418800E96590 /* menuOverlay.cpp in Sources */,
 				F8E1B2D71AEE690A0045B0D2 /* assetViewerMode.cpp in Sources */,
