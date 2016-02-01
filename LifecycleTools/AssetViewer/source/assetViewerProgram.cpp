@@ -39,6 +39,7 @@ AssetViewerProgram::AssetViewerProgram()
 , m_fontAssetHandler()
 , m_fontDrawContext()
 , m_spriteDrawContext()
+, m_particleDrawContext()
 #if defined(LCT_WINDOWS) || defined(LCT_OSX)
 , m_pMouseReader(NULL)
 #elif defined(LCT_IOS) || defined (LCT_ANDROID)
@@ -137,6 +138,11 @@ void AssetViewerProgram::InitAssets()
 	m_spriteDrawContext.SetAllocator(&m_allocator);
 	m_spriteDrawContext.SetGraphicsDevice(&m_graphicsDevice);
 	m_spriteDrawContext.CreateResources();
+	
+	// particle
+	m_particleDrawContext.SetAllocator(&m_allocator);
+	m_particleDrawContext.SetGraphicsDevice(&m_graphicsDevice);
+	m_particleDrawContext.CreateResources();
 
 	LoadAssets();
 
@@ -170,7 +176,7 @@ void AssetViewerProgram::InitMiscellaneous()
 	RegisterMode(lct::fram::ModeFactoryItem::CreateMode<ParticleViewerMode>, "ParticleViewerMode");
 	RegisterMode(lct::fram::ModeFactoryItem::CreateMode<SoundViewerMode>, "SoundViewerMode");
 
-	m_pNextModeName = "SpriteViewerMode";
+	m_pNextModeName = "ParticleViewerMode";
 
 
 	m_pOverlayArray = m_allocator.AllocTypeArray<lct::fram::Overlay*>(OVERLAY_TYPE_COUNT);
@@ -230,6 +236,8 @@ void AssetViewerProgram::AcquireGraphics()
 	m_fontDrawContext.AcquireResources();
 
 	m_spriteDrawContext.AcquireResources();
+	
+	m_particleDrawContext.AcquireResources();
 }
 
 void AssetViewerProgram::ReleaseGraphics()
@@ -241,6 +249,8 @@ void AssetViewerProgram::ReleaseGraphics()
 	m_fontDrawContext.ReleaseResources();
 
 	m_spriteDrawContext.ReleaseResources();
+	
+	m_particleDrawContext.ReleaseResources();
 
 	Program::ReleaseGraphics();
 }
@@ -287,6 +297,7 @@ void AssetViewerProgram::ConfigureMode()
 	modeSubShared.pFillDrawContext = &m_fillDrawContext;
 	modeSubShared.pFontDrawContext = &m_fontDrawContext;
 	modeSubShared.pSpriteDrawContext = &m_spriteDrawContext;
+	modeSubShared.pParticleDrawContext = &m_particleDrawContext;
 	pAssetViewerMode->SetSubShared(modeSubShared);
 
 	Program::ConfigureMode();
@@ -378,6 +389,15 @@ bool AssetViewerProgram::HandleMessage(const lct::fram::Message& message)
 		 lct::pass::StringAsset* pFragmentShaderStringAsset = m_assetContainer.FindAsset<lct::pass::StringAsset>(FRAGMENT_SHADER_NAME);
 
 		 m_spriteDrawContext.SetShaderBinaries(pVertexShaderStringAsset->pString, pFragmentShaderStringAsset->pString);
+	 }
+	 
+	 {
+		 static const char* VERTEX_SHADER_NAME = "part_vertexShader";
+		 lct::pass::StringAsset* pVertexShaderStringAsset = m_assetContainer.FindAsset<lct::pass::StringAsset>(VERTEX_SHADER_NAME);
+		 static const char* FRAGMENT_SHADER_NAME = "part_fragmentShader";
+		 lct::pass::StringAsset* pFragmentShaderStringAsset = m_assetContainer.FindAsset<lct::pass::StringAsset>(FRAGMENT_SHADER_NAME);
+
+		 m_particleDrawContext.SetShaderBinaries(pVertexShaderStringAsset->pString, pFragmentShaderStringAsset->pString);
 	 }
 
 	 m_fontAssetHandler.FixupAllAssets();

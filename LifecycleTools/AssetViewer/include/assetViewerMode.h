@@ -15,6 +15,8 @@
 
 #include <spri/spri_drawContext.h>
 
+#include <part/part_drawContext.h>
+
 #include <fram/fram_mode.h>
 
 
@@ -32,6 +34,7 @@ public:
 		lct::fill::DrawContext* pFillDrawContext;
 		lct::font::DrawContext* pFontDrawContext;
 		lct::spri::DrawContext* pSpriteDrawContext;
+		lct::part::DrawContext* pParticleDrawContext;
 	};
 	void SetSubShared(const SubShared& subShared);
 

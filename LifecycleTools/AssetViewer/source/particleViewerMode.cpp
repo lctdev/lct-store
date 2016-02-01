@@ -10,8 +10,6 @@
 /*
  * Internal Constants
  */
-static const u32 ANIMATION_MEMORY_SIZE = 1 * 1024 * 1024;
-
 static const f32 MENU_OFFSET_X = 0.0f;
 static const f32 MENU_OFFSET_Y = -100.0f;
 
@@ -23,8 +21,8 @@ static const f32 AXIS_LINE_LENGTH = 512.0f;
 static const f32 AXIS_LINE_THICKNESS = 1.0f;
 static const lct::foun::FloatColor4 AXIS_LINE_COLOR = { 0.25f, 0.25f, 0.25f, 1.0f };
 
-static const lct::foun::RectCentered JOINT_RECT = { 0.0f, 0.0f, 4.0f, 4.0f };
-static const lct::foun::FloatColor4 JOINT_COLOR = { 0.0f, 1.0f, 0.0f, 1.0f };
+//static const lct::foun::RectCentered JOINT_RECT = { 0.0f, 0.0f, 4.0f, 4.0f };
+//static const lct::foun::FloatColor4 JOINT_COLOR = { 0.0f, 1.0f, 0.0f, 1.0f };
 
 static const f32 CONTENT_OFFSET_X = 200.0f;
 
@@ -41,39 +39,32 @@ static const char* PLAY_TYPE_STRING_ARRAY[PLAY_TYPE_COUNT] =
 		"Manual"
 };
 
+static const u32 EMITTER_CAPACITY = 10;
+static const u32 PARTICLE_CAPACITY = 1000;
+
 /*
  * Public Instance
  */
 ParticleViewerMode::ParticleViewerMode()
 : AssetViewerMode()
 
-/*
-, m_animationAllocator()
-
 , m_assetContainer()
-, m_spriteAssetHandler()
-, m_imageAssetHandler()
-, m_pAssetBinary(NULL)
-, m_pFigureAsset(NULL)
-, m_pAnimationAsset()
-, m_bindingBuilder()
-, m_pAnimationFigureBinding()
-, m_instanceBuilder()
-, m_pFigureInstance()
-, m_pAnimationInstance()
+//, m_spriteAssetHandler()
+//, m_imageAssetHandler()
+//, m_pAssetBinary(NULL)
+, m_pFieldAsset(NULL)
+, m_pFieldInstance()
 
-, m_pAnimationNameArray(NULL)
+, m_pFieldNameArray(NULL)
 
 , m_menu()
 , m_menuPage()
-, m_figureMenuItem()
-, m_animationMenuItem()
+, m_fieldMenuItem()
 , m_playMenuItem()
 , m_stepMenuItem()
 , m_frameMenuItem()
-, m_drawJointsMenuItem()
+//, m_drawJointsMenuItem()
 , m_reloadMenuItem()
-*/
 
 , m_projectionTransform()
 , m_contentWorldTransform()
@@ -88,33 +79,21 @@ void ParticleViewerMode::Init()
 {
 	AssetViewerMode::Init();
 
-/*
-	{
-		void* pMemory = m_shared.pAllocator->Alloc(ANIMATION_MEMORY_SIZE, 4);
-		m_animationAllocator.SetMemory(pMemory, ANIMATION_MEMORY_SIZE);
-	}
-
 	m_assetContainer.SetAllocator(m_shared.pAllocator);
 
-	m_spriteAssetHandler.SetAllocator(m_shared.pAllocator);
-	m_spriteAssetHandler.SetAssetContainer(&m_assetContainer);
+	//m_spriteAssetHandler.SetAllocator(m_shared.pAllocator);
+	//m_spriteAssetHandler.SetAssetContainer(&m_assetContainer);
 
-	m_imageAssetHandler.SetAllocator(m_shared.pAllocator);
-	m_imageAssetHandler.SetGraphicsDevice(m_shared.pGraphicsDevice);
-	m_imageAssetHandler.SetAssetContainer(&m_assetContainer);
-
-	m_bindingBuilder.SetAllocator(m_shared.pAllocator);
-
-	m_instanceBuilder.SetAllocator(m_shared.pAllocator);
-*/
+	//m_imageAssetHandler.SetAllocator(m_shared.pAllocator);
+	//m_imageAssetHandler.SetGraphicsDevice(m_shared.pGraphicsDevice);
+	//m_imageAssetHandler.SetAssetContainer(&m_assetContainer);
 
 	LoadAssets();
 	BuildMenu();
-	BuildBindings();
 	BuildInstances();
 
-	//const char* pAnimationName = m_pAnimationNameArray[0];
-	//BuildAnimation(pAnimationName);
+	const char* pFieldName = m_pFieldNameArray[0];
+	BindField(pFieldName);
 
 	m_clearColor.r = 0.5f;
 	m_clearColor.g = 0.5f;
@@ -126,7 +105,9 @@ void ParticleViewerMode::AcquireGraphics()
 {
 	//m_imageAssetHandler.AcquireAllAssetResources();
 
-	//m_menu.AcquireGraphics();
+	m_menu.AcquireGraphics();
+	
+	m_pFieldInstance->AcquireResources(m_shared.pGraphicsDevice);
 
 	AssetViewerMode::AcquireGraphics();
 }
@@ -135,14 +116,16 @@ void ParticleViewerMode::ReleaseGraphics()
 {
 	//m_imageAssetHandler.ReleaseAllAssetResources();
 
-	//m_menu.ReleaseGraphics();
+	m_menu.ReleaseGraphics();
+	
+	m_pFieldInstance->ReleaseResources(m_shared.pGraphicsDevice);
 
 	AssetViewerMode::ReleaseGraphics();
 }
 
 void ParticleViewerMode::ReadInput()
 {
-	//m_menu.HandleInput();
+	m_menu.HandleInput();
 }
 
 void ParticleViewerMode::Update()
@@ -152,13 +135,12 @@ void ParticleViewerMode::Update()
 
 	lct::foun::Matrix32Translate(m_contentWorldTransform, CONTENT_OFFSET_X, 0.0f);
 
-/*
 	PlayType playType = static_cast<PlayType>(m_playMenuItem.GetIndex());
 	if (playType == PLAY_TYPE_AUTOMATIC)
 	{
-		if (m_pAnimationInstance != NULL)
+		if (m_pFieldInstance != NULL)
 		{
-			m_pAnimationInstance->UpdateTracks(m_stepMenuItem.GetValue());
+			m_pFieldInstance->UpdateEmitters(m_stepMenuItem.GetValue());
 		}
 
 		// update dependent menu items
@@ -178,7 +160,6 @@ void ParticleViewerMode::Update()
 		}
 		m_frameMenuItem.SetValue(frameValue);
 	}
-	*/
 }
 
 void ParticleViewerMode::Draw()
@@ -197,21 +178,26 @@ void ParticleViewerMode::Draw()
 
 	m_subShared.pFillDrawContext->DeactivateQuad();
 
+	// particle
+	if (m_pFieldInstance != NULL)
+	{
+		m_pFieldInstance->UpdateParticles();
+		m_pFieldInstance->RefreshResources(m_shared.pGraphicsDevice);
+
+		m_subShared.pParticleDrawContext->ActivateRenderState();
+		m_subShared.pParticleDrawContext->ActivateShader();
+		m_subShared.pParticleDrawContext->ActivateFieldInstance(*m_pFieldInstance);
+		m_subShared.pParticleDrawContext->ActivateProjectionTransform(m_projectionTransform);
+
+		m_subShared.pParticleDrawContext->ActivateWorldTransform(m_contentWorldTransform);
+		m_subShared.pParticleDrawContext->DrawField(*m_pFieldInstance);
+
+		m_subShared.pParticleDrawContext->DeactivateFieldInstance(*m_pFieldInstance);
+		
+		m_pFieldInstance->SwapVertexResource();
+	}
+
 /*
-	// sprite
-	m_pFigureInstance->CalculateTextures();
-	m_pFigureInstance->CalculateTransforms();
-
-	m_subShared.pSpriteDrawContext->ActivateRenderState();
-	m_subShared.pSpriteDrawContext->ActivateShader();
-	m_subShared.pSpriteDrawContext->ActivateQuad();
-	m_subShared.pSpriteDrawContext->ActivateProjectionTransform(m_projectionTransform);
-
-	m_subShared.pSpriteDrawContext->ActivateWorldTransform(m_contentWorldTransform);
-	m_subShared.pSpriteDrawContext->DrawFigure(*m_pFigureInstance);
-
-	m_subShared.pSpriteDrawContext->DeactivateQuad();
-
 	// sprite "indicators"
 	m_subShared.pFillDrawContext->ActivateRenderState();
 	m_subShared.pFillDrawContext->ActivateShader();
@@ -233,10 +219,10 @@ void ParticleViewerMode::Draw()
 	}
 
 	m_subShared.pFillDrawContext->DeactivateQuad();
+*/
 
 	// menu
 	m_menu.Draw();
-	*/
 }
 
 /*
@@ -244,7 +230,6 @@ void ParticleViewerMode::Draw()
  */
 void ParticleViewerMode::BuildMenu()
 {
-/*
 	lct::font::SheetAsset* pSheetAsset = m_subShared.pAssetContainer->FindAsset<lct::font::SheetAsset>("example_sheet");
 
 	lct::test::Menu::Shared menuShared;
@@ -258,14 +243,14 @@ void ParticleViewerMode::BuildMenu()
 	m_menu.SetShared(menuShared);
 	m_menu.Initialize();
 
-	u32 animationNameCount = m_assetContainer.GetAssetCount<lct::spri::AnimationAsset>() + 1;
-	m_pAnimationNameArray = m_shared.pAllocator->AllocTypeArray<const char*>(animationNameCount);
-	m_pAnimationNameArray[0] = "<NONE>";
-	lct::pack::AssetIterator<lct::spri::AnimationAsset> animationIterator = m_assetContainer.GetIterator<lct::spri::AnimationAsset>();
-	for (u32 animationNameIndex = 1; animationNameIndex < animationNameCount; ++animationNameIndex)
+	u32 fieldNameCount = m_assetContainer.GetAssetCount<lct::part::FieldAsset>() + 1;
+	m_pFieldNameArray = m_shared.pAllocator->AllocTypeArray<const char*>(fieldNameCount);
+	m_pFieldNameArray[0] = "<NONE>";
+	lct::pack::AssetIterator<lct::part::FieldAsset> fieldIterator = m_assetContainer.GetIterator<lct::part::FieldAsset>();
+	for (u32 fieldNameIndex = 1; fieldNameIndex < fieldNameCount; ++fieldNameIndex)
 	{
-		m_pAnimationNameArray[animationNameIndex] = animationIterator.GetAsset()->pAnimationData->name;
-		animationIterator.Next();
+		m_pFieldNameArray[fieldNameIndex] = fieldIterator.GetAsset()->pFieldData->name;
+		fieldIterator.Next();
 	}
 
 	m_menu.SetSpacing(pSheetAsset->pSheetData->lineHeight * 2.0f);
@@ -275,19 +260,13 @@ void ParticleViewerMode::BuildMenu()
 
 	m_menuPage.SetLabel("Default");
 	{
-		// TEMP!
-		m_figureMenuItem.SetLabel("Figure");
-		m_reloadMenuItem.SetOffsets(MENU_ITEM_MIDDLE_OFFSET_X);
-		m_menuPage.AddItem(&m_figureMenuItem);
-	}
-	{
-		m_animationMenuItem.SetLabel("Animation");
-		m_animationMenuItem.SetOffsets(MENU_ITEM_MIDDLE_OFFSET_X, MENU_ITEM_LEFT_OFFSET_X, MENU_ITEM_RIGHT_OFFSET_X);
-		m_animationMenuItem.SetStringArray(m_pAnimationNameArray);
-		m_animationMenuItem.SetCount(animationNameCount);
-		m_animationMenuItem.SetIndex(0);
-		m_animationMenuItem.GetCycleCallback().Bind(this, &SpriteViewerMode::OnAnimationCycle);
-		m_menuPage.AddItem(&m_animationMenuItem);
+		m_fieldMenuItem.SetLabel("Field");
+		m_fieldMenuItem.SetOffsets(MENU_ITEM_MIDDLE_OFFSET_X, MENU_ITEM_LEFT_OFFSET_X, MENU_ITEM_RIGHT_OFFSET_X);
+		m_fieldMenuItem.SetStringArray(m_pFieldNameArray);
+		m_fieldMenuItem.SetCount(fieldNameCount);
+		m_fieldMenuItem.SetIndex(0);
+		m_fieldMenuItem.GetCycleCallback().Bind(this, &ParticleViewerMode::OnFieldCycle);
+		m_menuPage.AddItem(&m_fieldMenuItem);
 	}
 	{
 		m_playMenuItem.SetLabel("Play");
@@ -304,7 +283,7 @@ void ParticleViewerMode::BuildMenu()
 		m_stepMenuItem.SetMax(8.0f);
 		m_stepMenuItem.SetStep(0.25f);
 		m_stepMenuItem.SetValue(1.0f);
-		m_stepMenuItem.GetCycleCallback().Bind(this, &SpriteViewerMode::OnStepCycle);
+		m_stepMenuItem.GetCycleCallback().Bind(this, &ParticleViewerMode::OnStepCycle);
 		m_menuPage.AddItem(&m_stepMenuItem);
 	}
 	{
@@ -315,25 +294,26 @@ void ParticleViewerMode::BuildMenu()
 		m_frameMenuItem.SetMax(0.0f);
 		m_frameMenuItem.SetStep(1.0f);
 		m_frameMenuItem.SetValue(0.0f);
-		m_frameMenuItem.GetCycleCallback().Bind(this, &SpriteViewerMode::OnFrameCycle);
+		m_frameMenuItem.GetCycleCallback().Bind(this, &ParticleViewerMode::OnFrameCycle);
 		m_menuPage.AddItem(&m_frameMenuItem);
 	}
+	/*
 	{
 		m_drawJointsMenuItem.SetLabel("Draw Joints");
 		m_drawJointsMenuItem.SetOffsets(MENU_ITEM_MIDDLE_OFFSET_X, MENU_ITEM_LEFT_OFFSET_X, MENU_ITEM_RIGHT_OFFSET_X);
 		m_drawJointsMenuItem.SetValue(false);
 		m_menuPage.AddItem(&m_drawJointsMenuItem);
 	}
+	*/
 	{
 		m_reloadMenuItem.SetLabel("Reload");
 		m_reloadMenuItem.SetOffsets(MENU_ITEM_MIDDLE_OFFSET_X);
-		m_reloadMenuItem.GetCallback().Bind(this, &SpriteViewerMode::OnReloadTrigger);
+		m_reloadMenuItem.GetCallback().Bind(this, &ParticleViewerMode::OnReloadTrigger);
 		m_menuPage.AddItem(&m_reloadMenuItem);
 	}
 	m_menu.AddPage(&m_menuPage);
 	m_menu.Arrange();
 	m_menu.ActivatePage("Default");
-	*/
 }
 
 void ParticleViewerMode::LoadAssets()
@@ -354,48 +334,95 @@ void ParticleViewerMode::LoadAssets()
 
 	m_pFigureAsset = m_assetContainer.GetIterator<lct::spri::FigureAsset>().GetAsset();
 	*/
-}
-
-void ParticleViewerMode::BuildBindings()
-{
-
+	
+	{
+		static const char* FIELD_NAME = "Test1";
+		static const u32 EMITTER_COUNT = 1;
+		lct::part::EmitterData* pEmitterDatas = m_shared.pAllocator->AllocTypeArray<lct::part::EmitterData>(EMITTER_COUNT);
+		lct::part::FieldAsset::Emitter* pAssetEmitters = m_shared.pAllocator->AllocTypeArray<lct::part::FieldAsset::Emitter>(EMITTER_COUNT);
+		{
+			static const u32 EMITTER_INDEX = 0;
+			lct::part::EmitterData* pEmitterData = pEmitterDatas + EMITTER_INDEX;
+			pEmitterData->x = 0.0f;
+			pEmitterData->y = 0.0f;
+			pEmitterData->globalDirX = 0.0f;
+			pEmitterData->globalDirY = -1.0f;
+			pEmitterData->expelAngleRange.min = 0.20f;
+			pEmitterData->expelAngleRange.max = 0.30f;
+			pEmitterData->color0.r = 1.0f;
+			pEmitterData->color0.g = 1.0f;
+			pEmitterData->color0.b = 1.0f;
+			pEmitterData->color1.r = 0.0f;
+			pEmitterData->color1.g = 0.0f;
+			pEmitterData->color1.b = 1.0f;
+			pEmitterData->delayFrames = 7.5f;
+			pEmitterData->particleCount = 16;
+		
+			{
+				lct::part::ParticleParameterData& parameterData = pEmitterData->aParticleParameterData[lct::part::PARTICLE_PROPERTY_GLOBAL_DISTANCE];
+				parameterData.initial = 0.0f;
+				parameterData.velocity = 0.0f;
+				parameterData.acceleration = 0.2f;
+			}
+			{
+				lct::part::ParticleParameterData& parameterData = pEmitterData->aParticleParameterData[lct::part::PARTICLE_PROPERTY_EXPEL_DISTANCE];
+				parameterData.initial = 0.0f;
+				parameterData.velocity = 4.0f;
+				parameterData.acceleration = 0.0f;
+			}
+			{
+				lct::part::ParticleParameterData& parameterData = pEmitterData->aParticleParameterData[lct::part::PARTICLE_PROPERTY_SIZE];
+				parameterData.initial = 16.0f;
+				parameterData.velocity = 0.0f;
+				parameterData.acceleration = 0.0f;
+			}
+			{
+				lct::part::ParticleParameterData& parameterData = pEmitterData->aParticleParameterData[lct::part::PARTICLE_PROPERTY_ROTATION];
+				parameterData.initial = 0.0f;
+				parameterData.velocity = 0.01f;
+				parameterData.acceleration = 0.0f;
+			}
+			{
+				lct::part::ParticleParameterData& parameterData = pEmitterData->aParticleParameterData[lct::part::PARTICLE_PROPERTY_COLOR_RATIO];
+				parameterData.initial = 0.0f;
+				parameterData.velocity = 0.01f;
+				parameterData.acceleration = 0.0f;
+			}
+			
+			lct::part::FieldAsset::Emitter* pAssetEmitter = pAssetEmitters + EMITTER_INDEX;
+			pAssetEmitter->pEmitterData = pEmitterData;
+		}
+		
+		lct::part::FieldData* pFieldData = m_shared.pAllocator->AllocType<lct::part::FieldData>();
+		strcpy(pFieldData->name, FIELD_NAME);
+		pFieldData->emitterCount = EMITTER_COUNT;
+		
+		lct::part::FieldAsset* pFieldAsset = m_shared.pAllocator->AllocType<lct::part::FieldAsset>();
+		pFieldAsset->pFieldData = pFieldData;
+		pFieldAsset->pEmitters = pAssetEmitters;
+		
+		m_assetContainer.AddAsset(pFieldAsset, pFieldData->name);
+	}
 }
 
 void ParticleViewerMode::BuildInstances()
 {
-	//m_pFigureInstance = m_instanceBuilder.CreateFigureInstance(*m_pFigureAsset);
+	m_pFieldInstance = m_shared.pAllocator->AllocType<lct::part::FieldInstance>();
+	m_pFieldInstance->CreateStructure(EMITTER_CAPACITY, PARTICLE_CAPACITY, m_shared.pAllocator);
 }
 
-/*
-void ParticleViewerMode::BuildAnimation(const char* pName)
+void ParticleViewerMode::BindField(const char* pName)
 {
-	// reset all properties on the figure
-	m_pFigureInstance->ResetProperties();
-
-	// null any old animation objects
-	m_pAnimationFigureBinding = NULL;
-	m_pAnimationInstance = NULL;
-
-	// clear any old allocations
-	m_animationAllocator.Clear();
-
 	// find the specified asset
-	m_pAnimationAsset = m_assetContainer.FindAsset<lct::spri::AnimationAsset>(pName);
+	m_pFieldAsset = m_assetContainer.FindAsset<lct::part::FieldAsset>(pName);
 
 	f32 frameMax = 0.0f;
-	if (m_pAnimationAsset != NULL)
+	if (m_pFieldAsset != NULL)
 	{
-		// create the binding
-		m_bindingBuilder.SetAllocator(&m_animationAllocator);
-		m_pAnimationFigureBinding = m_bindingBuilder.CreateAnimationFigureBinding(*m_pAnimationAsset, *m_pFigureAsset);
+		// bind to the field
+		m_pFieldInstance->BindFieldAsset(m_pFieldAsset);
 
-		// create the instance and bind to the figure
-		m_instanceBuilder.SetAllocator(&m_animationAllocator);
-		m_pAnimationInstance = m_instanceBuilder.CreateAnimationInstance(m_pAnimationAsset->pAnimationData->trackCount);
-		m_pAnimationInstance->BindFigureInstance(*m_pFigureInstance);
-		m_pAnimationInstance->BindAnimationAsset(*m_pAnimationAsset, *m_pAnimationFigureBinding);
-
-		frameMax = m_pAnimationInstance->FindLongestTrackFrameDuration();
+		frameMax = 100.0f; // TEMP!
 	}
 
 	// update dependent menu items
@@ -403,37 +430,37 @@ void ParticleViewerMode::BuildAnimation(const char* pName)
 	m_frameMenuItem.SetValue(0.0f);
 }
 
-void SpriteViewerMode::OnAnimationCycle()
+void ParticleViewerMode::OnFieldCycle()
 {
-	u32 animationIndex = m_animationMenuItem.GetIndex();
-	const char* pAnimationName = m_pAnimationNameArray[animationIndex];
-	BuildAnimation(pAnimationName);
+	u32 fieldIndex = m_fieldMenuItem.GetIndex();
+	const char* pFieldName = m_pFieldNameArray[fieldIndex];
+	BindField(pFieldName);
 }
 
-void SpriteViewerMode::OnStepCycle()
+void ParticleViewerMode::OnStepCycle()
 {
 	// update dependent menu items
 	f32 stepValue = m_stepMenuItem.GetValue();
 	m_frameMenuItem.SetStep(stepValue);
 }
 
-void SpriteViewerMode::OnFrameCycle()
+void ParticleViewerMode::OnFrameCycle()
 {
 	PlayType playType = static_cast<PlayType>(m_playMenuItem.GetIndex());
 	if (playType == PLAY_TYPE_MANUAL)
 	{
-		f32 frameValue = m_frameMenuItem.GetValue();
-		m_pAnimationInstance->ForceFrameOnTracks(frameValue);
+		//f32 frameValue = m_frameMenuItem.GetValue();
+		//m_pAnimationInstance->ForceFrameOnTracks(frameValue);
 	}
 }
 
-void SpriteViewerMode::OnReloadTrigger()
+void ParticleViewerMode::OnReloadTrigger()
 {
 	lct::fram::Message message;
 	message.SetType(MESSAGE_TYPE_PROGRAM_CHANGE_MODE);
 	ProgramChangeModeContent content;
-	content.pNextModeName = "SpriteViewerMode";
+	content.pNextModeName = "ParticleViewerMode";
 	message.SetContent(&content);
 	m_shared.pProgramMessageQueue->EnqueueMessage(message);
 }
-*/
+

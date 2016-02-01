@@ -1,4 +1,5 @@
 #include <foun/foun_matrix.h>
+#include <foun/foun_vector.h>
 #include <foun/foun_math.h>
 
 namespace lct
@@ -164,6 +165,29 @@ void Matrix33FromMatrix32(Matrix33& matrix33, const Matrix32& matrix32)
 	matrix33.m[2][0] = matrix32.m[2][0];
 	matrix33.m[2][1] = matrix32.m[2][1];
 	matrix33.m[2][2] = 1.0f;
+}
+
+void Matrix22Rotate(Matrix22& matrix, f32 rotations)
+{
+	f32 rotateRadians = RadiansFromRotations(rotations);
+	f32 sin = Sin(rotateRadians);
+	f32 cos = Cos(rotateRadians);
+
+	matrix.m[0][0] = cos;
+	matrix.m[0][1] = sin;
+
+	matrix.m[1][0] = -sin;
+	matrix.m[1][1] = cos;
+}
+
+void TransformVector2(Vector2& outVector, const Vector2& inVector, const Matrix22& matrix)
+{
+	Vector2 vector;
+
+	vector.x = inVector.x * matrix.m[0][0] + inVector.y * matrix.m[1][0];
+	vector.y = inVector.x * matrix.m[0][1] + inVector.y * matrix.m[1][1];
+	
+	outVector = vector;
 }
 
 //namespace foun

@@ -30,6 +30,8 @@ f32 Sqrt(f32 value);
 
 f32 Lerp(f32 x, f32 x0, f32 x1, f32 y0, f32 y1);
 
+f32 Rand();
+
 //namespace foun
 }
 //namespace lct

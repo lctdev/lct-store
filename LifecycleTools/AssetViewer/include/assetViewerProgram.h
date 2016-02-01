@@ -20,6 +20,8 @@
 
 #include <spri/spri_drawContext.h>
 
+#include <part/part_drawContext.h>
+
 #include <imag/imag_assetHandler.h>
 
 #include <pack/pack_packageWalker.h>
@@ -83,6 +85,8 @@ private:
 	lct::font::DrawContext m_fontDrawContext;
 
 	lct::spri::DrawContext m_spriteDrawContext;
+	
+	lct::part::DrawContext m_particleDrawContext;
 
 #if defined(LCT_WINDOWS) || defined(LCT_OSX)
 	lct::inpu::MouseReader* m_pMouseReader;

@@ -22,6 +22,13 @@
         <assetEntry group="PASS" type="STRI">
             <filePath>../../LifecycleRuntime/shader/spri/OSX/spri_fragmentShader.glsl</filePath>
         </assetEntry>
+		
+		<assetEntry group="PASS" type="STRI">
+            <filePath>../../LifecycleRuntime/shader/part/OSX/part_vertexShader.glsl</filePath>
+        </assetEntry>
+        <assetEntry group="PASS" type="STRI">
+            <filePath>../../LifecycleRuntime/shader/part/OSX/part_fragmentShader.glsl</filePath>
+        </assetEntry>
     
     	<!--  Font Assets  -->
         <assetEntry group="FONT" type="SHEE">

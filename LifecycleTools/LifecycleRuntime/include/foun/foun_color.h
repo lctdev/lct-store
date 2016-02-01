@@ -23,6 +23,8 @@ struct FloatColor4
 	f32 a;
 };
 
+void FloatColor3Lerp(FloatColor3& outColor, const FloatColor3& color0, const FloatColor3& color1, float ratio);
+
 //namespace foun
 }
 //namespace lct

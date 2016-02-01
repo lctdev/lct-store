@@ -31,4 +31,4 @@ extern IndexData QUAD_INDEX_DATA_ARRAY[QUAD_INDEX_COUNT];
 //namespace lct
 }
 
-#endif//SPRI_DATA_H
+#endif//SPRI_ARRAYS_H

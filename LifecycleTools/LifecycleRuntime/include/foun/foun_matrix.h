@@ -8,6 +8,8 @@ namespace lct
 namespace foun
 {
 
+struct Vector2;
+
 struct Matrix44
 {
 	f32 m[4][4];
@@ -36,6 +38,15 @@ void Matrix32ScaleRotateTranslate(Matrix32& matrix, f32 scaleX, f32 scaleY, f32 
 void Matrix32Multiply(Matrix32& matrix, const Matrix32& matrixA, const Matrix32& matrixB);
 
 void Matrix33FromMatrix32(Matrix33& matrix33, const Matrix32& matrix32);
+
+struct Matrix22
+{
+	f32 m[2][2];
+};
+
+void Matrix22Rotate(Matrix22& matrix, f32 rotations);
+
+void TransformVector2(Vector2& outVector, const Vector2& inVector, const Matrix22& matrix);
 
 //namespace foun
 }

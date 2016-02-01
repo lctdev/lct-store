@@ -1,6 +1,7 @@
 #include <foun/foun_math.h>
 
 #include <math.h>
+#include <stdlib.h>
 
 namespace lct
 {
@@ -48,6 +49,11 @@ f32 Lerp(f32 x, f32 x0, f32 x1, f32 y0, f32 y1)
 	f32 yRange = y1 - y0;
 	f32 y = (x - x0) / xRange * yRange;
 	return y;
+}
+
+f32 Rand()
+{
+	return ((f32)rand() / (f32)RAND_MAX);
 }
 
 //namespace foun
