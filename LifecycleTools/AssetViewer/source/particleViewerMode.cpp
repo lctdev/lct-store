@@ -3,6 +3,7 @@
 #include "assetViewerConstants.h"
 
 #include <foun/foun_math.h>
+#include <foun/foun_string.h>
 #include <foun/foun_debug.h>
 
 #include <string.h>
@@ -41,6 +42,8 @@ static const char* PLAY_TYPE_STRING_ARRAY[PLAY_TYPE_COUNT] =
 
 static const u32 EMITTER_CAPACITY = 10;
 static const u32 PARTICLE_CAPACITY = 1000;
+
+static const f32 MAX_CYCLE_FRAME = 300.0f;
 
 /*
  * Public Instance
@@ -138,7 +141,7 @@ void ParticleViewerMode::Update()
 	PlayType playType = static_cast<PlayType>(m_playMenuItem.GetIndex());
 	if (playType == PLAY_TYPE_AUTOMATIC)
 	{
-		if (m_pFieldInstance != NULL)
+		if (m_pFieldAsset != NULL)
 		{
 			m_pFieldInstance->UpdateEmitters(m_stepMenuItem.GetValue());
 		}
@@ -153,9 +156,9 @@ void ParticleViewerMode::Update()
 		}
 		else
 		{
-			while (frameValue > frameMax)
+			if (frameValue > frameMax)
 			{
-				frameValue -= frameMax;
+				frameValue = frameMax;
 			}
 		}
 		m_frameMenuItem.SetValue(frameValue);
@@ -179,7 +182,7 @@ void ParticleViewerMode::Draw()
 	m_subShared.pFillDrawContext->DeactivateQuad();
 
 	// particle
-	if (m_pFieldInstance != NULL)
+	if (m_pFieldAsset != NULL)
 	{
 		m_pFieldInstance->UpdateParticles();
 		m_pFieldInstance->RefreshResources(m_shared.pGraphicsDevice);
@@ -355,38 +358,81 @@ void ParticleViewerMode::LoadAssets()
 			pEmitterData->color1.r = 0.0f;
 			pEmitterData->color1.g = 0.0f;
 			pEmitterData->color1.b = 1.0f;
-			pEmitterData->delayFrames = 7.5f;
-			pEmitterData->particleCount = 16;
+			pEmitterData->delayFrames = 4.0f;
+			pEmitterData->particleCount = 32;
+			pEmitterData->flags = (1 << lct::part::EMITTER_FLAG_TYPE_REVERSE_ORDER);
 		
 			{
 				lct::part::ParticleParameterData& parameterData = pEmitterData->aParticleParameterData[lct::part::PARTICLE_PROPERTY_GLOBAL_DISTANCE];
 				parameterData.initial = 0.0f;
 				parameterData.velocity = 0.0f;
 				parameterData.acceleration = 0.2f;
+				parameterData.frameRange.min = 0.0f;
+				parameterData.frameRange.max = 600.0f;
+
+				lct::part::Range& multiplierRange = pEmitterData->aParticleMultiplierRanges[lct::part::PARTICLE_PROPERTY_GLOBAL_DISTANCE];
+				multiplierRange.min = 1.0f;
+				multiplierRange.max = 1.0f;
 			}
 			{
 				lct::part::ParticleParameterData& parameterData = pEmitterData->aParticleParameterData[lct::part::PARTICLE_PROPERTY_EXPEL_DISTANCE];
 				parameterData.initial = 0.0f;
-				parameterData.velocity = 4.0f;
+				parameterData.velocity = 6.0f;
 				parameterData.acceleration = 0.0f;
+				parameterData.frameRange.min = 0.0f;
+				parameterData.frameRange.max = 600.0f;
+
+				lct::part::Range& multiplierRange = pEmitterData->aParticleMultiplierRanges[lct::part::PARTICLE_PROPERTY_EXPEL_DISTANCE];
+				multiplierRange.min = 1.0f;
+				multiplierRange.max = 1.5f;
 			}
 			{
 				lct::part::ParticleParameterData& parameterData = pEmitterData->aParticleParameterData[lct::part::PARTICLE_PROPERTY_SIZE];
 				parameterData.initial = 16.0f;
 				parameterData.velocity = 0.0f;
 				parameterData.acceleration = 0.0f;
+				parameterData.frameRange.min = 0.0f;
+				parameterData.frameRange.max = 600.0f;
+
+				lct::part::Range& multiplierRange = pEmitterData->aParticleMultiplierRanges[lct::part::PARTICLE_PROPERTY_SIZE];
+				multiplierRange.min = 0.8f;
+				multiplierRange.max = 1.2f;
 			}
 			{
 				lct::part::ParticleParameterData& parameterData = pEmitterData->aParticleParameterData[lct::part::PARTICLE_PROPERTY_ROTATION];
 				parameterData.initial = 0.0f;
 				parameterData.velocity = 0.01f;
 				parameterData.acceleration = 0.0f;
+				parameterData.frameRange.min = 0.0f;
+				parameterData.frameRange.max = 600.0f;
+
+				lct::part::Range& multiplierRange = pEmitterData->aParticleMultiplierRanges[lct::part::PARTICLE_PROPERTY_ROTATION];
+				multiplierRange.min = 1.0f;
+				multiplierRange.max = 1.0f;
 			}
 			{
 				lct::part::ParticleParameterData& parameterData = pEmitterData->aParticleParameterData[lct::part::PARTICLE_PROPERTY_COLOR_RATIO];
 				parameterData.initial = 0.0f;
 				parameterData.velocity = 0.01f;
 				parameterData.acceleration = 0.0f;
+				parameterData.frameRange.min = 0.0f;
+				parameterData.frameRange.max = 600.0f;
+
+				lct::part::Range& multiplierRange = pEmitterData->aParticleMultiplierRanges[lct::part::PARTICLE_PROPERTY_COLOR_RATIO];
+				multiplierRange.min = 1.0f;
+				multiplierRange.max = 1.0f;
+			}
+			{
+				lct::part::ParticleParameterData& parameterData = pEmitterData->aParticleParameterData[lct::part::PARTICLE_PROPERTY_ALPHA];
+				parameterData.initial = 1.0f;
+				parameterData.velocity = -1.0f / 15.0f;
+				parameterData.acceleration = 0.0f;
+				parameterData.frameRange.min = 60.0f;
+				parameterData.frameRange.max = 75.0f;
+
+				lct::part::Range& multiplierRange = pEmitterData->aParticleMultiplierRanges[lct::part::PARTICLE_PROPERTY_ALPHA];
+				multiplierRange.min = 1.0f;
+				multiplierRange.max = 1.0f;
 			}
 			
 			lct::part::FieldAsset::Emitter* pAssetEmitter = pAssetEmitters + EMITTER_INDEX;
@@ -394,7 +440,7 @@ void ParticleViewerMode::LoadAssets()
 		}
 		
 		lct::part::FieldData* pFieldData = m_shared.pAllocator->AllocType<lct::part::FieldData>();
-		strcpy(pFieldData->name, FIELD_NAME);
+		LCT_STRCPY(pFieldData->name, sizeof(pFieldData->name), FIELD_NAME);
 		pFieldData->emitterCount = EMITTER_COUNT;
 		
 		lct::part::FieldAsset* pFieldAsset = m_shared.pAllocator->AllocType<lct::part::FieldAsset>();
@@ -421,8 +467,9 @@ void ParticleViewerMode::BindField(const char* pName)
 	{
 		// bind to the field
 		m_pFieldInstance->BindFieldAsset(m_pFieldAsset);
+		m_pFieldInstance->SetRandomSeed(0);
 
-		frameMax = 100.0f; // TEMP!
+		frameMax = MAX_CYCLE_FRAME; // TEMP! Check against emitters?
 	}
 
 	// update dependent menu items
@@ -449,8 +496,9 @@ void ParticleViewerMode::OnFrameCycle()
 	PlayType playType = static_cast<PlayType>(m_playMenuItem.GetIndex());
 	if (playType == PLAY_TYPE_MANUAL)
 	{
-		//f32 frameValue = m_frameMenuItem.GetValue();
-		//m_pAnimationInstance->ForceFrameOnTracks(frameValue);
+		f32 frameValue = m_frameMenuItem.GetValue();
+		m_pFieldInstance->SetRandomSeed(0);
+		m_pFieldInstance->ForceFrameOnEmitters(frameValue);
 	}
 }
 

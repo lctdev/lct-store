@@ -136,6 +136,33 @@
     <Filter Include="source\soun">
       <UniqueIdentifier>{d7f9a089-85ae-4746-a0b8-36ce7e44c291}</UniqueIdentifier>
     </Filter>
+    <Filter Include="include\part">
+      <UniqueIdentifier>{98b71054-0bee-44e5-b069-a2c4461c1ee0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="source\part">
+      <UniqueIdentifier>{c06568b8-fe77-4919-a456-c7e7fcba369e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="shader\spri\IOS">
+      <UniqueIdentifier>{78be50a4-ae2e-46e6-be9e-c4b347b463da}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="shader\font\IOS">
+      <UniqueIdentifier>{b662708e-e160-455a-b59b-25107933a644}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="shader\fill\IOS">
+      <UniqueIdentifier>{b5ba2876-2502-47c6-a646-8b21302a14ee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="shader\part">
+      <UniqueIdentifier>{a5a33bac-ae02-4a35-a35c-71e7440cf9ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="shader\part\OSX">
+      <UniqueIdentifier>{6f3360c2-10ff-45b2-82c2-7e1215596834}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="shader\part\IOS">
+      <UniqueIdentifier>{6da4f489-b4f7-48ec-a1f4-4dfd357a0202}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="shader\part\WINDOWS">
+      <UniqueIdentifier>{1cca8b6d-f734-44c6-b768-04de891eff8c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="shader\fill\ANDROID\fill_fragmentShader.glsl">
@@ -197,6 +224,42 @@
     </None>
     <None Include="shader\spri\WINDOWS\spri_vertexShader.glsl">
       <Filter>shader\spri\WINDOWS</Filter>
+    </None>
+    <None Include="shader\spri\IOS\spri_fragmentShader.glsl">
+      <Filter>shader\spri\IOS</Filter>
+    </None>
+    <None Include="shader\spri\IOS\spri_vertexShader.glsl">
+      <Filter>shader\spri\IOS</Filter>
+    </None>
+    <None Include="shader\font\IOS\font_fragmentShader.glsl">
+      <Filter>shader\font\IOS</Filter>
+    </None>
+    <None Include="shader\font\IOS\font_vertexShader.glsl">
+      <Filter>shader\font\IOS</Filter>
+    </None>
+    <None Include="shader\fill\IOS\fill_fragmentShader.glsl">
+      <Filter>shader\fill\IOS</Filter>
+    </None>
+    <None Include="shader\fill\IOS\fill_vertexShader.glsl">
+      <Filter>shader\fill\IOS</Filter>
+    </None>
+    <None Include="shader\part\IOS\part_fragmentShader.glsl">
+      <Filter>shader\part\IOS</Filter>
+    </None>
+    <None Include="shader\part\IOS\part_vertexShader.glsl">
+      <Filter>shader\part\IOS</Filter>
+    </None>
+    <None Include="shader\part\OSX\part_fragmentShader.glsl">
+      <Filter>shader\part\OSX</Filter>
+    </None>
+    <None Include="shader\part\OSX\part_vertexShader.glsl">
+      <Filter>shader\part\OSX</Filter>
+    </None>
+    <None Include="shader\part\WINDOWS\part_fragmentShader.glsl">
+      <Filter>shader\part\WINDOWS</Filter>
+    </None>
+    <None Include="shader\part\WINDOWS\part_vertexShader.glsl">
+      <Filter>shader\part\WINDOWS</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -530,6 +593,27 @@
     <ClInclude Include="include\soun\soun_sequenceCoordinator.h">
       <Filter>include\soun</Filter>
     </ClInclude>
+    <ClInclude Include="include\part\part_arrays.h">
+      <Filter>include\part</Filter>
+    </ClInclude>
+    <ClInclude Include="include\part\part_assets.h">
+      <Filter>include\part</Filter>
+    </ClInclude>
+    <ClInclude Include="include\part\part_constants.h">
+      <Filter>include\part</Filter>
+    </ClInclude>
+    <ClInclude Include="include\part\part_data.h">
+      <Filter>include\part</Filter>
+    </ClInclude>
+    <ClInclude Include="include\part\part_drawContext.h">
+      <Filter>include\part</Filter>
+    </ClInclude>
+    <ClInclude Include="include\part\part_fieldInstance.h">
+      <Filter>include\part</Filter>
+    </ClInclude>
+    <ClInclude Include="include\foun\foun_randomGenerator.h">
+      <Filter>include\foun</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\file\file_accessor.cpp">
@@ -741,6 +825,27 @@
     </ClCompile>
     <ClCompile Include="source\soun\soun_sequenceCoordinator.cpp">
       <Filter>source\soun</Filter>
+    </ClCompile>
+    <ClCompile Include="source\foun\foun_vector.cpp">
+      <Filter>source\foun</Filter>
+    </ClCompile>
+    <ClCompile Include="source\part\part_arrays.cpp">
+      <Filter>source\part</Filter>
+    </ClCompile>
+    <ClCompile Include="source\part\part_assets.cpp">
+      <Filter>source\part</Filter>
+    </ClCompile>
+    <ClCompile Include="source\part\part_drawContext.cpp">
+      <Filter>source\part</Filter>
+    </ClCompile>
+    <ClCompile Include="source\part\part_fieldInstance.cpp">
+      <Filter>source\part</Filter>
+    </ClCompile>
+    <ClCompile Include="source\foun\foun_color.cpp">
+      <Filter>source\foun</Filter>
+    </ClCompile>
+    <ClCompile Include="source\foun\foun_randomGenerator.cpp">
+      <Filter>source\foun</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

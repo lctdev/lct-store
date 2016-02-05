@@ -3,6 +3,7 @@
 #include <part/part_fieldInstance.h>
 #include <part/part_constants.h>
 #include <part/part_arrays.h>
+#include <part/part_assets.h>
 
 #include <grap/grap_device.h>
 #include <grap/grap_data.h>
@@ -118,14 +119,70 @@ void DrawContext::ActivateWorldTransform(const foun::Matrix32& worldTransform)
 
 void DrawContext::DrawField(FieldInstance& fieldInstance)
 {
-	//for (u32 emitterIndex = 0; emitterIndex < fieldInstance.m_emitterCount; ++emitterIndex)
-	//{
-	//	FieldInstance::Emitter& emitter = fieldInstance.m_pEmitters[emitterIndex];
-		
-	//}
+	u32 particleIndex = 0;
+	for (u32 emitterIndex = 0; emitterIndex < fieldInstance.m_emitterCount; ++emitterIndex)
+	{
+		FieldInstance::Emitter& emitter = fieldInstance.m_pEmitters[emitterIndex];
+		const EmitterData* pEmitterData = fieldInstance.m_pFieldAsset->pEmitters[emitterIndex].pEmitterData;
+
+		if (emitter.liveParticleCount > 0)
+		{
+			bool reverseOrder = pEmitterData->flags & (1 << EMITTER_FLAG_TYPE_REVERSE_ORDER);
+			if (reverseOrder)
+			{
+				if (emitter.tailLiveParticleIndex < emitter.headLiveParticleIndex)
+				{
+					// tail is in front of the head, so this is just one draw of the particles in that range
+					u32 particleCount = emitter.liveParticleCount;
+					u32 indexCount = particleCount * QUAD_INDEX_COUNT;
+					u32 indexOffset = (particleIndex * QUAD_INDEX_COUNT) + (emitter.tailLiveParticleIndex * QUAD_INDEX_COUNT);
+					m_pGraphicsDevice->Draw(indexCount, indexOffset, grap::INDEX_TYPE_U16);
+				}
+				else
+				{
+					// tail is behind or at the head, so this is two draws of the particles in the split range
+					u32 particleCount = pEmitterData->particleCount - emitter.tailLiveParticleIndex;
+					u32 indexCount = particleCount * QUAD_INDEX_COUNT;
+					u32 indexOffset = (particleIndex * QUAD_INDEX_COUNT) + (emitter.tailLiveParticleIndex * QUAD_INDEX_COUNT);
+					m_pGraphicsDevice->Draw(indexCount, indexOffset, grap::INDEX_TYPE_U16);
+
+					particleCount = emitter.headLiveParticleIndex;
+					indexCount = particleCount * QUAD_INDEX_COUNT;
+					indexOffset = (particleIndex * QUAD_INDEX_COUNT);
+					m_pGraphicsDevice->Draw(indexCount, indexOffset, grap::INDEX_TYPE_U16);
+				}
+			}
+			else
+			{
+				if (emitter.tailLiveParticleIndex > emitter.headLiveParticleIndex)
+				{
+					// tail is in front of the head, so this is just one draw of the particles in that range
+					u32 particleCount = emitter.liveParticleCount;
+					u32 indexCount = particleCount * QUAD_INDEX_COUNT;
+					u32 indexOffset = (particleIndex * QUAD_INDEX_COUNT) + (emitter.headLiveParticleIndex * QUAD_INDEX_COUNT);
+					m_pGraphicsDevice->Draw(indexCount, indexOffset, grap::INDEX_TYPE_U16);
+				}
+				else
+				{
+					// tail is behind or at the head, so this is two draws of the particles in the split range
+					u32 particleCount = pEmitterData->particleCount - emitter.headLiveParticleIndex;
+					u32 indexCount = particleCount * QUAD_INDEX_COUNT;
+					u32 indexOffset = (particleIndex * QUAD_INDEX_COUNT) + (emitter.headLiveParticleIndex * QUAD_INDEX_COUNT);
+					m_pGraphicsDevice->Draw(indexCount, indexOffset, grap::INDEX_TYPE_U16);
+
+					particleCount = emitter.tailLiveParticleIndex;
+					indexCount = particleCount * QUAD_INDEX_COUNT;
+					indexOffset = (particleIndex * QUAD_INDEX_COUNT);
+					m_pGraphicsDevice->Draw(indexCount, indexOffset, grap::INDEX_TYPE_U16);
+				}
+			}
+		}
+
+		particleIndex += pEmitterData->particleCount;
+	}
 	
-	u32 indexCount = fieldInstance.m_particleCount * QUAD_INDEX_COUNT;
-	m_pGraphicsDevice->Draw(indexCount, 0, grap::INDEX_TYPE_U16);
+	//u32 indexCount = fieldInstance.m_particleCount * QUAD_INDEX_COUNT;
+	//m_pGraphicsDevice->Draw(indexCount, 0, grap::INDEX_TYPE_U16);
 }
 
 /*

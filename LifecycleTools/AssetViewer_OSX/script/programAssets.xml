@@ -23,7 +23,7 @@
             <filePath>../../LifecycleRuntime/shader/spri/OSX/spri_fragmentShader.glsl</filePath>
         </assetEntry>
 		
-		<assetEntry group="PASS" type="STRI">
+		    <assetEntry group="PASS" type="STRI">
             <filePath>../../LifecycleRuntime/shader/part/OSX/part_vertexShader.glsl</filePath>
         </assetEntry>
         <assetEntry group="PASS" type="STRI">

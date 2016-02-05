@@ -13,4 +13,9 @@
       <Filter>script</Filter>
     </None>
   </ItemGroup>
+  <ItemGroup>
+    <Xml Include="script\programAssets.xml">
+      <Filter>script</Filter>
+    </Xml>
+  </ItemGroup>
 </Project>

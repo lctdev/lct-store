@@ -3,6 +3,9 @@
 
 #include <foun/foun_primitives.h>
 #include <foun/foun_allocator.h>
+#include <foun/foun_randomGenerator.h>
+
+#include <part/part_constants.h>
 
 namespace lct
 {
@@ -49,13 +52,17 @@ public:
 	void ClearFieldAsset();
 	void BindFieldAsset(const FieldAsset* pFieldAsset);
 	
+	void SetRandomSeed(u32 seed);
 	void ResetEmitters();
 	void UpdateEmitters(f32 frameStep);
+	void ForceFrameOnEmitters(f32 frame);
 	void UpdateParticles();
 
 protected:	
 	void FillVertexSetupParameters(grap::VertexSetupParameters& vertexSetupParameters, u32 vertexResourceIndex);
 	void FillIndexSetupParameters(grap::IndexSetupParameters& indexSetupParameters);
+
+	foun::RandomGenerator m_randomGenerator;
 
 	struct Particle;
 	struct Emitter
@@ -63,7 +70,10 @@ protected:
 		u32 baseParticleIndex;
 		f32 frame;
 		f32 nextEmitFrame;
-		u32 nextEmitParticleIndex;
+		s32 nextEmitParticleIndex;
+		s32 headLiveParticleIndex;
+		s32 tailLiveParticleIndex;
+		u32 liveParticleCount;
 	};
 	Emitter* m_pEmitters;
 	u32 m_emitterCapacity;
@@ -76,6 +86,7 @@ protected:
 		f32 birthY;
 		f32 expelDirX;
 		f32 expelDirY;
+		f32 aMultipliers[PARTICLE_PROPERTY_COUNT];
 	};
 	Particle* m_pParticles;
 	u32 m_particleCapacity;

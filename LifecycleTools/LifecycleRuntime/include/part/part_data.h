@@ -43,6 +43,7 @@ struct ParticleParameterData
 	f32 initial;
 	f32 velocity;
 	f32 acceleration;
+	Range frameRange;
 };
 
 struct EmitterData
@@ -56,8 +57,10 @@ struct EmitterData
 	Color color1;
 	f32 delayFrames;
 	u32 particleCount;
+	u32 flags;
 	
 	ParticleParameterData aParticleParameterData[PARTICLE_PROPERTY_COUNT];
+	Range aParticleMultiplierRanges[PARTICLE_PROPERTY_COUNT];
 };
 
 struct FieldData

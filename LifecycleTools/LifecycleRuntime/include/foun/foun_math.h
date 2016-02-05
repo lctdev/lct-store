@@ -32,6 +32,8 @@ f32 Lerp(f32 x, f32 x0, f32 x1, f32 y0, f32 y1);
 
 f32 Rand();
 
+inline f32 Clamp(f32 value, f32 min, f32 max) { return (value < min ? min : (value > max ? max : value)); }
+
 //namespace foun
 }
 //namespace lct

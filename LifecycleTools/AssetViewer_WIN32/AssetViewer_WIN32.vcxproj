@@ -16,6 +16,9 @@
   <ItemGroup>
     <None Include="script\buildAssets.bat" />
   </ItemGroup>
+  <ItemGroup>
+    <Xml Include="script\programAssets.xml" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{A772599E-57D7-454E-A6D8-8B384C4C9EAE}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
@@ -70,7 +73,8 @@
       <AdditionalLibraryDirectories>$(SolutionDir)$(Configuration)\</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
-      <Command>copy /y "$(ProjectDir)\..\Prebuilt\shared\WIN32\Debug\OpenAL32.dll" "$(OutDir)"</Command>
+      <Command>copy /y "$(ProjectDir)\..\Prebuilt\shared\WIN32\Debug\OpenAL32.dll" "$(OutDir)"
+$(ProjectDir)\script\buildAssets.bat</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

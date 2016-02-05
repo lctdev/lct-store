@@ -396,8 +396,13 @@ void Device::Draw(u32 indexCount, u32 indexOffset, IndexType indexType)
 		GL_UNSIGNED_BYTE,
 		GL_UNSIGNED_SHORT
 	};
+	static const u32 SIZE_TABLE[INDEX_TYPE_COUNT] =
+	{
+		1,
+		2
+	};
 
-	glDrawElements(GL_TRIANGLES, indexCount, TYPE_TABLE[indexType], reinterpret_cast<GLvoid*>(indexOffset));
+	glDrawElements(GL_TRIANGLES, indexCount, TYPE_TABLE[indexType], reinterpret_cast<GLvoid*>(indexOffset * SIZE_TABLE[indexType]));
 
 	LCT_TRACE_GL_ERROR();
 }
