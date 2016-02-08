@@ -411,9 +411,10 @@ void ParticleViewerMode::LoadAssets()
 				parameterData.frameRange.min = 0.0f;
 				parameterData.frameRange.max = 600.0f;
 
+
 				lct::part::Range& multiplierRange = pEmitterData->aParticleMultiplierRanges[lct::part::PARTICLE_PROPERTY_TYPE_ROTATION];
-				multiplierRange.min = 1.0f;
-				multiplierRange.max = 1.0f;
+				multiplierRange.min = 0.8f;
+				multiplierRange.max = 1.2f;
 			}
 			{
 				lct::part::ParticleParameterData& parameterData = pEmitterData->aParticleParameterData[lct::part::PARTICLE_PROPERTY_TYPE_COLOR_RATIO];
@@ -432,8 +433,8 @@ void ParticleViewerMode::LoadAssets()
 				parameterData.initial = 1.0f;
 				parameterData.velocity = -1.0f / 15.0f;
 				parameterData.acceleration = 0.0f;
-				parameterData.frameRange.min = 60.0f;
-				parameterData.frameRange.max = 75.0f;
+				parameterData.frameRange.min = 75.0f;
+				parameterData.frameRange.max = 90.0f;
 
 				lct::part::Range& multiplierRange = pEmitterData->aParticleMultiplierRanges[lct::part::PARTICLE_PROPERTY_TYPE_ALPHA];
 				multiplierRange.min = 1.0f;

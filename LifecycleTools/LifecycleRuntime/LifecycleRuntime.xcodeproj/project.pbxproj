@@ -24,6 +24,10 @@
 		F84C75B41C5EC8E100A3466C /* part_assets.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F84C75971C4CB12300A3466C /* part_assets.cpp */; };
 		F85444C21C42AD55009AF44B /* foun_vector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F85444C11C42AD55009AF44B /* foun_vector.cpp */; };
 		F85444C31C42AD55009AF44B /* foun_vector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F85444C11C42AD55009AF44B /* foun_vector.cpp */; };
+		F86A33E71C64E43900EA52CD /* foun_randomGenerator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F86A33E61C64E43900EA52CD /* foun_randomGenerator.cpp */; };
+		F86A33E91C64E44D00EA52CD /* foun_randomGenerator.h in Headers */ = {isa = PBXBuildFile; fileRef = F86A33E81C64E44D00EA52CD /* foun_randomGenerator.h */; };
+		F86A33EB1C64E45900EA52CD /* foun_stack.h in Headers */ = {isa = PBXBuildFile; fileRef = F86A33EA1C64E45900EA52CD /* foun_stack.h */; };
+		F86A33EF1C64E4E100EA52CD /* foun_randomGenerator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F86A33E61C64E43900EA52CD /* foun_randomGenerator.cpp */; };
 		F872D30F1C4A15D900655F0F /* part_constants.h in Headers */ = {isa = PBXBuildFile; fileRef = F872D30E1C4A15D900655F0F /* part_constants.h */; };
 		F8BCEFC81B2B1ECD00001A93 /* grap_device.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F8BCEFC71B2B1ECD00001A93 /* grap_device.cpp */; };
 		F8BCEFD01B2B1EF900001A93 /* grap_constants.h in Headers */ = {isa = PBXBuildFile; fileRef = F8BCEFCA1B2B1EF900001A93 /* grap_constants.h */; };
@@ -312,6 +316,11 @@
 		F84C75AF1C5EC74F00A3466C /* part_vertexShader.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = part_vertexShader.glsl; path = part/IOS/part_vertexShader.glsl; sourceTree = "<group>"; };
 		F84C75B01C5EC74F00A3466C /* part_fragmentShader.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = part_fragmentShader.glsl; path = part/IOS/part_fragmentShader.glsl; sourceTree = "<group>"; };
 		F85444C11C42AD55009AF44B /* foun_vector.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = foun_vector.cpp; sourceTree = "<group>"; };
+		F86A33E61C64E43900EA52CD /* foun_randomGenerator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = foun_randomGenerator.cpp; sourceTree = "<group>"; };
+		F86A33E81C64E44D00EA52CD /* foun_randomGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = foun_randomGenerator.h; sourceTree = "<group>"; };
+		F86A33EA1C64E45900EA52CD /* foun_stack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = foun_stack.h; sourceTree = "<group>"; };
+		F86A33ED1C64E4B000EA52CD /* part_fragmentShader.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = part_fragmentShader.glsl; path = part/WINDOWS/part_fragmentShader.glsl; sourceTree = "<group>"; };
+		F86A33EE1C64E4B000EA52CD /* part_vertexShader.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = part_vertexShader.glsl; path = part/WINDOWS/part_vertexShader.glsl; sourceTree = "<group>"; };
 		F872D30E1C4A15D900655F0F /* part_constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = part_constants.h; path = part/part_constants.h; sourceTree = "<group>"; };
 		F8BCEFC71B2B1ECD00001A93 /* grap_device.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = grap_device.cpp; path = grap/grap_device.cpp; sourceTree = "<group>"; };
 		F8BCEFCA1B2B1EF900001A93 /* grap_constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = grap_constants.h; path = grap/grap_constants.h; sourceTree = "<group>"; };
@@ -558,6 +567,7 @@
 		F84C75A71C4F5A8700A3466C /* part */ = {
 			isa = PBXGroup;
 			children = (
+				F86A33EC1C64E49E00EA52CD /* WINDOWS */,
 				F84C75AE1C5EC6F300A3466C /* IOS */,
 				F84C75A81C4F5A9F00A3466C /* OSX */,
 			);
@@ -580,6 +590,15 @@
 				F84C75B01C5EC74F00A3466C /* part_fragmentShader.glsl */,
 			);
 			name = IOS;
+			sourceTree = "<group>";
+		};
+		F86A33EC1C64E49E00EA52CD /* WINDOWS */ = {
+			isa = PBXGroup;
+			children = (
+				F86A33ED1C64E4B000EA52CD /* part_fragmentShader.glsl */,
+				F86A33EE1C64E4B000EA52CD /* part_vertexShader.glsl */,
+			);
+			name = WINDOWS;
 			sourceTree = "<group>";
 		};
 		F872D30C1C4A138800655F0F /* part */ = {
@@ -827,6 +846,8 @@
 		F8E1B1651AE7D4D70045B0D2 /* foun */ = {
 			isa = PBXGroup;
 			children = (
+				F86A33EA1C64E45900EA52CD /* foun_stack.h */,
+				F86A33E81C64E44D00EA52CD /* foun_randomGenerator.h */,
 				F8E1B1661AE7D4D70045B0D2 /* foun_allocator.h */,
 				F8E1B1671AE7D4D70045B0D2 /* foun_callback.h */,
 				F8E1B1681AE7D4D70045B0D2 /* foun_color.h */,
@@ -1006,6 +1027,7 @@
 		F8E1B2181AE7D4F60045B0D2 /* foun */ = {
 			isa = PBXGroup;
 			children = (
+				F86A33E61C64E43900EA52CD /* foun_randomGenerator.cpp */,
 				F8E1B2191AE7D4F60045B0D2 /* foun_allocator.cpp */,
 				F8E1B21A1AE7D4F60045B0D2 /* foun_intersection.cpp */,
 				F8E1B21B1AE7D4F60045B0D2 /* foun_keys.cpp */,
@@ -1299,6 +1321,7 @@
 				F8BCEFF61B49E14000001A93 /* pass_data.h in Headers */,
 				F8E1B1DA1AE7D4D70045B0D2 /* fram_modeFactory.h in Headers */,
 				F8E1B2001AE7D4D70045B0D2 /* test_actionMenuItem.h in Headers */,
+				F86A33EB1C64E45900EA52CD /* foun_stack.h in Headers */,
 				F8E1B2051AE7D4D70045B0D2 /* test_menu.h in Headers */,
 				F8E1B1D91AE7D4D70045B0D2 /* fram_mode.h in Headers */,
 				F8E1B1EB1AE7D4D70045B0D2 /* inpu_touchCursor.h in Headers */,
@@ -1319,6 +1342,7 @@
 				F8BCEFD21B2B1EF900001A93 /* grap_debug.h in Headers */,
 				F8E1B1C71AE7D4D70045B0D2 /* foun_debug.h in Headers */,
 				F8E1B1FD1AE7D4D70045B0D2 /* spri_figureInstance.h in Headers */,
+				F86A33E91C64E44D00EA52CD /* foun_randomGenerator.h in Headers */,
 				F8E1B1E61AE7D4D70045B0D2 /* inpu_constants.h in Headers */,
 				F8E1B1CB1AE7D4D70045B0D2 /* foun_keys.h in Headers */,
 				F8E1B1BF1AE7D4D70045B0D2 /* font_drawContext.h in Headers */,
@@ -1411,6 +1435,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F86A33EF1C64E4E100EA52CD /* foun_randomGenerator.cpp in Sources */,
 				F84C75B11C5EC8E100A3466C /* part_arrays.cpp in Sources */,
 				F84C75B21C5EC8E100A3466C /* part_fieldInstance.cpp in Sources */,
 				F84C75B31C5EC8E100A3466C /* part_drawContext.cpp in Sources */,
@@ -1509,6 +1534,7 @@
 				F8E1B2611AE7D4F60045B0D2 /* fram_messageQueue.cpp in Sources */,
 				F8BCF0001B49E19400001A93 /* imag_assetHandler.cpp in Sources */,
 				F8E1B2721AE7D4F60045B0D2 /* pack_packageWalker.cpp in Sources */,
+				F86A33E71C64E43900EA52CD /* foun_randomGenerator.cpp in Sources */,
 				F8E1B25B1AE7D4F60045B0D2 /* foun_linearAllocator.cpp in Sources */,
 				F8E1B26F1AE7D4F60045B0D2 /* inpu_touchCursor.cpp in Sources */,
 				F8BCF00B1B49E21D00001A93 /* pass_assets.cpp in Sources */,
