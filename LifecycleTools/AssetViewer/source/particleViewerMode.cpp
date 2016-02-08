@@ -347,7 +347,9 @@ void ParticleViewerMode::LoadAssets()
 			static const u32 EMITTER_INDEX = 0;
 			lct::part::EmitterData* pEmitterData = pEmitterDatas + EMITTER_INDEX;
 			pEmitterData->x = 0.0f;
-			pEmitterData->y = 0.0f;
+			pEmitterData->y = 0.0f;			
+			pEmitterData->shapeSpanA = 0.0f;
+			pEmitterData->shapeSpanB = 0.0f;
 			pEmitterData->globalDirX = 0.0f;
 			pEmitterData->globalDirY = -1.0f;
 			pEmitterData->expelAngleRange.min = 0.20f;
@@ -360,77 +362,80 @@ void ParticleViewerMode::LoadAssets()
 			pEmitterData->color1.b = 1.0f;
 			pEmitterData->delayFrames = 4.0f;
 			pEmitterData->particleCount = 32;
+			pEmitterData->shapeType = lct::part::EMITTER_SHAPE_TYPE_POINT;
+			pEmitterData->arrangeType = lct::part::EMITTER_ARRANGE_TYPE_EVEN_EDGE;
+			pEmitterData->expelType = lct::part::EMITTER_EXPEL_TYPE_DEFAULT;
 			pEmitterData->flags = (1 << lct::part::EMITTER_FLAG_TYPE_REVERSE_ORDER);
 		
 			{
-				lct::part::ParticleParameterData& parameterData = pEmitterData->aParticleParameterData[lct::part::PARTICLE_PROPERTY_GLOBAL_DISTANCE];
+				lct::part::ParticleParameterData& parameterData = pEmitterData->aParticleParameterData[lct::part::PARTICLE_PROPERTY_TYPE_GLOBAL_DISTANCE];
 				parameterData.initial = 0.0f;
 				parameterData.velocity = 0.0f;
 				parameterData.acceleration = 0.2f;
 				parameterData.frameRange.min = 0.0f;
 				parameterData.frameRange.max = 600.0f;
 
-				lct::part::Range& multiplierRange = pEmitterData->aParticleMultiplierRanges[lct::part::PARTICLE_PROPERTY_GLOBAL_DISTANCE];
+				lct::part::Range& multiplierRange = pEmitterData->aParticleMultiplierRanges[lct::part::PARTICLE_PROPERTY_TYPE_GLOBAL_DISTANCE];
 				multiplierRange.min = 1.0f;
 				multiplierRange.max = 1.0f;
 			}
 			{
-				lct::part::ParticleParameterData& parameterData = pEmitterData->aParticleParameterData[lct::part::PARTICLE_PROPERTY_EXPEL_DISTANCE];
+				lct::part::ParticleParameterData& parameterData = pEmitterData->aParticleParameterData[lct::part::PARTICLE_PROPERTY_TYPE_EXPEL_DISTANCE];
 				parameterData.initial = 0.0f;
 				parameterData.velocity = 6.0f;
 				parameterData.acceleration = 0.0f;
 				parameterData.frameRange.min = 0.0f;
 				parameterData.frameRange.max = 600.0f;
 
-				lct::part::Range& multiplierRange = pEmitterData->aParticleMultiplierRanges[lct::part::PARTICLE_PROPERTY_EXPEL_DISTANCE];
+				lct::part::Range& multiplierRange = pEmitterData->aParticleMultiplierRanges[lct::part::PARTICLE_PROPERTY_TYPE_EXPEL_DISTANCE];
 				multiplierRange.min = 1.0f;
 				multiplierRange.max = 1.5f;
 			}
 			{
-				lct::part::ParticleParameterData& parameterData = pEmitterData->aParticleParameterData[lct::part::PARTICLE_PROPERTY_SIZE];
+				lct::part::ParticleParameterData& parameterData = pEmitterData->aParticleParameterData[lct::part::PARTICLE_PROPERTY_TYPE_SIZE];
 				parameterData.initial = 16.0f;
 				parameterData.velocity = 0.0f;
 				parameterData.acceleration = 0.0f;
 				parameterData.frameRange.min = 0.0f;
 				parameterData.frameRange.max = 600.0f;
 
-				lct::part::Range& multiplierRange = pEmitterData->aParticleMultiplierRanges[lct::part::PARTICLE_PROPERTY_SIZE];
+				lct::part::Range& multiplierRange = pEmitterData->aParticleMultiplierRanges[lct::part::PARTICLE_PROPERTY_TYPE_SIZE];
 				multiplierRange.min = 0.8f;
 				multiplierRange.max = 1.2f;
 			}
 			{
-				lct::part::ParticleParameterData& parameterData = pEmitterData->aParticleParameterData[lct::part::PARTICLE_PROPERTY_ROTATION];
+				lct::part::ParticleParameterData& parameterData = pEmitterData->aParticleParameterData[lct::part::PARTICLE_PROPERTY_TYPE_ROTATION];
 				parameterData.initial = 0.0f;
 				parameterData.velocity = 0.01f;
 				parameterData.acceleration = 0.0f;
 				parameterData.frameRange.min = 0.0f;
 				parameterData.frameRange.max = 600.0f;
 
-				lct::part::Range& multiplierRange = pEmitterData->aParticleMultiplierRanges[lct::part::PARTICLE_PROPERTY_ROTATION];
+				lct::part::Range& multiplierRange = pEmitterData->aParticleMultiplierRanges[lct::part::PARTICLE_PROPERTY_TYPE_ROTATION];
 				multiplierRange.min = 1.0f;
 				multiplierRange.max = 1.0f;
 			}
 			{
-				lct::part::ParticleParameterData& parameterData = pEmitterData->aParticleParameterData[lct::part::PARTICLE_PROPERTY_COLOR_RATIO];
+				lct::part::ParticleParameterData& parameterData = pEmitterData->aParticleParameterData[lct::part::PARTICLE_PROPERTY_TYPE_COLOR_RATIO];
 				parameterData.initial = 0.0f;
 				parameterData.velocity = 0.01f;
 				parameterData.acceleration = 0.0f;
 				parameterData.frameRange.min = 0.0f;
 				parameterData.frameRange.max = 600.0f;
 
-				lct::part::Range& multiplierRange = pEmitterData->aParticleMultiplierRanges[lct::part::PARTICLE_PROPERTY_COLOR_RATIO];
+				lct::part::Range& multiplierRange = pEmitterData->aParticleMultiplierRanges[lct::part::PARTICLE_PROPERTY_TYPE_COLOR_RATIO];
 				multiplierRange.min = 1.0f;
 				multiplierRange.max = 1.0f;
 			}
 			{
-				lct::part::ParticleParameterData& parameterData = pEmitterData->aParticleParameterData[lct::part::PARTICLE_PROPERTY_ALPHA];
+				lct::part::ParticleParameterData& parameterData = pEmitterData->aParticleParameterData[lct::part::PARTICLE_PROPERTY_TYPE_ALPHA];
 				parameterData.initial = 1.0f;
 				parameterData.velocity = -1.0f / 15.0f;
 				parameterData.acceleration = 0.0f;
 				parameterData.frameRange.min = 60.0f;
 				parameterData.frameRange.max = 75.0f;
 
-				lct::part::Range& multiplierRange = pEmitterData->aParticleMultiplierRanges[lct::part::PARTICLE_PROPERTY_ALPHA];
+				lct::part::Range& multiplierRange = pEmitterData->aParticleMultiplierRanges[lct::part::PARTICLE_PROPERTY_TYPE_ALPHA];
 				multiplierRange.min = 1.0f;
 				multiplierRange.max = 1.0f;
 			}

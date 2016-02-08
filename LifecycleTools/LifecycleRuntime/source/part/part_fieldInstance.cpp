@@ -216,7 +216,7 @@ void FieldInstance::UpdateEmitters(f32 frameStep)
 				particle.expelDirX = lct::foun::Cos(lct::foun::RadiansFromRotations(expelAngle));
 				particle.expelDirY = lct::foun::Sin(lct::foun::RadiansFromRotations(expelAngle));
 				
-				for (u32 propertyIndex = 0; propertyIndex < PARTICLE_PROPERTY_COUNT; ++propertyIndex)
+				for (u32 propertyIndex = 0; propertyIndex < PARTICLE_PROPERTY_TYPE_COUNT; ++propertyIndex)
 				{
 					const Range& multiplierRange = pEmitterData->aParticleMultiplierRanges[propertyIndex];
 					particle.aMultipliers[propertyIndex] = m_randomGenerator.GenerateFloat(multiplierRange.min, multiplierRange.max);
@@ -305,8 +305,8 @@ void FieldInstance::UpdateParticles()
 			Particle& particle = m_pParticles[particleIndex];
 			
 			f32 lifeFrames = emitter.frame - particle.birthFrame;
-			f32 aParticleProperties[PARTICLE_PROPERTY_COUNT];
-			for (u32 propertyIndex = 0; propertyIndex < PARTICLE_PROPERTY_COUNT; ++propertyIndex)
+			f32 aParticleProperties[PARTICLE_PROPERTY_TYPE_COUNT];
+			for (u32 propertyIndex = 0; propertyIndex < PARTICLE_PROPERTY_TYPE_COUNT; ++propertyIndex)
 			{
 				const ParticleParameterData& particleParameterData = pEmitterData->aParticleParameterData[propertyIndex];
 				f32 propertyFrames = foun::Clamp(lifeFrames, particleParameterData.frameRange.min, particleParameterData.frameRange.max) - particleParameterData.frameRange.min;
@@ -319,21 +319,21 @@ void FieldInstance::UpdateParticles()
 			for (u32 vertexIndex = 0; vertexIndex < QUAD_VERTEX_COUNT; ++vertexIndex)
 			{
 				foun::Vector2 vertexPosition = QUAD_VERTEX_POSITIONS[vertexIndex];
-				vertexPosition.x *= aParticleProperties[PARTICLE_PROPERTY_SIZE];
-				vertexPosition.y *= aParticleProperties[PARTICLE_PROPERTY_SIZE];
+				vertexPosition.x *= aParticleProperties[PARTICLE_PROPERTY_TYPE_SIZE];
+				vertexPosition.y *= aParticleProperties[PARTICLE_PROPERTY_TYPE_SIZE];
 				
 				foun::Matrix22 rotationMatrix;
-				foun::Matrix22Rotate(rotationMatrix, aParticleProperties[PARTICLE_PROPERTY_ROTATION]);
+				foun::Matrix22Rotate(rotationMatrix, aParticleProperties[PARTICLE_PROPERTY_TYPE_ROTATION]);
 				foun::TransformVector2(vertexPosition, vertexPosition, rotationMatrix);
 				
 				vertexPosition.x += particle.birthX;
 				vertexPosition.y += particle.birthY;
 				
-				vertexPosition.x += (pEmitterData->globalDirX * aParticleProperties[PARTICLE_PROPERTY_GLOBAL_DISTANCE]);
-				vertexPosition.y += (pEmitterData->globalDirY * aParticleProperties[PARTICLE_PROPERTY_GLOBAL_DISTANCE]);
+				vertexPosition.x += (pEmitterData->globalDirX * aParticleProperties[PARTICLE_PROPERTY_TYPE_GLOBAL_DISTANCE]);
+				vertexPosition.y += (pEmitterData->globalDirY * aParticleProperties[PARTICLE_PROPERTY_TYPE_GLOBAL_DISTANCE]);
 				
-				vertexPosition.x += (particle.expelDirX * aParticleProperties[PARTICLE_PROPERTY_EXPEL_DISTANCE]);
-				vertexPosition.y += (particle.expelDirY * aParticleProperties[PARTICLE_PROPERTY_EXPEL_DISTANCE]);
+				vertexPosition.x += (particle.expelDirX * aParticleProperties[PARTICLE_PROPERTY_TYPE_EXPEL_DISTANCE]);
+				vertexPosition.y += (particle.expelDirY * aParticleProperties[PARTICLE_PROPERTY_TYPE_EXPEL_DISTANCE]);
 				
 				VertexData* pVertexData = pBaseVertexData + vertexIndex;
 				
@@ -346,12 +346,12 @@ void FieldInstance::UpdateParticles()
 				foun::FloatColor3 color;
 				const foun::FloatColor3& color0 = reinterpret_cast<const foun::FloatColor3&>(pEmitterData->color0);
 				const foun::FloatColor3& color1 = reinterpret_cast<const foun::FloatColor3&>(pEmitterData->color1);
-				foun::FloatColor3Lerp(color, color0, color1, aParticleProperties[PARTICLE_PROPERTY_COLOR_RATIO]);
+				foun::FloatColor3Lerp(color, color0, color1, aParticleProperties[PARTICLE_PROPERTY_TYPE_COLOR_RATIO]);
 				
 				pVertexData->r = color.r;
 				pVertexData->g = color.g;
 				pVertexData->b = color.b;
-				pVertexData->a = aParticleProperties[PARTICLE_PROPERTY_ALPHA];
+				pVertexData->a = aParticleProperties[PARTICLE_PROPERTY_TYPE_ALPHA];
 			}
 			
 			++particleIndex;

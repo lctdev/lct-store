@@ -49,7 +49,9 @@ struct ParticleParameterData
 struct EmitterData
 {
 	f32 x;
-	f32 y;
+	f32 y;	
+	f32 shapeSpanA;
+	f32 shapeSpanB;
 	f32 globalDirX;
 	f32 globalDirY;
 	Range expelAngleRange;
@@ -57,10 +59,13 @@ struct EmitterData
 	Color color1;
 	f32 delayFrames;
 	u32 particleCount;
-	u32 flags;
+	u8 shapeType;
+	u8 arrangeType;
+	u8 expelType;
+	u8 flags;
 	
-	ParticleParameterData aParticleParameterData[PARTICLE_PROPERTY_COUNT];
-	Range aParticleMultiplierRanges[PARTICLE_PROPERTY_COUNT];
+	ParticleParameterData aParticleParameterData[PARTICLE_PROPERTY_TYPE_COUNT];
+	Range aParticleMultiplierRanges[PARTICLE_PROPERTY_TYPE_COUNT];
 };
 
 struct FieldData

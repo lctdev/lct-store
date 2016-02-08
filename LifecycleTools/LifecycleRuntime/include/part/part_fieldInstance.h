@@ -86,7 +86,7 @@ protected:
 		f32 birthY;
 		f32 expelDirX;
 		f32 expelDirY;
-		f32 aMultipliers[PARTICLE_PROPERTY_COUNT];
+		f32 aMultipliers[PARTICLE_PROPERTY_TYPE_COUNT];
 	};
 	Particle* m_pParticles;
 	u32 m_particleCapacity;
