@@ -62,6 +62,9 @@ protected:
 	void FillVertexSetupParameters(grap::VertexSetupParameters& vertexSetupParameters, u32 vertexResourceIndex);
 	void FillIndexSetupParameters(grap::IndexSetupParameters& indexSetupParameters);
 
+	void SpawnParticles(u32 emitterIndex);
+	void CullParticles(u32 emitterIndex);
+
 	foun::RandomGenerator m_randomGenerator;
 
 	struct Particle;
@@ -70,7 +73,6 @@ protected:
 		u32 baseParticleIndex;
 		f32 frame;
 		f32 nextEmitFrame;
-		s32 nextEmitParticleIndex;
 		s32 headLiveParticleIndex;
 		s32 tailLiveParticleIndex;
 		u32 liveParticleCount;
@@ -84,8 +86,8 @@ protected:
 		f32 birthFrame;
 		f32 birthX;
 		f32 birthY;
-		f32 expelDirX;
-		f32 expelDirY;
+		f32 birthRotation;
+		f32 expelAngle;
 		f32 aMultipliers[PARTICLE_PROPERTY_TYPE_COUNT];
 	};
 	Particle* m_pParticles;

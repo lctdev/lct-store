@@ -177,18 +177,23 @@ void FieldInstance::SetRandomSeed(u32 seed)
 
 void FieldInstance::ResetEmitters()
 {
+	memset(m_pParticles, 0, (sizeof(Particle) * m_particleCapacity));
+
 	for (u32 emitterIndex = 0; emitterIndex < m_emitterCount; ++emitterIndex)
 	{
 		Emitter& emitter = m_pEmitters[emitterIndex];
+		const EmitterData* pEmitterData = m_pFieldAsset->pEmitters[emitterIndex].pEmitterData;
 		
 		emitter.frame = 0.0f;
 		emitter.nextEmitFrame = 0.0f;
-		emitter.nextEmitParticleIndex = 0;
 		emitter.headLiveParticleIndex = 0;
 		emitter.tailLiveParticleIndex = 0;
-	}
+		emitter.liveParticleCount = 0;
 
-	memset(m_pParticles, 0, (sizeof(Particle) * m_particleCapacity));
+		SpawnParticles(emitterIndex);
+
+		emitter.nextEmitFrame = pEmitterData->delayFrames;
+	}	
 }
 
 void FieldInstance::UpdateEmitters(f32 frameStep)
@@ -197,92 +202,29 @@ void FieldInstance::UpdateEmitters(f32 frameStep)
 	{
 		Emitter& emitter = m_pEmitters[emitterIndex];
 		const EmitterData* pEmitterData = m_pFieldAsset->pEmitters[emitterIndex].pEmitterData;
-		
+			
+		// spawn new particles
 		do
 		{
 			f32 frames = frameStep > pEmitterData->delayFrames ? pEmitterData->delayFrames : frameStep;
 
 			emitter.frame += frames;
-			if (emitter.frame >= emitter.nextEmitFrame)
+			f32 frameDuration = pEmitterData->frameDuration;
+			if ((frameDuration <= 0.0f) || (emitter.frame < frameDuration))
 			{
-				u32 particleIndex = emitter.baseParticleIndex + emitter.nextEmitParticleIndex;
-				Particle& particle = m_pParticles[particleIndex];
-				particle.birthFrame = emitter.nextEmitFrame;
-				particle.birthX = pEmitterData->x;
-				particle.birthY = pEmitterData->y;
-
-				f32 expelAngleDifference = pEmitterData->expelAngleRange.max - pEmitterData->expelAngleRange.min;
-				f32 expelAngle = pEmitterData->expelAngleRange.min + (m_randomGenerator.GenerateFloat() * expelAngleDifference);
-				particle.expelDirX = lct::foun::Cos(lct::foun::RadiansFromRotations(expelAngle));
-				particle.expelDirY = lct::foun::Sin(lct::foun::RadiansFromRotations(expelAngle));
-				
-				for (u32 propertyIndex = 0; propertyIndex < PARTICLE_PROPERTY_TYPE_COUNT; ++propertyIndex)
+				if (emitter.frame >= emitter.nextEmitFrame)
 				{
-					const Range& multiplierRange = pEmitterData->aParticleMultiplierRanges[propertyIndex];
-					particle.aMultipliers[propertyIndex] = m_randomGenerator.GenerateFloat(multiplierRange.min, multiplierRange.max);
-				}
+					SpawnParticles(emitterIndex);
 
-				emitter.nextEmitFrame += pEmitterData->delayFrames;
-
-				bool reverseOrder = pEmitterData->flags & (1 << EMITTER_FLAG_TYPE_REVERSE_ORDER);
-				if (reverseOrder)
-				{
-					// set the next emit index					
-					--emitter.nextEmitParticleIndex;
-					if (emitter.nextEmitParticleIndex < 0)
-					{
-						emitter.nextEmitParticleIndex = pEmitterData->particleCount - 1;
-					}
-
-					// set the new tail index
-					--emitter.tailLiveParticleIndex;
-					++emitter.liveParticleCount;
-					if (emitter.tailLiveParticleIndex < 0)
-					{
-						emitter.tailLiveParticleIndex = pEmitterData->particleCount - 1;
-					}
-					if (emitter.liveParticleCount > pEmitterData->particleCount)
-					{
-						// if the tail has gone past head, move the head
-						--emitter.headLiveParticleIndex;
-						--emitter.liveParticleCount;
-						if (emitter.headLiveParticleIndex < 0)
-						{
-							emitter.headLiveParticleIndex = pEmitterData->particleCount - 1;
-						}
-					}
-				}
-				else
-				{
-					// set the next emit index
-					++emitter.nextEmitParticleIndex;
-					if (emitter.nextEmitParticleIndex >= pEmitterData->particleCount)
-					{
-						emitter.nextEmitParticleIndex = 0;
-					}
-
-					// set the new tail index
-					++emitter.tailLiveParticleIndex;
-					++emitter.liveParticleCount;
-					if (emitter.tailLiveParticleIndex >= pEmitterData->particleCount)
-					{
-						emitter.tailLiveParticleIndex = 0;
-					}
-					if (emitter.liveParticleCount > pEmitterData->particleCount)
-					{
-						// if the tail has gone past head, move the head
-						++emitter.headLiveParticleIndex;
-						--emitter.liveParticleCount;
-						if (emitter.headLiveParticleIndex >= pEmitterData->particleCount)
-						{
-							emitter.headLiveParticleIndex = 0;
-						}
-					}
+					emitter.nextEmitFrame += pEmitterData->delayFrames;
 				}
 			}
 
 			frameStep -= frames;
 		} while (frameStep > 0.0f);
+
+		// cull old particles
+		CullParticles(emitterIndex);
 	}
 }
 
@@ -309,9 +251,10 @@ void FieldInstance::UpdateParticles()
 			for (u32 propertyIndex = 0; propertyIndex < PARTICLE_PROPERTY_TYPE_COUNT; ++propertyIndex)
 			{
 				const ParticleParameterData& particleParameterData = pEmitterData->aParticleParameterData[propertyIndex];
-				f32 propertyFrames = foun::Clamp(lifeFrames, particleParameterData.frameRange.min, particleParameterData.frameRange.max) - particleParameterData.frameRange.min;
-				aParticleProperties[propertyIndex] = particleParameterData.initial + (particleParameterData.velocity * propertyFrames) +
-					(0.5f * particleParameterData.acceleration * propertyFrames * propertyFrames);
+				f32 velocityFrames = foun::Clamp(lifeFrames, particleParameterData.velocityFrameRange.min, particleParameterData.velocityFrameRange.max) - particleParameterData.velocityFrameRange.min;
+				f32 accelerationFrames = foun::Clamp(lifeFrames, particleParameterData.accelerationFrameRange.min, particleParameterData.accelerationFrameRange.max) - particleParameterData.accelerationFrameRange.min;
+				aParticleProperties[propertyIndex] = particleParameterData.initial + (particleParameterData.velocity * velocityFrames) +
+					(0.5f * particleParameterData.acceleration * accelerationFrames * accelerationFrames);
 				aParticleProperties[propertyIndex] *= particle.aMultipliers[propertyIndex];
 			}
 			
@@ -322,8 +265,9 @@ void FieldInstance::UpdateParticles()
 				vertexPosition.x *= aParticleProperties[PARTICLE_PROPERTY_TYPE_SIZE];
 				vertexPosition.y *= aParticleProperties[PARTICLE_PROPERTY_TYPE_SIZE];
 				
+				f32 rotation = particle.birthRotation + aParticleProperties[PARTICLE_PROPERTY_TYPE_ROTATION];
 				foun::Matrix22 rotationMatrix;
-				foun::Matrix22Rotate(rotationMatrix, aParticleProperties[PARTICLE_PROPERTY_TYPE_ROTATION]);
+				foun::Matrix22Rotate(rotationMatrix, rotation);
 				foun::TransformVector2(vertexPosition, vertexPosition, rotationMatrix);
 				
 				vertexPosition.x += particle.birthX;
@@ -331,9 +275,16 @@ void FieldInstance::UpdateParticles()
 				
 				vertexPosition.x += (pEmitterData->globalDirX * aParticleProperties[PARTICLE_PROPERTY_TYPE_GLOBAL_DISTANCE]);
 				vertexPosition.y += (pEmitterData->globalDirY * aParticleProperties[PARTICLE_PROPERTY_TYPE_GLOBAL_DISTANCE]);
+
+				f32 expelAngle = particle.expelAngle;
+				expelAngle += aParticleProperties[PARTICLE_PROPERTY_TYPE_EXPEL_ANGLE];
+
+				foun::Vector2 expelDirection;
+				expelDirection.x = lct::foun::Cos(lct::foun::RadiansFromRotations(expelAngle));
+				expelDirection.y = lct::foun::Sin(lct::foun::RadiansFromRotations(expelAngle));
 				
-				vertexPosition.x += (particle.expelDirX * aParticleProperties[PARTICLE_PROPERTY_TYPE_EXPEL_DISTANCE]);
-				vertexPosition.y += (particle.expelDirY * aParticleProperties[PARTICLE_PROPERTY_TYPE_EXPEL_DISTANCE]);
+				vertexPosition.x += (expelDirection.x * aParticleProperties[PARTICLE_PROPERTY_TYPE_EXPEL_DISTANCE]);
+				vertexPosition.y += (expelDirection.y * aParticleProperties[PARTICLE_PROPERTY_TYPE_EXPEL_DISTANCE]);
 				
 				VertexData* pVertexData = pBaseVertexData + vertexIndex;
 				
@@ -382,6 +333,167 @@ void FieldInstance::FillIndexSetupParameters(grap::IndexSetupParameters& indexSe
 	indexSetupParameters.pIndexBinary = m_pIndexData;
 	indexSetupParameters.indexBinarySize = indexDataSize;
 	indexSetupParameters.dynamic = true;
+}
+
+void FieldInstance::SpawnParticles(u32 emitterIndex)
+{
+	Emitter& emitter = m_pEmitters[emitterIndex];
+	const EmitterData* pEmitterData = m_pFieldAsset->pEmitters[emitterIndex].pEmitterData;
+
+	bool reverseOrder = pEmitterData->flags & (1 << EMITTER_FLAG_TYPE_REVERSE_ORDER);
+
+	s32 headLiveParticleIndex = emitter.headLiveParticleIndex;
+	s32 tailLiveParticleIndex = emitter.tailLiveParticleIndex;
+	u32 liveParticleCount = emitter.liveParticleCount;
+
+	for (u32 emitIndex = 0; emitIndex < pEmitterData->emitCount; ++emitIndex)
+	{
+		u32 particleIndex = emitter.baseParticleIndex + tailLiveParticleIndex;
+		Particle& particle = m_pParticles[particleIndex];
+		particle.birthFrame = emitter.nextEmitFrame;
+		foun::Vector2 birthPosition;
+		birthPosition.x = pEmitterData->x;
+		birthPosition.y = pEmitterData->y;
+		f32 birthAngle = 0.0f;
+		switch (pEmitterData->shapeType)
+		{
+		case lct::part::EMITTER_SHAPE_TYPE_CIRCLE:
+		{
+			birthAngle = emitIndex * (1.0f / pEmitterData->emitCount);
+			f32 radius = pEmitterData->shapeSpanA / 2.0f;
+			birthPosition.x += lct::foun::Cos(lct::foun::RadiansFromRotations(birthAngle)) * radius;
+			birthPosition.y += lct::foun::Sin(lct::foun::RadiansFromRotations(birthAngle)) * radius;
+		}
+		break;
+		}
+
+		particle.birthX = birthPosition.x;
+		particle.birthY = birthPosition.y;
+
+		bool rotateOutward = pEmitterData->flags & (1 << lct::part::EMITTER_FLAG_TYPE_ROTATE_OUTWARD);
+		if (rotateOutward)
+		{
+			particle.birthRotation = birthAngle;
+		}
+		else
+		{
+			particle.birthRotation = 0.0f;
+		}
+
+		f32 expelAngleDifference = pEmitterData->expelAngleRange.max - pEmitterData->expelAngleRange.min;
+		f32 expelAngle = pEmitterData->expelAngleRange.min + (m_randomGenerator.GenerateFloat() * expelAngleDifference);
+		bool expelOutward = pEmitterData->flags & (1 << lct::part::EMITTER_FLAG_TYPE_EXPEL_OUTWARD);
+		if (expelOutward)
+		{
+			expelAngle += birthAngle;
+		}
+
+		particle.expelAngle = expelAngle;
+
+		for (u32 propertyIndex = 0; propertyIndex < PARTICLE_PROPERTY_TYPE_COUNT; ++propertyIndex)
+		{
+			const Range& multiplierRange = pEmitterData->aParticleMultiplierRanges[propertyIndex];
+			particle.aMultipliers[propertyIndex] = m_randomGenerator.GenerateFloat(multiplierRange.min, multiplierRange.max);
+		}
+
+		if (reverseOrder)
+		{
+			// set the new tail index
+			--tailLiveParticleIndex;
+			++liveParticleCount;
+			if (tailLiveParticleIndex < 0)
+			{
+				tailLiveParticleIndex = pEmitterData->particleCount - 1;
+			}
+			if (liveParticleCount > pEmitterData->particleCount)
+			{
+				// if the tail has gone past head, move the head
+				--headLiveParticleIndex;
+				--liveParticleCount;
+				if (headLiveParticleIndex < 0)
+				{
+					headLiveParticleIndex = pEmitterData->particleCount - 1;
+				}
+			}
+		}
+		else
+		{
+			// set the new tail index
+			++tailLiveParticleIndex;
+			++liveParticleCount;
+			if (tailLiveParticleIndex >= pEmitterData->particleCount)
+			{
+				tailLiveParticleIndex = 0;
+			}
+			if (liveParticleCount > pEmitterData->particleCount)
+			{
+				// if the tail has gone past head, move the head
+				++headLiveParticleIndex;
+				--liveParticleCount;
+				if (headLiveParticleIndex >= pEmitterData->particleCount)
+				{
+					headLiveParticleIndex = 0;
+				}
+			}
+		}
+	}
+
+	emitter.headLiveParticleIndex = headLiveParticleIndex;
+	emitter.tailLiveParticleIndex = tailLiveParticleIndex;
+	emitter.liveParticleCount = liveParticleCount;
+}
+
+void FieldInstance::CullParticles(u32 emitterIndex)
+{
+	Emitter& emitter = m_pEmitters[emitterIndex];
+	const EmitterData* pEmitterData = m_pFieldAsset->pEmitters[emitterIndex].pEmitterData;
+
+	bool reverseOrder = pEmitterData->flags & (1 << EMITTER_FLAG_TYPE_REVERSE_ORDER);
+
+	s32 headLiveParticleIndex = emitter.headLiveParticleIndex;
+	s32 tailLiveParticleIndex = emitter.tailLiveParticleIndex;
+	u32 liveParticleCount = emitter.liveParticleCount;
+
+	f32 deadFrame = emitter.frame - pEmitterData->particleFrameLifetime;
+	while (liveParticleCount > 0)
+	{
+		u32 particleIndex = emitter.baseParticleIndex + headLiveParticleIndex;
+		Particle& particle = m_pParticles[particleIndex];
+
+		if (particle.birthFrame > deadFrame)
+		{
+			// particles from here on are alive
+			break;
+		}
+		else
+		{
+			// particle is dead
+			if (reverseOrder)
+			{
+				// set the new head index
+				--headLiveParticleIndex;
+				--liveParticleCount;
+				if (headLiveParticleIndex < 0)
+				{
+					headLiveParticleIndex = pEmitterData->particleCount - 1;
+				}
+			}
+			else
+			{
+				// set the new head index
+				++headLiveParticleIndex;
+				--liveParticleCount;
+				if (headLiveParticleIndex >= pEmitterData->particleCount)
+				{
+					headLiveParticleIndex = 0;
+				}
+			}
+		}
+	}
+
+	emitter.headLiveParticleIndex = headLiveParticleIndex;
+	emitter.tailLiveParticleIndex = tailLiveParticleIndex;
+	emitter.liveParticleCount = liveParticleCount;
 }
 
 //namespace part
