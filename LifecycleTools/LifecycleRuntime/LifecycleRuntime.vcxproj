@@ -160,6 +160,7 @@
     <ClInclude Include="include\test\test_menuShared.h" />
     <ClInclude Include="include\test\test_pageMenuItem.h" />
     <ClInclude Include="include\test\test_stringArrayMenuItem.h" />
+    <ClInclude Include="include\util\util_binaryHelper.h" />
     <ClInclude Include="include\util\util_binaryReader.h" />
     <ClInclude Include="include\util\util_indexMap.h" />
   </ItemGroup>

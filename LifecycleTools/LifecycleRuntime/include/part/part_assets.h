@@ -20,6 +20,8 @@ struct TextureTableAsset;
 namespace part
 {
 
+struct ParticleControlData;
+struct ParticleUniformData;
 struct EmitterData;
 struct FieldData;
 
@@ -33,8 +35,10 @@ struct FieldAsset : public pack::Asset
 	struct Emitter
 	{
 		EmitterData* pEmitterData;
+		ParticleControlData* paParticleControlData;
+		ParticleUniformData* pParticleUniformData;
 	};
-	Emitter* pEmitters;
+	Emitter* paEmitters;
 };
 
 //namespace part

@@ -88,7 +88,9 @@ protected:
 		f32 birthY;
 		f32 birthRotation;
 		f32 expelAngle;
-		f32 aMultipliers[PARTICLE_PROPERTY_TYPE_COUNT];
+		f32 expelMultiplier;
+		f32 scaleMultiplier;
+		f32 rotationMultiplier;
 	};
 	Particle* m_pParticles;
 	u32 m_particleCapacity;

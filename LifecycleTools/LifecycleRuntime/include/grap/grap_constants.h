@@ -17,6 +17,13 @@ enum IndexType
 	INDEX_TYPE_COUNT
 };
 
+enum BlendType
+{
+	BLEND_TYPE_NONE = 0,
+	BLEND_TYPE_ADDITIVE,
+	BLEND_TYPE_MULTIPLICATIVE
+};
+
 //namespace grap
 }
 //namespace lct

@@ -614,6 +614,9 @@
     <ClInclude Include="include\foun\foun_randomGenerator.h">
       <Filter>include\foun</Filter>
     </ClInclude>
+    <ClInclude Include="include\util\util_binaryHelper.h">
+      <Filter>include\util</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\file\file_accessor.cpp">

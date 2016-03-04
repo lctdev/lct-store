@@ -35,7 +35,6 @@ public:
 	void AcquireResources();
 	void ReleaseResources();
 
-	void ActivateRenderState();
 	void ActivateShader();
 	void ActivateFieldInstance(FieldInstance& fieldInstance);
 	void DeactivateFieldInstance(FieldInstance& fieldInstance);

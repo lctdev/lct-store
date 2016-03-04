@@ -94,7 +94,7 @@ void DrawContext::ReleaseResources()
 void DrawContext::ActivateRenderState()
 {
 	grap::RenderStateParameters renderStateParameters;
-	renderStateParameters.enableBlend = true;
+	renderStateParameters.blendType = grap::BLEND_TYPE_MULTIPLICATIVE;
 	m_pGraphicsDevice->ActivateRenderState(renderStateParameters);
 }
 

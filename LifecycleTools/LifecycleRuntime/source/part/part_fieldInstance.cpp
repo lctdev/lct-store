@@ -8,6 +8,8 @@
 #include <grap/grap_resources.h>
 #include <grap/grap_parameters.h>
 
+#include <util/util_binaryHelper.h>
+
 #include <foun/foun_math.h>
 #include <foun/foun_debug.h>
 
@@ -143,7 +145,7 @@ void FieldInstance::BindFieldAsset(const FieldAsset* pFieldAsset)
 	u32 assetParticleCount = 0;
 	for (u32 assetEmitterIndex = 0; assetEmitterIndex < pFieldData->emitterCount; ++assetEmitterIndex)
 	{
-		const FieldAsset::Emitter& assetEmitter = pFieldAsset->pEmitters[assetEmitterIndex];
+		const FieldAsset::Emitter& assetEmitter = pFieldAsset->paEmitters[assetEmitterIndex];
 		const EmitterData* pEmitterData = assetEmitter.pEmitterData;
 		assetParticleCount += pEmitterData->particleCount;
 	}
@@ -161,7 +163,7 @@ void FieldInstance::BindFieldAsset(const FieldAsset* pFieldAsset)
 	for (u32 emitterIndex = 0; emitterIndex < m_emitterCount; ++emitterIndex)
 	{
 		Emitter& emitter = m_pEmitters[emitterIndex];
-		const EmitterData* pEmitterData = m_pFieldAsset->pEmitters[emitterIndex].pEmitterData;
+		const EmitterData* pEmitterData = m_pFieldAsset->paEmitters[emitterIndex].pEmitterData;
 		emitter.baseParticleIndex = emitterParticleIndex;
 		
 		emitterParticleIndex += pEmitterData->particleCount;
@@ -182,7 +184,7 @@ void FieldInstance::ResetEmitters()
 	for (u32 emitterIndex = 0; emitterIndex < m_emitterCount; ++emitterIndex)
 	{
 		Emitter& emitter = m_pEmitters[emitterIndex];
-		const EmitterData* pEmitterData = m_pFieldAsset->pEmitters[emitterIndex].pEmitterData;
+		const EmitterData* pEmitterData = m_pFieldAsset->paEmitters[emitterIndex].pEmitterData;
 		
 		emitter.frame = 0.0f;
 		emitter.nextEmitFrame = 0.0f;
@@ -201,12 +203,13 @@ void FieldInstance::UpdateEmitters(f32 frameStep)
 	for (u32 emitterIndex = 0; emitterIndex < m_emitterCount; ++emitterIndex)
 	{
 		Emitter& emitter = m_pEmitters[emitterIndex];
-		const EmitterData* pEmitterData = m_pFieldAsset->pEmitters[emitterIndex].pEmitterData;
+		const EmitterData* pEmitterData = m_pFieldAsset->paEmitters[emitterIndex].pEmitterData;
 			
 		// spawn new particles
+		f32 remainingFrames = frameStep;
 		do
 		{
-			f32 frames = frameStep > pEmitterData->delayFrames ? pEmitterData->delayFrames : frameStep;
+			f32 frames = remainingFrames > pEmitterData->delayFrames ? pEmitterData->delayFrames : remainingFrames;
 
 			emitter.frame += frames;
 			f32 frameDuration = pEmitterData->frameDuration;
@@ -220,8 +223,8 @@ void FieldInstance::UpdateEmitters(f32 frameStep)
 				}
 			}
 
-			frameStep -= frames;
-		} while (frameStep > 0.0f);
+			remainingFrames -= frames;
+		} while (remainingFrames > 0.0f);
 
 		// cull old particles
 		CullParticles(emitterIndex);
@@ -240,7 +243,8 @@ void FieldInstance::UpdateParticles()
 	for (u32 emitterIndex = 0; emitterIndex < m_emitterCount; ++emitterIndex)
 	{
 		Emitter& emitter = m_pEmitters[emitterIndex];
-		const EmitterData* pEmitterData = m_pFieldAsset->pEmitters[emitterIndex].pEmitterData;
+		const EmitterData* pEmitterData = m_pFieldAsset->paEmitters[emitterIndex].pEmitterData;
+		const ParticleUniformData* pParticleUniformData = m_pFieldAsset->paEmitters[emitterIndex].pParticleUniformData;
 		
 		for (u32 emitterParticleIndex = 0; emitterParticleIndex < pEmitterData->particleCount; ++emitterParticleIndex)
 		{
@@ -250,22 +254,37 @@ void FieldInstance::UpdateParticles()
 			f32 aParticleProperties[PARTICLE_PROPERTY_TYPE_COUNT];
 			for (u32 propertyIndex = 0; propertyIndex < PARTICLE_PROPERTY_TYPE_COUNT; ++propertyIndex)
 			{
-				const ParticleParameterData& particleParameterData = pEmitterData->aParticleParameterData[propertyIndex];
-				f32 velocityFrames = foun::Clamp(lifeFrames, particleParameterData.velocityFrameRange.min, particleParameterData.velocityFrameRange.max) - particleParameterData.velocityFrameRange.min;
-				f32 accelerationFrames = foun::Clamp(lifeFrames, particleParameterData.accelerationFrameRange.min, particleParameterData.accelerationFrameRange.max) - particleParameterData.accelerationFrameRange.min;
-				aParticleProperties[propertyIndex] = particleParameterData.initial + (particleParameterData.velocity * velocityFrames) +
-					(0.5f * particleParameterData.acceleration * accelerationFrames * accelerationFrames);
-				aParticleProperties[propertyIndex] *= particle.aMultipliers[propertyIndex];
+				f32 initial = pParticleUniformData->aInitial[propertyIndex];
+				f32 velocity = pParticleUniformData->aVelocity[propertyIndex];
+				f32 acceleration = pParticleUniformData->aAcceleration[propertyIndex];
+				f32 velocityFrameMin = pParticleUniformData->aVelocityFrameMin[propertyIndex];
+				f32 velocityFrameMax = pParticleUniformData->aVelocityFrameMax[propertyIndex];
+				f32 accelerationFrameMin = pParticleUniformData->aAccelerationFrameMin[propertyIndex];
+				f32 accelerationFrameMax = pParticleUniformData->aAccelerationFrameMax[propertyIndex];
+
+				f32 velocityFrames = foun::Clamp(lifeFrames, velocityFrameMin, velocityFrameMax) - velocityFrameMin;
+				f32 accelerationFrames = foun::Clamp(lifeFrames, accelerationFrameMin, accelerationFrameMax) - accelerationFrameMin;
+				f32 particleProperty = initial + (velocity * velocityFrames) + (0.5f * acceleration * accelerationFrames * accelerationFrames);
+
+				aParticleProperties[propertyIndex] = particleProperty;
 			}
 			
 			VertexData* pBaseVertexData = m_pVertexData + (particleIndex * QUAD_VERTEX_COUNT);
 			for (u32 vertexIndex = 0; vertexIndex < QUAD_VERTEX_COUNT; ++vertexIndex)
 			{
 				foun::Vector2 vertexPosition = QUAD_VERTEX_POSITIONS[vertexIndex];
-				vertexPosition.x *= aParticleProperties[PARTICLE_PROPERTY_TYPE_SIZE];
-				vertexPosition.y *= aParticleProperties[PARTICLE_PROPERTY_TYPE_SIZE];
+				f32 size = aParticleProperties[PARTICLE_PROPERTY_TYPE_SIZE];
+				f32 scaleXFlux = lct::foun::Cos(lct::foun::RadiansFromRotations(aParticleProperties[PARTICLE_PROPERTY_TYPE_SCALE_X_FLUX]));
+				f32 scaleXFluxMapped = pEmitterData->scaleFluxRange.min + (((scaleXFlux * 0.5f) + 0.5f) * (pEmitterData->scaleFluxRange.max - pEmitterData->scaleFluxRange.min));
+				f32 scaleX = aParticleProperties[PARTICLE_PROPERTY_TYPE_SCALE_X] * scaleXFluxMapped;
+				f32 scaleYFlux = lct::foun::Cos(lct::foun::RadiansFromRotations(aParticleProperties[PARTICLE_PROPERTY_TYPE_SCALE_Y_FLUX]));
+				f32 scaleYFluxMapped = pEmitterData->scaleFluxRange.min + (((scaleYFlux * 0.5f) + 0.5f) * (pEmitterData->scaleFluxRange.max - pEmitterData->scaleFluxRange.min));
+				f32 scaleY = aParticleProperties[PARTICLE_PROPERTY_TYPE_SCALE_Y] * scaleYFluxMapped;
+				f32 baseMult = size * particle.scaleMultiplier;
+				vertexPosition.x *= baseMult * scaleX;
+				vertexPosition.y *= baseMult * scaleY;
 				
-				f32 rotation = particle.birthRotation + aParticleProperties[PARTICLE_PROPERTY_TYPE_ROTATION];
+				f32 rotation = particle.birthRotation + (aParticleProperties[PARTICLE_PROPERTY_TYPE_ROTATION] * particle.rotationMultiplier);
 				foun::Matrix22 rotationMatrix;
 				foun::Matrix22Rotate(rotationMatrix, rotation);
 				foun::TransformVector2(vertexPosition, vertexPosition, rotationMatrix);
@@ -273,8 +292,8 @@ void FieldInstance::UpdateParticles()
 				vertexPosition.x += particle.birthX;
 				vertexPosition.y += particle.birthY;
 				
-				vertexPosition.x += (pEmitterData->globalDirX * aParticleProperties[PARTICLE_PROPERTY_TYPE_GLOBAL_DISTANCE]);
-				vertexPosition.y += (pEmitterData->globalDirY * aParticleProperties[PARTICLE_PROPERTY_TYPE_GLOBAL_DISTANCE]);
+				vertexPosition.x += (pParticleUniformData->globalDirX * aParticleProperties[PARTICLE_PROPERTY_TYPE_GLOBAL_DISTANCE]);
+				vertexPosition.y += (pParticleUniformData->globalDirY * aParticleProperties[PARTICLE_PROPERTY_TYPE_GLOBAL_DISTANCE]);
 
 				f32 expelAngle = particle.expelAngle;
 				expelAngle += aParticleProperties[PARTICLE_PROPERTY_TYPE_EXPEL_ANGLE];
@@ -283,8 +302,17 @@ void FieldInstance::UpdateParticles()
 				expelDirection.x = lct::foun::Cos(lct::foun::RadiansFromRotations(expelAngle));
 				expelDirection.y = lct::foun::Sin(lct::foun::RadiansFromRotations(expelAngle));
 				
-				vertexPosition.x += (expelDirection.x * aParticleProperties[PARTICLE_PROPERTY_TYPE_EXPEL_DISTANCE]);
-				vertexPosition.y += (expelDirection.y * aParticleProperties[PARTICLE_PROPERTY_TYPE_EXPEL_DISTANCE]);
+				vertexPosition.x += (expelDirection.x * aParticleProperties[PARTICLE_PROPERTY_TYPE_EXPEL_DISTANCE] * particle.expelMultiplier);
+				vertexPosition.y += (expelDirection.y * aParticleProperties[PARTICLE_PROPERTY_TYPE_EXPEL_DISTANCE] * particle.expelMultiplier);
+
+				foun::Vector2 tangentDirection;
+				tangentDirection.x = expelDirection.y;
+				tangentDirection.y = -expelDirection.x;
+
+				f32 tangentFlux = lct::foun::Cos(lct::foun::RadiansFromRotations(aParticleProperties[PARTICLE_PROPERTY_TYPE_TANGENT_FLUX]));
+
+				vertexPosition.x += (tangentDirection.x * aParticleProperties[PARTICLE_PROPERTY_TYPE_TANGENT_DISTANCE] * tangentFlux);
+				vertexPosition.y += (tangentDirection.y * aParticleProperties[PARTICLE_PROPERTY_TYPE_TANGENT_DISTANCE] * tangentFlux);
 				
 				VertexData* pVertexData = pBaseVertexData + vertexIndex;
 				
@@ -338,9 +366,10 @@ void FieldInstance::FillIndexSetupParameters(grap::IndexSetupParameters& indexSe
 void FieldInstance::SpawnParticles(u32 emitterIndex)
 {
 	Emitter& emitter = m_pEmitters[emitterIndex];
-	const EmitterData* pEmitterData = m_pFieldAsset->pEmitters[emitterIndex].pEmitterData;
+	const EmitterData* pEmitterData = m_pFieldAsset->paEmitters[emitterIndex].pEmitterData;
+	const ParticleControlData* paParticleControlData = m_pFieldAsset->paEmitters[emitterIndex].paParticleControlData;
 
-	bool reverseOrder = pEmitterData->flags & (1 << EMITTER_FLAG_TYPE_REVERSE_ORDER);
+	bool reverseOrder = util::TestFlag(pEmitterData->flags, EMITTER_FLAG_TYPE_REVERSE_ORDER);
 
 	s32 headLiveParticleIndex = emitter.headLiveParticleIndex;
 	s32 tailLiveParticleIndex = emitter.tailLiveParticleIndex;
@@ -359,10 +388,25 @@ void FieldInstance::SpawnParticles(u32 emitterIndex)
 		{
 		case lct::part::EMITTER_SHAPE_TYPE_CIRCLE:
 		{
-			birthAngle = emitIndex * (1.0f / pEmitterData->emitCount);
-			f32 radius = pEmitterData->shapeSpanA / 2.0f;
-			birthPosition.x += lct::foun::Cos(lct::foun::RadiansFromRotations(birthAngle)) * radius;
-			birthPosition.y += lct::foun::Sin(lct::foun::RadiansFromRotations(birthAngle)) * radius;
+			switch (pEmitterData->arrangeType)
+			{
+			case lct::part::EMITTER_ARRANGE_TYPE_EVEN_EDGE:
+			{
+				birthAngle = emitIndex * (1.0f / pEmitterData->emitCount);
+				f32 radius = pEmitterData->shapeSpanA / 2.0f;
+				birthPosition.x += lct::foun::Cos(lct::foun::RadiansFromRotations(birthAngle)) * radius;
+				birthPosition.y += lct::foun::Sin(lct::foun::RadiansFromRotations(birthAngle)) * radius;
+			}
+			break;
+
+			case lct::part::EMITTER_ARRANGE_TYPE_RANDOM_FILL:
+			{
+				birthAngle = m_randomGenerator.GenerateFloat();
+				f32 radius = m_randomGenerator.GenerateFloat() * (pEmitterData->shapeSpanA / 2.0f);
+				birthPosition.x += lct::foun::Cos(lct::foun::RadiansFromRotations(birthAngle)) * radius;
+				birthPosition.y += lct::foun::Sin(lct::foun::RadiansFromRotations(birthAngle)) * radius;
+			}
+			}
 		}
 		break;
 		}
@@ -370,7 +414,7 @@ void FieldInstance::SpawnParticles(u32 emitterIndex)
 		particle.birthX = birthPosition.x;
 		particle.birthY = birthPosition.y;
 
-		bool rotateOutward = pEmitterData->flags & (1 << lct::part::EMITTER_FLAG_TYPE_ROTATE_OUTWARD);
+		bool rotateOutward = util::TestFlag(pEmitterData->flags, EMITTER_FLAG_TYPE_ROTATE_OUTWARD);
 		if (rotateOutward)
 		{
 			particle.birthRotation = birthAngle;
@@ -380,9 +424,8 @@ void FieldInstance::SpawnParticles(u32 emitterIndex)
 			particle.birthRotation = 0.0f;
 		}
 
-		f32 expelAngleDifference = pEmitterData->expelAngleRange.max - pEmitterData->expelAngleRange.min;
-		f32 expelAngle = pEmitterData->expelAngleRange.min + (m_randomGenerator.GenerateFloat() * expelAngleDifference);
-		bool expelOutward = pEmitterData->flags & (1 << lct::part::EMITTER_FLAG_TYPE_EXPEL_OUTWARD);
+		f32 expelAngle = m_randomGenerator.GenerateFloat(pEmitterData->expelAngleRange.min, pEmitterData->expelAngleRange.max);
+		bool expelOutward = util::TestFlag(pEmitterData->flags, EMITTER_FLAG_TYPE_EXPEL_OUTWARD);
 		if (expelOutward)
 		{
 			expelAngle += birthAngle;
@@ -390,11 +433,9 @@ void FieldInstance::SpawnParticles(u32 emitterIndex)
 
 		particle.expelAngle = expelAngle;
 
-		for (u32 propertyIndex = 0; propertyIndex < PARTICLE_PROPERTY_TYPE_COUNT; ++propertyIndex)
-		{
-			const Range& multiplierRange = pEmitterData->aParticleMultiplierRanges[propertyIndex];
-			particle.aMultipliers[propertyIndex] = m_randomGenerator.GenerateFloat(multiplierRange.min, multiplierRange.max);
-		}
+		particle.expelMultiplier = m_randomGenerator.GenerateFloat(pEmitterData->expelMultiplierRange.min, pEmitterData->expelMultiplierRange.max);
+		particle.scaleMultiplier = m_randomGenerator.GenerateFloat(pEmitterData->scaleMultiplierRange.min, pEmitterData->scaleMultiplierRange.max);
+		particle.rotationMultiplier = m_randomGenerator.GenerateFloat(pEmitterData->rotationMultiplierRange.min, pEmitterData->rotationMultiplierRange.max);
 
 		if (reverseOrder)
 		{
@@ -446,9 +487,9 @@ void FieldInstance::SpawnParticles(u32 emitterIndex)
 void FieldInstance::CullParticles(u32 emitterIndex)
 {
 	Emitter& emitter = m_pEmitters[emitterIndex];
-	const EmitterData* pEmitterData = m_pFieldAsset->pEmitters[emitterIndex].pEmitterData;
+	const EmitterData* pEmitterData = m_pFieldAsset->paEmitters[emitterIndex].pEmitterData;
 
-	bool reverseOrder = pEmitterData->flags & (1 << EMITTER_FLAG_TYPE_REVERSE_ORDER);
+	bool reverseOrder = util::TestFlag(pEmitterData->flags, EMITTER_FLAG_TYPE_REVERSE_ORDER);
 
 	s32 headLiveParticleIndex = emitter.headLiveParticleIndex;
 	s32 tailLiveParticleIndex = emitter.tailLiveParticleIndex;

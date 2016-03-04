@@ -38,13 +38,27 @@ struct Color
 	f32 b;
 };
 
-struct ParticleParameterData
+struct ParticleControlData
 {
+	u32 propetyType;
 	f32 initial;
 	f32 velocity;
 	f32 acceleration;
 	Range velocityFrameRange;
 	Range accelerationFrameRange;
+};
+
+struct ParticleUniformData
+{
+	f32 aInitial[PARTICLE_PROPERTY_TYPE_COUNT];
+	f32 aVelocity[PARTICLE_PROPERTY_TYPE_COUNT];
+	f32 aAcceleration[PARTICLE_PROPERTY_TYPE_COUNT];
+	f32 aVelocityFrameMin[PARTICLE_PROPERTY_TYPE_COUNT];
+	f32 aVelocityFrameMax[PARTICLE_PROPERTY_TYPE_COUNT];
+	f32 aAccelerationFrameMin[PARTICLE_PROPERTY_TYPE_COUNT];
+	f32 aAccelerationFrameMax[PARTICLE_PROPERTY_TYPE_COUNT];
+	f32 globalDirX;
+	f32 globalDirY;
 };
 
 struct EmitterData
@@ -53,9 +67,12 @@ struct EmitterData
 	f32 y;	
 	f32 shapeSpanA;
 	f32 shapeSpanB;
-	f32 globalDirX;
-	f32 globalDirY;
+	f32 globalAngle;
 	Range expelAngleRange;
+	Range expelMultiplierRange;
+	Range scaleMultiplierRange;
+	Range rotationMultiplierRange;
+	Range scaleFluxRange;
 	Color color0;
 	Color color1;
 	f32 delayFrames;
@@ -66,10 +83,7 @@ struct EmitterData
 	u8 shapeType;
 	u8 arrangeType;
 	u8 flags;
-	u8 padding;
-	
-	ParticleParameterData aParticleParameterData[PARTICLE_PROPERTY_TYPE_COUNT];
-	Range aParticleMultiplierRanges[PARTICLE_PROPERTY_TYPE_COUNT];
+	u8 particleControlCount;
 };
 
 struct FieldData

@@ -11,6 +11,7 @@
 #include <grap/grap_parameters.h>
 
 #include <util/util_indexMap.h>
+#include <util/util_binaryHelper.h>
 
 #include <foun/foun_debug.h>
 #include <foun/foun_string.h>
@@ -75,13 +76,6 @@ void DrawContext::ReleaseResources()
 	m_pGraphicsDevice->ReleaseShaderResources(shaderSetupParameters);
 }
 
-void DrawContext::ActivateRenderState()
-{
-	grap::RenderStateParameters renderStateParameters;
-	renderStateParameters.enableBlend = true;
-	m_pGraphicsDevice->ActivateRenderState(renderStateParameters);
-}
-
 void DrawContext::ActivateShader()
 {
 	m_pGraphicsDevice->ActivateShader(m_pShaderResource);
@@ -123,11 +117,16 @@ void DrawContext::DrawField(FieldInstance& fieldInstance)
 	for (u32 emitterIndex = 0; emitterIndex < fieldInstance.m_emitterCount; ++emitterIndex)
 	{
 		FieldInstance::Emitter& emitter = fieldInstance.m_pEmitters[emitterIndex];
-		const EmitterData* pEmitterData = fieldInstance.m_pFieldAsset->pEmitters[emitterIndex].pEmitterData;
+		const EmitterData* pEmitterData = fieldInstance.m_pFieldAsset->paEmitters[emitterIndex].pEmitterData;
 
 		if (emitter.liveParticleCount > 0)
 		{
-			bool reverseOrder = pEmitterData->flags & (1 << EMITTER_FLAG_TYPE_REVERSE_ORDER);
+			grap::RenderStateParameters renderStateParameters;						
+			bool additiveBlend = util::TestFlag(pEmitterData->flags, EMITTER_FLAG_TYPE_ADDITIVE_BLEND);
+			renderStateParameters.blendType = additiveBlend ? grap::BLEND_TYPE_ADDITIVE : grap::BLEND_TYPE_MULTIPLICATIVE;
+			m_pGraphicsDevice->ActivateRenderState(renderStateParameters);
+
+			bool reverseOrder = util::TestFlag(pEmitterData->flags, EMITTER_FLAG_TYPE_REVERSE_ORDER);
 			if (reverseOrder)
 			{
 				if (emitter.tailLiveParticleIndex < emitter.headLiveParticleIndex)
@@ -180,9 +179,6 @@ void DrawContext::DrawField(FieldInstance& fieldInstance)
 
 		particleIndex += pEmitterData->particleCount;
 	}
-	
-	//u32 indexCount = fieldInstance.m_particleCount * QUAD_INDEX_COUNT;
-	//m_pGraphicsDevice->Draw(indexCount, 0, grap::INDEX_TYPE_U16);
 }
 
 /*

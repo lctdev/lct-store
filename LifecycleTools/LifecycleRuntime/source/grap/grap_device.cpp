@@ -294,14 +294,19 @@ void Device::ClearFrameBuffer(const lct::foun::FloatColor4& clearColor)
 
 void Device::ActivateRenderState(RenderStateParameters& renderStateParameters)
 {
-	if (renderStateParameters.enableBlend)
+	switch (renderStateParameters.blendType)
 	{
+	case BLEND_TYPE_NONE:
+		glDisable(GL_BLEND);
+		break;
+	case BLEND_TYPE_ADDITIVE:
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+		break;
+	case BLEND_TYPE_MULTIPLICATIVE:
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	}
-	else
-	{
-		glDisable(GL_BLEND);
+		break;
 	}
 
 	LCT_TRACE_GL_ERROR();

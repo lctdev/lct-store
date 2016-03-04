@@ -2,6 +2,7 @@
 #define GRAP_PARAMETERS_H
 
 #include <foun/foun_primitives.h>
+#include <grap/grap_constants.h>
 
 namespace lct
 {
@@ -64,7 +65,7 @@ struct TextureBindParameters
 
 struct RenderStateParameters
 {
-	bool enableBlend;
+	BlendType blendType;
 };
 
 //namespace grap
