@@ -1,11 +1,11 @@
-package lct.pass;
+package lct.part;
 
 import java.util.Vector;
 
 import lct.util.DataException;
 
 public class AssetProcessor implements lct.pack.AssetProcessor {
-	PassthroughConverter m_passthroughConverter = new PassthroughConverter();
+	XMLConverter m_xmlConverter = new XMLConverter();
 	BinaryConverter m_binaryConverter = new BinaryConverter();
 	
 	public AssetProcessor() {
@@ -21,14 +21,14 @@ public class AssetProcessor implements lct.pack.AssetProcessor {
 	
 	public void processAsset(String typeCode, String inputFilePath, String outputFilePath, boolean bigEndian) throws DataException {
 		switch (typeCode) {
-		case Constants.STRING_TYPE_CODE:
+		case Constants.FIELD_TYPE_CODE:
 		{
-			StringAsset stringAsset = m_passthroughConverter.loadString(inputFilePath);
-			if (stringAsset == null) {
-				throw new DataException("Error loading string file");
+			Field field = m_xmlConverter.loadField(inputFilePath);
+			if (field == null) {
+				throw new DataException("Error loading field file");
 			}
 			
-			m_binaryConverter.storeString(stringAsset, outputFilePath, bigEndian);
+			m_binaryConverter.storeField(field, outputFilePath, bigEndian);
 		}
 		break;
 		

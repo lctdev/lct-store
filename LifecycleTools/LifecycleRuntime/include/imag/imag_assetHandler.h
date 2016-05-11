@@ -27,6 +27,7 @@ namespace imag
 
 struct TextureAsset;
 struct TextureTableAsset;
+struct TextureAtlasAsset;
 struct TextureData;
 
 class AssetHandler : public pack::IAssetHandler
@@ -43,6 +44,7 @@ public:
 
 	TextureAsset* LoadTextureAsset(util::BinaryReader& binaryReader);
 	TextureTableAsset* LoadTextureTableAsset(util::BinaryReader& binaryReader);
+	TextureAtlasAsset* LoadTextureAtlasAsset(util::BinaryReader& binaryReader);
 
 	void AcquireAllAssetResources();
 	void ReleaseAllAssetResources();

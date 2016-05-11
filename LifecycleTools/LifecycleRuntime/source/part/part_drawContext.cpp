@@ -5,6 +5,8 @@
 #include <part/part_arrays.h>
 #include <part/part_assets.h>
 
+#include <imag/imag_assets.h>
+
 #include <grap/grap_device.h>
 #include <grap/grap_data.h>
 #include <grap/grap_resources.h>
@@ -85,6 +87,15 @@ void DrawContext::ActivateFieldInstance(FieldInstance& fieldInstance)
 {
 	grap::VertexResource* pVertexResource = fieldInstance.m_pVertexResources + fieldInstance.m_vertexResourceIndex;
 	m_pGraphicsDevice->ActivateVertex(pVertexResource);
+
+	imag::TextureAtlasAsset* pTextureAtlasAsset = fieldInstance.m_pFieldAsset->pTextureAtlasAsset;
+	const grap::UniformResource* pTextureUniformResource = m_pUniformResourceArray + UNIFORM_TEXTURE;
+
+	grap::TextureBindParameters textureBindParameters;
+	textureBindParameters.pTextureResource = pTextureAtlasAsset->pTextureResource;
+	textureBindParameters.pUniformResource = pTextureUniformResource;
+	textureBindParameters.textureUnitIndex = TEXTURE_UNIT_INDEX;
+	m_pGraphicsDevice->ActivateTexture(textureBindParameters);
 
 	m_pGraphicsDevice->ActivateIndex(fieldInstance.m_pIndexResource);
 }

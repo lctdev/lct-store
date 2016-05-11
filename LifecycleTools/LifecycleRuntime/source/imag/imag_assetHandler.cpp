@@ -68,6 +68,12 @@ bool AssetHandler::LoadAsset(pack::AssetHeader& assetHeader, util::BinaryReader&
 			m_pAssetContainer->AddAsset(pTextureTableAsset, pTextureTableAsset->pTextureTableData->name);
 			assetLoaded = true;
 		}
+		else if (assetHeader.typeCode.numeric == TEXTURE_ATLAS_TYPE_CODE.numeric)
+		{
+			TextureAtlasAsset* pTextureAtlasAsset = LoadTextureAtlasAsset(binaryReader);
+			m_pAssetContainer->AddAsset(pTextureAtlasAsset, pTextureAtlasAsset->pTextureAtlasData->name);
+			assetLoaded = true;
+		}
 	}
 	return assetLoaded;
 }
@@ -104,6 +110,37 @@ TextureTableAsset* AssetHandler::LoadTextureTableAsset(util::BinaryReader& binar
 	pTextureTableAsset->pTextureResourceArray = pTextureResourceArray;
 
 	return pTextureTableAsset;
+}
+
+TextureAtlasAsset* AssetHandler::LoadTextureAtlasAsset(util::BinaryReader& binaryReader)
+{
+	TextureAtlasData* pTextureAtlasData = binaryReader.ReadType<TextureAtlasData>();
+
+	void* pTextureBinary = binaryReader.Read(pTextureAtlasData->size);
+
+	TextureAtlasAsset::TextureRegion* paTextureRegions = m_pAllocator->AllocTypeArray<TextureAtlasAsset::TextureRegion>(pTextureAtlasData->regionCount);
+	lct::util::StringIndexMap* pTextureRegionIndexMap = m_pAllocator->AllocType<lct::util::StringIndexMap>();
+	for (u32 regionIndex = 0; regionIndex < pTextureAtlasData->regionCount; ++regionIndex)
+	{
+		TextureRegionData* pTextureRegionData = binaryReader.ReadType<TextureRegionData>();
+
+		TextureAtlasAsset::TextureRegion* pTextureRegion = paTextureRegions + regionIndex;
+		pTextureRegion->pTextureRegionData = pTextureRegionData;
+
+		pTextureRegionIndexMap->AddIndex(pTextureRegionData->name, regionIndex, m_pAllocator);
+	}
+
+	grap::TextureResource* pTextureResource = m_pAllocator->AllocType<grap::TextureResource>();
+	memset(pTextureResource, 0, sizeof(grap::TextureResource));
+
+	TextureAtlasAsset* pTextureAtlasAsset = m_pAllocator->AllocType<TextureAtlasAsset>();
+	pTextureAtlasAsset->pTextureAtlasData = pTextureAtlasData;
+	pTextureAtlasAsset->pTextureBinary = pTextureBinary;
+	pTextureAtlasAsset->paTextureRegions = paTextureRegions;
+	pTextureAtlasAsset->pTextureRegionIndexMap = pTextureRegionIndexMap;
+	pTextureAtlasAsset->pTextureResource = pTextureResource;
+
+	return pTextureAtlasAsset;
 }
 
 void AssetHandler::AcquireAllAssetResources()
@@ -150,6 +187,22 @@ void AssetHandler::AcquireAllAssetResources()
 			uptr textureAddr = reinterpret_cast<uptr>(pTextureBinary);
 			pTextureBinary = reinterpret_cast<void*>(textureAddr + textureSize);
 		}
+	}
+
+	for (pack::AssetIterator<TextureAtlasAsset> textureAtlasIterator = m_pAssetContainer->GetIterator<TextureAtlasAsset>(); !textureAtlasIterator.IsEnd(); textureAtlasIterator.Next())
+	{
+		TextureAtlasAsset* pTextureAtlasAsset = textureAtlasIterator.GetAsset();
+
+		TextureAtlasData* pTextureAtlasData = pTextureAtlasAsset->pTextureAtlasData;
+		void* pTextureBinary = pTextureAtlasAsset->pTextureBinary;
+		grap::TextureResource* pTextureResource = pTextureAtlasAsset->pTextureResource;
+
+		grap::TextureSetupParameters textureSetupParameters;
+		textureSetupParameters.pTextureResource = pTextureResource;
+		textureSetupParameters.pTextureBinary = pTextureBinary;
+		textureSetupParameters.width = pTextureAtlasData->width;
+		textureSetupParameters.height = pTextureAtlasData->height;
+		m_pGraphicsDevice->AcquireTextureResource(textureSetupParameters);
 	}
 }
 

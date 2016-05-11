@@ -8,6 +8,11 @@
 
 #include <string.h>
 
+// TEMP!
+#include <imag/imag_data.h>
+#include <imag/imag_assets.h>
+#include <util/util_indexMap.h>
+
 /*
  * Internal Constants
  */
@@ -52,8 +57,8 @@ ParticleViewerMode::ParticleViewerMode()
 : AssetViewerMode()
 
 , m_assetContainer()
-//, m_spriteAssetHandler()
-//, m_imageAssetHandler()
+, m_particleAssetHandler()
+, m_imageAssetHandler()
 //, m_pAssetBinary(NULL)
 , m_pFieldAsset(NULL)
 , m_pFieldInstance()
@@ -84,12 +89,12 @@ void ParticleViewerMode::Init()
 
 	m_assetContainer.SetAllocator(m_shared.pAllocator);
 
-	//m_spriteAssetHandler.SetAllocator(m_shared.pAllocator);
-	//m_spriteAssetHandler.SetAssetContainer(&m_assetContainer);
+	m_particleAssetHandler.SetAllocator(m_shared.pAllocator);
+	m_particleAssetHandler.SetAssetContainer(&m_assetContainer);
 
-	//m_imageAssetHandler.SetAllocator(m_shared.pAllocator);
-	//m_imageAssetHandler.SetGraphicsDevice(m_shared.pGraphicsDevice);
-	//m_imageAssetHandler.SetAssetContainer(&m_assetContainer);
+	m_imageAssetHandler.SetAllocator(m_shared.pAllocator);
+	m_imageAssetHandler.SetGraphicsDevice(m_shared.pGraphicsDevice);
+	m_imageAssetHandler.SetAssetContainer(&m_assetContainer);
 
 	LoadAssets();
 	BuildMenu();
@@ -106,7 +111,7 @@ void ParticleViewerMode::Init()
 
 void ParticleViewerMode::AcquireGraphics()
 {
-	//m_imageAssetHandler.AcquireAllAssetResources();
+	m_imageAssetHandler.AcquireAllAssetResources();
 
 	m_menu.AcquireGraphics();
 	
@@ -117,7 +122,7 @@ void ParticleViewerMode::AcquireGraphics()
 
 void ParticleViewerMode::ReleaseGraphics()
 {
-	//m_imageAssetHandler.ReleaseAllAssetResources();
+	m_imageAssetHandler.ReleaseAllAssetResources();
 
 	m_menu.ReleaseGraphics();
 	
@@ -318,587 +323,20 @@ void ParticleViewerMode::BuildMenu()
 	m_menu.ActivatePage("Default");
 }
 
-// TEMP!
-void CopyControlToUniform(lct::part::ParticleControlData* paParticleControlData, u32 controlCount, f32 globalAngle, lct::part::ParticleUniformData* pParticleUniformData)
-{
-	// set default values
-	memset(pParticleUniformData, 0, sizeof(lct::part::ParticleUniformData));
-	pParticleUniformData->aInitial[lct::part::PARTICLE_PROPERTY_TYPE_SIZE] = 1.0f;
-	pParticleUniformData->aInitial[lct::part::PARTICLE_PROPERTY_TYPE_SCALE_X] = 1.0f;
-	pParticleUniformData->aInitial[lct::part::PARTICLE_PROPERTY_TYPE_SCALE_Y] = 1.0f;
-	pParticleUniformData->aInitial[lct::part::PARTICLE_PROPERTY_TYPE_ALPHA] = 1.0f;
-
-	// overwrite with values from control data
-	for (u32 controlIndex = 0; controlIndex < controlCount; ++controlIndex)
-	{
-		lct::part::ParticleControlData* pParticleControlData = paParticleControlData + controlIndex;
-		lct::part::ParticlePropertyType propertyType = static_cast<lct::part::ParticlePropertyType>(pParticleControlData->propetyType);
-
-		pParticleUniformData->aInitial[propertyType] = pParticleControlData->initial;
-		pParticleUniformData->aVelocity[propertyType] = pParticleControlData->velocity;
-		pParticleUniformData->aAcceleration[propertyType] = pParticleControlData->acceleration;
-		pParticleUniformData->aVelocityFrameMin[propertyType] = pParticleControlData->velocityFrameRange.min;
-		pParticleUniformData->aVelocityFrameMax[propertyType] = pParticleControlData->velocityFrameRange.max;
-		pParticleUniformData->aAccelerationFrameMin[propertyType] = pParticleControlData->accelerationFrameRange.min;
-		pParticleUniformData->aAccelerationFrameMax[propertyType] = pParticleControlData->accelerationFrameRange.max;
-	}
-
-	// calculate global direction
-	pParticleUniformData->globalDirX = lct::foun::Cos(lct::foun::RadiansFromRotations(globalAngle));
-	pParticleUniformData->globalDirY = lct::foun::Sin(lct::foun::RadiansFromRotations(globalAngle));
-}
-
 void ParticleViewerMode::LoadAssets()
 {
-/*
-	static const char* FILE_PATH = "data/spriteViewer/package.bin";
+	static const char* FILE_PATH = "data/particleViewer/package.bin";
 	ssiz fileSize;
 	m_pAssetBinary = m_subShared.pAccessor->LoadFile(FILE_PATH, &fileSize);
 	lct::util::BinaryReader binaryReader;
 	binaryReader.SetMemory(m_pAssetBinary, fileSize);
 	lct::pack::PackageWalker packageWalker;
-	packageWalker.AddAssetHandler(&m_spriteAssetHandler);
+	packageWalker.AddAssetHandler(&m_particleAssetHandler);
 	packageWalker.AddAssetHandler(&m_imageAssetHandler);
 
 	packageWalker.LoadAllAssets(binaryReader);
 
-	m_spriteAssetHandler.FixupAllAssets();
-
-	m_pFigureAsset = m_assetContainer.GetIterator<lct::spri::FigureAsset>().GetAsset();
-	*/
-
-	// TEMP!!!
-	lct::part::ParticleControlData aParticleControlData[lct::part::PARTICLE_PROPERTY_TYPE_COUNT];
-	
-	{
-		static const char* FIELD_NAME = "Test1";
-		static const u32 EMITTER_COUNT = 1;
-		lct::part::EmitterData* paEmitterDatas = m_shared.pAllocator->AllocTypeArray<lct::part::EmitterData>(EMITTER_COUNT);
-		lct::part::FieldAsset::Emitter* paAssetEmitters = m_shared.pAllocator->AllocTypeArray<lct::part::FieldAsset::Emitter>(EMITTER_COUNT);
-		{
-			static const u32 EMITTER_INDEX = 0;
-			lct::part::EmitterData* pEmitterData = paEmitterDatas + EMITTER_INDEX;			
-			pEmitterData->x = 0.0f;
-			pEmitterData->y = 0.0f;			
-			pEmitterData->shapeSpanA = 0.0f;
-			pEmitterData->shapeSpanB = 0.0f;
-			pEmitterData->globalAngle = 0.75f;
-			pEmitterData->expelAngleRange.min = 0.20f;
-			pEmitterData->expelAngleRange.max = 0.30f;
-			pEmitterData->expelMultiplierRange.min = 1.0f;
-			pEmitterData->expelMultiplierRange.max = 1.5f;
-			pEmitterData->scaleMultiplierRange.min = 12.8f;
-			pEmitterData->scaleMultiplierRange.max = 19.2f;
-			pEmitterData->rotationMultiplierRange.min = 0.8f;
-			pEmitterData->rotationMultiplierRange.max = 1.2f;
-			pEmitterData->scaleFluxRange.min = 0.0f;
-			pEmitterData->scaleFluxRange.max = 1.0f;
-			pEmitterData->color0.r = 1.0f;
-			pEmitterData->color0.g = 1.0f;
-			pEmitterData->color0.b = 1.0f;
-			pEmitterData->color1.r = 0.0f;
-			pEmitterData->color1.g = 0.0f;
-			pEmitterData->color1.b = 1.0f;
-			pEmitterData->delayFrames = 4.0f;
-			pEmitterData->frameDuration = 0.0f;
-			pEmitterData->particleFrameLifetime = 90.0f;
-			pEmitterData->particleCount = 32;
-			pEmitterData->emitCount = 1;
-			pEmitterData->shapeType = lct::part::EMITTER_SHAPE_TYPE_POINT;
-			pEmitterData->arrangeType = lct::part::EMITTER_ARRANGE_TYPE_EVEN_EDGE;
-			pEmitterData->flags = (1 << lct::part::EMITTER_FLAG_TYPE_REVERSE_ORDER);
-		
-			u32 controlCount = 0;
-			{
-				lct::part::ParticleControlData& controlData = aParticleControlData[controlCount++];
-				controlData.propetyType = lct::part::PARTICLE_PROPERTY_TYPE_GLOBAL_DISTANCE;
-				controlData.initial = 0.0f;
-				controlData.velocity = 0.0f;
-				controlData.acceleration = 0.2f;
-				controlData.velocityFrameRange.min = 0.0f;
-				controlData.velocityFrameRange.max = 600.0f;
-				controlData.accelerationFrameRange.min = 0.0f;
-				controlData.accelerationFrameRange.max = 600.0f;
-			}
-			{
-				lct::part::ParticleControlData& controlData = aParticleControlData[controlCount++];
-				controlData.propetyType = lct::part::PARTICLE_PROPERTY_TYPE_EXPEL_DISTANCE;
-				controlData.initial = 0.0f;
-				controlData.velocity = 6.0f;
-				controlData.acceleration = 0.0f;
-				controlData.velocityFrameRange.min = 0.0f;
-				controlData.velocityFrameRange.max = 600.0f;
-				controlData.accelerationFrameRange.min = 0.0f;
-				controlData.accelerationFrameRange.max = 600.0f;
-			}
-			{
-				lct::part::ParticleControlData& controlData = aParticleControlData[controlCount++];
-				controlData.propetyType = lct::part::PARTICLE_PROPERTY_TYPE_ROTATION;
-				controlData.initial = 0.0f;
-				controlData.velocity = 0.01f;
-				controlData.acceleration = 0.0f;
-				controlData.velocityFrameRange.min = 0.0f;
-				controlData.velocityFrameRange.max = 600.0f;
-				controlData.accelerationFrameRange.min = 0.0f;
-				controlData.accelerationFrameRange.max = 600.0f;
-			}
-			{
-				lct::part::ParticleControlData& controlData = aParticleControlData[controlCount++];
-				controlData.propetyType = lct::part::PARTICLE_PROPERTY_TYPE_COLOR_RATIO;
-				controlData.initial = 0.0f;
-				controlData.velocity = 0.01f;
-				controlData.acceleration = 0.0f;
-				controlData.velocityFrameRange.min = 0.0f;
-				controlData.velocityFrameRange.max = 600.0f;
-				controlData.accelerationFrameRange.min = 0.0f;
-				controlData.accelerationFrameRange.max = 600.0f;
-			}
-			{
-				lct::part::ParticleControlData& controlData = aParticleControlData[controlCount++];
-				controlData.propetyType = lct::part::PARTICLE_PROPERTY_TYPE_ALPHA;
-				controlData.initial = 1.0f;
-				controlData.velocity = -1.0f / 15.0f;
-				controlData.acceleration = 0.0f;
-				controlData.velocityFrameRange.min = 75.0f;
-				controlData.velocityFrameRange.max = 90.0f;
-				controlData.accelerationFrameRange.min = 0.0f;
-				controlData.accelerationFrameRange.max = 600.0f;
-			}
-			pEmitterData->particleControlCount = controlCount;
-
-			lct::part::ParticleControlData* paParticleControlData = m_shared.pAllocator->AllocTypeArray<lct::part::ParticleControlData>(controlCount);
-			memcpy(paParticleControlData, aParticleControlData, sizeof(lct::part::ParticleControlData) * controlCount);
-
-			lct::part::ParticleUniformData* pParticleUniformData = m_shared.pAllocator->AllocType<lct::part::ParticleUniformData>();
-			CopyControlToUniform(paParticleControlData, controlCount, pEmitterData->globalAngle, pParticleUniformData);
-			
-			lct::part::FieldAsset::Emitter* pAssetEmitter = paAssetEmitters + EMITTER_INDEX;
-			pAssetEmitter->pEmitterData = pEmitterData;
-			pAssetEmitter->paParticleControlData = paParticleControlData;
-			pAssetEmitter->pParticleUniformData = pParticleUniformData;
-		}
-		
-		lct::part::FieldData* pFieldData = m_shared.pAllocator->AllocType<lct::part::FieldData>();
-		LCT_STRCPY(pFieldData->name, sizeof(pFieldData->name), FIELD_NAME);
-		pFieldData->emitterCount = EMITTER_COUNT;
-		
-		lct::part::FieldAsset* pFieldAsset = m_shared.pAllocator->AllocType<lct::part::FieldAsset>();
-		pFieldAsset->pFieldData = pFieldData;
-		pFieldAsset->paEmitters = paAssetEmitters;
-		
-		m_assetContainer.AddAsset(pFieldAsset, pFieldData->name);
-	}
-
-
-	{
-		static const char* FIELD_NAME = "Test2";
-		static const u32 EMITTER_COUNT = 1;
-		lct::part::EmitterData* paEmitterDatas = m_shared.pAllocator->AllocTypeArray<lct::part::EmitterData>(EMITTER_COUNT);
-		lct::part::FieldAsset::Emitter* paAssetEmitters = m_shared.pAllocator->AllocTypeArray<lct::part::FieldAsset::Emitter>(EMITTER_COUNT);
-		{
-			static const u32 EMITTER_INDEX = 0;
-			lct::part::EmitterData* pEmitterData = paEmitterDatas + EMITTER_INDEX;
-			pEmitterData->x = 0.0f;
-			pEmitterData->y = 0.0f;
-			pEmitterData->shapeSpanA = 8.0f;
-			pEmitterData->shapeSpanB = 0.0f;
-			pEmitterData->globalAngle = 0.0f;
-			pEmitterData->expelAngleRange.min = 0.0f;
-			pEmitterData->expelAngleRange.max = 0.0f;
-			pEmitterData->expelMultiplierRange.min = 1.0f;
-			pEmitterData->expelMultiplierRange.max = 1.0f;
-			pEmitterData->scaleMultiplierRange.min = 16.0f;
-			pEmitterData->scaleMultiplierRange.max = 16.0f;
-			pEmitterData->rotationMultiplierRange.min = 0.0f;
-			pEmitterData->rotationMultiplierRange.max = 0.0f;
-			pEmitterData->scaleFluxRange.min = 0.0f;
-			pEmitterData->scaleFluxRange.max = 1.0f;
-			pEmitterData->color0.r = 1.0f;
-			pEmitterData->color0.g = 1.0f;
-			pEmitterData->color0.b = 0.0f;
-			pEmitterData->color1.r = 0.0f;
-			pEmitterData->color1.g = 1.0f;
-			pEmitterData->color1.b = 0.0f;
-			pEmitterData->delayFrames = 30.0f;
-			pEmitterData->frameDuration = 90.0f;
-			pEmitterData->particleFrameLifetime = 90.0f;
-			pEmitterData->particleCount = 32;
-			pEmitterData->emitCount = 8;
-			pEmitterData->shapeType = lct::part::EMITTER_SHAPE_TYPE_CIRCLE;
-			pEmitterData->arrangeType = lct::part::EMITTER_ARRANGE_TYPE_EVEN_EDGE;
-			pEmitterData->flags = (1 << lct::part::EMITTER_FLAG_TYPE_REVERSE_ORDER) | (1 << lct::part::EMITTER_FLAG_TYPE_EXPEL_OUTWARD);
-
-			u32 controlCount = 0;
-			{
-				lct::part::ParticleControlData& controlData = aParticleControlData[controlCount++];
-				controlData.propetyType = lct::part::PARTICLE_PROPERTY_TYPE_EXPEL_ANGLE;
-				controlData.initial = 0.0f;
-				controlData.velocity = 0.005f;
-				controlData.acceleration = 0.0002f;
-				controlData.velocityFrameRange.min = 0.0f;
-				controlData.velocityFrameRange.max = 600.0f;
-				controlData.accelerationFrameRange.min = 00.0f;
-				controlData.accelerationFrameRange.max = 600.0f;
-			}
-			{
-				lct::part::ParticleControlData& controlData = aParticleControlData[controlCount++];
-				controlData.propetyType = lct::part::PARTICLE_PROPERTY_TYPE_EXPEL_DISTANCE;
-				controlData.initial = 0.0f;
-				controlData.velocity = 2.0f;
-				controlData.acceleration = 0.01f;
-				controlData.velocityFrameRange.min = 0.0f;
-				controlData.velocityFrameRange.max = 600.0f;
-				controlData.accelerationFrameRange.min = 0.0f;
-				controlData.accelerationFrameRange.max = 600.0f;
-			}
-			{
-				lct::part::ParticleControlData& controlData = aParticleControlData[controlCount++];
-				controlData.propetyType = lct::part::PARTICLE_PROPERTY_TYPE_SIZE;
-				controlData.initial = 1.0f;
-				controlData.velocity = 0.03125f;
-				controlData.acceleration = 0.0f;
-				controlData.velocityFrameRange.min = 0.0f;
-				controlData.velocityFrameRange.max = 600.0f;
-				controlData.accelerationFrameRange.min = 0.0f;
-				controlData.accelerationFrameRange.max = 600.0f;
-			}
-			{
-				lct::part::ParticleControlData& controlData = aParticleControlData[controlCount++];
-				controlData.propetyType = lct::part::PARTICLE_PROPERTY_TYPE_COLOR_RATIO;
-				controlData.initial = 0.0f;
-				controlData.velocity = 0.01f;
-				controlData.acceleration = 0.0f;
-				controlData.velocityFrameRange.min = 0.0f;
-				controlData.velocityFrameRange.max = 600.0f;
-				controlData.accelerationFrameRange.min = 0.0f;
-				controlData.accelerationFrameRange.max = 600.0f;
-			}
-			{
-				lct::part::ParticleControlData& controlData = aParticleControlData[controlCount++];
-				controlData.propetyType = lct::part::PARTICLE_PROPERTY_TYPE_ALPHA;
-				controlData.initial = 1.0f;
-				controlData.velocity = -1.0f / 30.0f;
-				controlData.acceleration = 0.0f;
-				controlData.velocityFrameRange.min = 60.0f;
-				controlData.velocityFrameRange.max = 90.0f;
-				controlData.accelerationFrameRange.min = 0.0f;
-				controlData.accelerationFrameRange.max = 600.0f;
-			}
-			pEmitterData->particleControlCount = controlCount;
-
-			lct::part::ParticleControlData* paParticleControlData = m_shared.pAllocator->AllocTypeArray<lct::part::ParticleControlData>(controlCount);
-			memcpy(paParticleControlData, aParticleControlData, sizeof(lct::part::ParticleControlData) * controlCount);
-
-			lct::part::ParticleUniformData* pParticleUniformData = m_shared.pAllocator->AllocType<lct::part::ParticleUniformData>();
-			CopyControlToUniform(paParticleControlData, controlCount, pEmitterData->globalAngle, pParticleUniformData);
-
-			lct::part::FieldAsset::Emitter* pAssetEmitter = paAssetEmitters + EMITTER_INDEX;
-			pAssetEmitter->pEmitterData = pEmitterData;
-			pAssetEmitter->paParticleControlData = paParticleControlData;
-			pAssetEmitter->pParticleUniformData = pParticleUniformData;
-		}
-
-		lct::part::FieldData* pFieldData = m_shared.pAllocator->AllocType<lct::part::FieldData>();
-		LCT_STRCPY(pFieldData->name, sizeof(pFieldData->name), FIELD_NAME);
-		pFieldData->emitterCount = EMITTER_COUNT;
-
-		lct::part::FieldAsset* pFieldAsset = m_shared.pAllocator->AllocType<lct::part::FieldAsset>();
-		pFieldAsset->pFieldData = pFieldData;
-		pFieldAsset->paEmitters = paAssetEmitters;
-
-		m_assetContainer.AddAsset(pFieldAsset, pFieldData->name);
-	}
-
-
-	{
-		static const char* FIELD_NAME = "Test3";
-		static const u32 EMITTER_COUNT = 3;
-		lct::part::EmitterData* paEmitterDatas = m_shared.pAllocator->AllocTypeArray<lct::part::EmitterData>(EMITTER_COUNT);
-		lct::part::FieldAsset::Emitter* paAssetEmitters = m_shared.pAllocator->AllocTypeArray<lct::part::FieldAsset::Emitter>(EMITTER_COUNT);
-		{
-			static const u32 EMITTER_INDEX = 0;
-			lct::part::EmitterData* pEmitterData = paEmitterDatas + EMITTER_INDEX;
-			pEmitterData->x = 0.0f;
-			pEmitterData->y = 0.0f;
-			pEmitterData->shapeSpanA = 128.0f;
-			pEmitterData->shapeSpanB = 0.0f;
-			pEmitterData->globalAngle = 0.25f;
-			pEmitterData->expelAngleRange.min = 0.25f;
-			pEmitterData->expelAngleRange.max = 0.25f;
-			pEmitterData->expelMultiplierRange.min = 1.0f;
-			pEmitterData->expelMultiplierRange.max = 1.0f;
-			pEmitterData->scaleMultiplierRange.min = 16.0f;
-			pEmitterData->scaleMultiplierRange.max = 16.0f;
-			pEmitterData->rotationMultiplierRange.min = 0.0f;
-			pEmitterData->rotationMultiplierRange.max = 0.0f;
-			pEmitterData->scaleFluxRange.min = 0.5f;
-			pEmitterData->scaleFluxRange.max = 1.0f;
-			pEmitterData->color0.r = 1.0f;
-			pEmitterData->color0.g = 1.0f;
-			pEmitterData->color0.b = 1.0f;
-			pEmitterData->color1.r = 1.0f;
-			pEmitterData->color1.g = 1.0f;
-			pEmitterData->color1.b = 1.0f;
-			pEmitterData->delayFrames = 30.0f;
-			pEmitterData->frameDuration = 0.0f;
-			pEmitterData->particleFrameLifetime = 600.0f;
-			pEmitterData->particleCount = 32;
-			pEmitterData->emitCount = 1;
-			pEmitterData->shapeType = lct::part::EMITTER_SHAPE_TYPE_CIRCLE;
-			pEmitterData->arrangeType = lct::part::EMITTER_ARRANGE_TYPE_RANDOM_FILL;
-			pEmitterData->flags = (1 << lct::part::EMITTER_FLAG_TYPE_REVERSE_ORDER) | (1 << lct::part::EMITTER_FLAG_TYPE_ADDITIVE_BLEND);
-
-			u32 controlCount = 0;
-			{
-				lct::part::ParticleControlData& controlData = aParticleControlData[controlCount++];
-				controlData.propetyType = lct::part::PARTICLE_PROPERTY_TYPE_GLOBAL_DISTANCE;
-				controlData.initial = 0.0f;
-				controlData.velocity = 0.5f;
-				controlData.acceleration = 0.01f;
-				controlData.velocityFrameRange.min = 0.0f;
-				controlData.velocityFrameRange.max = 600.0f;
-				controlData.accelerationFrameRange.min = 0.0f;
-				controlData.accelerationFrameRange.max = 600.0f;
-			}
-			{
-				lct::part::ParticleControlData& controlData = aParticleControlData[controlCount++];
-				controlData.propetyType = lct::part::PARTICLE_PROPERTY_TYPE_TANGENT_DISTANCE;
-				controlData.initial = 20.0f;
-				controlData.velocity = 0.0f;
-				controlData.acceleration = 0.00f;
-				controlData.velocityFrameRange.min = 0.0f;
-				controlData.velocityFrameRange.max = 600.0f;
-				controlData.accelerationFrameRange.min = 0.0f;
-				controlData.accelerationFrameRange.max = 600.0f;
-			}
-			{
-				lct::part::ParticleControlData& controlData = aParticleControlData[controlCount++];
-				controlData.propetyType = lct::part::PARTICLE_PROPERTY_TYPE_TANGENT_FLUX;
-				controlData.initial = 0.25f;
-				controlData.velocity = 0.01f;
-				controlData.acceleration = 0.0f;
-				controlData.velocityFrameRange.min = 0.0f;
-				controlData.velocityFrameRange.max = 600.0f;
-				controlData.accelerationFrameRange.min = 0.0f;
-				controlData.accelerationFrameRange.max = 600.0f;
-			}
-			{
-				lct::part::ParticleControlData& controlData = aParticleControlData[controlCount++];
-				controlData.propetyType = lct::part::PARTICLE_PROPERTY_TYPE_SCALE_X_FLUX;
-				controlData.initial = 0.25f;
-				controlData.velocity = 0.015f;
-				controlData.acceleration = 0.00f;
-				controlData.velocityFrameRange.min = 0.0f;
-				controlData.velocityFrameRange.max = 600.0f;
-				controlData.accelerationFrameRange.min = 0.0f;
-				controlData.accelerationFrameRange.max = 600.0f;
-			}
-			{
-				lct::part::ParticleControlData& controlData = aParticleControlData[controlCount++];
-				controlData.propetyType = lct::part::PARTICLE_PROPERTY_TYPE_SCALE_Y_FLUX;
-				controlData.initial = 0.25f;
-				controlData.velocity = 0.015f;
-				controlData.acceleration = 0.00f;
-				controlData.velocityFrameRange.min = 0.0f;
-				controlData.velocityFrameRange.max = 600.0f;
-				controlData.accelerationFrameRange.min = 0.0f;
-				controlData.accelerationFrameRange.max = 600.0f;
-			}
-			{
-				lct::part::ParticleControlData& controlData = aParticleControlData[controlCount++];
-				controlData.propetyType = lct::part::PARTICLE_PROPERTY_TYPE_ALPHA;
-				controlData.initial = 0.25f;
-				controlData.velocity = -0.25f / 15.0f;
-				controlData.acceleration = 0.0f;
-				controlData.velocityFrameRange.min = 180.0f;
-				controlData.velocityFrameRange.max = 195.0f;
-				controlData.accelerationFrameRange.min = 0.0f;
-				controlData.accelerationFrameRange.max = 600.0f;
-			}
-			pEmitterData->particleControlCount = controlCount;
-
-			lct::part::ParticleControlData* paParticleControlData = m_shared.pAllocator->AllocTypeArray<lct::part::ParticleControlData>(controlCount);
-			memcpy(paParticleControlData, aParticleControlData, sizeof(lct::part::ParticleControlData) * controlCount);
-
-			lct::part::ParticleUniformData* pParticleUniformData = m_shared.pAllocator->AllocType<lct::part::ParticleUniformData>();
-			CopyControlToUniform(paParticleControlData, controlCount, pEmitterData->globalAngle, pParticleUniformData);
-
-			lct::part::FieldAsset::Emitter* pAssetEmitter = paAssetEmitters + EMITTER_INDEX;
-			pAssetEmitter->pEmitterData = pEmitterData;
-			pAssetEmitter->paParticleControlData = paParticleControlData;
-			pAssetEmitter->pParticleUniformData = pParticleUniformData;
-		}
-		{
-			static const u32 EMITTER_INDEX = 1;
-			lct::part::EmitterData* pEmitterData = paEmitterDatas + EMITTER_INDEX;
-			pEmitterData->x = -16.0f;
-			pEmitterData->y = 16.0f;
-			pEmitterData->shapeSpanA = 0.0f;
-			pEmitterData->shapeSpanB = 0.0f;
-			pEmitterData->globalAngle = 0.0f;
-			pEmitterData->expelAngleRange.min = 0.0f;
-			pEmitterData->expelAngleRange.max = 0.0f;
-			pEmitterData->expelMultiplierRange.min = 1.0f;
-			pEmitterData->expelMultiplierRange.max = 1.0f;
-			pEmitterData->scaleMultiplierRange.min = 128.0f;
-			pEmitterData->scaleMultiplierRange.max = 128.0f;
-			pEmitterData->rotationMultiplierRange.min = 0.0f;
-			pEmitterData->rotationMultiplierRange.max = 0.0f;
-			pEmitterData->scaleFluxRange.min = 0.75f;
-			pEmitterData->scaleFluxRange.max = 1.0f;
-			pEmitterData->color0.r = 1.0f;
-			pEmitterData->color0.g = 1.0f;
-			pEmitterData->color0.b = 1.0f;
-			pEmitterData->color1.r = 1.0f;
-			pEmitterData->color1.g = 1.0f;
-			pEmitterData->color1.b = 1.0f;
-			pEmitterData->delayFrames = 120.0f;
-			pEmitterData->frameDuration = 0.0f;
-			pEmitterData->particleFrameLifetime = 120.0f;
-			pEmitterData->particleCount = 32;
-			pEmitterData->emitCount = 1;
-			pEmitterData->shapeType = lct::part::EMITTER_SHAPE_TYPE_POINT;
-			pEmitterData->arrangeType = lct::part::EMITTER_ARRANGE_TYPE_RANDOM_FILL;
-			pEmitterData->flags = (1 << lct::part::EMITTER_FLAG_TYPE_REVERSE_ORDER) | (1 << lct::part::EMITTER_FLAG_TYPE_ADDITIVE_BLEND);
-
-			u32 controlCount = 0;
-			{
-				lct::part::ParticleControlData& controlData = aParticleControlData[controlCount++];
-				controlData.propetyType = lct::part::PARTICLE_PROPERTY_TYPE_SCALE_X_FLUX;
-				controlData.initial = 0.0f;
-				controlData.velocity = 1.0f / 120.0f;
-				controlData.acceleration = 0.00f;
-				controlData.velocityFrameRange.min = 0.0f;
-				controlData.velocityFrameRange.max = 600.0f;
-				controlData.accelerationFrameRange.min = 0.0f;
-				controlData.accelerationFrameRange.max = 600.0f;
-			}
-			{
-				lct::part::ParticleControlData& controlData = aParticleControlData[controlCount++];
-				controlData.propetyType = lct::part::PARTICLE_PROPERTY_TYPE_SCALE_Y_FLUX;
-				controlData.initial = 0.25f;
-				controlData.velocity = 1.0f / 120.0f;
-				controlData.acceleration = 0.00f;
-				controlData.velocityFrameRange.min = 0.0f;
-				controlData.velocityFrameRange.max = 600.0f;
-				controlData.accelerationFrameRange.min = 0.0f;
-				controlData.accelerationFrameRange.max = 600.0f;
-			}
-			{
-				lct::part::ParticleControlData& controlData = aParticleControlData[controlCount++];
-				controlData.propetyType = lct::part::PARTICLE_PROPERTY_TYPE_ALPHA;
-				controlData.initial = 0.15f;
-				controlData.velocity = 0.0f;
-				controlData.acceleration = 0.0f;
-				controlData.velocityFrameRange.min = 0.0f;
-				controlData.velocityFrameRange.max = 0.0f;
-				controlData.accelerationFrameRange.min = 0.0f;
-				controlData.accelerationFrameRange.max = 0.0f;
-			}
-			pEmitterData->particleControlCount = controlCount;
-
-			lct::part::ParticleControlData* paParticleControlData = m_shared.pAllocator->AllocTypeArray<lct::part::ParticleControlData>(controlCount);
-			memcpy(paParticleControlData, aParticleControlData, sizeof(lct::part::ParticleControlData) * controlCount);
-
-			lct::part::ParticleUniformData* pParticleUniformData = m_shared.pAllocator->AllocType<lct::part::ParticleUniformData>();
-			CopyControlToUniform(paParticleControlData, controlCount, pEmitterData->globalAngle, pParticleUniformData);
-
-			lct::part::FieldAsset::Emitter* pAssetEmitter = paAssetEmitters + EMITTER_INDEX;
-			pAssetEmitter->pEmitterData = pEmitterData;
-			pAssetEmitter->paParticleControlData = paParticleControlData;
-			pAssetEmitter->pParticleUniformData = pParticleUniformData;
-		}
-		{
-			static const u32 EMITTER_INDEX = 2;
-			lct::part::EmitterData* pEmitterData = paEmitterDatas + EMITTER_INDEX;
-			pEmitterData->x = 16.0f;
-			pEmitterData->y = -16.0f;
-			pEmitterData->shapeSpanA = 0.0f;
-			pEmitterData->shapeSpanB = 0.0f;
-			pEmitterData->globalAngle = 0.0f;
-			pEmitterData->expelAngleRange.min = 0.0f;
-			pEmitterData->expelAngleRange.max = 0.0f;
-			pEmitterData->expelMultiplierRange.min = 1.0f;
-			pEmitterData->expelMultiplierRange.max = 1.0f;
-			pEmitterData->scaleMultiplierRange.min = 128.0f;
-			pEmitterData->scaleMultiplierRange.max = 128.0f;
-			pEmitterData->rotationMultiplierRange.min = 0.0f;
-			pEmitterData->rotationMultiplierRange.max = 0.0f;
-			pEmitterData->scaleFluxRange.min = 0.75f;
-			pEmitterData->scaleFluxRange.max = 1.0f;
-			pEmitterData->color0.r = 1.0f;
-			pEmitterData->color0.g = 1.0f;
-			pEmitterData->color0.b = 1.0f;
-			pEmitterData->color1.r = 1.0f;
-			pEmitterData->color1.g = 1.0f;
-			pEmitterData->color1.b = 1.0f;
-			pEmitterData->delayFrames = 120.0f;
-			pEmitterData->frameDuration = 0.0f;
-			pEmitterData->particleFrameLifetime = 120.0f;
-			pEmitterData->particleCount = 32;
-			pEmitterData->emitCount = 1;
-			pEmitterData->shapeType = lct::part::EMITTER_SHAPE_TYPE_POINT;
-			pEmitterData->arrangeType = lct::part::EMITTER_ARRANGE_TYPE_RANDOM_FILL;
-			pEmitterData->flags = (1 << lct::part::EMITTER_FLAG_TYPE_REVERSE_ORDER) | (1 << lct::part::EMITTER_FLAG_TYPE_ADDITIVE_BLEND);
-
-			u32 controlCount = 0;
-			{
-				lct::part::ParticleControlData& controlData = aParticleControlData[controlCount++];
-				controlData.propetyType = lct::part::PARTICLE_PROPERTY_TYPE_SCALE_X_FLUX;
-				controlData.initial = 0.5f;
-				controlData.velocity = 1.0f / 120.0f;
-				controlData.acceleration = 0.00f;
-				controlData.velocityFrameRange.min = 0.0f;
-				controlData.velocityFrameRange.max = 600.0f;
-				controlData.accelerationFrameRange.min = 0.0f;
-				controlData.accelerationFrameRange.max = 600.0f;
-			}
-			{
-				lct::part::ParticleControlData& controlData = aParticleControlData[controlCount++];
-				controlData.propetyType = lct::part::PARTICLE_PROPERTY_TYPE_SCALE_Y_FLUX;
-				controlData.initial = 0.75f;
-				controlData.velocity = 1.0f / 120.0f;
-				controlData.acceleration = 0.00f;
-				controlData.velocityFrameRange.min = 0.0f;
-				controlData.velocityFrameRange.max = 600.0f;
-				controlData.accelerationFrameRange.min = 0.0f;
-				controlData.accelerationFrameRange.max = 600.0f;
-			}
-			{
-				lct::part::ParticleControlData& controlData = aParticleControlData[controlCount++];
-				controlData.propetyType = lct::part::PARTICLE_PROPERTY_TYPE_ALPHA;
-				controlData.initial = 0.15f;
-				controlData.velocity = 0.0f;
-				controlData.acceleration = 0.0f;
-				controlData.velocityFrameRange.min = 0.0f;
-				controlData.velocityFrameRange.max = 0.0f;
-				controlData.accelerationFrameRange.min = 0.0f;
-				controlData.accelerationFrameRange.max = 0.0f;
-			}
-			pEmitterData->particleControlCount = controlCount;
-
-			lct::part::ParticleControlData* paParticleControlData = m_shared.pAllocator->AllocTypeArray<lct::part::ParticleControlData>(controlCount);
-			memcpy(paParticleControlData, aParticleControlData, sizeof(lct::part::ParticleControlData) * controlCount);
-
-			lct::part::ParticleUniformData* pParticleUniformData = m_shared.pAllocator->AllocType<lct::part::ParticleUniformData>();
-			CopyControlToUniform(paParticleControlData, controlCount, pEmitterData->globalAngle, pParticleUniformData);
-
-			lct::part::FieldAsset::Emitter* pAssetEmitter = paAssetEmitters + EMITTER_INDEX;
-			pAssetEmitter->pEmitterData = pEmitterData;
-			pAssetEmitter->paParticleControlData = paParticleControlData;
-			pAssetEmitter->pParticleUniformData = pParticleUniformData;
-		}
-
-		lct::part::FieldData* pFieldData = m_shared.pAllocator->AllocType<lct::part::FieldData>();
-		LCT_STRCPY(pFieldData->name, sizeof(pFieldData->name), FIELD_NAME);
-		pFieldData->emitterCount = EMITTER_COUNT;
-
-		lct::part::FieldAsset* pFieldAsset = m_shared.pAllocator->AllocType<lct::part::FieldAsset>();
-		pFieldAsset->pFieldData = pFieldData;
-		pFieldAsset->paEmitters = paAssetEmitters;
-
-		m_assetContainer.AddAsset(pFieldAsset, pFieldData->name);
-	}
+	m_particleAssetHandler.FixupAllAssets();
 }
 
 void ParticleViewerMode::BuildInstances()

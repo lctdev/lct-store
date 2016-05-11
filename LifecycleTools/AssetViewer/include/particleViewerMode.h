@@ -8,7 +8,7 @@
 #include <foun/foun_callback.h>
 
 
-//#include <spri/spri_assetHandler.h>
+#include <part/part_assetHandler.h>
 #include <part/part_assets.h>
 #include <part/part_data.h>
 #include <part/part_fieldInstance.h>
@@ -61,9 +61,9 @@ private:
 	void BindField(const char* pName);
 
 	lct::pack::AssetContainer m_assetContainer;
-	//lct::spri::AssetHandler m_spriteAssetHandler;
-	//lct::imag::AssetHandler m_imageAssetHandler;
-	//void* m_pAssetBinary;
+	lct::part::AssetHandler m_particleAssetHandler;
+	lct::imag::AssetHandler m_imageAssetHandler;
+	void* m_pAssetBinary;
 	lct::part::FieldAsset* m_pFieldAsset;
 	lct::part::FieldInstance* m_pFieldInstance;
 

@@ -6,8 +6,8 @@ namespace lct
 namespace pass
 {
 
-const pack::AssetCode StringAsset::GROUP_CODE = pass::GROUP_CODE;
-const pack::AssetCode StringAsset::TYPE_CODE = pass::STRING_TYPE_CODE;
+const pack::AssetCode StringAsset::GROUP_CODE = GROUP_CODE;
+const pack::AssetCode StringAsset::TYPE_CODE = STRING_TYPE_CODE;
 
 //namespace pass
 }

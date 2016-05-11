@@ -1,5 +1,7 @@
 package lct.soun;
 
+import java.util.Vector;
+
 import lct.util.DataException;
 
 public class AssetProcessor implements lct.pack.AssetProcessor {
@@ -12,6 +14,10 @@ public class AssetProcessor implements lct.pack.AssetProcessor {
 	
 	public String getGroupCode() {
 		return Constants.GROUP_CODE;
+	}
+	
+	public Vector<String> getDependencies(String typeCode, String inputFilePath) {
+		return new Vector<String>();
 	}
 	
 	public void processAsset(String typeCode, String inputFilePath, String outputFilePath, boolean bigEndian) throws DataException {

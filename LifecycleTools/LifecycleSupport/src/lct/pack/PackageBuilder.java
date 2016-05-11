@@ -77,9 +77,16 @@ public class PackageBuilder {
 			boolean processAsset = false;
 			if (!FileUtility.exists(processItem.outputFilePath)) {
 				processAsset = true;
-			}
-			else if (FileUtility.isOutdated(processItem.outputFilePath, processItem.inputFilePath)) {
-				processAsset = true;
+			}			
+			else {
+				Vector<String> checkFileVector = assetProcessor.getDependencies(processItem.typeCode, processItem.inputFilePath);
+				checkFileVector.add(processItem.inputFilePath);
+				for (String checkFilePath : checkFileVector) {
+					if (FileUtility.isOutdated(processItem.outputFilePath, checkFilePath)) {
+						processAsset = true;
+						break;
+					}
+				}				
 			}
 			// TODO: check version?
 			

@@ -6,6 +6,40 @@ import java.awt.image.Raster;
 import java.util.Vector;
 
 public class TextureUtility {
+	public static Texture createEmptyTexture(int width, int height) {
+		int texelCount = width * height;
+		Texture texture = new Texture();
+		texture.width = width;
+		texture.height = height;
+		texture.texelArray = new Texture.TexelRGBA[texelCount];
+		for (int texelIndex = 0; texelIndex < texelCount; ++texelIndex) {
+			Texture.TexelRGBA texel = new Texture.TexelRGBA();
+			texel.r = 0;
+			texel.g = 0;
+			texel.b = 0;
+			texel.a = 0;
+			texture.texelArray[texelIndex] = texel;
+		}
+		return texture;
+	}
+	
+	public static void copyTexture(Texture destinationTexture, int destinationX, int destinationY, Texture sourceTexture) {
+		for (int currSourceY = 0; currSourceY < sourceTexture.height; ++currSourceY) {
+			for (int currSourceX = 0; currSourceX < sourceTexture.width; ++currSourceX) {
+				int currDestinationX = destinationX + currSourceX;
+				int currDestinationY = destinationY + currSourceY;
+				int destinationTexelIndex = (currDestinationY * destinationTexture.width) + currDestinationX;
+				int sourceTexelIndex = (currSourceY * sourceTexture.width) + currSourceX;
+				Texture.TexelRGBA destinationTexel = (Texture.TexelRGBA)destinationTexture.texelArray[destinationTexelIndex];
+				Texture.TexelRGBA sourceTexel = (Texture.TexelRGBA)sourceTexture.texelArray[sourceTexelIndex];
+				destinationTexel.r = sourceTexel.r;
+				destinationTexel.g = sourceTexel.g;
+				destinationTexel.b = sourceTexel.b;
+				destinationTexel.a = sourceTexel.a;
+			}
+		}
+	}
+	
 	public static Vector<Texture> splitStrip(Texture stripTexture, int cellWidth, int cellHeight) {
 		int cellCount = stripTexture.width / cellWidth;
 		Vector<Texture> cellTextureVector = new Vector<Texture>();

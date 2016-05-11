@@ -257,9 +257,7 @@ void Device::AcquireTextureResource(const TextureSetupParameters& textureSetupPa
 
 	glGenTextures(1, &pTextureResource->hTexture);
 	glBindTexture(GL_TEXTURE_2D, pTextureResource->hTexture);
-	glTexImage2D(GL_TEXTURE_2D, 0, INTERNAL_FORMAT, textureSetupParameters.width, textureSetupParameters.height, 0, FORMAT, TYPE, textureSetupParameters.pTextureBinary);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexImage2D(GL_TEXTURE_2D, 0, INTERNAL_FORMAT, textureSetupParameters.width, textureSetupParameters.height, 0, FORMAT, TYPE, textureSetupParameters.pTextureBinary);	
 
 	LCT_TRACE_GL_ERROR();
 
@@ -390,6 +388,11 @@ void Device::ActivateTexture(TextureBindParameters& textureBindParameters)
 	glActiveTexture(GL_TEXTURE0 + textureBindParameters.textureUnitIndex);
 	glBindTexture(GL_TEXTURE_2D, pTextureResource->hTexture);
 	glUniform1i(pUniformResource->uniformLocation, textureBindParameters.textureUnitIndex);
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
 
 	LCT_TRACE_GL_ERROR();
 }

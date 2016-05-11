@@ -13,6 +13,7 @@ const pack::AssetCode GROUP_CODE = { 'I', 'M', 'A', 'G' };
 
 const pack::AssetCode TEXTURE_TYPE_CODE = { 'T', 'E', 'X', 'T' };
 const pack::AssetCode TEXTURE_TABLE_TYPE_CODE = { 'T', 'E', 'T', 'A' };
+const pack::AssetCode TEXTURE_ATLAS_TYPE_CODE = { 'T', 'E', 'A', 'T' };
 
 const u16 VERSION = 0;
 

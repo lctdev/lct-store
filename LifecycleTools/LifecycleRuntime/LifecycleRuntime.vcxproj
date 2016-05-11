@@ -116,6 +116,7 @@
     <ClInclude Include="include\pack\pack_assets.h" />
     <ClInclude Include="include\pack\pack_packageWalker.h" />
     <ClInclude Include="include\part\part_arrays.h" />
+    <ClInclude Include="include\part\part_assetHandler.h" />
     <ClInclude Include="include\part\part_assets.h" />
     <ClInclude Include="include\part\part_constants.h" />
     <ClInclude Include="include\part\part_data.h" />
@@ -208,6 +209,7 @@
     <ClCompile Include="source\pack\pack_assetHandler.cpp" />
     <ClCompile Include="source\pack\pack_packageWalker.cpp" />
     <ClCompile Include="source\part\part_arrays.cpp" />
+    <ClCompile Include="source\part\part_assetHandler.cpp" />
     <ClCompile Include="source\part\part_assets.cpp" />
     <ClCompile Include="source\part\part_drawContext.cpp" />
     <ClCompile Include="source\part\part_fieldInstance.cpp" />

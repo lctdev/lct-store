@@ -617,6 +617,9 @@
     <ClInclude Include="include\util\util_binaryHelper.h">
       <Filter>include\util</Filter>
     </ClInclude>
+    <ClInclude Include="include\part\part_assetHandler.h">
+      <Filter>include\part</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\file\file_accessor.cpp">
@@ -849,6 +852,9 @@
     </ClCompile>
     <ClCompile Include="source\foun\foun_randomGenerator.cpp">
       <Filter>source\foun</Filter>
+    </ClCompile>
+    <ClCompile Include="source\part\part_assetHandler.cpp">
+      <Filter>source\part</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

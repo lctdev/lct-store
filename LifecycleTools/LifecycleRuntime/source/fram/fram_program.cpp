@@ -3,6 +3,8 @@
 #include <fram/fram_overlay.h>
 #include <fram/fram_message.h>
 
+#include <audi/audi_debug.h>
+
 #include <foun/foun_debug.h>
 #include <foun/foun_string.h>
 
@@ -454,12 +456,15 @@ void Program::AcquireAudio()
 	// get the device
 	ALCdevice* pDev = alcOpenDevice(NULL);
 
+	HMODULE handle = LoadLibrary(L"OpenAL32.dll");
+
 	// create and activate context
 	ALCcontext* pCtx = alcCreateContext(pDev, NULL);
 	alcMakeContextCurrent(pCtx);
 	if (!pCtx)
 	{
-		LCT_TRACE("OpenAL create context error");
+		LCT_TRACE("OpenAL create context error\n");
+		LCT_TRACE_AL_ERROR();
 		return;
 	}
 #elif defined(LCT_OSX)

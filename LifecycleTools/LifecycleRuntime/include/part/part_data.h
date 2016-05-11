@@ -62,11 +62,13 @@ struct ParticleUniformData
 };
 
 struct EmitterData
-{	
+{
+	char name[MAX_NAME_SIZE];
+	char textureRegionName[MAX_NAME_SIZE];
 	f32 x;
 	f32 y;	
-	f32 shapeSpanA;
-	f32 shapeSpanB;
+	f32 shapeParameterA;
+	f32 shapeParameterB;
 	f32 globalAngle;
 	Range expelAngleRange;
 	Range expelMultiplierRange;
@@ -89,6 +91,7 @@ struct EmitterData
 struct FieldData
 {
 	char name[MAX_NAME_SIZE];
+	char textureAtlasName[MAX_NAME_SIZE];
 	u32 emitterCount;
 };
 

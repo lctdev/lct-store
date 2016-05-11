@@ -35,6 +35,24 @@ struct TextureTableData
 	u32 count;
 };
 
+struct TextureRegionData
+{
+	char name[MAX_NAME_SIZE];
+	f32 translateS;
+	f32 translateT;
+	f32 scaleS;
+	f32 scaleT;
+};
+
+struct TextureAtlasData
+{
+	char name[MAX_NAME_SIZE];
+	u32 width;
+	u32 height;
+	u32 size;
+	u32 regionCount;
+};
+
 //namespace imag
 }
 //namespace lct

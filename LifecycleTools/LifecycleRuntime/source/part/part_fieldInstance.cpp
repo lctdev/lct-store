@@ -3,6 +3,8 @@
 #include <part/part_assets.h>
 #include <part/part_arrays.h>
 
+#include <imag/imag_data.h>
+
 #include <grap/grap_device.h>
 #include <grap/grap_data.h>
 #include <grap/grap_resources.h>
@@ -243,8 +245,20 @@ void FieldInstance::UpdateParticles()
 	for (u32 emitterIndex = 0; emitterIndex < m_emitterCount; ++emitterIndex)
 	{
 		Emitter& emitter = m_pEmitters[emitterIndex];
-		const EmitterData* pEmitterData = m_pFieldAsset->paEmitters[emitterIndex].pEmitterData;
+		const FieldAsset::Emitter& assetEmitter = m_pFieldAsset->paEmitters[emitterIndex];
+		const EmitterData* pEmitterData = assetEmitter.pEmitterData;
+		const imag::TextureRegionData* pTextureRegionData = assetEmitter.pTextureRegionData;
 		const ParticleUniformData* pParticleUniformData = m_pFieldAsset->paEmitters[emitterIndex].pParticleUniformData;
+
+		foun::Vector2 aQuadTextureCoordinates[4];
+		aQuadTextureCoordinates[0].x = pTextureRegionData->translateS;
+		aQuadTextureCoordinates[0].y = pTextureRegionData->translateT;
+		aQuadTextureCoordinates[1].x = pTextureRegionData->translateS + pTextureRegionData->scaleS;
+		aQuadTextureCoordinates[1].y = pTextureRegionData->translateT;
+		aQuadTextureCoordinates[2].x = pTextureRegionData->translateS + pTextureRegionData->scaleS;
+		aQuadTextureCoordinates[2].y = pTextureRegionData->translateT + pTextureRegionData->scaleT;
+		aQuadTextureCoordinates[3].x = pTextureRegionData->translateS;
+		aQuadTextureCoordinates[3].y = pTextureRegionData->translateT + pTextureRegionData->scaleT;
 		
 		for (u32 emitterParticleIndex = 0; emitterParticleIndex < pEmitterData->particleCount; ++emitterParticleIndex)
 		{
@@ -319,8 +333,9 @@ void FieldInstance::UpdateParticles()
 				pVertexData->x = vertexPosition.x;
 				pVertexData->y = vertexPosition.y;
 				
-				pVertexData->s = 0.0f;
-				pVertexData->t = 0.0f;
+				foun::Vector2& textureCoordinate = aQuadTextureCoordinates[vertexIndex];
+				pVertexData->s = textureCoordinate.x;
+				pVertexData->t = textureCoordinate.y;
 				
 				foun::FloatColor3 color;
 				const foun::FloatColor3& color0 = reinterpret_cast<const foun::FloatColor3&>(pEmitterData->color0);
@@ -393,7 +408,7 @@ void FieldInstance::SpawnParticles(u32 emitterIndex)
 			case lct::part::EMITTER_ARRANGE_TYPE_EVEN_EDGE:
 			{
 				birthAngle = emitIndex * (1.0f / pEmitterData->emitCount);
-				f32 radius = pEmitterData->shapeSpanA / 2.0f;
+				f32 radius = pEmitterData->shapeParameterA / 2.0f;
 				birthPosition.x += lct::foun::Cos(lct::foun::RadiansFromRotations(birthAngle)) * radius;
 				birthPosition.y += lct::foun::Sin(lct::foun::RadiansFromRotations(birthAngle)) * radius;
 			}
@@ -402,7 +417,7 @@ void FieldInstance::SpawnParticles(u32 emitterIndex)
 			case lct::part::EMITTER_ARRANGE_TYPE_RANDOM_FILL:
 			{
 				birthAngle = m_randomGenerator.GenerateFloat();
-				f32 radius = m_randomGenerator.GenerateFloat() * (pEmitterData->shapeSpanA / 2.0f);
+				f32 radius = m_randomGenerator.GenerateFloat() * (pEmitterData->shapeParameterA / 2.0f);
 				birthPosition.x += lct::foun::Cos(lct::foun::RadiansFromRotations(birthAngle)) * radius;
 				birthPosition.y += lct::foun::Sin(lct::foun::RadiansFromRotations(birthAngle)) * radius;
 			}

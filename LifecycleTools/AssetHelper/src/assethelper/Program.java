@@ -128,6 +128,54 @@ public class Program {
 		}
 	}
 	
+	private static void generateParticleExamples(String directoryPath) {
+		System.out.println("Generating particle examples");
+		
+		lct.part.XMLConverter xmlConverter = new lct.part.XMLConverter();
+		lct.imag.ImageConverter imageConverter = new lct.imag.ImageConverter();
+		lct.imag.XMLConverter imageXMLConverter = new lct.imag.XMLConverter();
+		lct.pack.XMLConverter packageXMLConverter = new lct.pack.XMLConverter();		
+		
+		if (!FileUtility.exists(directoryPath)) {
+			FileUtility.createDirectory(directoryPath);
+		}
+		
+		{
+			lct.part.Field field = lct.part.Examples.createFieldSpray();
+			String fileName = field.name + ".xml";
+			String filePath = lct.util.PathUtility.combineFull(directoryPath, fileName);
+			xmlConverter.storeField(field, filePath);
+		}
+		
+		{
+			lct.part.Field field = lct.part.Examples.createFieldOrbit();
+			String fileName = field.name + ".xml";
+			String filePath = lct.util.PathUtility.combineFull(directoryPath, fileName);
+			xmlConverter.storeField(field, filePath);
+		}
+		
+		{
+			lct.part.Field field = lct.part.Examples.createFieldPulse();
+			String fileName = field.name + ".xml";
+			String filePath = lct.util.PathUtility.combineFull(directoryPath, fileName);
+			xmlConverter.storeField(field, filePath);
+		}
+		
+		{
+			lct.imag.TextureAtlas textureAtlas = lct.part.Examples.createTextureAtlas();
+			String fileName = textureAtlas.name + ".xml";
+			String filePath = lct.util.PathUtility.combineFull(directoryPath, fileName);
+			imageXMLConverter.storeTextureAtlas(textureAtlas, filePath, imageConverter);
+		}
+		
+		{
+			lct.pack.Manifest manifest = lct.part.Examples.createManifest(directoryPath);
+			String fileName = manifest.name + ".xml";
+			String filePath = lct.util.PathUtility.combineFull(directoryPath, fileName);
+			packageXMLConverter.storeManifest(manifest, filePath);
+		}
+	}
+	
 	private static void generateFontExamples(String directoryPath) {
 		System.out.println("Generating font examples");
 		
@@ -308,7 +356,7 @@ public class Program {
 			String filePath = lct.util.PathUtility.combineFull(directoryPath, fileName);
 			packageXMLConverter.storeManifest(manifest, filePath);
 		}
-	}
+	}		
 
 	public static void main(String[] args) {
 		parseArguments(args);
@@ -330,6 +378,21 @@ public class Program {
 				break;
 			case TASK_PLOT:
 				plotSpriteAnimation(s_inputFilePath, directoryPath);
+				break;
+			default:
+			{
+				System.err.println("Unhandled task");
+				System.exit(-1);
+			}
+			}
+		}
+		break;
+		
+		case lct.part.Constants.GROUP_CODE:
+		{
+			switch (s_task) {
+			case TASK_EXAMPLE:
+				generateParticleExamples(directoryPath);
 				break;
 			default:
 			{

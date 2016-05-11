@@ -6,6 +6,7 @@ import lct.util.DataException;
 
 public class AssetProcessor implements lct.pack.AssetProcessor {
 	ImageConverter m_imageConverter = new ImageConverter();
+	XMLConverter m_xmlConverter = new XMLConverter();
 	BinaryConverter m_binaryConverter = new BinaryConverter();
 	
 	public AssetProcessor() {
@@ -13,6 +14,20 @@ public class AssetProcessor implements lct.pack.AssetProcessor {
 	
 	public String getGroupCode() {
 		return Constants.GROUP_CODE;
+	}
+	
+	public Vector<String> getDependencies(String typeCode, String inputFilePath) {
+		switch (typeCode) {
+		case Constants.TEXTURE_ATLAS_TYPE_CODE:
+		{
+			return m_xmlConverter.readTextureAtlasDependencies(inputFilePath);
+		}
+		
+		default:
+		{
+			return new Vector<String>();
+		}
+		}		
 	}
 	
 	public void processAsset(String typeCode, String inputFilePath, String outputFilePath, boolean bigEndian) throws DataException {
@@ -45,6 +60,17 @@ public class AssetProcessor implements lct.pack.AssetProcessor {
 			}
 			
 			m_binaryConverter.storeTextureTable(textureTable, outputFilePath, bigEndian);
+		}
+		break;
+		
+		case Constants.TEXTURE_ATLAS_TYPE_CODE:
+		{
+			TextureAtlas textureAtlas = m_xmlConverter.loadTextureAtlas(inputFilePath, m_imageConverter);
+			if (textureAtlas == null) {
+				throw new DataException("Error loading texture atlas file");
+			}
+			
+			m_binaryConverter.storeTextureAtlas(textureAtlas, outputFilePath, bigEndian);
 		}
 		break;
 		

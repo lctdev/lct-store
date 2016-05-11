@@ -14,7 +14,8 @@ class StringIndexMap;
 }
 namespace imag
 {
-struct TextureTableAsset;
+struct TextureRegionData;
+struct TextureAtlasAsset;
 }
 
 namespace part
@@ -37,8 +38,12 @@ struct FieldAsset : public pack::Asset
 		EmitterData* pEmitterData;
 		ParticleControlData* paParticleControlData;
 		ParticleUniformData* pParticleUniformData;
+
+		imag::TextureRegionData* pTextureRegionData;
 	};
 	Emitter* paEmitters;
+
+	imag::TextureAtlasAsset* pTextureAtlasAsset;
 };
 
 //namespace part
